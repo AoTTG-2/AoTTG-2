@@ -16,7 +16,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
     private IEntityService EntityService => Service.Entity;
 
-    private float closestDistance;
+    /// <summary>
+    /// The maximum distance between the player and the closest titan to allow focus.
+    /// <see cref="FindNearestFocusableTitan"/>
+    /// </summary>
+    private float focusableDistance = 150f;
     private int currentPeekPlayerIndex;
     [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
@@ -518,19 +522,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
                 if (InputManager.KeyDown(InputUi.ToggleCursor))
                     GameCursor.ForceFreeCursor = !GameCursor.ForceFreeCursor;
-
+                
                 if (InputManager.KeyDown(InputHuman.Focus))
                 {
                     if (Service.Player.Self is TitanBase) return;
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
                     {
-                        lockTarget = FindNearestTitan();
-                        if (closestDistance >= 150f)
-                        {
-                            lockTarget = null;
-                            triggerAutoLock = false;
-                        }
+                        lockTarget = FindNearestFocusableTitan();
+                        triggerAutoLock = lockTarget != null;
                     }
                 }
                 if (gameOver && (main_object != null))
@@ -769,29 +769,34 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform3.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
     }
 
-    private GameObject FindNearestTitan()
+
+    /// <summary>
+    /// Iterates through all alive titans and selects the closest titan within the <see cref="focusableDistance"/>.
+    /// </summary>
+    /// <returns>GameObject of the closest titan inside <see cref="focusableDistance"/>. <c>null</c> if none found.</returns>
+    private GameObject FindNearestFocusableTitan()
     {
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag("titan");
-        GameObject obj2 = null;
+        GameObject[] allTitans = GameObject.FindGameObjectsWithTag("titan");
+        GameObject closestTitan = null;
         float positiveInfinity = float.PositiveInfinity;
-        closestDistance = float.PositiveInfinity;
-        float num2 = positiveInfinity;
+        float closestDistance = positiveInfinity;
         Vector3 position = main_object.transform.position;
-        foreach (GameObject obj3 in objArray)
+
+        foreach (GameObject currTitan in allTitans)
         {
             // TODO: Optimize accessing all titan positions.
             // Possibly another class that maintains a list of active titans,
             // removes them from the list when they die.
-            Vector3 vector2 = obj3.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
-            float magnitude = vector2.magnitude;
-            if ((magnitude < num2) && ((obj3.GetComponent<MindlessTitan>() == null) || obj3.GetComponent<MindlessTitan>().IsAlive))
+            Vector3 playerToCurrTitan = currTitan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
+            float currDistance = playerToCurrTitan.magnitude;
+            if (currDistance < focusableDistance && (currDistance < closestDistance) && (currTitan.GetComponent<MindlessTitan>() == null || currTitan.GetComponent<MindlessTitan>().IsAlive))
             {
-                obj2 = obj3;
-                num2 = magnitude;
-                closestDistance = num2;
+                closestTitan = currTitan;
+                closestDistance = currDistance;
             }
         }
-        return obj2;
+
+        return closestTitan;
     }
 
     private int GetReverse()
