@@ -6,6 +6,7 @@ public class Explosives : MonoBehaviour
 {
     public float blastDelay = 3f;
     public float blastRadius = 5f;
+    public float explosionForce = 700f;
 
     public GameObject explosionEffect;
 
@@ -34,8 +35,22 @@ public class Explosives : MonoBehaviour
     void Explode()
     { //Particle Effect
         Instantiate(explosionEffect, transform.position, transform.rotation);
+     //Rigidbody Push Effect/ Explosion Collider Sphere
+        Collider[]  colliders = Physics.OverlapSphere(transform.position, blastRadius);
 
-        Collider[]Physics.OverlapSphere(transform.position, blastRadius)
+        foreach (Collider nearbyObject in colliders)
+        {
+            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+
+                rb.AddExplosionForce(explosionForce, transform.position, blastRadius);
+            }
+
+
+
+        }
+
 
         //Removing Explosive After Explosion
         Destroy(gameObject);

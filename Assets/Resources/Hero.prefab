@@ -70,6 +70,7 @@ MonoBehaviour:
   Body: {fileID: 57899769264525718}
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   EquipmentType: 0
+  UseWeaponTrail: 1
   bombCD: 0
   bombImmune: 0
   bombRadius: 0
@@ -87,6 +88,7 @@ MonoBehaviour:
   currentV: {x: 0, y: 0, z: 0}
   detonate: 0
   grounded: 0
+  regrounded: 0
   hasspawn: 0
   hookRefL1: {fileID: 5480589323768547257}
   hookRefL2: {fileID: 5479000895817633409}
@@ -96,6 +98,8 @@ MonoBehaviour:
   isPhotonCamera: 0
   jumpHeight: 2
   lastHook: {fileID: 0}
+  leftweapontrail: {fileID: 0}
+  rightweapontrail: {fileID: 0}
   leftBulletLeft: 7
   leftGunHasBullet: 1
   maincamera: {fileID: 0}
@@ -169,6 +173,21 @@ MonoBehaviour:
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   Presets:
   - {fileID: 11400000, guid: 8b4e88e2d6b866f4ea290ac991063019, type: 2}
+--- !u!114 &8698556685783521427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480566984262934827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c18624c0f647004892c3bbf46390436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwForce: 40
+  grenadePrefab: {fileID: 5303762632749744393, guid: bad6fd83d25c9d948a641f605f532c08,
+    type: 3}
 --- !u!114 &6172538124608909145
 MonoBehaviour:
   m_ObjectHideFlags: 0
