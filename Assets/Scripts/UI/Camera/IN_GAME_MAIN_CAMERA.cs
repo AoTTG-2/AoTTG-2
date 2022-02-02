@@ -567,16 +567,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 }
                 if (triggerAutoLock && lockTarget != null)
                 {
-                    float z = transform.eulerAngles.z;
+                    float originalZAngle = transform.eulerAngles.z;
                     Transform neckTransform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector2 = neckTransform.position - (head == null ? main_object.transform.position : head.transform.position);
-                    vector2.Normalize();
+                    Vector3 toNeck = Vector3.Normalize(neckTransform.position - (head == null ? main_object.transform.position : head.transform.position));
                     lockCameraPosition = head == null ? main_object.transform.position : head.transform.position;
-                    lockCameraPosition -= vector2 * distance * distanceMulti * distanceOffsetMulti;
+                    lockCameraPosition -= toNeck * distance * distanceMulti * distanceOffsetMulti;
                     lockCameraPosition += Vector3.up * 3f * heightMulti * distanceOffsetMulti;
                     transform.position = Vector3.Lerp(transform.position, lockCameraPosition, Time.deltaTime * 4f);
                     transform.LookAt(neckTransform.position);
-                    transform.localEulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, z);
+                    transform.localEulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, originalZAngle);
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
@@ -705,70 +704,64 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 break;
         }
 
+        transform.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
+
         if (InputManager.Settings.CameraDistance < 0.65f)
         {
-            Transform transform6 = transform;
-            transform6.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
+            transform.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
+        }
+
+        void DoTPSMovement()
+        {
+            float num5 = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
+            float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
+            transform.RotateAround(transform.position, Vector3.up, num5);
+            float num7 = transform.rotation.eulerAngles.x % 360f;
+            float num8 = num7 + num6;
+            if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
+            {
+                transform.RotateAround(transform.position, transform.right, num6);
+            }
+        }
+
+        void DoOriginalMovement()
+        {
+            float num3 = 0f;
+            if (Input.mousePosition.x < (Screen.width * 0.4f))
+            {
+                num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
+                transform.RotateAround(transform.position, Vector3.up, num3);
+            }
+            else if (Input.mousePosition.x > (Screen.width * 0.6f))
+            {
+                num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
+                transform.RotateAround(transform.position, Vector3.up, num3);
+            }
+
+            float x;
+
+            if (!MenuManager.IsAnyMenuOpen)
+            {
+                x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
+            }
+            else
+            {
+                x = 0f;
+            }
+            transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        }
+
+        void DoWOWMovement()
+        {
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+                float angle = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
+                float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
+                transform.RotateAround(transform.position, Vector3.up, angle);
+                transform.RotateAround(transform.position, transform.right, num2);
+            }
         }
     }
-
-    private void DoTPSMovement()
-    {
-        float num5 = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
-        float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
-        transform.RotateAround(transform.position, Vector3.up, num5);
-        float num7 = transform.rotation.eulerAngles.x % 360f;
-        float num8 = num7 + num6;
-        if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
-        {
-            transform.RotateAround(transform.position, transform.right, num6);
-        }
-        Transform transform5 = transform;
-        transform5.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
-    }
-
-    private void DoOriginalMovement()
-    {
-        float num3 = 0f;
-        if (Input.mousePosition.x < (Screen.width * 0.4f))
-        {
-            num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
-            transform.RotateAround(transform.position, Vector3.up, num3);
-        }
-        else if (Input.mousePosition.x > (Screen.width * 0.6f))
-        {
-            num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
-            transform.RotateAround(transform.position, Vector3.up, num3);
-        }
-
-        float x;
-
-        if (!MenuManager.IsAnyMenuOpen)
-        {
-            x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
-        }
-        else
-        {
-            x = 0f;
-        }
-        transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        Transform transform4 = transform;
-        transform4.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
-    }
-
-    private void DoWOWMovement()
-    {
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            float angle = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
-            float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
-            transform.RotateAround(transform.position, Vector3.up, angle);
-            transform.RotateAround(transform.position, transform.right, num2);
-        }
-        Transform transform3 = transform;
-        transform3.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
-    }
-
 
     /// <summary>
     /// Iterates through all alive titans and selects the closest titan within the <see cref="focusableDistance"/>.
