@@ -20,7 +20,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     /// The maximum distance to the closest titan to allow locking.
     /// <seealso cref="FindNearestLockableTitan"/>
     /// </summary>
-    private float lockableDistance = 150f;
+    private readonly float lockableDistance = 150f;
     private int currentPeekPlayerIndex;
     [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
@@ -715,56 +715,56 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             transform.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
         }
+    }
 
-        void DoTPSMovement()
+    private void DoTPSMovement()
+    {
+        float num5 = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
+        float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
+        transform.RotateAround(transform.position, Vector3.up, num5);
+        float num7 = transform.rotation.eulerAngles.x % 360f;
+        float num8 = num7 + num6;
+        if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
         {
-            float num5 = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
-            float num6 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
-            transform.RotateAround(transform.position, Vector3.up, num5);
-            float num7 = transform.rotation.eulerAngles.x % 360f;
-            float num8 = num7 + num6;
-            if (((num6 <= 0f) || (((num7 >= 260f) || (num8 <= 260f)) && ((num7 >= 80f) || (num8 <= 80f)))) && ((num6 >= 0f) || (((num7 <= 280f) || (num8 >= 280f)) && ((num7 <= 100f) || (num8 >= 100f)))))
-            {
-                transform.RotateAround(transform.position, transform.right, num6);
-            }
+            transform.RotateAround(transform.position, transform.right, num6);
+        }
+    }
+
+    private void DoOriginalMovement()
+    {
+        float num3 = 0f;
+        if (Input.mousePosition.x < (Screen.width * 0.4f))
+        {
+            num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
+            transform.RotateAround(transform.position, Vector3.up, num3);
+        }
+        else if (Input.mousePosition.x > (Screen.width * 0.6f))
+        {
+            num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
+            transform.RotateAround(transform.position, Vector3.up, num3);
         }
 
-        void DoOriginalMovement()
+        float x;
+
+        if (!MenuManager.IsAnyMenuOpen)
         {
-            float num3 = 0f;
-            if (Input.mousePosition.x < (Screen.width * 0.4f))
-            {
-                num3 = (-((((Screen.width * 0.4f) - Input.mousePosition.x) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
-                transform.RotateAround(transform.position, Vector3.up, num3);
-            }
-            else if (Input.mousePosition.x > (Screen.width * 0.6f))
-            {
-                num3 = ((((Input.mousePosition.x - (Screen.width * 0.6f)) / Screen.width) * 0.4f) * GetSensitivityMultiWithDeltaTime()) * 150f;
-                transform.RotateAround(transform.position, Vector3.up, num3);
-            }
-
-            float x;
-
-            if (!MenuManager.IsAnyMenuOpen)
-            {
-                x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
-            }
-            else
-            {
-                x = 0f;
-            }
-            transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            x = ((140f * ((Screen.height * 0.6f) - Input.mousePosition.y)) / Screen.height) * 0.5f;
         }
-
-        void DoWOWMovement()
+        else
         {
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                float angle = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
-                float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
-                transform.RotateAround(transform.position, Vector3.up, angle);
-                transform.RotateAround(transform.position, transform.right, num2);
-            }
+            x = 0f;
+        }
+        transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    }
+
+    private void DoWOWMovement()
+    {
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            float angle = (Input.GetAxis("Mouse X") * 10f) * GetSensitivityMulti();
+            float num2 = ((-Input.GetAxis("Mouse Y") * 10f) * GetSensitivityMulti()) * GetReverse();
+            transform.RotateAround(transform.position, Vector3.up, angle);
+            transform.RotateAround(transform.position, transform.right, num2);
         }
     }
 
