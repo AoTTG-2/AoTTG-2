@@ -387,6 +387,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
+    private bool isLocking() => triggerAutoLock && lockTarget != null;
+
     public void Update()
     {
         if (InputManager.KeyDown(InputUi.HideHUD))
@@ -565,7 +567,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     DoCameraMovement();
                 }
-                if (triggerAutoLock && lockTarget != null))
+                if (isLocking())
                 {
                     float originalZAngle = transform.eulerAngles.z;
                     Transform neckTransform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
@@ -685,23 +687,26 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform.position += Vector3.up * heightMulti;
         transform.position -= Vector3.up * (0.6f - InputManager.Settings.CameraDistance) * 2f;
 
-        switch (GameCursor.CameraMode)
+        if (!isLocking())
         {
-            case CameraMode.Original:
-                DoOriginalMovement();
-                break;
+            switch (GameCursor.CameraMode)
+            {
+                case CameraMode.Original:
+                    DoOriginalMovement();
+                    break;
 
-            case CameraMode.TPS:
-                DoTPSMovement();
-                break;
+                case CameraMode.TPS:
+                    DoTPSMovement();
+                    break;
 
-            case CameraMode.WOW:
-                DoWOWMovement();
-                break;
+                case CameraMode.WOW:
+                    DoWOWMovement();
+                    break;
 
-            default:
-                Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
-                break;
+                default:
+                    Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
+                    break;
+            }
         }
 
         transform.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
