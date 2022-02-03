@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5303762632749744393}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.57, y: 7.825144, z: -533.39}
+  m_LocalPosition: {x: 6.88, y: 7.825144, z: -533.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee8eaef36aa9b64db6b4d19ef776edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blastDelay: 3
+  blastDelay: 500
   blastRadius: 20
   explosionForce: 4000
   trigger: 10

@@ -17,6 +17,8 @@ public class Explosives : MonoBehaviour
     float triggerDist;
     float gametime;
     bool hasExploded;
+  //bool possible fix to key code if statement
+  //bool thunderspearOn;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,13 @@ public class Explosives : MonoBehaviour
     void Update()
     {
         gametime = Time.deltaTime;
+        //possible flaw in where Hero position is gathered, some bugs with hook fires affecting position
         triggerDist = Vector3.Distance(HumanBody.FindObjectOfType<Transform>().position, transform.position);
+        //Placing if statements inside of Coroutines with bool checks might fix with more testing ie:
+        //if (Input.GetKeyDown(KeyCode.Y)))
+        //{
+        //  thunderspearOn == true;
+        //}
         if ((Input.GetKeyDown(KeyCode.G)))
         {
             StartCoroutine(Grenade());
@@ -42,6 +50,7 @@ public class Explosives : MonoBehaviour
     }
     IEnumerator Grenade()
     {
+
         while (hasExploded == false)
         {
             countdown -= gametime;
@@ -55,26 +64,33 @@ public class Explosives : MonoBehaviour
     }
     IEnumerator ThunderSpear()
     {
-        while (hasExploded == false)
-        {
-            if (triggerDist >= trigger)
+      //if (thunderspearOn == true)
+      //{
+            while (hasExploded == false)
             {
-                Explode();
-                hasExploded = true;
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                Explode();
-                hasExploded = true;
-            }
-            //countdown -= gametime;
-            //if (countdown <= 0f && !hasExploded)
-            //{
-            //  Explode();
-            //   hasExploded = true;
-            //}
+                //distance trigger
+                if (triggerDist >= trigger)
+                {
+                    Explode();
+                    hasExploded = true;
+                }
+                //Player Activation
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    Explode();
+                    hasExploded = true;
+                }
+                //Thunder Spear Countdown: currently disabled to test distance trigger
+                //countdown -= gametime;
+                //if (countdown <= 0f && !hasExploded)
+                //{
+                //  Explode();
+                //   hasExploded = true;
+                //}
             yield return null;
-        }
+            }
+            //thunderspearOn = False;
+      //}
     }
     void Explode()
     { //Particle Effect
