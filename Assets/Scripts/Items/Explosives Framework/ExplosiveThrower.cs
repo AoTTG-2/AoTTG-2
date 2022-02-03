@@ -6,6 +6,7 @@ using UnityEngine;
     public class ExplosiveThrower : MonoBehaviour
 {    
         public float throwForce = 40f;
+        public float spearAcc = 50f;
         public GameObject grenadePrefab;
 
 
@@ -15,9 +16,11 @@ using UnityEngine;
             if (Input.GetKeyDown(KeyCode.G))
             {
                 ThrowGrenade();
-
             }
-
+            else if (Input.GetKeyDown(KeyCode.Y))
+            {
+                ThrowGrenade();
+            }
         }
         void ThrowGrenade()
         {
