@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Characters;
 
 
 public class Explosives : MonoBehaviour
@@ -13,86 +14,70 @@ public class Explosives : MonoBehaviour
 
     public GameObject explosionEffect;
 
-    float countdown;
     float triggerDist;
-    float gametime;
-    bool hasExploded;
+    float countdown;
   //bool possible fix to key code if statement
-  //bool thunderspearOn;
+    bool thunderspearOn;
 
     // Start is called before the first frame update
     void Start()
     {
-        hasExploded = false;
+        thunderspearOn = false;
         countdown = blastDelay;
     }
 
     // Countdown and Explosion Check
     void Update()
     {
-        gametime = Time.deltaTime;
         //possible flaw in where Hero position is gathered, some bugs with hook fires affecting position
-        triggerDist = Vector3.Distance(HumanBody.FindObjectOfType<Transform>().position, transform.position);
+        triggerDist = Vector3.Distance(Hero.FindObjectOfType<GameObject>().transform.position, transform.position);
+        Debug.Log(triggerDist + "triggerDist");
         //Placing if statements inside of Coroutines with bool checks might fix with more testing ie:
-        //if (Input.GetKeyDown(KeyCode.Y)))
+        //if (Input.GetKeyDown(KeyCode.Y))
         //{
-        //  thunderspearOn == true;
+          //thunderspearOn = true;
         //}
-        if ((Input.GetKeyDown(KeyCode.G)))
+        if(Input.GetKeyDown(KeyCode.Y))
         {
-            StartCoroutine(Grenade());
+            thunderspearOn = true;
         }
-        else if ((Input.GetKeyDown(KeyCode.Y)))
+        if (thunderspearOn)
         {
-            StartCoroutine(ThunderSpear());
-        }
-
-    }
-    IEnumerator Grenade()
-    {
-
-        while (hasExploded == false)
-        {
-            countdown -= gametime;
-            if (countdown <= 0f && !hasExploded)
+            //distance trigger
+            if (triggerDist >= trigger)
             {
                 Explode();
-                hasExploded = true;
+                thunderspearOn = false;
             }
-            yield return null;
+            //Player Activation
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Explode();
+                thunderspearOn = false;
+            }
+            //Thunder Spear Countdown: currently disabled to test distance trigger
+            //blastDelay -= gametime;
+            //if (blastDelay <= 0f)
+            //{
+            //  Explode();
+            //}
+            //blastDelay = 3f;
+            //}
+        }
+        else if(!thunderspearOn)
+        {
+            countdown -= Time.deltaTime;
+            if (countdown <= 0f)
+            {
+                Explode();
+            }
         }
     }
-    IEnumerator ThunderSpear()
+    private void ThunderSpear()
     {
-      //if (thunderspearOn == true)
-      //{
-            while (hasExploded == false)
-            {
-                //distance trigger
-                if (triggerDist >= trigger)
-                {
-                    Explode();
-                    hasExploded = true;
-                }
-                //Player Activation
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    Explode();
-                    hasExploded = true;
-                }
-                //Thunder Spear Countdown: currently disabled to test distance trigger
-                //countdown -= gametime;
-                //if (countdown <= 0f && !hasExploded)
-                //{
-                //  Explode();
-                //   hasExploded = true;
-                //}
-            yield return null;
-            }
-            //thunderspearOn = False;
-      //}
+               
     }
-    void Explode()
+    private void Explode()
     { //Particle Effect
         Instantiate(explosionEffect, transform.position, transform.rotation);
      //Rigidbody Push Effect/ Explosion Collider Sphere
@@ -108,11 +93,12 @@ public class Explosives : MonoBehaviour
         }
 
 
+
         //Removing Explosive After Explosion
         Destroy(gameObject);
     }
 }
-   
+
 
 
 
