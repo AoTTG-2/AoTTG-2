@@ -68,6 +68,14 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool usingTitan;
     private bool isRestarting = true;
     private float startingTime;
+    /// <summary>
+    /// Whether the game window is in focus.
+    /// <seealso cref="DoCameraMovement"/>
+    /// </summary>
+    private bool appInFocus = true;
+
+    private void OnApplicationFocus(bool focus) => appInFocus = focus;
+
     public bool IsSpecmode => (int) settings[0xf5] == 1;
     public GameObject HUD;
     private void Awake()
@@ -686,23 +694,26 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform.position += Vector3.up * heightMulti;
         transform.position -= Vector3.up * (0.6f - InputManager.Settings.CameraDistance) * 2f;
 
-        switch (GameCursor.CameraMode)
+        if (appInFocus)
         {
-            case CameraMode.Original:
-                DoOriginalMovement();
-                break;
+            switch (GameCursor.CameraMode)
+            {
+                case CameraMode.Original:
+                    DoOriginalMovement();
+                    break;
 
-            case CameraMode.TPS:
-                DoTPSMovement();
-                break;
+                case CameraMode.TPS:
+                    DoTPSMovement();
+                    break;
 
-            case CameraMode.WOW:
-                DoWOWMovement();
-                break;
+                case CameraMode.WOW:
+                    DoWOWMovement();
+                    break;
 
-            default:
-                Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
-                break;
+                default:
+                    Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
+                    break;
+            }
         }
 
         if (InputManager.Settings.CameraDistance < 0.65f)
