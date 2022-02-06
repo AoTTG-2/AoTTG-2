@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -29,6 +30,10 @@ namespace Assets.Scripts.UI.Menu
 
         private void Awake()
         {
+#if UNITY_INCLUDE_TESTS
+            var backGround = GetComponentInChildren<RawImage>();
+            backGround.texture = null;
+#endif
             this.adaptator = new QualityAdaptator(this.sceneRender);
 
             if (isFirstLaunch)

@@ -30,20 +30,16 @@ namespace Assets.Scripts.UI.Menu
             {
                 var possibleFormats =
                     Enum.GetValues(typeof(RenderTextureFormat)).Cast<RenderTextureFormat>().ToArray();
-
-                var supportedFormat = possibleFormats.Where(SystemInfo.SupportsRenderTextureFormat).ToList();
-                this.supportedFormat = supportedFormat.Last();
-                anyFormatSupported = true;
-
-                //foreach (var format in possibleFormats)
-                //{
-                //    if (SystemInfo.SupportsRenderTextureFormat(format))
-                //    {
-                //        this.supportedFormat = format;
-                //        anyFormatSupported = true;
-                //        break;
-                //    }
-                //}
+                
+                foreach (var format in possibleFormats)
+                {
+                    if (SystemInfo.SupportsRenderTextureFormat(format))
+                    {
+                        this.supportedFormat = format;
+                        anyFormatSupported = true;
+                        break;
+                    }
+                }
             }
 
             public QualityAdaptator(RenderTexture rendered)
@@ -74,15 +70,11 @@ namespace Assets.Scripts.UI.Menu
                 if (anyFormatSupported)
                 {
 
-#if UNITY_INCLUDE_TESTS
-                    this.texture.Release();
-#else
                     this.texture.Release();
                     this.texture.width = this.getClosestF4Res(this.x * this.rescaleFactor);
                     this.texture.height = this.getClosestF4Res(this.y * this.rescaleFactor);
                     this.texture.format = supportedFormat;
                     this.texture.Create();
-#endif
 
                     this.recalculatePostRenderEffects();
                 }
