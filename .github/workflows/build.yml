@@ -57,14 +57,14 @@ jobs:
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0.0-alpha-7
+      - uses: game-ci/unity-test-runner@v2
         id: playTestRunner
         with:
           testMode: playmode
           unityVersion: ${{ env.UNITY_VERSION }}
-          customParameters: |
-            -nographics
-            -silent-crashes
+          #customParameters: |
+          #  -nographics
+          #  -silent-crashes
               
       # Upload artifact
       - uses: actions/upload-artifact@v1
