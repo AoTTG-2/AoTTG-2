@@ -78,7 +78,12 @@ namespace Assets.Scripts.UI.Menu
 
         private void OnDisable()
         {
+#if UNITY_INCLUDE_TESTS
+
+#else
             this.adaptator.useCamera(true);
+#endif
+
         }
 
         private void Update()
