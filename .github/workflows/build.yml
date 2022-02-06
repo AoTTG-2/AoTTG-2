@@ -26,7 +26,7 @@ jobs:
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+      - uses: game-ci/unity-test-runner@v2.0.0-alpha-7
         id: editTestRunner
         with:
           testMode: editmode
@@ -57,7 +57,7 @@ jobs:
           restore-keys: |
             Library-
       # Configure test runner
-      - uses: game-ci/unity-test-runner@v2.0-alpha-2
+      - uses: game-ci/unity-test-runner@v2.0.0-alpha-7
         id: playTestRunner
         with:
           testMode: playmode
@@ -66,6 +66,7 @@ jobs:
             -nographics
             -silent-crashes
             -force-glcore
+            -force-clamped
               
       # Upload artifact
       - uses: actions/upload-artifact@v1
