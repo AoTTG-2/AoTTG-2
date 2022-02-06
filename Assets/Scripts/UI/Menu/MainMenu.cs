@@ -81,7 +81,11 @@ namespace Assets.Scripts.UI.Menu
 
         private void Update()
         {
+#if UNITY_INCLUDE_TESTS
+
+#else
             this.adaptator.checkResolution();
+#endif
         }
 
         public void Singleplayer()
