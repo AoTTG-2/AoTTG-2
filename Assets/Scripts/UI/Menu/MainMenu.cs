@@ -30,11 +30,13 @@ namespace Assets.Scripts.UI.Menu
 
         private void Awake()
         {
-#if UNITY_INCLUDE_TESTS
             var backGround = GetComponentInChildren<RawImage>();
+#if UNITY_INCLUDE_TESTS
             backGround.texture = null;
-#endif
+#else
+            backGround.texture = sceneRender;
             this.adaptator = new QualityAdaptator(this.sceneRender);
+#endif
 
             if (isFirstLaunch)
             {
