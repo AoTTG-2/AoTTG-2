@@ -65,8 +65,6 @@ jobs:
           customParameters: |
             -nographics
             -silent-crashes
-            -force-glcore
-            -force-clamped
               
       # Upload artifact
       - uses: actions/upload-artifact@v1
