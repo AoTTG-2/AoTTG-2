@@ -6,7 +6,7 @@ using UnityEngine;
     public class ExplosiveThrower : MonoBehaviour
 {    
         public float throwForce = 40f;
-        public float spearAcc = 50f;
+        public float spearAcc = 1000f;
         public GameObject grenadePrefab;
         public GameObject thunderspearPrefab;
 
@@ -27,7 +27,7 @@ using UnityEngine;
         {
         GameObject thunderspear = Instantiate(thunderspearPrefab, transform.position, transform.rotation);
         Rigidbody rb = thunderspear.GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * throwForce, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * spearAcc, ForceMode.Acceleration);
     }
 }
     
