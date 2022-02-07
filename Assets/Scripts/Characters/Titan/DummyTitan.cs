@@ -19,6 +19,9 @@ public class DummyTitan : Photon.MonoBehaviour
     public TextMesh healthLabel;
     public TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
+    public AudioSource dummyWiggleNoise;
+    private float wiggleSoundTimer = 3f;
+    private bool timerCheck = true;
 
     public float speed = 3.0f;
 
@@ -33,13 +36,17 @@ public class DummyTitan : Photon.MonoBehaviour
 
     void Update()
     {
-        if(canRotate)
+        if (canRotate)
         {
             if (myHero)
             {
-                lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
-                Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
-                pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+                Rotation();
+                if(timerCheck = true && wiggleSoundTimer <= 0)
+                {
+                    dummyWiggleNoise.Play();
+                    wiggleSoundTimer = 3f;
+                    timerCheck = false;
+                }
             }
             else
             {
@@ -90,10 +97,24 @@ public class DummyTitan : Photon.MonoBehaviour
             rb.useGravity = true;
             rb.mass = 15;
             body.GetComponent<MeshCollider>().convex = true;
-
             Destroy(body.gameObject, 3);
             Destroy(gameObject, 3);
             dead = true;
         }
+    }
+
+    private void Rotation()
+    {
+        if(dead == false)
+        {
+            lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
+            Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
+            pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
+            timerCheck = true;
+            wiggleSoundTimer =- Time.deltaTime;
+            
+            //dummyWiggleNoise.loop = true;
+        }
+        
     }
 }
