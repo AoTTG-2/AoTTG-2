@@ -123,12 +123,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5303762632749744393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bee8eaef36aa9b64db6b4d19ef776edb, type: 3}
+  m_Script: {fileID: 11500000, guid: 638d6ea562f0fb949ba488318f053c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blastRadius: 5
+  explosionForce: 700
   blastDelay: 3
-  blastRadius: 20
-  explosionForce: 4000
-  trigger: 100
-  explosionEffect: {fileID: 1683781564404804, guid: e843f1e15b2cf234cb0b5ef191ac98ca,
+  trigger: 10
+  explosionEffect: {fileID: 1527798485441408002, guid: 279616d449b80404192c66363a815ba1,
     type: 3}

@@ -8,19 +8,14 @@ using UnityEngine;
         public float throwForce = 40f;
         public float spearAcc = 50f;
         public GameObject grenadePrefab;
+        public GameObject thunderspearPrefab;
 
 
       
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                ThrowGrenade();
-            }
-            else if (Input.GetKeyDown(KeyCode.Y))
-            {
-                ThrowGrenade();
-            }
+            if (Input.GetKeyDown(KeyCode.G)) ThrowGrenade();
+            if (Input.GetKeyDown(KeyCode.Y)) ThrowThunderSpear();
         }
         void ThrowGrenade()
         {
@@ -28,6 +23,12 @@ using UnityEngine;
             Rigidbody rb = grenade.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
         }
+        void ThrowThunderSpear()
+        {
+        GameObject thunderspear = Instantiate(thunderspearPrefab, transform.position, transform.rotation);
+        Rigidbody rb = thunderspear.GetComponent<Rigidbody>();
+        rb.AddForce(transform.forward * throwForce, ForceMode.Acceleration);
+    }
 }
     
 
