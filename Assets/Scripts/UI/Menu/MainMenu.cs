@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Services;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace Assets.Scripts.UI.Menu
 {
