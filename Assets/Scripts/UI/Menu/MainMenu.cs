@@ -50,7 +50,8 @@ namespace Assets.Scripts.UI.Menu
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.lockState = CursorLockMode.None;
-            
+
+
             if (!isFirstLaunch)
             {
                 rightPanel.anchoredPosition = rightPanelEndPosition;
@@ -66,6 +67,7 @@ namespace Assets.Scripts.UI.Menu
 
         private void OnDisable()
         {
+            base.OnDisable();
             this.adaptator.useCamera(true);
         }
 
