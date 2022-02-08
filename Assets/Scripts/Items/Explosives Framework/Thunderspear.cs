@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Services;
 
 public class Thunderspear : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class Thunderspear : MonoBehaviour
     {
         //possible flaw in where Hero position is gathered, some bugs with hook fires affecting position
         rb = GetComponent<Rigidbody>();
-        hero = GameObject.FindGameObjectWithTag("Player");
+        hero = Service.Player.Self.gameObject;
         triggerDist = Vector3.Distance(hero.transform.position, transform.position);
         Debug.Log(triggerDist + "triggerDist");
         //distance trigger
