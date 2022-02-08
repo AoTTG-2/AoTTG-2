@@ -27,6 +27,7 @@ using UnityEngine;
         {
         GameObject thunderspear = Instantiate(thunderspearPrefab, transform.position, transform.rotation);
         Rigidbody rb = thunderspear.GetComponent<Rigidbody>();
+        rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
         rb.AddForce(transform.forward * spearAcc, ForceMode.Acceleration);
     }
 }

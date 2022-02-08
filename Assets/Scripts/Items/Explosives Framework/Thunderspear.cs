@@ -10,6 +10,8 @@ public class Thunderspear : MonoBehaviour
     public float blastDelay = 3f;
     public float trigger = 10f;
     public GameObject explosionEffect;
+    public GameObject hero;
+    Rigidbody rb;
 
     float triggerDist;
     float countdown;
@@ -23,27 +25,41 @@ public class Thunderspear : MonoBehaviour
     void Update()
     {
         //possible flaw in where Hero position is gathered, some bugs with hook fires affecting position
-        triggerDist = Vector3.Distance(Hero.FindObjectOfType<GameObject>().transform.position, transform.position);
+        rb = GetComponent<Rigidbody>();
+        hero = GameObject.FindGameObjectWithTag("Player");
+        triggerDist = Vector3.Distance(hero.transform.position, transform.position);
         Debug.Log(triggerDist + "triggerDist");
         //distance trigger
         if (triggerDist >= trigger)
         {
             Explode();
+            rb.isKinematic = false;
         }
         //Player Activation
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Explode();
+            rb.isKinematic = false;
         }
-
         //Thunder Spear Countdown: currently disabled to test distance trigger
         //blastDelay -= gametime;
         //if (blastDelay <= 0f)
         //{
-        //  Explosion.Instance.Explode();
+        //  Explode();
+        //  rb.isKinematic = false;
         //}
         //blastDelay = 3f;
         //}
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.layer == 9)
+        {
+        //    collision.gameObject.transform.parent = gameObject.transform;
+            rb.isKinematic = true;
+        }
     }
     public void Explode()
     { //Particle Effect
@@ -53,8 +69,8 @@ public class Thunderspear : MonoBehaviour
 
         foreach (Collider nearbyObject in colliders)
         {
-            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
-            if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, blastRadius);
+            Rigidbody explosionRb = nearbyObject.GetComponent<Rigidbody>();
+            if (explosionRb != null) rb.AddExplosionForce(explosionForce, transform.position, blastRadius);
         }
         //Removing Explosive After Explosion
         Destroy(gameObject);

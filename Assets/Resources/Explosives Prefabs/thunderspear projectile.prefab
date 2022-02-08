@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3147998012245810307}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -15, y: -15, z: -15}
   m_Children:
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 944786882899747450}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1678686776680728988
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -101,9 +101,10 @@ MonoBehaviour:
   blastRadius: 5
   explosionForce: 700
   blastDelay: 3
-  trigger: 10
+  trigger: 100
   explosionEffect: {fileID: 1527798485441408002, guid: 279616d449b80404192c66363a815ba1,
     type: 3}
+  hero: {fileID: 0}
 --- !u!54 &1654958676541374231
 Rigidbody:
   m_ObjectHideFlags: 0
