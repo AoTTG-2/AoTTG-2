@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UCamera = UnityEngine.Camera;
@@ -25,17 +28,10 @@ namespace Assets.Scripts.UI.Menu
 
             private void checkSupportedRenderFormat()
             {
-                RenderTextureFormat[] possible_formats = new RenderTextureFormat[]
-                {
-                RenderTextureFormat.Default, RenderTextureFormat.ARGB32, RenderTextureFormat.BGR101010_XR,
-                RenderTextureFormat.DefaultHDR,  RenderTextureFormat.RGB111110Float, RenderTextureFormat.RGB565,
-                RenderTextureFormat.ARGBHalf,  RenderTextureFormat.ARGB2101010, RenderTextureFormat.ARGB4444,
-                RenderTextureFormat.ARGB1555, RenderTextureFormat.ARGBInt, RenderTextureFormat.ARGBFloat,
-                RenderTextureFormat.ARGB64, RenderTextureFormat.BGRA10101010_XR, RenderTextureFormat.BGRA32,
-                RenderTextureFormat.RGBAUShort
-                };
-
-                foreach (var format in possible_formats)
+                var possibleFormats =
+                    Enum.GetValues(typeof(RenderTextureFormat)).Cast<RenderTextureFormat>().ToArray();
+                
+                foreach (var format in possibleFormats)
                 {
                     if (SystemInfo.SupportsRenderTextureFormat(format))
                     {
@@ -73,6 +69,7 @@ namespace Assets.Scripts.UI.Menu
             {
                 if (anyFormatSupported)
                 {
+
                     this.texture.Release();
                     this.texture.width = this.getClosestF4Res(this.x * this.rescaleFactor);
                     this.texture.height = this.getClosestF4Res(this.y * this.rescaleFactor);

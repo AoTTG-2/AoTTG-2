@@ -23289,7 +23289,6 @@ MonoBehaviour:
   accountPanelEndPosition: {x: -200, y: -300, z: 0}
   initialDelay: 4.5
   panelEnterAnimationTime: 0.9
-  renderTarget: {fileID: 323642728835109290}
   sceneRender: {fileID: 8400000, guid: 0ba1f967ff2ba7b4f90e13d71ba5594a, type: 2}
 --- !u!224 &323642727375847066
 RectTransform:
@@ -45046,7 +45045,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 0ba1f967ff2ba7b4f90e13d71ba5594a, type: 2}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0

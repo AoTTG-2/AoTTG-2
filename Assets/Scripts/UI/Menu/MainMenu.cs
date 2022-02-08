@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
@@ -29,7 +30,13 @@ namespace Assets.Scripts.UI.Menu
 
         private void Awake()
         {
+            var backGround = GetComponentInChildren<RawImage>();
+#if UNITY_INCLUDE_TESTS
+            backGround.texture = null;
+#else
+            backGround.texture = sceneRender;
             this.adaptator = new QualityAdaptator(this.sceneRender);
+#endif
 
             if (isFirstLaunch)
             {
@@ -46,7 +53,9 @@ namespace Assets.Scripts.UI.Menu
         protected override void OnEnable()
         {
             base.OnEnable();
+#if UNITY_INCLUDE_TESTS
 
+#else
             //hacky code to workaround unity buggy behaviour with cursor
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
@@ -63,16 +72,27 @@ namespace Assets.Scripts.UI.Menu
             this.adaptator.findComponentReferences();
             this.adaptator.setCameraResolution();
             this.adaptator.useCamera(true);
+#endif
+
         }
 
         private void OnDisable()
         {
+#if UNITY_INCLUDE_TESTS
+
+#else
             this.adaptator.useCamera(true);
+#endif
+
         }
 
         private void Update()
         {
+#if UNITY_INCLUDE_TESTS
+
+#else
             this.adaptator.checkResolution();
+#endif
         }
 
         public void Singleplayer()
