@@ -33,12 +33,6 @@ namespace Assets.Scripts.UI.Menu
 
             if (isFirstLaunch)
             {
-                // Required for the CI and perhaps very low spec machines?
-                if (!SystemInfo.SupportsRenderTextureFormat(sceneRender.format))
-                {
-                    sceneRender.format = RenderTextureFormat.Default;
-                    sceneRender.depth = 0;
-                }
                 LeanTween.delayedCall(initialDelay, () =>
                 {
                     LeanTween.move(rightPanel, rightPanelEndPosition, panelEnterAnimationTime);
