@@ -12,7 +12,9 @@ public class Thunderspear : MonoBehaviour
     public float trigger = 10f;
     public GameObject explosionEffect;
     public GameObject hero;
+    private LineRenderer lr;
     Rigidbody rb;
+
 
     float triggerDist;
     float countdown;
@@ -28,19 +30,18 @@ public class Thunderspear : MonoBehaviour
         //possible flaw in where Hero position is gathered, some bugs with hook fires affecting position
         rb = GetComponent<Rigidbody>();
         hero = Service.Player.Self.gameObject;
+        lr = Service.Player.Self.GetComponent<LineRenderer>();
         triggerDist = Vector3.Distance(hero.transform.position, transform.position);
         Debug.Log(triggerDist + "triggerDist");
         //distance trigger
         if (triggerDist >= trigger)
         {
             Explode();
-            rb.isKinematic = false;
         }
         //Player Activation
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Explode();
-            rb.isKinematic = false;
         }
         //Thunder Spear Countdown: currently disabled to test distance trigger
         //blastDelay -= gametime;
@@ -56,11 +57,24 @@ public class Thunderspear : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.layer == 9)
-        {
-        //    collision.gameObject.transform.parent = gameObject.transform;
-            rb.isKinematic = true;
-        }
+        //if (collision.gameObject.layer == 9)
+        //{
+            //rb.isKinematic = true;
+        //}
+        //else if (collision.gameObject.layer == 0)
+        //{
+            gameObject.transform.SetParent(collision.transform);
+            //rb.velocity = Vector3.zero;
+            //rb.angularVelocity = Vector3.zero;
+            //rb.useGravity = false;
+            Destroy(rb);
+
+        //}
+        //else if (collision.gameObject.layer == 10)
+        //{
+        //gameObject.transform.SetParent(collision.transform);
+        // rb.isKinematic = true;
+        //}
     }
     public void Explode()
     { //Particle Effect
