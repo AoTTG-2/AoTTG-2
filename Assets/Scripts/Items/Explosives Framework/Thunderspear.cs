@@ -59,15 +59,15 @@ public class Thunderspear : MonoBehaviour
 
         //if (collision.gameObject.layer == 9)
         //{
-            //rb.isKinematic = true;
+        //rb.isKinematic = true;
         //}
         //else if (collision.gameObject.layer == 0)
         //{
-            gameObject.transform.SetParent(collision.transform);
-            //rb.velocity = Vector3.zero;
-            //rb.angularVelocity = Vector3.zero;
-            //rb.useGravity = false;
-            Destroy(rb);
+        gameObject.transform.SetParent(collision.transform);
+        //rb.velocity = Vector3.zero;
+        //rb.angularVelocity = Vector3.zero;
+        //rb.useGravity = false;
+        Destroy(rb);
 
         //}
         //else if (collision.gameObject.layer == 10)
