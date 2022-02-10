@@ -29,6 +29,8 @@ namespace Assets.Scripts.Characters.Humans
         public float scoreMulti = 1f;
         public Rigidbody body;
 
+        
+
 
 
         private void Start()
@@ -101,6 +103,7 @@ namespace Assets.Scripts.Characters.Humans
                     }
                     break;
                 case "titanneck":
+                    GameObject rootObj1 = collider.gameObject.transform.root.gameObject;
                     if (collider.gameObject.TryGetComponent(out HitBox hitBox) && hitBox.transform.root.TryGetComponent(out TitanBase titanBase))
                     {
 
@@ -114,6 +117,15 @@ namespace Assets.Scripts.Characters.Humans
                         Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
 
                         titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                    }
+                    else if (rootObj1.TryGetComponent(out DummyTitan dummyTitan))
+                    {
+                        // temporary dmg calculation because dark3art is stupid
+                        float dmg = Random.Range(10f, 300f);
+                        
+                        ShowCriticalHitFX();
+                        Debug.Log("nape is hit");
+                        dummyTitan.GetHit(dmg);
                     }
                     break;
                 case "titaneye":

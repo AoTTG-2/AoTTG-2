@@ -320,6 +320,7 @@
     <Compile Include="Assets\Scripts\Legacy\CustomMap\RcObjectType.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\TabGroup.cs" />
     <Compile Include="Assets\Scripts\SelfDestroy.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\DummTitanKneeHitbox.cs" />
     <Compile Include="Assets\Scripts\Room\LevelBuilder.cs" />
     <Compile Include="Assets\Scripts\UI\Radial\FlareRadialMenu.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatCommandHandler.cs" />
@@ -518,7 +519,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Titan\DummTitanKneeHitbox.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
