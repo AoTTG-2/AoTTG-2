@@ -358,8 +358,33 @@ namespace Assets.Scripts.Room
             _levels.Add(new Level
             {
                 Name = "Outside the Walls Extended",
-                Description = "Classic Outside the Walls map",
+                Description = "Larger version of Outside the Walls designed for 4-8 players.",
                 SceneName = "OutSide The Walls Extended",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new CaptureGamemodeSettings
+                    {
+                        Horse = new HorseSettings
+                        {
+                            Enabled = true
+                        },
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                        Supply = true,
+                        SpawnSupplyStationOnHumanCapture = true
+                    }
+                }
+            });
+
+            _levels.Add(new Level
+            {
+                Name = "To Shiganshina",
+                Description = "An even Larger version of Outside the Walls designed for 6-12 players.",
+                SceneName = "To Shiganshina",
                 Gamemodes = new List<GamemodeSettings>
                 {
                     new CaptureGamemodeSettings
