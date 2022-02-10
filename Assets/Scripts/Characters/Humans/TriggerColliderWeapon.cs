@@ -241,6 +241,8 @@ namespace Assets.Scripts.Characters.Humans
                         else if (rootObj.TryGetComponent(out DummyTitan dummyTitan))
                         {
                             ShowCriticalHitFX();
+                            Debug.Log("knee is hit");
+                            dummyTitan.KneeHit();
                         }
                     }
                     break;

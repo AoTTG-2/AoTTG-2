@@ -3,6 +3,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// The dummy titan. Hasn't been touched since May 2020, so should be updated to match the new standards
@@ -19,9 +20,13 @@ public class DummyTitan : Photon.MonoBehaviour
     public TextMesh healthLabel;
     public TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
+
     public AudioSource dummyWiggleNoise;
     private float wiggleSoundTimer = 3f;
     private bool timerCheck = true;
+
+    private bool kneeHit = false;
+    private float rotationTimer = 5f;
 
     public float speed = 3.0f;
 
@@ -38,7 +43,7 @@ public class DummyTitan : Photon.MonoBehaviour
     {
         if (canRotate)
         {
-            if (myHero)
+            if (myHero && kneeHit == false)
             {
                 Rotation();
                 if(timerCheck = true && wiggleSoundTimer <= 0)
@@ -48,6 +53,11 @@ public class DummyTitan : Photon.MonoBehaviour
                     timerCheck = false;
                 }
             }
+            else if(myHero && kneeHit == true)
+            {
+                Debug.Log("Timer is running");
+                StartCoroutine(KneeHitTimer(rotationTimer));  
+            }
             else
             {
                 myHero = GetNearestHero();
@@ -55,6 +65,12 @@ public class DummyTitan : Photon.MonoBehaviour
         }
         healthLabel.text = healthLabel2.text = health.ToString();
     }
+
+     private IEnumerator KneeHitTimer(float rotationTimer)
+     {
+        yield return new WaitForSeconds(rotationTimer);
+        kneeHit = false;
+     }
 
     private GameObject GetNearestHero()
     {
@@ -103,6 +119,20 @@ public class DummyTitan : Photon.MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "blades")
+        {
+            Debug.Log("Knee is hit");
+            KneeHit();
+        }
+    }
+
+    public void KneeHit()
+    {
+        kneeHit = true;
+    }
+
     private void Rotation()
     {
         if(dead == false)
@@ -110,9 +140,11 @@ public class DummyTitan : Photon.MonoBehaviour
             lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
             Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
             pivot.rotation = Quaternion.Euler(0, desiredRotation.y, 0);
-            timerCheck = true;
-            wiggleSoundTimer =- Time.deltaTime;
-            
+
+
+
+            //timerCheck = true;
+            //wiggleSoundTimer =- Time.deltaTime; 
             //dummyWiggleNoise.loop = true;
         }
         
