@@ -57,25 +57,12 @@ public class Thunderspear : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.layer != 8)
+        {
+            gameObject.transform.SetParent(collision.transform);
+            Destroy(rb);
+        }
 
-        //if (collision.gameObject.layer == 9)
-        //{
-        //rb.isKinematic = true;
-        //}
-        //else if (collision.gameObject.layer == 0)
-        //{
-        gameObject.transform.SetParent(collision.transform);
-        //rb.velocity = Vector3.zero;
-        //rb.angularVelocity = Vector3.zero;
-        //rb.useGravity = false;
-        Destroy(rb);
-
-        //}
-        //else if (collision.gameObject.layer == 10)
-        //{
-        //gameObject.transform.SetParent(collision.transform);
-        // rb.isKinematic = true;
-        //}
     }
     public void Explode()
     { //Particle Effect
