@@ -12,7 +12,9 @@ public class Thunderspear : MonoBehaviour
     public float trigger = 10f;
     public GameObject explosionEffect;
     public GameObject hero;
-    public GameObject bigBoom;
+
+    public GameObject boomSound;
+
     private LineRenderer lr;
     Rigidbody rb;
 
@@ -67,16 +69,20 @@ public class Thunderspear : MonoBehaviour
     public void Explode()
     { //Particle Effect
         Instantiate(explosionEffect, transform.position, transform.rotation);
+       
         //Rigidbody Push Effect/ Explosion Collider Sphere
         Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius);
-        Instantiate(bigBoom, transform.position, transform.rotation);
+      
+        Instantiate(boomSound, transform.position, transform.rotation);
         foreach (Collider nearbyObject in colliders)
         {
             Rigidbody explosionRb = nearbyObject.GetComponent<Rigidbody>();
             if (explosionRb != null) rb.AddExplosionForce(explosionForce, transform.position, blastRadius);
         }
         //Removing Explosive After Explosion
+        
         Destroy(gameObject);
+       
     }
 }
 
