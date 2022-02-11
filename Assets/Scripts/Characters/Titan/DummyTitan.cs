@@ -12,14 +12,11 @@ public class DummyTitan : Photon.MonoBehaviour
 {
     protected readonly IEntityService EntityService = Service.Entity;
 
-    public int health = 300;
+    public float health = 300f;
     public GameObject myHero;
     public Transform pivot;
     public bool dead = false;
     private float deathTimer = 15f;
-    public bool canRotate = true;
-    //public TextMesh healthLabel;
-    //public TextMesh healthLabel2;
     public MinimapIcon minimapIcon;
 
     public AudioSource dummyWiggleNoise;
@@ -34,6 +31,8 @@ public class DummyTitan : Photon.MonoBehaviour
     public float speed = 3.0f;
 
     public Animator dummyAnimator;
+    private bool revivecheck = false;
+    private float stopcoroutine = 0.001f;
 
     Quaternion lookAtRotation;
 
@@ -47,12 +46,7 @@ public class DummyTitan : Photon.MonoBehaviour
     void Update()
     {
 
-        if(dead == false && canRotate == true)
-        {
-            Debug.Log("wiggleSound timer is running");
-            WiggleSound(wiggleSoundTimer);
-        }
-        if (canRotate)
+        if (dead == false)
         {
             if (myHero && kneeHit == false)
             {
@@ -68,12 +62,11 @@ public class DummyTitan : Photon.MonoBehaviour
                 myHero = GetNearestHero();
             }
         }
-        if (dead == true)
+        else
         {
             Debug.Log("Deathtimer is running");
             StartCoroutine(DeathTimer(deathTimer));
         }
-        //healthLabel.text = healthLabel2.text = health.ToString();
     }
 
      private IEnumerator KneeHitTimer(float rotationTimer)
@@ -109,27 +102,36 @@ public class DummyTitan : Photon.MonoBehaviour
                 hitNoise.Play();
                 Die();
             }
+            else
+            {
+                health = health - dmg;
+            }
         }
+    }
+
+
+    public void Die()
+    {
+        dummyAnimator.SetBool("dummyDeathAnim", true);
+        fallNoise.Play();
+        dead = true;
     }
 
     private IEnumerator DeathTimer(float deathTimer)
     {
         yield return new WaitForSeconds(deathTimer);
+        revivecheck = true;
         Revive();
     }
 
     private void Revive()
     {
+        StopAllCoroutines();
+        dummyAnimator.SetBool("dummyDeathAnim", false);
+        Debug.Log("Reviving");  
         standNoise.Play();
         dead = false;
-        dummyAnimator.SetTrigger("dummyReviveAnim");
-    }
-
-    public void Die()
-    {
-        dummyAnimator.SetTrigger("dummyDeathAnim");
-        fallNoise.Play();
-        dead = true;
+        revivecheck = false;
     }
 
     private IEnumerator WiggleSound(float wigglesoundTimer)
@@ -148,6 +150,7 @@ public class DummyTitan : Photon.MonoBehaviour
     {
         if(dead == false)
         {
+            WiggleSound(wiggleSoundTimer);
             dummyAnimator.SetTrigger("dummyIdleAnim");
             lookAtRotation = Quaternion.LookRotation(myHero.transform.position - pivot.position);
             Vector3 desiredRotation = Quaternion.RotateTowards(pivot.rotation, lookAtRotation, speed * Time.deltaTime).eulerAngles;
