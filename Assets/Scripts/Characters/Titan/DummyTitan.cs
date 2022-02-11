@@ -104,6 +104,7 @@ public class DummyTitan : Photon.MonoBehaviour
             }
             else
             {
+                hitNoise.Play();
                 health = health - dmg;
             }
         }

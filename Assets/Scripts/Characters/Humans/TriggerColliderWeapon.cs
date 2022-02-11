@@ -121,7 +121,8 @@ namespace Assets.Scripts.Characters.Humans
                     else if (rootObj1.TryGetComponent(out DummyTitan dummyTitan))
                     {
                         // temporary dmg calculation because dark3art is stupid
-                        float dmg = Random.Range(10f, 300f);
+                        //float dmg = Random.Range(10f, 300f);
+                        float dmg = 10f;
                         
                         ShowCriticalHitFX();
                         Debug.Log("nape is hit");
