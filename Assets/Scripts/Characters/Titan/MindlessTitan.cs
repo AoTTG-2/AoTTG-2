@@ -26,9 +26,6 @@ namespace Assets.Scripts.Characters.Titan
 
         public MinimapIcon minimapIcon;
 
-        public TitanState PreviousState;
-        public TitanState NextState;
-        public TitanState CurrentState;
         public MindlessTitanType MindlessType;
 
         private float turnDeg;
@@ -126,7 +123,7 @@ namespace Assets.Scripts.Characters.Titan
             obj2.transform.parent = Body.AABB;
             obj2.transform.localPosition = new Vector3(0f, 0f, 0f);
         }
-        
+
         public override void Initialize(TitanConfiguration configuration)
         {
             Health = configuration.Health;
@@ -223,16 +220,16 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!((base.photonView.isMine) ? (((int)FengGameManagerMKII.settings[1]) != 1) : true))
+            if (!((base.photonView.isMine) ? (((int) FengGameManagerMKII.settings[1]) != 1) : true))
             {
-                int index = (int)UnityEngine.Random.Range((float)86f, (float)90f);
+                int index = (int) UnityEngine.Random.Range((float) 86f, (float) 90f);
                 int num2 = index - 60;
-                if (((int)FengGameManagerMKII.settings[0x20]) == 1)
+                if (((int) FengGameManagerMKII.settings[0x20]) == 1)
                 {
                     num2 = UnityEngine.Random.Range(0x1a, 30);
                 }
-                string body = (string)FengGameManagerMKII.settings[index];
-                string eyes = (string)FengGameManagerMKII.settings[num2];
+                string body = (string) FengGameManagerMKII.settings[index];
+                string eyes = (string) FengGameManagerMKII.settings[num2];
                 var skin = index;
                 if ((eyes.EndsWith(".jpg") || eyes.EndsWith(".png")) || eyes.EndsWith(".jpeg"))
                 {
@@ -303,17 +300,17 @@ namespace Assets.Scripts.Characters.Titan
 
         private void calculateHeadRotation()
         {
-            var     relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
-            var     global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
-            float   relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
-                    relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
+            var relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
+            var global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
+            float relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
+            relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
 
-            float   relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-            float   vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
-                    vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
+            float relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+            float vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
+            vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
 
             this.targetHeadRotation = Quaternion.Euler(                                                                     //Assemble angle needed to look at target
-                 Body.Head.rotation.eulerAngles.x + vertical_angle,   
+                 Body.Head.rotation.eulerAngles.x + vertical_angle,
                  Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
                  Body.Head.rotation.eulerAngles.z
                  );
@@ -340,7 +337,7 @@ namespace Assets.Scripts.Characters.Titan
                         base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, this.asClientLookTarget);
                     }
 
-                    if(State == TitanState.Attacking)
+                    if (State == TitanState.Attacking)
                         interpolation_velocity = 20f;
                 }
                 else
@@ -359,7 +356,7 @@ namespace Assets.Scripts.Characters.Titan
                 Body.Head.localScale = this.headscale;
             }
         }
-        
+
         public void OnAnkleHit(int viewId, int damage) { }
 
         private float bodyPartDamageTimer;
@@ -435,7 +432,7 @@ namespace Assets.Scripts.Characters.Titan
                 if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
                 {
                     player.MarkDie();
-                    player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All,  -1, "Server ");
+                    player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, -1, "Server ");
                 }
             }
         }
@@ -496,9 +493,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (State == TitanState.Idle) {}
+            if (State == TitanState.Idle) { }
 
-            PreviousState = State == TitanState.Idle 
+            PreviousState = State == TitanState.Idle
                 ? TitanState.Chase
                 : State;
             State = state;
@@ -540,11 +537,11 @@ namespace Assets.Scripts.Characters.Titan
         public bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
-            return Between(velocity.z, -Speed / 4, Speed / 4) 
-                   && Between(velocity.x, -Speed / 4, Speed / 4) 
+            return Between(velocity.z, -Speed / 4, Speed / 4)
+                   && Between(velocity.x, -Speed / 4, Speed / 4)
                    && Animation[CurrentAnimation].normalizedTime > 2f;
         }
-        
+
         private void CheckColliders()
         {
             if (!IsHooked && !IsLooked && !IsColliding)
@@ -599,7 +596,7 @@ namespace Assets.Scripts.Characters.Titan
                 }
             }
         }
-        
+
         private void Pathfinding()
         {
             Vector3 forwardDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 0, 1f));
@@ -611,7 +608,7 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 rightDirection = Body.Hip.transform.TransformDirection(new Vector3(-0.3f, 1f, 1f));
                 RaycastHit leftHit;
                 RaycastHit rightHit;
-                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250 , mask);
+                Physics.Raycast(Body.Hip.transform.position, leftDirection, out leftHit, 250, mask);
                 Physics.Raycast(Body.Hip.transform.position, rightDirection, out rightHit, 250, mask);
 
                 if (leftHit.distance < rightHit.distance)
@@ -659,8 +656,6 @@ namespace Assets.Scripts.Characters.Titan
             {
                 return;
             }
-
-            CurrentState = State;
 
             switch (State)
             {
