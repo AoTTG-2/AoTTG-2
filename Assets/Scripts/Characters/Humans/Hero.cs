@@ -400,7 +400,6 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             attackAnimation = HeroAnim.ATTACK1;
                         }
-                        Debug.Log(attackAnimation);
                         PlayAnimation(attackAnimation);
                     }
                 }

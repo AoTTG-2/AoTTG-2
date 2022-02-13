@@ -11,6 +11,7 @@ namespace Assets.Scripts.UI
         public MainMenu MainMenu;
         public Singleplayer Singleplayer;
         public MapConverter MapConverter;
+        public ServerSelector ServerSelector;
         public Lobby Lobby;
         public CreateRoom CreateRoom;
         public Credits Credits;
