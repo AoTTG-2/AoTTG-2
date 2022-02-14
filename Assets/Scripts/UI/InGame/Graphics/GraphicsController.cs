@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 namespace Assets.Scripts.UI.InGame
 {
-	public class GraphicsController : MonoBehaviour {
+    public class GraphicsController : MonoBehaviour {
 
         public GeneralGraphics GeneralGraphic;
 		public ResolutionSwitcher ResolutionSwitcher;
@@ -12,8 +12,9 @@ namespace Assets.Scripts.UI.InGame
 
         public const string GDATA = "GraphicsData";
 		public const string QDATA = "QualityProfile";
+        public const string FDATA = "FPSLimit";
 
-		private void Start()
+        private void Start()
 		{
             if (PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA))
 			{
@@ -28,16 +29,19 @@ namespace Assets.Scripts.UI.InGame
 		{
 			try
 			{
-				var data1 = new GeneralGraphics.GraphicsData(GeneralGraphic);
-				string json1 = JsonUtility.ToJson(data1);
-				PlayerPrefs.SetString(GDATA, json1);
+				var graphicsData = new GeneralGraphics.GraphicsData(GeneralGraphic);
+				var serializedGraphicsData = JsonUtility.ToJson(graphicsData);
+				PlayerPrefs.SetString(GDATA, serializedGraphicsData);
 
-				// quality profile
-				var data2 = new QualitySwitcher.QualityData(GeneralGraphic.QualitySwitcher);
-				string json2 = JsonUtility.ToJson(data2);
-				PlayerPrefs.SetString(QDATA, json2);
+				var qualityData = new QualitySwitcher.QualityData(GeneralGraphic.QualitySwitcher);
+				string serializedQualityData = JsonUtility.ToJson(qualityData);
+				PlayerPrefs.SetString(QDATA, serializedQualityData);
 
-				PlayerPrefs.Save();
+                var fpsData = new GeneralGraphics.FPSData(GeneralGraphic);
+                var serializedFpsData = JsonUtility.ToJson(fpsData);
+                PlayerPrefs.SetString(FDATA, serializedFpsData);
+
+                PlayerPrefs.Save();
 
 				label.color = Color.green;
 				label.text = "saved player prefs";

@@ -203,7 +203,7 @@ namespace Assets.Scripts.UI.InGame
         {
             if (customSettings.isOn)
             {
-                QualitySettings.SetQualityLevel((int) QualitySwitcher.Slider.value, true);
+                QualitySettings.SetQualityLevel((int) qualitySwitcher.Slider.value, true);
             }
         }
 
@@ -233,9 +233,8 @@ namespace Assets.Scripts.UI.InGame
             public bool VSync;
             public bool SoftParticles;
             public bool CustomSettings;
-            public string FpsLimit;
 
-            public GraphicsData(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings, string fpsLimit)
+            public GraphicsData(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings)
             {
                 this.TextureQuality = textureQuality;
                 this.ShadowRes = shadowRes;
@@ -244,7 +243,6 @@ namespace Assets.Scripts.UI.InGame
                 this.VSync = vSync;
                 this.SoftParticles = softParticles;
                 this.CustomSettings = customSettings;
-                this.FpsLimit = fpsLimit;
             }
             public GraphicsData(GeneralGraphics toCopy)
             {
@@ -255,7 +253,16 @@ namespace Assets.Scripts.UI.InGame
                 this.VSync = toCopy.vSync.isOn;
                 this.SoftParticles = toCopy.softParticles.isOn;
                 this.CustomSettings = toCopy.customSettings.isOn;
-                this.FpsLimit = toCopy.fpsLimit.text;
+            }
+        }
+
+        public struct FPSData
+        {
+            public string limit;
+
+            public FPSData(GeneralGraphics toCopy)
+            {
+                this.limit = toCopy.FPSLimit.text;
             }
         }
     }
