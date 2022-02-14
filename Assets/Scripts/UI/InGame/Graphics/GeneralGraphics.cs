@@ -7,6 +7,8 @@ namespace Assets.Scripts.UI.InGame
 {
     public class GeneralGraphics : MonoBehaviour
     {
+        private const int CUSTOM = 6;
+
         [SerializeField] private Dropdown textureQuality;
         [SerializeField] private Dropdown shadowRes;
         [SerializeField] private Dropdown antiAliasing;
@@ -201,10 +203,7 @@ namespace Assets.Scripts.UI.InGame
 
         private void ChangeCustomQuality(QualitySwitcher qualitySwitcher)
         {
-            if (customSettings.isOn)
-            {
-                QualitySettings.SetQualityLevel((int) qualitySwitcher.Slider.value, true);
-            }
+            QualitySettings.SetQualityLevel(customSettings.isOn ? CUSTOM : (int) qualitySwitcher.Slider.value, true);
         }
 
         public void Update()
@@ -256,11 +255,11 @@ namespace Assets.Scripts.UI.InGame
             }
         }
 
-        public struct FPSData
+        public struct FpsData
         {
             public string limit;
 
-            public FPSData(GeneralGraphics toCopy)
+            public FpsData(GeneralGraphics toCopy)
             {
                 this.limit = toCopy.FPSLimit.text;
             }

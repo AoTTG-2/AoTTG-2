@@ -37,7 +37,7 @@ namespace Assets.Scripts.UI.InGame
 				string serializedQualityData = JsonUtility.ToJson(qualityData);
 				PlayerPrefs.SetString(QDATA, serializedQualityData);
 
-                var fpsData = new GeneralGraphics.FPSData(GeneralGraphic);
+                var fpsData = new GeneralGraphics.FpsData(GeneralGraphic);
                 var serializedFpsData = JsonUtility.ToJson(fpsData);
                 PlayerPrefs.SetString(FDATA, serializedFpsData);
 
@@ -58,14 +58,17 @@ namespace Assets.Scripts.UI.InGame
 		{
 			try
 			{
-				var loaded1 = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
-				var loaded2 = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
+				var graphicsData = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
+				var qualityData = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
+                var fpsData = JsonUtility.FromJson<GeneralGraphics.FpsData>(PlayerPrefs.GetString(FDATA));
 
-                GeneralGraphic.QualitySwitcher.Slider.value = loaded2.Slider;
+                GeneralGraphic.FPSLimit.text = fpsData.limit;
 
-				if (loaded1.CustomSettings)
+                GeneralGraphic.QualitySwitcher.Slider.value = qualityData.Slider;
+
+				if (graphicsData.CustomSettings)
 				{
-                    GeneralGraphic.Update(loaded1);
+                    GeneralGraphic.Update(graphicsData);
                 }
                 else
                 {
@@ -88,6 +91,7 @@ namespace Assets.Scripts.UI.InGame
 		{
 			PlayerPrefs.DeleteKey(GDATA);
 			PlayerPrefs.DeleteKey(QDATA);
+            PlayerPrefs.DeleteKey(FDATA);
 		}
 	}
 }
