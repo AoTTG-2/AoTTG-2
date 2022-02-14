@@ -704,6 +704,7 @@ namespace Assets.Scripts.Characters.Humans
                             if ((grounded || (attackAnimation == HeroAnim.ATTACK3_1)) || ((attackAnimation == HeroAnim.ATTACK5) || (attackAnimation == HeroAnim.SPECIAL_PETRA)))
                             {
                                 attackReleased = true;
+                                
                                 buttonAttackRelease = true;
                             }
                             else
@@ -3181,7 +3182,8 @@ namespace Assets.Scripts.Characters.Humans
             if (currentGas != 0f)
             {
                 UseGas(0f);
-                hookLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
+                hookLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();              
+
                 GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
                 string str = !useGun ? "hookRefL1" : "hookRefL2";
                 hookLeft.transform.position = obj2.transform.position;
@@ -3206,6 +3208,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 UseGas(0f);
                 hookRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
+
                 GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
                 string str = !useGun ? "hookRefR1" : "hookRefR2";
                 hookRight.transform.position = obj2.transform.position;
