@@ -5,8 +5,10 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.Camera;
+using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
+using Assets.Scripts.Utility;
 using System;
 using UnityEngine;
 using static Assets.Scripts.FengGameManagerMKII;
@@ -68,7 +70,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public static bool usingTitan;
     private bool isRestarting = true;
     private float startingTime;
-    public bool IsSpecmode => (int) settings[0xf5] == 1;
     public GameObject HUD;
     private void Awake()
     {
@@ -103,7 +104,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             SetMainObjectAsTitan(pt.gameObject);
             enabled = true;
-            GetComponent<SpectatorMovement>().disable = true;
+            SpectatorMode.Disable();
             GetComponent<MouseLook>().disable = true;
             gameOver = false;
         }
@@ -216,11 +217,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         return obj;
     }
 
-    public void SetSpectorMode(bool valuse)
+    public void SetSpectorMode(bool value)
     {
-        spectatorMode = valuse;
-        GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = !valuse;
-        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !valuse;
+        spectatorMode = value;
+        SpectatorMode.SetState(value);
+        GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = !value;
     }
     public void SnapShot2(int index)
     {
@@ -661,10 +662,9 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.Toggle();
+        SpectatorMode.UpdateSpecMode();
+        string message = SpectatorMode.IsEnable() ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 
