@@ -1,23 +1,33 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Graphics;
 
 namespace Assets.Scripts.UI.InGame
 {
     public class GeneralGraphics : MonoBehaviour
     {
+        [SerializeField] private Dropdown textureQuality;
+        [SerializeField] private Dropdown shadowRes;
+        [SerializeField] private Dropdown antiAliasing;
+        [SerializeField] private Dropdown shadows;
+        [SerializeField] private Toggle vSync;
+        [SerializeField] private Toggle softParticles;
+        [SerializeField] private Toggle customSettings;
+        [SerializeField] private QualitySwitcher qualitySwitcher;
+        [SerializeField] private InputField fpsLimit;
 
-        public Text VSyncCheck;
+        public InputField FPSLimit
+        {
+            get { return fpsLimit; }
+            set { fpsLimit = value; }
+        }
 
-        [SerializeField] public Dropdown textureQuality;
-        [SerializeField] public Dropdown shadowRes;
-        [SerializeField] public Dropdown antiAliasing;
-        [SerializeField] public Dropdown shadows;
-
-        [SerializeField] public Toggle vSync;
-        [SerializeField] public Toggle softParticles;
-        [SerializeField] public Toggle customSettings;
-
+        public QualitySwitcher QualitySwitcher
+        {
+            get { return qualitySwitcher; }
+            set { qualitySwitcher = value; }
+        }
 
         public Dropdown TextureQuality
         {
@@ -56,109 +66,109 @@ namespace Assets.Scripts.UI.InGame
             set { customSettings = value; }
         }
 
-        public void UpdateObjects()
+        private void Start()
         {
-            if (!CustomSettings.isOn)
+            textureQuality.onValueChanged.AddListener(delegate
             {
-                // shadow res
-                ShadowRes.value = (int) QualitySettings.shadowResolution;
-
-                // shadows
-                Shadows.value = (int) QualitySettings.shadows;
-
-                // texture quality
-                TextureQuality.value = QualitySettings.masterTextureLimit;
-
-                // soft particles
-                SoftParticles.isOn = (bool) QualitySettings.softParticles;
-
-                // anti aliasing
-                if (QualitySettings.antiAliasing == (int) GraphicsEnums.AntiAliasing._8xMultiSampling)
-                {
-                    AntiAliasing.value = 3;
-                }
-                else if (QualitySettings.antiAliasing == (int) GraphicsEnums.AntiAliasing._4xMultiSampling)
-                {
-                    AntiAliasing.value = 2;
-                }
-                else if (QualitySettings.antiAliasing == (int) GraphicsEnums.AntiAliasing._2xMultiSampling)
-                {
-                    AntiAliasing.value = 1;
-                }
-                else
-                {
-                    AntiAliasing.value = 0;
-                }
-
-                // vsync
-                if (QualitySettings.vSyncCount == 0)
-                {
-                    VSync.isOn = false;
-                }
-                else
-                {
-                    VSync.isOn = true;
-                }
-            }
-        }
-        public void ChangeShadows()
-        {
-            QualitySettings.shadows = (ShadowQuality) Shadows.value;
-        }
-        public void ChangeTextureQuality()
-        {
-            QualitySettings.masterTextureLimit = TextureQuality.value;
+                ChangeTextureQuality(textureQuality);
+            });
+            shadowRes.onValueChanged.AddListener(delegate
+            {
+                ChangeShadowResolution(shadowRes);
+            });
+            antiAliasing.onValueChanged.AddListener(delegate
+            {
+                ChangeAntiAliasing(antiAliasing);
+            });
+            shadows.onValueChanged.AddListener(delegate
+            {
+                ChangeShadows(shadows);
+            });
+            vSync.onValueChanged.AddListener(delegate
+            {
+                ChangeVSync(vSync);
+            });
+            softParticles.onValueChanged.AddListener(delegate
+            {
+                ChangeSoftParticles(softParticles);
+            });
+            fpsLimit.onEndEdit.AddListener(FramerateController.SetFramerateLimit);
+            customSettings.onValueChanged.AddListener(SetInteractable);
         }
 
-        public void ChangeAntiAliasing()
+        public void UpdateUi()
         {
-            if (AntiAliasing.value == 3)
+            textureQuality.value = QualitySettings.masterTextureLimit;
+            shadowRes.value = (int) QualitySettings.shadowResolution;
+            shadows.value = (int) QualitySettings.shadows;
+            softParticles.isOn = QualitySettings.softParticles;
+            antiAliasing.value = QualitySettings.antiAliasing switch
             {
-                QualitySettings.antiAliasing = (int) GraphicsEnums.AntiAliasing._8xMultiSampling;
-            }
-            else if (AntiAliasing.value == 2)
+                (int) GraphicsEnums.AntiAliasing._8xMultiSampling => 3,
+                (int) GraphicsEnums.AntiAliasing._4xMultiSampling => 2,
+                (int) GraphicsEnums.AntiAliasing._2xMultiSampling => 1,
+                _ => 0,
+            };
+            vSync.isOn = QualitySettings.vSyncCount != 0;
+        }
+
+        private void UpdateUi(GraphicsData data)
+        {
+            textureQuality.value = data.TextureQuality;
+            antiAliasing.value = data.AntiAliasing;
+            shadowRes.value = data.ShadowRes;
+            shadows.value = data.Shadows;
+            softParticles.isOn = data.SoftParticles;
+            vSync.isOn = data.VSync;
+        }
+
+        private void ChangeShadows(Dropdown dropdown)
+        {
+            QualitySettings.shadows = (ShadowQuality) dropdown.value;
+        }
+        private void ChangeTextureQuality(Dropdown dropdown)
+        {
+            QualitySettings.masterTextureLimit = dropdown.value;
+        }
+
+        private void ChangeAntiAliasing(Dropdown dropdown)
+        {
+            QualitySettings.antiAliasing = dropdown.value switch
             {
-                QualitySettings.antiAliasing = (int) GraphicsEnums.AntiAliasing._4xMultiSampling;
-            }
-            else if (AntiAliasing.value == 1)
+                3 => (int) GraphicsEnums.AntiAliasing._8xMultiSampling,
+                2 => (int) GraphicsEnums.AntiAliasing._4xMultiSampling,
+                1 => (int) GraphicsEnums.AntiAliasing._2xMultiSampling,
+                _ => (int) GraphicsEnums.AntiAliasing.Disabled,
+            };
+        }
+
+        private void ChangeShadowResolution(Dropdown dropdown)
+        {
+            QualitySettings.shadowResolution = (ShadowResolution) dropdown.value;
+        }
+
+        private void ChangeSoftParticles(Toggle toggle)
+        {
+            QualitySettings.softParticles = toggle.isOn;
+        }
+
+        private void ChangeVSync(Toggle toggle)
+        {
+            QualitySettings.vSyncCount = toggle.isOn ? 1 : 0;
+            if (toggle.isOn)
             {
-                QualitySettings.antiAliasing = (int) GraphicsEnums.AntiAliasing._2xMultiSampling;
+                FramerateController.LockFramerateToRefreshRate();
             }
             else
             {
-                QualitySettings.antiAliasing = (int) GraphicsEnums.AntiAliasing.Disabled;
+                FramerateController.SetFramerateLimit(fpsLimit.text);
             }
 
-        }
-
-        public void ChangeShadowResolution()
-        {
-            QualitySettings.shadowResolution = (ShadowResolution) ShadowRes.value;
-        }
-
-        public void ChangeSoftParticles()
-        {
-            QualitySettings.softParticles = SoftParticles.isOn;
-        }
-
-        public void ChangeVSync()
-        {
-            //var selected = VSync.isOn;
-            //if(selected)
-            //{
-            //	QualitySettings.vSyncCount = 1;
-            //             VSyncCheck.color = Color.red;
-            //             VSyncCheck.text = "VSync is on!!";
-            //         }
-            //else
-            //{
-            //	QualitySettings.vSyncCount = 0;
-            //             VSyncCheck.text = "";
-            //         }
         }
 
         public void SetInteractable(bool value)
         {
+            qualitySwitcher.Slider.interactable = !value;
             TextureQuality.interactable = value;
             AntiAliasing.interactable = value;
             ShadowRes.interactable = value;
@@ -167,15 +177,37 @@ namespace Assets.Scripts.UI.InGame
             SoftParticles.interactable = value;
         }
 
-        public void UpdateEverything()
+        public void UpdateQualitySettings()
         {
-            ChangeShadowResolution();
-            ChangeShadows();
-            ChangeSoftParticles();
-            ChangeTextureQuality();
-            ChangeVSync();
-            ChangeAntiAliasing();
+            ChangeCustomQuality(qualitySwitcher);
+            ChangeShadowResolution(shadowRes);
+            ChangeShadows(shadows);
+            ChangeSoftParticles(softParticles);
+            ChangeTextureQuality(textureQuality);
+            ChangeVSync(vSync);
+            ChangeAntiAliasing(antiAliasing);
+        }
 
+        private void ChangeCustomQuality(QualitySwitcher qualitySwitcher)
+        {
+            if (customSettings.isOn)
+            {
+                QualitySettings.SetQualityLevel((int) QualitySwitcher.Slider.value, true);
+            }
+        }
+
+        public void Update()
+        {
+            SetInteractable(customSettings.isOn);
+            UpdateUi();
+            UpdateQualitySettings();
+        }
+
+        public void Update(GraphicsData data)
+        {
+            SetInteractable(customSettings.isOn);
+            UpdateUi(data);
+            UpdateQualitySettings();
         }
 
         // This helped with showing the objects in the inspector https://forum.unity.com/threads/c-nested-class-and-inspector.18582/
@@ -190,8 +222,9 @@ namespace Assets.Scripts.UI.InGame
             public bool VSync;
             public bool SoftParticles;
             public bool CustomSettings;
+            public string FpsLimit;
 
-            public GraphicsData(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings)
+            public GraphicsData(int textureQuality, int shadowRes, int antiAliasing, int shadows, bool vSync, bool softParticles, bool customSettings, string fpsLimit)
             {
                 this.TextureQuality = textureQuality;
                 this.ShadowRes = shadowRes;
@@ -200,6 +233,7 @@ namespace Assets.Scripts.UI.InGame
                 this.VSync = vSync;
                 this.SoftParticles = softParticles;
                 this.CustomSettings = customSettings;
+                this.FpsLimit = fpsLimit;
             }
             public GraphicsData(GeneralGraphics toCopy)
             {
@@ -210,6 +244,7 @@ namespace Assets.Scripts.UI.InGame
                 this.VSync = toCopy.vSync.isOn;
                 this.SoftParticles = toCopy.softParticles.isOn;
                 this.CustomSettings = toCopy.customSettings.isOn;
+                this.FpsLimit = toCopy.fpsLimit.text;
             }
         }
     }

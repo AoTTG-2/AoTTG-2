@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{58A71158-A078-3D3B-55A7-E8093DDFD643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -170,7 +171,7 @@
     <Compile Include="Assets\Scripts\Services\Localization.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectController.cs" />
     <Compile Include="Assets\Scripts\Settings\New\Types\BoolSetting.cs" />
-    <Compile Include="Assets\Scripts\UI\InGame\Graphics\FPSLimiter.cs" />
+    <Compile Include="Assets\Scripts\Graphics\FramerateController.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\CreateRoom.cs" />
     <Compile Include="Assets\Scripts\Gamemode\CaptureGamemode.cs" />
     <Compile Include="Assets\Scripts\Effects\EffectNode.cs" />
@@ -520,7 +521,7 @@
     <Compile Include="Assets\Scripts\UI\Menu\QualityAdaptator.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
+    <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
