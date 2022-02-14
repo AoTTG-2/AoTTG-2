@@ -14,15 +14,14 @@ namespace Assets.Scripts.UI.InGame
 		public const string QDATA = "QualityProfile";
         public const string FDATA = "FPSLimit";
 
-        private void Start()
+        protected void Start()
 		{
-            if (PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA))
+            if (PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA) && PlayerPrefs.HasKey(FDATA))
 			{
 				LoadGraphicPlayerPrefs();
 			}
 
 			GeneralGraphic.Update();
-			
 		}
 
 		public void SaveGraphicPlayerPrefs()
@@ -62,7 +61,7 @@ namespace Assets.Scripts.UI.InGame
 				var qualityData = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
                 var fpsData = JsonUtility.FromJson<GeneralGraphics.FpsData>(PlayerPrefs.GetString(FDATA));
 
-                GeneralGraphic.FPSLimit.text = fpsData.limit;
+                GeneralGraphic.FPSLimit.text = fpsData.Limit;
 
                 GeneralGraphic.QualitySwitcher.Slider.value = qualityData.Slider;
 

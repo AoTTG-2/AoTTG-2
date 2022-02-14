@@ -257,11 +257,11 @@ namespace Assets.Scripts.UI.InGame
 
         public struct FpsData
         {
-            public string limit;
+            public string Limit;
 
             public FpsData(GeneralGraphics toCopy)
             {
-                this.limit = toCopy.FPSLimit.text;
+                this.Limit = toCopy.FPSLimit.text;
             }
         }
     }
