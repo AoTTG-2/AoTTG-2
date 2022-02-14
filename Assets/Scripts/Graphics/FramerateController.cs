@@ -6,15 +6,17 @@ namespace Assets.Scripts.Graphics
     {
         public static void SetFramerateLimit(string limit)
         {
-            if (string.IsNullOrEmpty(limit))
+            var parsed = int.TryParse(limit, out int frameRate);
+
+            if (parsed)
             {
-                UnlockFramerate();
+                SetFramerateLimit(frameRate);
             }
-            else
-            {
-                int.TryParse(limit, out int frameRate);
-                Application.targetFrameRate = frameRate;
-            }
+        }
+
+        public static void SetFramerateLimit(int limit)
+        {
+            Application.targetFrameRate = limit;
         }
 
         public static void LockFramerateToRefreshRate()

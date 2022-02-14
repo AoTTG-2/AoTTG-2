@@ -92,7 +92,7 @@ namespace Assets.Scripts.UI.InGame
             {
                 ChangeSoftParticles(softParticles);
             });
-            fpsLimit.onEndEdit.AddListener(FramerateController.SetFramerateLimit);
+            fpsLimit.onEndEdit.AddListener(ChangeFrameRate);
             customSettings.onValueChanged.AddListener(SetInteractable);
         }
 
@@ -161,9 +161,19 @@ namespace Assets.Scripts.UI.InGame
             }
             else
             {
+                //Unlocks the framerate before trying to set it according to the inputfield (in case the input is invalid)
+                FramerateController.UnlockFramerate();
                 FramerateController.SetFramerateLimit(fpsLimit.text);
             }
 
+        }
+
+        private void ChangeFrameRate(string limit)
+        {
+            if (!vSync.isOn)
+            {
+                FramerateController.SetFramerateLimit(limit);
+            }
         }
 
         public void SetInteractable(bool value)
@@ -186,6 +196,7 @@ namespace Assets.Scripts.UI.InGame
             ChangeTextureQuality(textureQuality);
             ChangeVSync(vSync);
             ChangeAntiAliasing(antiAliasing);
+            ChangeFrameRate(fpsLimit.text);
         }
 
         private void ChangeCustomQuality(QualitySwitcher qualitySwitcher)
