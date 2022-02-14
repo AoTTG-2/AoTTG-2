@@ -17,6 +17,10 @@ namespace Assets.Scripts.Characters.Titan
         public MinimapIcon minimapIcon;
         public Transform headPos;
         public float speed = 3.0f;
+        public AudioSource wiggleNoise;
+        public AudioSource fallDown;
+        public AudioSource standUp;
+        public AudioSource hitNoise;
 
         Quaternion lookAtRotation;
 
@@ -122,6 +126,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Disabled)
             {
+                hitNoise.Play();
                 timeTillRotate = timeTillRotateValue;
             }
         }
@@ -129,6 +134,7 @@ namespace Assets.Scripts.Characters.Titan
         // Activates the Death animation and changes the state for client and host (if host didn't kill the dummy). Needed for Update logic etc. on Masterclient 
         protected override void OnDeath()
         {
+            fallDown.Play();
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Dead);
             SetStateAnimation(TitanState.Dead);
             Invoke(nameof(OnRecovering), 5.683f);
@@ -137,6 +143,7 @@ namespace Assets.Scripts.Characters.Titan
         // Activates the Recovering Animation and changes the state for client and host (if host didn't kill the dummy). Needed for Update logic etc. on masterclient
         protected override void OnRecovering()
         {
+            standUp.Play();
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Recovering);
             SetStateAnimation(TitanState.Recovering);
             Invoke(nameof(ResetDummy), 3.125f);
@@ -157,6 +164,7 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         protected override void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
+            hitNoise.Play();
             if (currentHealth < 0)
             {
                 currentHealth = 0;
