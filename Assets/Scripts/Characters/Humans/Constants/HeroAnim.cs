@@ -22,7 +22,6 @@ namespace Assets.Scripts.Characters.Humans.Constants
         public const string SPECIAL_PETRA   = "special_petra";
         public const string SPECIAL_SASHA   = "special_sasha";
 
-
         public const string SALUTE = "salute";
         public const string DODGE = "dodge";
         public const string DASH_LAND = "dash_land";
