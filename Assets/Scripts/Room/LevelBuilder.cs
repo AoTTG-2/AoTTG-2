@@ -406,6 +406,26 @@ namespace Assets.Scripts.Room
                     },
                 }
             });
+
+            _levels.Add(new Level
+            {
+                Name = "ShiganshinaToShore",
+                Description = "expedition map",
+                SceneName = "ShiganshinaToShore",
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new RacingSettings
+                    {
+                        IsPlayerTitanEnabled = false,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    }
+                },
+            });
         }
     }
 }
