@@ -70,32 +70,14 @@ namespace Assets.Scripts.UI.InGame
 
         protected void Start()
         {
-            //Todo
-            //No reason listening to events for qualitysettings we can't change independent of set QualityLevel
             textureQuality.onValueChanged.AddListener(delegate
             {
                 ChangeTextureQuality(textureQuality);
             });
-            //shadowRes.onValueChanged.AddListener(delegate
-            //{
-            //    ChangeShadowResolution(shadowRes);
-            //});
-            //antiAliasing.onValueChanged.AddListener(delegate
-            //{
-            //    ChangeAntiAliasing(antiAliasing);
-            //});
-            //shadows.onValueChanged.AddListener(delegate
-            //{
-            //    ChangeShadows(shadows);
-            //});
             vSync.onValueChanged.AddListener(delegate
             {
                 ChangeVSync(vSync);
             });
-            //softParticles.onValueChanged.AddListener(delegate
-            //{
-            //    ChangeSoftParticles(softParticles);
-            //});
             fpsLimit.onEndEdit.AddListener(ChangeFrameRate);
             customSettings.onValueChanged.AddListener(SetInteractable);
         }
@@ -185,7 +167,6 @@ namespace Assets.Scripts.UI.InGame
 
         public void SetInteractable(bool value)
         {
-            //ToDo
             //hardcoded false are due to some settings not being decoupled from the set QualityLevel
             //https://forum.unity.com/threads/change-shadow-resolution-from-script.784793/page-2
             qualitySwitcher.Slider.interactable = true;
