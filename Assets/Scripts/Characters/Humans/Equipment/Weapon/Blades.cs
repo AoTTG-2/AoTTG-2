@@ -106,23 +106,22 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         private void DropBlades()
         {
             bladesThrown = true;
-            var transform = WeaponLeft.transform;
-            var transform2 = WeaponRight.transform;
-            var obj2 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), transform.position, transform.rotation);
-            var obj3 = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), transform2.position, transform2.rotation);
-
+            var leftTransform = WeaponLeft.transform;
+            var rightTransform = WeaponRight.transform;
+            var leftBlade = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_l"), leftTransform.position, leftTransform.rotation);
+            var rightBlade = (GameObject) Object.Instantiate(Resources.Load("Character_parts/character_blade_r"), rightTransform.position, rightTransform.rotation);
             //obj2.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
             //obj3.GetComponent<Renderer>().material = CharacterMaterials.materials[Hero.setup.myCostume._3dmg_texture];
             Vector3 force = (Hero.transform.forward + Hero.transform.up * 2f) - Hero.transform.right;
-            obj2.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+            leftBlade.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
             Vector3 vector2 = (Hero.transform.forward + Hero.transform.up * 2f) + Hero.transform.right;
-            obj3.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
+            rightBlade.GetComponent<Rigidbody>().AddForce(vector2, ForceMode.Impulse);
             Vector3 torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
             torque.Normalize();
-            obj2.GetComponent<Rigidbody>().AddTorque(torque);
+            leftBlade.GetComponent<Rigidbody>().AddTorque(torque);
             torque = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
             torque.Normalize();
-            obj3.GetComponent<Rigidbody>().AddTorque(torque);
+            rightBlade.GetComponent<Rigidbody>().AddTorque(torque);
             WeaponLeft.SetActive(false);
             WeaponRight.SetActive(false);
 
