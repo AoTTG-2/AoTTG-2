@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: tree
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 6
+  m_Shader: {fileID: -6465566751694194690, guid: 37f952a805ca97149af8f297a34429b7,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -52,12 +52,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalFromTexture_a6bd0fe6291e4b678c91220b12c6f3f8_Texture_0:
+        m_Texture: {fileID: 2800000, guid: a56841a522c939c4eb177ee3cce037ae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5813f41f7057411b980acdaadcb15c5a_Texture_1:
+        m_Texture: {fileID: 2800000, guid: a56841a522c939c4eb177ee3cce037ae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6dbecf0fc8ec4c5684c869da38b4bff6_Texture_1:
+        m_Texture: {fileID: 2800000, guid: efe015516e2135946ae093a0e95f72c0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7b7a47dced1e4004b30fbe698c89f919_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8114f732b0fd8704186dfb6dc732a505, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_c6391296a61642f18196efb71eb94f4d_Texture_1:
+        m_Texture: {fileID: 2800000, guid: efe015516e2135946ae093a0e95f72c0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -77,6 +97,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_b1bdb4e331774a408ff08027cacdf774: 5
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

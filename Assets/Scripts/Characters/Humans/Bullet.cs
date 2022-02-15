@@ -338,7 +338,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             this.isdestroying = true;
             if (base.photonView.isMine)
-            {
+            {                
                 PhotonNetwork.Destroy(base.photonView);
                 PhotonNetwork.RemoveRPCs(base.photonView);
             }

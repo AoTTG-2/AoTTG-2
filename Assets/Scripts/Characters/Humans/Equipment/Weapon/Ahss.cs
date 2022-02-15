@@ -17,6 +17,11 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         public override bool CanReload => AmountLeft < 7 || AmountRight < 7;
 
+        public override void EnableWeapons()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void PlayReloadAnimation()
         {
             if (!Hero.leftGunHasBullet && !Hero.rightGunHasBullet)
