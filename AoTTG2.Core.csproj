@@ -130,8 +130,8 @@
     <Compile Include="Assets\Scripts\Characters\PhotonPlayerProperty.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterOutfit.cs" />
-    <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\Xft\XWeaponTrail.cs" />
+    <Compile Include="Assets\Scripts\UI\Camera\PlanetMouseOrbit.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\RegistrationCounter.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenuV2.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\TimeSwitcher.cs" />
@@ -265,6 +265,7 @@
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\MapButtonAnimation.cs" />
     <Compile Include="Assets\Scripts\UI\IUiContainer.cs" />
     <Compile Include="Assets\Scripts\Characters\BodyPushBox.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
@@ -328,6 +329,7 @@
     <Compile Include="Assets\Scripts\Effects\LinearForceAffector.cs" />
     <Compile Include="Assets\Scripts\VersionManager.cs" />
     <Compile Include="Assets\Scripts\InstantiateTracker.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\QualityAdaptator.cs" />
     <Compile Include="Assets\Scripts\UI\Camera\CameraFacingBillboard.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Legacy\GAMETYPE.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\AccountPanel.cs" />
@@ -378,6 +380,7 @@
     <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
     <Compile Include="Assets\Scripts\Settings\Titans\Attacks\AttackSetting.cs" />
     <Compile Include="Assets\Scripts\Utility\StringExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\SmashAttack.cs" />
@@ -433,6 +436,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\HUD\GasNotification.cs" />
     <Compile Include="Assets\Scripts\UI\MenuUi.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\RacingSettings.cs" />
+    <Compile Include="Assets\Scripts\UI\Menu\ButtonAnimation.cs" />
     <Compile Include="Assets\Scripts\Services\PhotonService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\HumanState.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchMode.cs" />
@@ -512,10 +516,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\ButtonAnimation.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\MapButtonAnimation.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu\QualityAdaptator.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

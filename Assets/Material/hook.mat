@@ -22,19 +22,21 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: hook
   m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _FLIPBOOKBLENDING_OFF
-  m_LightmapFlags: 0
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - ALWAYS
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 0f12857d132c1da4fafea99466edb1bd, type: 3}
+        m_Texture: {fileID: 2800000, guid: d81f2c611f9feab408c1306037c26e5d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -58,7 +60,7 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5357143
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
