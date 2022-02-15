@@ -2485,7 +2485,7 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        private void ChangeBlade()
+        public void ChangeBlade()
         {
             if ((!useGun || grounded) || GameSettings.PvP.AhssAirReload.Value)
             {
