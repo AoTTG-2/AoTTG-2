@@ -4,6 +4,7 @@ using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Serialization;
 using Assets.Scripts.Services;
@@ -12,7 +13,6 @@ using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Assets.Scripts.Utility;
-using Assets.Scripts.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -192,6 +192,11 @@ namespace Assets.Scripts.Characters.Humans
         public GameObject speedFX;
         public GameObject speedFX1;
         public bool spinning;
+
+        private float reelForce;
+        private float scrollWheelWait = 0f;
+        public float scrollWheelWaitValue = 0.05f;      // Set this value higher if you want to smooth out scrolling more
+
         private string standAnimation { get; set; } = HeroAnim.STAND;
         private Quaternion targetHeadRotation { get; set; }
         public Quaternion targetRotation { get; set; }
@@ -344,7 +349,6 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
         }
-
         public void Update()
         {
             // Upon spawning, we cannot be damaged for 3s
@@ -374,6 +378,8 @@ namespace Assets.Scripts.Characters.Humans
                     myCannonRegion.photonView.RPC(nameof(CannonPropRegion.RequestControlRPC), PhotonTargets.MasterClient, new object[] { photonView.viewID });
                 }
             }
+
+            CheckForScrollingInput();
 
             if (Skill != null)
             {
@@ -870,7 +876,6 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             else if (Animation[attackAnimation].normalizedTime >= 0.32f && Animation[attackAnimation].speed > 0f)
                             {
-                                Debug.Log("Trying to freeze");
                                 SetAnimationSpeed(attackAnimation, 0f);
                             }
                         }
@@ -942,7 +947,7 @@ namespace Assets.Scripts.Characters.Humans
                                 num2 = 0.5f;
                                 num = 0.85f;
                             }
-                            if (Animation[attackAnimation].normalizedTime.Between(num2,num))
+                            if (Animation[attackAnimation].normalizedTime.Between(num2, num))
                             {
                                 if (!checkBoxLeft.IsActive)
                                 {
@@ -1072,7 +1077,7 @@ namespace Assets.Scripts.Characters.Humans
                                 obj4 = Instantiate(Resources.Load<GameObject>(prefabName), ((transform.position + (transform.up * 0.8f)) - (transform.right * 0.1f)), transform.rotation);
                             }
                         }
-                        if (Animation[attackAnimation].normalizedTime >= 1f || 
+                        if (Animation[attackAnimation].normalizedTime >= 1f ||
                             !Animation.IsPlaying(attackAnimation))
                         {
                             FalseAttack();
@@ -1282,6 +1287,33 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        private void CheckForScrollingInput()
+        {
+            if (InputManager.Key(InputHuman.ReelIn))
+            {
+                reelForce = -1f;
+            }
+            else if (InputManager.Key(InputHuman.ReelOut))
+            {
+                reelForce = 1f;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            {
+                reelForce = Input.GetAxis("Mouse ScrollWheel") * 5555f;
+                scrollWheelWait = scrollWheelWaitValue;
+            }
+            else
+            {
+                if (scrollWheelWait > 0)
+                {
+                    scrollWheelWait -= Time.deltaTime;
+                }
+                else
+                {
+                    reelForce = 0f;
+                }
+            }
+        }
 
         protected override void OnDestroy()
         {
@@ -1509,32 +1541,36 @@ namespace Assets.Scripts.Characters.Humans
                             x = 0f;
                         }
                     }
-                    bool flag2 = false;
-                    bool flag3 = false;
-                    bool flag4 = false;
+                    
+                    bool canUseGas = false;
+                    bool canReelOffLeftHook = false;
+                    bool canReelOffRightHook = false;
                     isLeftHandHooked = false;
                     isRightHandHooked = false;
+
                     if (isLaunchLeft)
                     {
                         if ((hookLeft != null) && hookLeft.isHooked())
                         {
                             isLeftHandHooked = true;
-                            Vector3 to = hookLeft.transform.position - transform.position;
-                            to.Normalize();
-                            to = (to * 10f);
+                            Vector3 dirToLeftHook = hookLeft.transform.position - transform.position;
+                            dirToLeftHook.Normalize();
+                            dirToLeftHook = (dirToLeftHook * 10f);
                             if (!isLaunchRight)
                             {
-                                to = (to * 2f);
+                                dirToLeftHook = (dirToLeftHook * 2f);
                             }
-                            if ((Vector3.Angle(Rigidbody.velocity, to) > 90f) && InputManager.Key(InputHuman.Jump))
+
+                            if ((Vector3.Angle(Rigidbody.velocity, dirToLeftHook) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
-                                flag3 = true;
-                                flag2 = true;
+                                canReelOffLeftHook = true;
+                                canUseGas = true;
                             }
-                            if (!flag3)
+
+                            if (!canReelOffLeftHook)
                             {
-                                Rigidbody.AddForce(to);
-                                if (Vector3.Angle(Rigidbody.velocity, to) > 90f)
+                                Rigidbody.AddForce(dirToLeftHook);
+                                if (Vector3.Angle(Rigidbody.velocity, dirToLeftHook) > 90f)
                                 {
                                     Rigidbody.AddForce((-Rigidbody.velocity * 2f), ForceMode.Acceleration);
                                 }
@@ -1553,31 +1589,34 @@ namespace Assets.Scripts.Characters.Humans
                                 hookLeft.disable();
                                 ReleaseIfIHookSb();
                                 hookLeft = null;
-                                flag3 = false;
+                                canReelOffLeftHook = false;
                             }
                         }
                     }
+
                     if (isLaunchRight)
                     {
                         if ((hookRight != null) && hookRight.isHooked())
                         {
                             isRightHandHooked = true;
-                            Vector3 vector5 = hookRight.transform.position - transform.position;
-                            vector5.Normalize();
-                            vector5 = (vector5 * 10f);
+                            Vector3 dirToRightHook = hookRight.transform.position - transform.position;
+                            dirToRightHook.Normalize();
+                            dirToRightHook = (dirToRightHook * 10f);
                             if (!isLaunchLeft)
                             {
-                                vector5 = (vector5 * 2f);
+                                dirToRightHook = (dirToRightHook * 2f);
                             }
-                            if ((Vector3.Angle(Rigidbody.velocity, vector5) > 90f) && InputManager.Key(InputHuman.Jump))
+
+                            if ((Vector3.Angle(Rigidbody.velocity, dirToRightHook) > 90f) && InputManager.Key(InputHuman.Jump))
                             {
-                                flag4 = true;
-                                flag2 = true;
+                                canReelOffRightHook = true;
+                                canUseGas = true;
                             }
-                            if (!flag4)
+
+                            if (!canReelOffRightHook)
                             {
-                                Rigidbody.AddForce(vector5);
-                                if (Vector3.Angle(Rigidbody.velocity, vector5) > 90f)
+                                Rigidbody.AddForce(dirToRightHook);
+                                if (Vector3.Angle(Rigidbody.velocity, dirToRightHook) > 90f)
                                 {
                                     Rigidbody.AddForce((-Rigidbody.velocity * 2f), ForceMode.Acceleration);
                                 }
@@ -1596,7 +1635,7 @@ namespace Assets.Scripts.Characters.Humans
                                 hookRight.disable();
                                 ReleaseIfIHookSb();
                                 hookRight = null;
-                                flag4 = false;
+                                canReelOffRightHook = false;
                             }
                         }
                     }
@@ -1913,7 +1952,8 @@ namespace Assets.Scripts.Characters.Humans
                                 facingDirection = num12;
                                 targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
                             }
-                            if (((!flag3 && !flag4) && (!isMounted && InputManager.Key(InputHuman.Jump))) && (currentGas > 0f))
+
+                            if (((!canReelOffLeftHook && !canReelOffRightHook) && (!isMounted && InputManager.Key(InputHuman.Jump))) && (currentGas > 0f))
                             {
                                 if ((x != 0f) || (z != 0f))
                                 {
@@ -1923,7 +1963,8 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     Rigidbody.AddForce((transform.forward * vector12.magnitude), ForceMode.Acceleration);
                                 }
-                                flag2 = true;
+                                canUseGas = true;
+
                             }
                         }
                         if ((Animation.IsPlaying(HeroAnim.AIR_FALL) && (currentSpeed < 0.2f)) && IsFrontGrounded())
@@ -1932,80 +1973,47 @@ namespace Assets.Scripts.Characters.Humans
                         }
                     }
                     spinning = false;
-                    if (flag3 && flag4)
+                    CheckForScrollingInput();
+
+                    if (canReelOffLeftHook && canReelOffRightHook)
                     {
                         float num14 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector13 = (((hookRight.transform.position + hookLeft.transform.position) * 0.5f)) - transform.position;
-                        float num15 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
-                            num15 = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num15 = 1f;
-                        }
-                        else
-                        {
-                            num15 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num15 = Mathf.Clamp(num15, -0.8f, 0.8f);
-                        float num16 = 1f + num15;
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
+                        float num16 = 1f + reelForce;
                         Vector3 vector14 = Vector3.RotateTowards(vector13, Rigidbody.velocity, 1.53938f * num16, 1.53938f * num16);
                         vector14.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector14 * num14);
                     }
-                    else if (flag3)
+                    else if (canReelOffLeftHook)
                     {
                         float num17 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector15 = hookLeft.transform.position - transform.position;
-                        float num18 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
-                            num18 = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num18 = 1f;
-                        }
-                        else
-                        {
-                            num18 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num18 = Mathf.Clamp(num18, -0.8f, 0.8f);
-                        float num19 = 1f + num18;
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
+                        float num19 = 1f + reelForce;
                         Vector3 vector16 = Vector3.RotateTowards(vector15, Rigidbody.velocity, 1.53938f * num19, 1.53938f * num19);
                         vector16.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector16 * num17);
                     }
-                    else if (flag4)
+                    else if (canReelOffRightHook)
                     {
                         float num20 = currentSpeed + 0.1f;
                         AddRightForce();
                         Vector3 vector17 = hookRight.transform.position - transform.position;
-                        float num21 = 0f;
-                        if (InputManager.Key(InputHuman.ReelIn))
-                        {
-                            num21 = -1f;
-                        }
-                        else if (InputManager.Key(InputHuman.ReelOut))
-                        {
-                            num21 = 1f;
-                        }
-                        else
-                        {
-                            num21 = Input.GetAxis("Mouse ScrollWheel") * 5555f;
-                        }
-                        num21 = Mathf.Clamp(num21, -0.8f, 0.8f);
-                        float num22 = 1f + num21;
+                        reelForce = Mathf.Clamp(reelForce, -0.8f, 0.8f);
+
+                        float num22 = 1f + reelForce;
                         Vector3 vector18 = Vector3.RotateTowards(vector17, Rigidbody.velocity, 1.53938f * num22, 1.53938f * num22);
                         vector18.Normalize();
                         spinning = true;
                         Rigidbody.velocity = (vector18 * num20);
+
                     }
                     bool flag7 = false;
                     if ((hookLeft != null) || (hookRight != null))
@@ -2036,7 +2044,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, 50f, 0.1f);
                     }
-                    if (flag2)
+                    if (canUseGas)
                     {
                         UseGas(useGasSpeed * Time.deltaTime);
                         if (!smoke_3dmg_em.enabled && photonView.isMine)
