@@ -17,6 +17,14 @@ namespace Assets.Scripts.Characters.Titan
         public MinimapIcon minimapIcon;
         public Transform headPos;
         public float speed = 3.0f;
+
+        private enum AudioState
+        {
+            Chasing,
+            Falling,
+            StandingUp,
+            Hit,
+        }
         public AudioSource wiggleNoise;
         public AudioSource fallDown;
         public AudioSource standUp;
@@ -68,7 +76,35 @@ namespace Assets.Scripts.Characters.Titan
                 if (!napeCollider.enabled)
                     napeCollider.enabled = true;
             }
+
+            if (State == TitanState.Chase && !wiggleNoise.isPlaying)
+            {
+                photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Chasing);
+            }
+
         }
+
+        // Plays the audio depending on what state the dummy titan is in
+        [PunRPC]
+        private void PlayAudio(AudioState state)
+        {           
+            switch (state)
+            {
+                case AudioState.Chasing:
+                    wiggleNoise.Play();
+                    break;
+                case AudioState.Falling:
+                    fallDown.Play();
+                    break;
+                case AudioState.Hit:
+                    hitNoise.Play();
+                    break;
+                case AudioState.Standingup:
+                    standUp.Play();
+                    break;
+            }
+        }
+
         protected override void FixedUpdate()
         {
             // Empty to override the FixedUpdate in BaseTitan.cs
@@ -126,7 +162,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Disabled)
             {
-                hitNoise.Play();
+                photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Hit);
                 timeTillRotate = timeTillRotateValue;
             }
         }
@@ -134,7 +170,7 @@ namespace Assets.Scripts.Characters.Titan
         // Activates the Death animation and changes the state for client and host (if host didn't kill the dummy). Needed for Update logic etc. on Masterclient 
         protected override void OnDeath()
         {
-            fallDown.Play();
+            photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Falling);
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Dead);
             SetStateAnimation(TitanState.Dead);
             Invoke(nameof(OnRecovering), 5.683f);
@@ -143,7 +179,7 @@ namespace Assets.Scripts.Characters.Titan
         // Activates the Recovering Animation and changes the state for client and host (if host didn't kill the dummy). Needed for Update logic etc. on masterclient
         protected override void OnRecovering()
         {
-            standUp.Play();
+            photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.StandingUp);
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Recovering);
             SetStateAnimation(TitanState.Recovering);
             Invoke(nameof(ResetDummy), 3.125f);
