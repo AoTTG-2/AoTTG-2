@@ -13,7 +13,7 @@ namespace Assets.Scripts.UI.Menu
     {
         public GameObject ScrollViewContent;
         public GameObject Row;
-        public Dropdown ServerDropdown;
+
 
         private RoomRow selectedRoom;
 
@@ -44,30 +44,13 @@ namespace Assets.Scripts.UI.Menu
         #endregion
 
         #region MonoBehavior
-        private void Awake()
-        {
-            ServerDropdown.onValueChanged.AddListener(delegate
-            {
-                OnServerChanged(ServerDropdown);
-            });
-        }
 
-        private void OnDestroy()
-        {
-            ServerDropdown.onValueChanged.RemoveAllListeners();
-        }
+
 
         protected override void OnEnable()
         {
             base.OnEnable();
             Service.Photon.Connect();
-            ServerDropdown.options.Clear();
-
-            var servers = Service.Photon.GetAllServers();
-            foreach (var server in servers)
-            {
-                ServerDropdown.options.Add(new Dropdown.OptionData(server.Name));
-            }
         }
         #endregion
 
@@ -102,9 +85,9 @@ namespace Assets.Scripts.UI.Menu
         }
         #endregion
 
-        private void OnServerChanged(Dropdown change)
+        public void OnServerChanged(Button change)
         {
-            var photonConfig = Service.Photon.GetConfigByName(change.options[change.value]?.text);
+            var photonConfig = Service.Photon.GetConfigByName(change.GetComponentInChildren<Text>().text) ;
             Service.Photon.ChangePhotonServer(photonConfig);
             RefreshLobby();
         }
