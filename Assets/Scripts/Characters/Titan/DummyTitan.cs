@@ -99,7 +99,7 @@ namespace Assets.Scripts.Characters.Titan
                 case AudioState.Hit:
                     hitNoise.Play();
                     break;
-                case AudioState.Standingup:
+                case AudioState.StandingUp:
                     standUp.Play();
                     break;
             }
