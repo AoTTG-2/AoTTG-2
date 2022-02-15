@@ -20,6 +20,7 @@ namespace Assets.Scripts.UI.InGame
 		{
 			int sValue = (int) qualitySwitcher.Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
+            Debug.Log($"QualityLevel set to {QualitySettings.GetQualityLevel()}");
             qualitySwitcher.Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 			FindObjectOfType<GeneralGraphics>().UpdateUi();
 		}

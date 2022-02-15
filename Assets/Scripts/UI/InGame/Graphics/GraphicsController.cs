@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI.InGame
 				LoadGraphicPlayerPrefs();
 			}
 
-			GeneralGraphic.Update();
+			GeneralGraphic.UpdateGraphicSettings();
 		}
 
 		public void SaveGraphicPlayerPrefs()
@@ -65,14 +65,7 @@ namespace Assets.Scripts.UI.InGame
 
                 GeneralGraphic.QualitySwitcher.Slider.value = qualityData.Slider;
 
-				if (graphicsData.CustomSettings)
-				{
-                    GeneralGraphic.Update(graphicsData);
-                }
-                else
-                {
-                    GeneralGraphic.Update();
-                }
+                GeneralGraphic.UpdateGraphicSettings(graphicsData);
 
                 label.color = Color.green;
 				label.text = "loaded player prefs";

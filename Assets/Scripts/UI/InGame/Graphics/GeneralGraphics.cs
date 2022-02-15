@@ -68,32 +68,34 @@ namespace Assets.Scripts.UI.InGame
             set { customSettings = value; }
         }
 
-        private void Start()
+        protected void Start()
         {
+            //Todo
+            //No reason listening to events for qualitysettings we can't change independent of set QualityLevel
             textureQuality.onValueChanged.AddListener(delegate
             {
                 ChangeTextureQuality(textureQuality);
             });
-            shadowRes.onValueChanged.AddListener(delegate
-            {
-                ChangeShadowResolution(shadowRes);
-            });
-            antiAliasing.onValueChanged.AddListener(delegate
-            {
-                ChangeAntiAliasing(antiAliasing);
-            });
-            shadows.onValueChanged.AddListener(delegate
-            {
-                ChangeShadows(shadows);
-            });
+            //shadowRes.onValueChanged.AddListener(delegate
+            //{
+            //    ChangeShadowResolution(shadowRes);
+            //});
+            //antiAliasing.onValueChanged.AddListener(delegate
+            //{
+            //    ChangeAntiAliasing(antiAliasing);
+            //});
+            //shadows.onValueChanged.AddListener(delegate
+            //{
+            //    ChangeShadows(shadows);
+            //});
             vSync.onValueChanged.AddListener(delegate
             {
                 ChangeVSync(vSync);
             });
-            softParticles.onValueChanged.AddListener(delegate
-            {
-                ChangeSoftParticles(softParticles);
-            });
+            //softParticles.onValueChanged.AddListener(delegate
+            //{
+            //    ChangeSoftParticles(softParticles);
+            //});
             fpsLimit.onEndEdit.AddListener(ChangeFrameRate);
             customSettings.onValueChanged.AddListener(SetInteractable);
         }
@@ -116,6 +118,7 @@ namespace Assets.Scripts.UI.InGame
 
         private void UpdateUi(GraphicsData data)
         {
+            customSettings.isOn = data.CustomSettings;
             textureQuality.value = data.TextureQuality;
             antiAliasing.value = data.AntiAliasing;
             shadowRes.value = data.ShadowRes;
@@ -126,11 +129,13 @@ namespace Assets.Scripts.UI.InGame
 
         private void ChangeShadows(Dropdown dropdown)
         {
-            QualitySettings.shadows = (ShadowQuality) dropdown.value;
+            QualitySettings.shadows = (ShadowQuality)dropdown.value;
+            Debug.Log($"Shadows set to {QualitySettings.shadows}");
         }
         private void ChangeTextureQuality(Dropdown dropdown)
         {
             QualitySettings.masterTextureLimit = dropdown.value;
+            Debug.Log($"Textures set to {QualitySettings.masterTextureLimit}");
         }
 
         private void ChangeAntiAliasing(Dropdown dropdown)
@@ -142,82 +147,66 @@ namespace Assets.Scripts.UI.InGame
                 1 => (int) GraphicsEnums.AntiAliasing._2xMultiSampling,
                 _ => (int) GraphicsEnums.AntiAliasing.Disabled,
             };
+            Debug.Log($"AntiAliasing set to {QualitySettings.antiAliasing}");
         }
 
         private void ChangeShadowResolution(Dropdown dropdown)
         {
-            QualitySettings.shadowResolution = (ShadowResolution) dropdown.value;
+            QualitySettings.shadowResolution = (ShadowResolution)dropdown.value;
+            Debug.Log($"ShadowResolution set to {QualitySettings.shadowResolution}");
         }
 
         private void ChangeSoftParticles(Toggle toggle)
         {
             QualitySettings.softParticles = toggle.isOn;
+            Debug.Log($"SoftParticles set to {QualitySettings.softParticles}");
         }
 
         private void ChangeVSync(Toggle toggle)
         {
+            //Vsync overrides Application.targetFramerate
             QualitySettings.vSyncCount = toggle.isOn ? 1 : 0;
-            if (toggle.isOn)
-            {
-                FramerateController.LockFramerateToRefreshRate();
-            }
-            else
-            {
-                //Unlocks the framerate before trying to set it according to the inputfield (in case the input is invalid)
-                FramerateController.UnlockFramerate();
-                FramerateController.SetFramerateLimit(fpsLimit.text);
-            }
-
+            Debug.Log($"Vsync set to {QualitySettings.vSyncCount}");
         }
 
         private void ChangeFrameRate(string limit)
         {
-            if (!vSync.isOn)
+            var parsed = int.TryParse(limit, out int frameRate);
+
+            if (parsed)
             {
-                FramerateController.SetFramerateLimit(limit);
+                FramerateController.SetFramerateLimit(frameRate);
+            }
+            else
+            {
+                FramerateController.UnlockFramerate();
             }
         }
 
         public void SetInteractable(bool value)
         {
-            qualitySwitcher.Slider.interactable = !value;
-            TextureQuality.interactable = value;
-            AntiAliasing.interactable = value;
-            ShadowRes.interactable = value;
-            Shadows.interactable = value;
-            VSync.interactable = value;
-            SoftParticles.interactable = value;
+            //ToDo
+            //hardcoded false are due to some settings not being decoupled from the set QualityLevel
+            //https://forum.unity.com/threads/change-shadow-resolution-from-script.784793/page-2
+            qualitySwitcher.Slider.interactable = true;
+            textureQuality.interactable = value;
+            antiAliasing.interactable = false;
+            shadowRes.interactable = false;
+            shadows.interactable = false;
+            vSync.interactable = value;
+            softParticles.interactable = false;
         }
 
-        public void UpdateQualitySettings()
+        public void UpdateGraphicSettings()
         {
-            ChangeCustomQuality(qualitySwitcher);
-            ChangeShadowResolution(shadowRes);
-            ChangeShadows(shadows);
-            ChangeSoftParticles(softParticles);
-            ChangeTextureQuality(textureQuality);
-            ChangeVSync(vSync);
-            ChangeAntiAliasing(antiAliasing);
-            ChangeFrameRate(fpsLimit.text);
-        }
-
-        private void ChangeCustomQuality(QualitySwitcher qualitySwitcher)
-        {
-            QualitySettings.SetQualityLevel(customSettings.isOn ? CUSTOM : (int) qualitySwitcher.Slider.value, true);
-        }
-
-        public void Update()
-        {
-            SetInteractable(customSettings.isOn);
             UpdateUi();
-            UpdateQualitySettings();
+            SetInteractable(customSettings.isOn);
         }
 
-        public void Update(GraphicsData data)
+        public void UpdateGraphicSettings(GraphicsData data)
         {
-            SetInteractable(customSettings.isOn);
             UpdateUi(data);
-            UpdateQualitySettings();
+            SetInteractable(customSettings.isOn);
         }
 
         // This helped with showing the objects in the inspector https://forum.unity.com/threads/c-nested-class-and-inspector.18582/
