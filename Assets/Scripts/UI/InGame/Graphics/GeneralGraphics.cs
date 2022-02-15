@@ -7,8 +7,6 @@ namespace Assets.Scripts.UI.InGame
 {
     public class GeneralGraphics : MonoBehaviour
     {
-        private const int CUSTOM = 6;
-
         [SerializeField] private Dropdown textureQuality;
         [SerializeField] private Dropdown shadowRes;
         [SerializeField] private Dropdown antiAliasing;

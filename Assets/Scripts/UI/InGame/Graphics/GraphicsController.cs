@@ -6,9 +6,13 @@ namespace Assets.Scripts.UI.InGame
 {
     public class GraphicsController : MonoBehaviour {
 
+        public Button SaveGraphicPrefs;
+        public Button LoadGraphicPrefs;
+        public Button DeleteGraphicPrefs;
+        public Text PrefsLabel;
+
         public GeneralGraphics GeneralGraphic;
 		public ResolutionSwitcher ResolutionSwitcher;
-		public Text label;
 
         public const string GDATA = "GraphicsData";
 		public const string QDATA = "QualityProfile";
@@ -16,49 +20,51 @@ namespace Assets.Scripts.UI.InGame
 
         protected void Start()
 		{
-            if (PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA) && PlayerPrefs.HasKey(FDATA))
-			{
-				LoadGraphicPlayerPrefs();
-			}
+            SaveGraphicPrefs.onClick.AddListener(SaveGraphicPlayerPrefs);
+            LoadGraphicPrefs.onClick.AddListener(LoadGraphicPlayerPrefs);
+            DeleteGraphicPrefs.onClick.AddListener(DeletePrefs);
+
+			LoadGraphicPlayerPrefs();
 
 			GeneralGraphic.UpdateGraphicSettings();
-		}
+        }
 
-		public void SaveGraphicPlayerPrefs()
+		private void SaveGraphicPlayerPrefs()
 		{
 			try
 			{
 				var graphicsData = new GeneralGraphics.GraphicsData(GeneralGraphic);
-				var serializedGraphicsData = JsonUtility.ToJson(graphicsData);
-				PlayerPrefs.SetString(GDATA, serializedGraphicsData);
+                SetPlayerPreference(GDATA, graphicsData);
 
 				var qualityData = new QualitySwitcher.QualityData(GeneralGraphic.QualitySwitcher);
-				string serializedQualityData = JsonUtility.ToJson(qualityData);
-				PlayerPrefs.SetString(QDATA, serializedQualityData);
+                SetPlayerPreference(QDATA, qualityData);
 
                 var fpsData = new GeneralGraphics.FpsData(GeneralGraphic);
-                var serializedFpsData = JsonUtility.ToJson(fpsData);
-                PlayerPrefs.SetString(FDATA, serializedFpsData);
+                SetPlayerPreference(FDATA, fpsData);
 
                 PlayerPrefs.Save();
 
-				label.color = Color.green;
-				label.text = "saved player prefs";
-			}
+                SetPrefsLabelSuccess("Saved player prefs");
+            }
 			catch (Exception ex)
 			{
-				Debug.LogError(ex.ToString());
-				label.color = Color.red;
-				label.text = "error saving player prefs";
-			}
+				Debug.LogError(ex);
+                SetPrefsLabelError("Error saving player prefs");
+            }
 		}
 
-		public void LoadGraphicPlayerPrefs()
+        private void LoadGraphicPlayerPrefs()
 		{
 			try
 			{
-				var graphicsData = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
-				var qualityData = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
+                if (!PrefsExist())
+                {
+                    SetPrefsLabelError("No saved player prefs exist");
+                    return;
+                }
+
+                var graphicsData = JsonUtility.FromJson<GeneralGraphics.GraphicsData>(PlayerPrefs.GetString(GDATA));
+                var qualityData = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
                 var fpsData = JsonUtility.FromJson<GeneralGraphics.FpsData>(PlayerPrefs.GetString(FDATA));
 
                 GeneralGraphic.FPSLimit.text = fpsData.Limit;
@@ -67,23 +73,54 @@ namespace Assets.Scripts.UI.InGame
 
                 GeneralGraphic.UpdateGraphicSettings(graphicsData);
 
-                label.color = Color.green;
-				label.text = "loaded player prefs";
+                SetPrefsLabelSuccess("Loaded player prefs");
 			}
-			catch(NullReferenceException ex)
+			catch(Exception ex)
 			{
-				Debug.LogError("Error loading player prefs");
-
-				label.color = Color.red;
-				label.text = "error loading player prefs";
+				Debug.LogError(ex);
+                SetPrefsLabelError("Error loading player prefs");
 			}
 		}
 
-		public void DeletePrefs()
+		private void DeletePrefs()
 		{
 			PlayerPrefs.DeleteKey(GDATA);
 			PlayerPrefs.DeleteKey(QDATA);
             PlayerPrefs.DeleteKey(FDATA);
-		}
+
+            SetPrefsLabelWarning("Deleted player prefs");
+        }
+
+        private bool PrefsExist()
+        {
+            return PlayerPrefs.HasKey(GDATA) && PlayerPrefs.HasKey(QDATA) && PlayerPrefs.HasKey(FDATA);
+        }
+
+        private void SetPlayerPreference<T>(string key, T obj)
+        {
+            var serializedQualityData = JsonUtility.ToJson(obj);
+            PlayerPrefs.SetString(key, serializedQualityData);
+        }
+
+        private void SetPrefsLabelWarning(string message)
+        {
+            SetPrefsLabel(new Color(255, 140, 0), message);
+        }
+
+        private void SetPrefsLabelError(string message)
+        {
+            SetPrefsLabel(Color.red, message);
+        }
+
+        private void SetPrefsLabelSuccess(string message)
+        {
+            SetPrefsLabel(Color.green, message);
+        }
+
+        private void SetPrefsLabel(Color color, string message)
+        {
+            PrefsLabel.color = color;
+            PrefsLabel.text = message;
+        }
 	}
 }
