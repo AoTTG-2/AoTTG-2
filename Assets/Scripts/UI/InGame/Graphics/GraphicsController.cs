@@ -24,9 +24,8 @@ namespace Assets.Scripts.UI.InGame
             LoadGraphicPrefs.onClick.AddListener(LoadGraphicPlayerPrefs);
             DeleteGraphicPrefs.onClick.AddListener(DeletePrefs);
 
-			LoadGraphicPlayerPrefs();
-
-			GeneralGraphic.UpdateGraphicSettings();
+            GeneralGraphic.UpdateGraphicSettings();
+            LoadGraphicPlayerPrefs();
         }
 
 		private void SaveGraphicPlayerPrefs()
