@@ -27,6 +27,13 @@ namespace Assets.Scripts.Characters.Humans.Skills
 
         public override void OnFixedUpdate()
         {
+
+            // Used to determine if the hero state changes at any time during the skill. If so then the skill is no longer active
+            if (IsActive && Hero._state != HumanState.Attack)
+            {
+                IsActive = false;
+            }
+
             if (!Hero.grounded) return;
 
             if (Hero._state == HumanState.Attack && Hero.attackAnimation == HeroAnim.ATTACK3_1 &&
@@ -38,6 +45,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 Hero.currentCamera.GetComponent<IN_GAME_MAIN_CAMERA>().StartShake(0.2f, 0.3f, 0.95f);
                 IsActive = false;
             }
+
+            
         }
     }
 }

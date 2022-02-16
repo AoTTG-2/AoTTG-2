@@ -5,6 +5,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Menu;
+using Assets.Scripts.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +82,7 @@ namespace Assets.Scripts.UI.InGame
             var selectedPreset = CharacterList.Characters[CharacterDropdown.value];
             selectedPreset.CurrentOutfit = selectedPreset.CharacterOutfit[OutfitDropdown.value];
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
-            
+
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
             if ((((Setting.Gamemode.GamemodeType == GamemodeType.TitanRush) || (Setting.Gamemode.GamemodeType == GamemodeType.Trost)) || Setting.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
@@ -95,6 +96,8 @@ namespace Assets.Scripts.UI.InGame
             Hashtable propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
             gameObject.SetActive(false);
+
+            SpectatorMode.Disable(); //Reset spectator mode
         }
 
         /// <summary>
@@ -125,7 +128,7 @@ namespace Assets.Scripts.UI.InGame
             }
             return (num == num2);
         }
-        
+
         private void OnCharacterChanged(CharacterPreset preset, int outfit)
         {
             SetDropdownOptions(preset);

@@ -15,6 +15,7 @@ using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Utility;
 using Photon;
 using System;
 using System.Collections;
@@ -179,8 +180,8 @@ namespace Assets.Scripts
         {
             Debug.Log("OnConnectionFail : " + cause.ToString());
             IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-            
-            if(cause is DisconnectCause.DisconnectByClientTimeout)
+
+            if (cause is DisconnectCause.DisconnectByClientTimeout)
             {
                 IsReconnecting = true;
             }
@@ -203,7 +204,7 @@ namespace Assets.Scripts
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
                 this.DestroyAllExistingCloths();
                 Application.LoadLevel(0);
-                if (IsReconnecting) 
+                if (IsReconnecting)
                 {
                     IsReconnecting = false;
                     PhotonNetwork.ReconnectAndRejoin();
@@ -542,7 +543,7 @@ namespace Assets.Scripts
                 //TODO: Show ChooseSide Message
                 //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
             }
-            else if (((int) settings[0xf5]) == 0)
+            else if (SpectatorMode.IsDisable())
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
                 {
@@ -554,9 +555,9 @@ namespace Assets.Scripts
                 }
             }
 
-            if (((int) settings[0xf5]) == 1)
+            if (SpectatorMode.IsEnable())
             {
-                this.EnterSpecMode(true);
+                SpectatorMode.UpdateSpecMode();
             }
         }
 
@@ -911,7 +912,7 @@ namespace Assets.Scripts
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
                     if ((((Camera.main != null) && (Setting.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
-                        (((int) settings[0xf5]) == 0))
+                        SpectatorMode.IsDisable())
                     {
                         if (Setting.Gamemode.Respawn.Mode == RespawnMode.Endless ||
                             !(((/*Setting.Gamemode.PvP.Bomb.Value) || (*/Setting.Gamemode.PvP.Mode != PvpMode.Disabled))
@@ -956,7 +957,7 @@ namespace Assets.Scripts
                 if (Setting.Gamemode.GamemodeType == GamemodeType.Racing)
                 {
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                        !mainCamera.IsSpecmode)
+                        SpectatorMode.IsDisable())
                     {
                         this.myRespawnTime += Time.deltaTime;
                         if (this.myRespawnTime > 1.5f)
@@ -1066,43 +1067,6 @@ namespace Assets.Scripts
                 {
                     ClothFactory.DisposeObject(clothArray[i].gameObject);
                 }
-            }
-        }
-
-        [Obsolete("GameManager logic to enter a spectator mode when the map is loaded. Should be moved somewhere else")]
-        public void EnterSpecMode(bool enter)
-        {
-            if (enter)
-            {
-                if (Service.Player.Self != null && Service.Player.Self.photonView.isMine)
-                {
-                    PhotonNetwork.Destroy(Service.Player.Self.photonView);
-                }
-                instance.needChooseSide = false;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-                GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
-                if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
-                }
-                else
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                base.StartCoroutine(this.reloadSky());
-            }
-            else
-            {
-                if (GameObject.Find("cross1") != null)
-                {
-                    GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
-                }
-                instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
             }
         }
 
@@ -1546,7 +1510,7 @@ namespace Assets.Scripts
             objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
             objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
             objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
-            objArray[0xf5] = 0;
+            SpectatorMode.Initialize();
             objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
             objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);
             objArray[0xf8] = PlayerPrefs.GetFloat("bombB", 1f);
@@ -1611,7 +1575,7 @@ namespace Assets.Scripts
                         UnityEngine.Object.Destroy(obj3);
                     }
                 }
-                Camera.main.GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 Camera.main.GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
             }
             else
@@ -2673,7 +2637,7 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
                 Service.Player.Self = component.main_object.GetComponent<Entity>();

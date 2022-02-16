@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings;
 using Assets.Scripts.UI.Elements;
 using System;
 using System.Linq;
