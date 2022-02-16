@@ -94,7 +94,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
             switch (gameObject.tag)
             {
                 case "playerHitbox":
-                    if (GameSettings.PvP.Mode != PvpMode.Disabled && gameObject.TryGetComponent(out HitBox hitbox) && hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
+                    if (Setting.Gamemode.PvP.Mode != PvpMode.Disabled && gameObject.TryGetComponent(out HitBox hitbox) && hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
                     {
                         Service.Player.HeroHit(new HeroHitEvent(attackedHero, owner));
 
