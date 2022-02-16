@@ -18,7 +18,11 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
     private IEntityService EntityService => Service.Entity;
 
-    private float closestDistance;
+    /// <summary>
+    /// The maximum distance to the closest titan to allow locking.
+    /// <seealso cref="FindNearestLockableTitan"/>
+    /// </summary>
+    private readonly float lockableDistance = 150f;
     private int currentPeekPlayerIndex;
     [Obsolete("Replace with a Time Service")]
     public static DayLight dayLight = DayLight.Dawn;
@@ -384,6 +388,8 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         }
     }
 
+    private bool isLocking() => triggerAutoLock && lockTarget != null;
+
     public void Update()
     {
         if (InputManager.KeyDown(InputUi.HideHUD))
@@ -519,19 +525,15 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
                 if (InputManager.KeyDown(InputUi.ToggleCursor))
                     GameCursor.ForceFreeCursor = !GameCursor.ForceFreeCursor;
-
+                
                 if (InputManager.KeyDown(InputHuman.Focus))
                 {
                     if (Service.Player.Self is TitanBase) return;
                     triggerAutoLock = !triggerAutoLock;
                     if (triggerAutoLock)
                     {
-                        lockTarget = FindNearestTitan();
-                        if (closestDistance >= 150f)
-                        {
-                            lockTarget = null;
-                            triggerAutoLock = false;
-                        }
+                        lockTarget = FindNearestLockableTitan();
+                        triggerAutoLock = lockTarget != null;
                     }
                 }
                 if (gameOver && (main_object != null))
@@ -566,18 +568,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
                 {
                     DoCameraMovement();
                 }
-                if (triggerAutoLock && lockTarget != null)
+                if (isLocking())
                 {
-                    float z = transform.eulerAngles.z;
+                    float originalZAngle = transform.eulerAngles.z;
                     Transform neckTransform = lockTarget.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck");
-                    Vector3 vector2 = neckTransform.position - (head == null ? main_object.transform.position : head.transform.position);
-                    vector2.Normalize();
+                    Vector3 toNeck = Vector3.Normalize(neckTransform.position - (head == null ? main_object.transform.position : head.transform.position));
                     lockCameraPosition = head == null ? main_object.transform.position : head.transform.position;
-                    lockCameraPosition -= vector2 * distance * distanceMulti * distanceOffsetMulti;
+                    lockCameraPosition -= toNeck * distance * distanceMulti * distanceOffsetMulti;
                     lockCameraPosition += Vector3.up * 3f * heightMulti * distanceOffsetMulti;
                     transform.position = Vector3.Lerp(transform.position, lockCameraPosition, Time.deltaTime * 4f);
                     transform.LookAt(neckTransform.position);
-                    transform.localEulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, z);
+                    transform.localEulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, originalZAngle);
                     // TODO: Plan reimplementation of lock-on feature.
                     //this.locker.transform.localPosition = new Vector3(vector3.x - (Screen.width * 0.5f), vector3.y - (Screen.height * 0.5f), 0f);
                     if ((lockTarget.GetComponent<MindlessTitan>() != null) && !lockTarget.GetComponent<MindlessTitan>().IsAlive)
@@ -686,29 +687,33 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         transform.position += Vector3.up * heightMulti;
         transform.position -= Vector3.up * (0.6f - InputManager.Settings.CameraDistance) * 2f;
 
-        switch (GameCursor.CameraMode)
+        if (!isLocking())
         {
-            case CameraMode.Original:
-                DoOriginalMovement();
-                break;
+            switch (GameCursor.CameraMode)
+            {
+                case CameraMode.Original:
+                    DoOriginalMovement();
+                    break;
 
-            case CameraMode.TPS:
-                DoTPSMovement();
-                break;
+                case CameraMode.TPS:
+                    DoTPSMovement();
+                    break;
 
-            case CameraMode.WOW:
-                DoWOWMovement();
-                break;
+                case CameraMode.WOW:
+                    DoWOWMovement();
+                    break;
 
-            default:
-                Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
-                break;
+                default:
+                    Debug.LogError($"{GameCursor.CameraMode} is an unhandled camera mode - Original, TPS, or WOW was expected");
+                    break;
+            }
         }
+
+        transform.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
 
         if (InputManager.Settings.CameraDistance < 0.65f)
         {
-            Transform transform6 = transform;
-            transform6.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
+            transform.position += transform.right * Mathf.Max((0.6f - InputManager.Settings.CameraDistance) * 2f, 0.65f);
         }
     }
 
@@ -723,8 +728,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
         {
             transform.RotateAround(transform.position, transform.right, num6);
         }
-        Transform transform5 = transform;
-        transform5.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
     }
 
     private void DoOriginalMovement()
@@ -752,8 +755,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             x = 0f;
         }
         transform.rotation = Quaternion.Euler(x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        Transform transform4 = transform;
-        transform4.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
     }
 
     private void DoWOWMovement()
@@ -765,33 +766,35 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
             transform.RotateAround(transform.position, Vector3.up, angle);
             transform.RotateAround(transform.position, transform.right, num2);
         }
-        Transform transform3 = transform;
-        transform3.position -= ((transform.forward * distance) * distanceMulti) * distanceOffsetMulti;
     }
 
-    private GameObject FindNearestTitan()
+    /// <summary>
+    /// Selects the closest titan within the <see cref="lockableDistance"/>.
+    /// </summary>
+    /// <returns>GameObject of the closest titan inside <see cref="lockableDistance"/>. <c>null</c> if none found.</returns>
+    private GameObject FindNearestLockableTitan()
     {
-        GameObject[] objArray = GameObject.FindGameObjectsWithTag("titan");
-        GameObject obj2 = null;
+        GameObject[] allTitans = GameObject.FindGameObjectsWithTag("titan");
+        GameObject closestTitan = null;
         float positiveInfinity = float.PositiveInfinity;
-        closestDistance = float.PositiveInfinity;
-        float num2 = positiveInfinity;
+        float closestDistance = positiveInfinity;
         Vector3 position = main_object.transform.position;
-        foreach (GameObject obj3 in objArray)
+
+        foreach (GameObject currTitan in allTitans)
         {
             // TODO: Optimize accessing all titan positions.
             // Possibly another class that maintains a list of active titans,
             // removes them from the list when they die.
-            Vector3 vector2 = obj3.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
-            float magnitude = vector2.magnitude;
-            if ((magnitude < num2) && ((obj3.GetComponent<MindlessTitan>() == null) || obj3.GetComponent<MindlessTitan>().IsAlive))
+            Vector3 playerToCurrTitan = currTitan.transform.Find("Amarture/Core/Controller_Body/hip/spine/chest/neck").position - position;
+            float currDistance = playerToCurrTitan.magnitude;
+            if (currDistance < lockableDistance && (currDistance < closestDistance) && (currTitan.GetComponent<MindlessTitan>() == null || currTitan.GetComponent<MindlessTitan>().IsAlive))
             {
-                obj2 = obj3;
-                num2 = magnitude;
-                closestDistance = num2;
+                closestTitan = currTitan;
+                closestDistance = currDistance;
             }
         }
-        return obj2;
+
+        return closestTitan;
     }
 
     private int GetReverse()
