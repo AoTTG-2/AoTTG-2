@@ -154,7 +154,7 @@ namespace Assets.Scripts.Gamemode
         {
             for (var i = 0; i < titans; i++)
             {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
+                if (EntityService.Count<MindlessTitan>() >= Setting.Gamemode.Titan.Limit.Value) break;
                 var randomSpawn = GetSpawnLocation();
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration(Settings.BossType.Value));
