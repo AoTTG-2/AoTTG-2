@@ -21,6 +21,11 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
         public abstract bool CanReload { get; }
         public abstract EquipmentType ThisType { get; }
 
+        /// <summary>
+        /// Reenables weapons so they are visible in the game view. Is used only for avoiding bugs when reload animations are cancelled
+        /// </summary>
+        public abstract void EnableWeapons();
+
         public abstract void PlayReloadAnimation();
         /// <summary>
         /// Reload the weapon

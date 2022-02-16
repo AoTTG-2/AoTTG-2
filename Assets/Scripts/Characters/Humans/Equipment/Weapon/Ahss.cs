@@ -17,7 +17,10 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         public override bool CanReload => AmountLeft < 7 || AmountRight < 7;
 
-        public override EquipmentType ThisType => EquipmentType.Ahss;
+        public override void EnableWeapons()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public override void PlayReloadAnimation()
         {
