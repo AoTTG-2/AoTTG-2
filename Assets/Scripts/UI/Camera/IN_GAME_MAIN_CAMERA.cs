@@ -83,7 +83,6 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void OnApplicationFocus(bool focus) => appInFocus = focus;
 
-    public bool IsSpecmode => (int) settings[0xf5] == 1;
     public GameObject HUD;
     private void Awake()
     {
