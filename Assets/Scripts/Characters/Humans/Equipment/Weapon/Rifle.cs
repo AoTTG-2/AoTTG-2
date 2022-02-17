@@ -24,6 +24,11 @@ namespace Assets.Scripts.Characters.Humans.Equipment.Weapon
 
         public override EquipmentType ThisType => EquipmentType.Rifle;
 
+        public override void EnableWeapons()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void PlayReloadAnimation()
         {
             Debug.Log("No Rifle Reload Animation Yet");
