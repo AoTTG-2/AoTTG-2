@@ -22,7 +22,7 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -59,6 +59,7 @@ MonoBehaviour:
   - InitializeRpc
   - InitializeRPC
   - initRPC
+  - InitRPC
   - InstantiateRpc
   - killObject
   - labelRPC
@@ -92,6 +93,7 @@ MonoBehaviour:
   - OnNapeHitRpc
   - PauseRpc
   - PickupItemInit
+  - PlayAudio
   - playsoundRPC
   - PunPickup
   - PunPickupSimple
@@ -142,5 +144,5 @@ MonoBehaviour:
   - updateKillInfo
   - verifyPlayerHasLeft
   - WhoIsMyErenTitan
-  - PlayAudio
+  - StopAudio
   DisableAutoOpenWizard: 1

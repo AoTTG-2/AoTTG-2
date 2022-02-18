@@ -13,10 +13,12 @@ namespace Assets.Scripts.Characters.Titan
         private float timeTillRotate = 0f;
         private readonly float timeTillRotateValue = 4f;
         public Collider napeCollider;
+        public Collider ankleCollider;
         private TextMesh healthLabel2;
         public MinimapIcon minimapIcon;
         public Transform headPos;
         public float speed = 3.0f;
+        private bool reset;
 
         private enum AudioState
         {
@@ -70,11 +72,15 @@ namespace Assets.Scripts.Characters.Titan
             if (State == TitanState.Dead || State == TitanState.Recovering)
             {
                 napeCollider.enabled = false;
+                ankleCollider.enabled = false;
             }
             else
             {
                 if (!napeCollider.enabled)
+                {
                     napeCollider.enabled = true;
+                    ankleCollider.enabled = true;
+                }      
             }
 
             if (State == TitanState.Chase && !wiggleNoise.isPlaying)
@@ -101,6 +107,18 @@ namespace Assets.Scripts.Characters.Titan
                     break;
                 case AudioState.StandingUp:
                     standUp.Play();
+                    break;
+            }
+        }
+
+        // Stops the audio depending on what state the dummy titan is in
+        [PunRPC]
+        private void StopAudio(AudioState state)
+        {
+            switch (state)
+            {
+                case AudioState.Chasing:
+                    wiggleNoise.Stop();
                     break;
             }
         }
@@ -170,9 +188,10 @@ namespace Assets.Scripts.Characters.Titan
         // Activates the Death animation and changes the state for client and host (if host didn't kill the dummy). Needed for Update logic etc. on Masterclient 
         protected override void OnDeath()
         {
-            photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Falling);
+            photonView.RPC(nameof(StopAudio), PhotonTargets.All, AudioState.Falling);
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Dead);
             SetStateAnimation(TitanState.Dead);
+            photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Falling);
             Invoke(nameof(OnRecovering), 5.683f);
         }
 
@@ -188,19 +207,22 @@ namespace Assets.Scripts.Characters.Titan
         // Resets the Dummy to have his normal health and State while enabling the nape collider (keep from insta killing during recovering)
         private void ResetDummy()
         {
+            reset = true;
             ChangeState(TitanState.Idle);
             Health = MaxHealth;
             timeTillRotate = 0f;
             FocusTimer = Focus;
             photonView.RPC(nameof(UpdateHealthLabelRpc), PhotonTargets.All, Health, MaxHealth);
             napeCollider.enabled = true;
+            ankleCollider.enabled = true;
+            reset = false;
         }
 
         // Updates the HP label for both the client and Host side dummy's. Without this only the person who damaged the dummy would see the HP change.
         [PunRPC]
         protected override void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
-            hitNoise.Play();
+            if(reset == false) photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Hit);
             if (currentHealth < 0)
             {
                 currentHealth = 0;
