@@ -180,6 +180,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnBodyPartHitRpc), mindlessTitan.photonView.owner, body, damage);
                             }
+                            ShowCriticalHitFX();
                         }
                     }
                     break;

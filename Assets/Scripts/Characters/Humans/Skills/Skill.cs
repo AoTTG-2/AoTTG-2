@@ -62,8 +62,8 @@ namespace Assets.Scripts.Characters.Humans.Skills
                 case HeroSkill.Mikasa:
                     return new MikasaSkill(hero);
                 default:
-                    Debug.LogWarning($"Hero Skill {skill} is not implemented. Using Levi Skill...");
-                    return new LeviSkill(hero);
+                    Debug.LogWarning($"Hero Skill {skill} is not implemented. Using default hero Skill (Blade Throw)...");
+                    return new BladeThrowSkill(hero);
             }
         }
     }

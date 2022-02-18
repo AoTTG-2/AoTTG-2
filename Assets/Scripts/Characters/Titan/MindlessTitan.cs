@@ -711,7 +711,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 this.HeadMovement();
             }
-            else if (State == TitanState.Attacking)
+            else if (State != TitanState.Attacking && State != TitanState.Eat)
             {
                 SetState(TitanState.Wandering);
             }

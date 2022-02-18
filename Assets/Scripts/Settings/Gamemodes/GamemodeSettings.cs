@@ -66,6 +66,7 @@ namespace Assets.Scripts.Settings.Gamemodes
                 Mindless = new MindlessTitanSettings()
             };
             Horse = new HorseSettings();
+            Horse.Enabled = false;
             Respawn = new RespawnSettings();
             Time = new TimeSettings();
             TeamMode = TeamMode.Disabled;
