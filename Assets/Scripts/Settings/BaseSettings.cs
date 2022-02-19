@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Settings.Game;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.Settings.Types;
 using Assets.Scripts.Settings.Validation;
 using Newtonsoft.Json;
@@ -125,6 +126,11 @@ namespace Assets.Scripts.Settings
             if (this is DebugSettings)
             {
                 Setting.Debug.Override(this);
+            }
+
+            if (this is GamemodeSetting)
+            {
+                Setting.Gamemode.Override(this);
             }
 
             if (this is TimeSettings)

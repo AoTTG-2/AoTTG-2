@@ -19,7 +19,7 @@ MonoBehaviour:
   MOTD:
     value: 
     hasValue: 1
-  LavaMode:
+  WorldMode:
     value: 0
     hasValue: 1
   TeamMode:
@@ -43,9 +43,9 @@ MonoBehaviour:
   PlayerShifers:
     value: 1
     hasValue: 1
-  RestartOnCompleted:
-    value: 1
-    hasValue: 1
+  Endless:
+    value: 0
+    hasValue: 0
   PvP: {fileID: 0}
   Titan: {fileID: 0}
   Horse: {fileID: 0}

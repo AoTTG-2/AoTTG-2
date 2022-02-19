@@ -53,6 +53,19 @@ namespace Assets.Scripts
             }
             HasLoaded = true;
 
+            var photonViews = GetComponentsInChildren<PhotonView>(true);
+            if (photonViews.Length == 3)
+            {
+                photonViews[0].viewID = 997;
+                photonViews[1].viewID = 998;
+                photonViews[2].viewID = 999;
+            }
+            else
+            {
+                Debug.LogError($"Startup: Expected 3 PhotonViews, yet found {photonViews.Length}");
+                return;
+            }
+
             var currentScene = SceneManager.GetActiveScene();
             if (currentScene.buildIndex == 0)
             {
@@ -89,7 +102,10 @@ namespace Assets.Scripts
             // Adds CurrentGamemode to a Level without modifying the actual ScriptableObject
             var index = Settings.DefaultLevels.FindIndex(x => x.SceneName == sceneName);
             var levelCopy = Instantiate(level);
-            levelCopy.Gamemodes.Add(CurrentGamemode);
+            if (!levelCopy.Gamemodes.Contains(CurrentGamemode))
+            {
+                levelCopy.Gamemodes.Add(CurrentGamemode);
+            }
             Settings.DefaultLevels[index] = levelCopy;
 
             Settings.SetStatelessSettings(CurrentGamemode, CurrentRuleSets);

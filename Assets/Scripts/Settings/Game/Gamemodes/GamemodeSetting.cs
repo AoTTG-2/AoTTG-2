@@ -13,7 +13,7 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
 
         public StringSetting Description;
         public StringSetting MOTD;
-        public BoolSetting LavaMode;
+        public EnumSetting<WorldMode> WorldMode;
         public EnumSetting<TeamMode> TeamMode;
         public BoolSetting SaveKDROnDisconnect;
         public IntSetting PointMode;
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
                     {
                         if (gamemode.Description.HasValue) Description.Value = gamemode.Description.Value;
                         if (gamemode.MOTD.HasValue) MOTD.Value = gamemode.MOTD.Value;
-                        if (gamemode.LavaMode.HasValue) LavaMode.Value = gamemode.LavaMode.Value;
+                        if (gamemode.WorldMode.HasValue) WorldMode.Value = gamemode.WorldMode.Value;
                         if (gamemode.TeamMode.HasValue) TeamMode.Value = gamemode.TeamMode.Value;
                         if (gamemode.SaveKDROnDisconnect.HasValue) SaveKDROnDisconnect.Value = gamemode.SaveKDROnDisconnect.Value;
                         if (gamemode.PointMode.HasValue) PointMode.Value = gamemode.PointMode.Value;

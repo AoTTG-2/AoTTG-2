@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Extensions;
+using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -71,7 +72,7 @@ namespace Assets.Scripts.Gamemode
                 Destroy(GameObject.Find("aot_supply"));
             }
 
-            if (Setting.Gamemode.LavaMode.Value)
+            if (Setting.Gamemode.WorldMode == WorldMode.Lava)
             {
                 Instantiate(Resources.Load("levelBottom"), new Vector3(0f, -29.5f, 0f), Quaternion.Euler(0f, 0f, 0f));
                 var lavaSupplyStation = GameObject.Find("aot_supply_lava_position");
