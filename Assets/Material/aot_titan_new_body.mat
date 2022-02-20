@@ -22,8 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: aot_titan_new_body
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 0
+  m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP
+  m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
@@ -33,12 +33,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_5de90b4c36ba4776ab338aeaf0c7e134:
+        m_Texture: {fileID: 2800000, guid: b90b2548136435e4382272d2cf6aebeb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: b90b2548136435e4382272d2cf6aebeb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 959dd25789557944d827d21ea5014bb8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -50,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 959dd25789557944d827d21ea5014bb8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -73,8 +77,28 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1ed1eec5dba949b0b9d16c68368aebbb_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 55fe5ccb08d952e428d2ebd166e8d19a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_baef62688b8b486f9360b8e36a99b41e_Texture_1:
+        m_Texture: {fileID: 2800000, guid: e8d5d186e6d3f1c49aa9f0bc6ac154e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_6649b9e05744420ba4c337021f97cf4d_Out_0:
+        m_Texture: {fileID: 2800000, guid: e1a462cd6b389a047ba00fcbca0b0c35, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_8a61cb2de5464ab5beded19761830b44_Out_0:
+        m_Texture: {fileID: 2800000, guid: e882d49261af25e4f9ab64d61ad80fa7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_9e0e17fa86524c7cadf8ec7a7b28ca6e_Out_0:
+        m_Texture: {fileID: 2800000, guid: 959dd25789557944d827d21ea5014bb8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -90,15 +114,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1a15488580d94dfab759a23d17c280d9: 15
+    - Vector1_3e13b42abb784f16aa17c73b814411b9: 0.41
+    - Vector1_6e41225390b8440c8e78bd2efa7911c3: 1.54
+    - Vector1_7d76b63111d04b6cb23d42bee6cf3fc0: 1
+    - Vector1_8e0e27b7e81c43ceb8583653c1f40f2b: 0
+    - Vector1_9577884c4463402a80430615c06a317c: 8
+    - Vector1_a520b376af5a41249acb042ddfa57ce3: 0
+    - Vector1_c336a2f753fe4a6f809ff36c8e0d3ed9: -0.3
     - _AlphaClip: 0
     - _Blend: 0
-    - _BumpScale: 1
+    - _BumpScale: 0.3
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
-    - _DetailNormalMapScale: 1
+    - _DetailNormalMapScale: 1.05
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
@@ -120,6 +152,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_54cf97251e3a44bdaf12120d6ccd87f8: {r: 0, g: 0, b: 0, a: 0}
+    - Color_963a0995fb184209930282b70b62523c: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -305,9 +305,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1114370160899894
 GameObject:
   m_ObjectHideFlags: 0
@@ -2182,7 +2182,7 @@ GameObject:
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
   - component: {fileID: -6264185045053856331}
-  - component: {fileID: 3856856293107963466}
+  - component: {fileID: 8256805048288674642}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2336,9 +2336,16 @@ MonoBehaviour:
   Body: {fileID: 114021182772690314}
   SetupScript: {fileID: 114986312314889836}
   minimapIcon: {fileID: 4261993353365951143}
-  PreviousState: 0
-  NextState: 0
+  PreviousState: 4
+  NextState: 4
+  CurrentState: 4
   MindlessType: 0
+  titanLookAtRange: 100
+  minHeadRotVertical: 9.5
+  maxHeadRotVertical: 20
+  minHeadRotHorizontal: 10
+  maxHeadRotHorizontal: 10
+  interpolation_velocity: 10
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
@@ -2526,6 +2533,20 @@ MonoBehaviour:
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
+--- !u!182 &8256805048288674642
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_Mode: 1
+  m_Radius: 35
+  m_WindMain: 200
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
 --- !u!135 &3856856293107963466
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3355,9 +3376,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1928165841424312
 GameObject:
   m_ObjectHideFlags: 0
