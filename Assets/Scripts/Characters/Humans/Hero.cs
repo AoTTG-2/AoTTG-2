@@ -34,7 +34,7 @@ namespace Assets.Scripts.Characters.Humans
         public EquipmentType EquipmentType;
 
 
-
+        private EngagedInCombatTimer combat;
         private const float HookRaycastDistance = 1000f;
 
 
@@ -247,6 +247,7 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
+            combat = gameObject.AddComponent<EngagedInCombatTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -267,7 +268,6 @@ namespace Assets.Scripts.Characters.Humans
             Setting.Debug.NoClip.OnValueChanged += NoClip_OnValueChanged;
             if (Setting.Debug.NoClip == true)
                 NoClip_OnValueChanged(true);
-            CombatStateStart = StartCoroutine(CombatState(1f));
         }
 
         private void NoClip_OnValueChanged(bool value)
@@ -1293,19 +1293,6 @@ namespace Assets.Scripts.Characters.Humans
                     ShowGas();
                     ShowAimUI();
                 }
-            }
-
-            // Audio Controls. Will likely move to own class.
-            // Will deduct time off the engaged in combat timer till it reaches 0. After it reaches 0 it makes engaged in combat false and sets the audio to neutral
-            if (engagedInCombatTimer > 0)
-            {
-                engagedInCombatTimer -= Time.deltaTime;
-            } 
-            else
-            {
-                AudioController.Instance.SetState(ChannelTypes.Combat, false);
-                AudioController.Instance.SetState(ChannelTypes.Neutral, true);
-                engagedInCombat = false;
             }
         }
 
@@ -4226,48 +4213,74 @@ namespace Assets.Scripts.Characters.Humans
             titanForm = true;
         }
 
-        private bool engagedInCombat = false;       // Used to check to see if you were in proximity to a titan. If so then you are engaged in combat with it keeping the combat music going
-        private float engagedInCombatTimer = 0f;    // Used to set the amount of time you are engaged in combat. The higher the value the longer you are in combat before the music goes back to neutral.
-
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.CompareTag("SoundTrigger"))
             {
-                AudioController.Instance.SetState(ChannelTypes.Combat, true);
-                engagedInCombat = true;
-            }
-        }
-
-        private void OnTriggerExit(Collider collision)
-        {
-            if (collision.CompareTag("SoundTrigger") && !engagedInCombat)
-            {
-                AudioController.Instance.SetState(ChannelTypes.Combat, false);
-                AudioController.Instance.SetState(ChannelTypes.Neutral, true);
+                combat.AddTime(5);
             }
         }
 
         private void OnTriggerStay(Collider collision)
         {
-            if (collision.CompareTag("SoundTrigger") && engagedInCombat)
+            if (collision.CompareTag("SoundTrigger") && combat.IsEngaged)
             {
                 // Checks the titans State to see if it is dead. If dead then will not set the engaged in combat tracker. If dead then the engaged in combat timer will go down if not around another titan.
                 if (collision.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
                 {
-                    engagedInCombatTimer = 5f;
+                    combat.AddTime(5);
                 }
             }
         }
+    }
 
-        // Not currently using the Coroutine
-        private IEnumerator CombatState(float interval)
+    public class EngagedInCombatTimer : MonoBehaviour
+    {
+        private ChannelTypes activeState;
+        private int maxTimer;
+        private float timer;
+        public bool IsEngaged { get { return timer > 0; } }
+        public EngagedInCombatTimer()
         {
-            if (gameObject.CompareTag("titan"))
+            this.maxTimer = 30;
+        }
+
+        private void Awake()
+        {
+            enabled = true;
+        }
+
+        private void FixedUpdate()
+        {
+            SubtractTime();
+            CheckState();
+        }
+
+        private void SubtractTime()
+        {
+            var deltaTime = Time.deltaTime;
+            var result = timer - deltaTime;
+            timer = result < 0 ? 0 : result;
+        }
+
+        private void CheckState()
+        {
+            var currentState = AudioController.Instance.CurrentState;
+            if (IsEngaged && currentState != ChannelTypes.Combat)
             {
-                AudioController.Instance.SetState(ChannelTypes.Combat, true);
-                Debug.Log("running the coroutine)");
-                yield return new WaitForEndOfFrame();
+                AudioController.Instance.SetState(ChannelTypes.Combat);
             }
+            else if (currentState != ChannelTypes.Neutral)
+            {
+                AudioController.Instance.SetState(ChannelTypes.Neutral);
+            }
+        }
+
+        public void AddTime(int time)
+        {
+            var total = timer + time;
+            timer = (total < maxTimer) ? total : maxTimer;
+            Debug.Log($"CombatTimer = {timer}");
         }
     }
 }
