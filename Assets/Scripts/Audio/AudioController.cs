@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Audio;
 using Assets.Scripts.Base;
+using Assets.Scripts.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +32,7 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
     public AudioSource music01, music02;
     public string NowPlaying => activeSong.Name;
     public List<Playlist> Playlists;
+    public float MusicVolume = 0.5f;
     #endregion
 
     #region MonoBehaviour
@@ -37,7 +40,12 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
     {
         base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
+        Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
         SetActivePlaylist(null);
+    }
+
+    private void Level_OnLevelLoaded(int scene, Assets.Scripts.Room.Level level)
+    {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -50,9 +58,9 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
     #region PublicMethods
     public void SetState(AudioState state)
     {
+        Debug.Log($"to state {state} from state {activeState}");
         activeState = state;
-        var newSong = GetSongByState();
-        SwapSong(newSong);
+        SwapSong();
         RaiseStateChanged(state);
     }
 
@@ -71,47 +79,76 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
         }
 
         if (
-            (activePlaylist is null || !activePlaylist.name.Equals(playlist.name))
-            && !(playlist is null))
+            !(playlist is null) && (activePlaylist is null || !activePlaylist.name.Equals(playlist.name)))
         {
             activePlaylist = playlist;
-            var newSong = GetSongByState();
-            SwapSong(newSong);
+            SwapSong();
         }
     }
 
     private Song GetSongByState()
     {
-        var song = activePlaylist.songs.GetByType(activeState);
-        return song is null ? activePlaylist.songs.First() : song;
+        return activePlaylist.songs.GetByType(activeState);
     }
 
-    private void SwapSong(Song song)
+    private void SwapSong()
     {
-        SwapAudioSource(song);
-        Debug.Log(activePlaylist.name);
+        var song = GetSongByState();
+
+        if (song is null)
+        {
+            return;
+        }
+
+        var songIsSameAsActive = !(activeSong is null) && song.name.Equals(activeSong.name) && song.Type.Equals(activeState);
+
+        if (!songIsSameAsActive)
+        {
+            StopAllCoroutines();
+
+            StartCoroutine(FadeBetweenSongs(song));
+
+            activeSong = song;
+        }
     }
 
-    private void SwapAudioSource(Song song)
+    private IEnumerator SwapAudioSource(AudioSource from, AudioSource to, Song song)
+    {
+        to.clip = song.Clip;
+        to.loop = true;
+        to.volume = 0.5f;
+        to.Play();
+        yield return FadeVolume(from, to);
+        from.Stop();
+    }
+
+    private IEnumerator FadeVolume(AudioSource from, AudioSource to)
+    {
+        float timeElapsed = 0;
+        float timeToFade = 3f;
+
+        while (timeElapsed < timeToFade)
+        {
+            var function = timeElapsed / timeToFade;
+            from.volume = Mathf.Lerp(MusicVolume, 0, function);
+            to.volume = Mathf.Lerp(0, MusicVolume, function);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    #endregion
+
+    #region Coroutines
+    private IEnumerator FadeBetweenSongs(Song song)
     {
         if (music01.isPlaying)
         {
-            music02.clip = song.Clip;
-            music02.loop = true;
-            music02.volume = 0.5f;
-            music02.Play();
-            music01.Stop();
+            yield return SwapAudioSource(music01, music02, song);
         }
         else
         {
-            music01.clip = song.Clip;
-            music01.loop = true;
-            music01.volume = 0.5f;
-            music01.Play();
-            music02.Stop();
+            yield return SwapAudioSource(music02, music01, song);
         }
-
-        activeSong = song;
     }
     #endregion
 }

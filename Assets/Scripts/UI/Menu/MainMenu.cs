@@ -28,7 +28,6 @@ namespace Assets.Scripts.UI.Menu
 
         private void Awake()
         {
-            AudioController.Instance.SetState(AudioState.MainMenu);
             this.adaptator = new QualityAdaptator(this.sceneRender);
 
             if (isFirstLaunch)

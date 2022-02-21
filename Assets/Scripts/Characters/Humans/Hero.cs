@@ -34,7 +34,7 @@ namespace Assets.Scripts.Characters.Humans
         public EquipmentType EquipmentType;
 
 
-        private EngagedInCombatTimer combat;
+        private CombatTimer combat;
         private const float HookRaycastDistance = 1000f;
 
 
@@ -247,7 +247,7 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
-            combat = gameObject.AddComponent<EngagedInCombatTimer>();
+            combat = gameObject.AddComponent<CombatTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -288,6 +288,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
+            AudioController.Instance.SetState(AudioState.Ambient);
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -4231,55 +4232,6 @@ namespace Assets.Scripts.Characters.Humans
                     combat.AddTime(5);
                 }
             }
-        }
-    }
-
-    public class EngagedInCombatTimer : MonoBehaviour
-    {
-        private int maxTimer;
-        private float timer;
-        public bool IsEngaged { get { return timer > 0; } }
-        public EngagedInCombatTimer()
-        {
-            this.maxTimer = 30;
-        }
-
-        private void Awake()
-        {
-            enabled = true;
-        }
-
-        private void FixedUpdate()
-        {
-            SubtractTime();
-            CheckState();
-        }
-
-        private void SubtractTime()
-        {
-            var deltaTime = Time.deltaTime;
-            var result = timer - deltaTime;
-            timer = result < 0 ? 0 : result;
-        }
-
-        private void CheckState()
-        {
-            var currentState = AudioController.Instance.GetActiveState();
-            if (IsEngaged && currentState != AudioState.Combat)
-            {
-                AudioController.Instance.SetState(AudioState.Combat);
-            }
-            else if (!IsEngaged && currentState != AudioState.Neutral)
-            {
-                AudioController.Instance.SetState(AudioState.Neutral);
-            }
-        }
-
-        public void AddTime(int time)
-        {
-            var total = timer + time;
-            timer = (total < maxTimer) ? total : maxTimer;
-            Debug.Log($"CombatTimer = {timer}");
         }
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\Characters\HitBox.cs" />
     <Compile Include="Assets\Scripts\Effects\JetAffector.cs" />
     <Compile Include="Assets\Scripts\Room\DayLight.cs" />
+    <Compile Include="Assets\Scripts\Audio\PlaylistExtensions.cs" />
     <Compile Include="Assets\Scripts\Time of Day\TimecycleProfile.cs" />
     <Compile Include="Assets\Scripts\Services\SettingsService.cs" />
     <Compile Include="Assets\Scripts\Characters\Horse\HorseController.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Assets\Scripts\Room\Chat\ChatCommandHandler.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ITimeService.cs" />
     <Compile Include="Assets\Scripts\Services\UiService.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\CombatTimer.cs" />
     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugToolsPanel.cs" />
     <Compile Include="Assets\Scripts\Services\Service.cs" />
@@ -525,7 +527,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Audio\PlaylistExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
