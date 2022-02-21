@@ -18,7 +18,6 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
-            AudioController.Instance.SetState(ChannelTypes.MainMenu);
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
             MapConverter.gameObject.SetActive(false);

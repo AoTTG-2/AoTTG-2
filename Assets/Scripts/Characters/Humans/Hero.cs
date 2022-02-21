@@ -4236,7 +4236,6 @@ namespace Assets.Scripts.Characters.Humans
 
     public class EngagedInCombatTimer : MonoBehaviour
     {
-        private ChannelTypes activeState;
         private int maxTimer;
         private float timer;
         public bool IsEngaged { get { return timer > 0; } }
@@ -4265,14 +4264,14 @@ namespace Assets.Scripts.Characters.Humans
 
         private void CheckState()
         {
-            var currentState = AudioController.Instance.CurrentState;
-            if (IsEngaged && currentState != ChannelTypes.Combat)
+            var currentState = AudioController.Instance.GetActiveState();
+            if (IsEngaged && currentState != AudioState.Combat)
             {
-                AudioController.Instance.SetState(ChannelTypes.Combat);
+                AudioController.Instance.SetState(AudioState.Combat);
             }
-            else if (currentState != ChannelTypes.Neutral)
+            else if (!IsEngaged && currentState != AudioState.Neutral)
             {
-                AudioController.Instance.SetState(ChannelTypes.Neutral);
+                AudioController.Instance.SetState(AudioState.Neutral);
             }
         }
 

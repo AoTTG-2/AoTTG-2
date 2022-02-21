@@ -1,127 +1,122 @@
-using System.Collections;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Base;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
 
-[System.Serializable]
-public class PlaylistPack
+public class AudioController : SingeltonMonoBehaviour<AudioController>
 {
-    public string sceneName;
+    #region Events
+    public event EventHandler<AudioState> OnStateChanged;
 
-    public Playlist menuPlaylist;
-    public Playlist combatPlaylist;
-    public Playlist neutralPlaylist;
-    public Playlist ambientPlaylist;
-}
-
-public class AudioController : MonoBehaviour
-{
-    private float volume;
-    public ChannelTypes CurrentState
+    protected virtual void RaiseStateChanged(AudioState state)
     {
-        get { return jukebox.CurrentState; }
+        EventHandler<AudioState> handler = OnStateChanged;
+        handler?.Invoke(this, state);
     }
-    public event EventHandler<float> OnVolumeChange;
+    #endregion
 
-    private Jukebox jukebox;
+    #region PrivateProperties
+    private AudioState activeState;
+    private Playlist activePlaylist;
+    private Song activeSong;
+    #endregion
 
-    public static AudioController Instance { get; private set; }
+    #region PublicProperties
+    public AudioSource music01, music02;
+    public string NowPlaying => activeSong.Name;
+    public List<Playlist> Playlists;
+    #endregion
 
-    public Channel[] channels = new Channel[4]; //Channels for: MainMenu, Combat, Neutral, Ambient
-
-    public List<PlaylistPack> scenePlaylists = new List<PlaylistPack>();
-
-    public event EventHandler<ChannelTypes> OnStateChange;
-
-    protected void Awake()
+    #region MonoBehaviour
+    protected override void Awake()
     {
-        CheckSingleton(); //Delete itself if AudioController exists
-        InitJukeBox();
-        SetVolume(0.5f);
+        base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    // Update is called once per frame
-    protected void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha5)) SetState(ChannelTypes.MainMenu); //DEBUGGING, DELETE IT
-        if (Input.GetKeyDown(KeyCode.Alpha6)) SetState(ChannelTypes.Combat); //DEBUGGING, DELETE IT
-        if (Input.GetKeyDown(KeyCode.Alpha7)) SetState(ChannelTypes.Neutral); //DEBUGGING, DELETE IT
-        if (Input.GetKeyDown(KeyCode.Alpha8)) SetState(ChannelTypes.Ambient); //DEBUGGING, DELETE IT
-    }
-
-    protected void FixedUpdate()
-    {
-        jukebox.CheckSongEnded();
-    }
-
-    public void SetState(ChannelTypes type)
-    {
-        OnStateChange.Invoke(this, type);
-    }
-
-    private void CheckSingleton()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            Debug.Log(gameObject);
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        SetActivePlaylist(null);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var playlist = scenePlaylists.First(sp => sp.sceneName.Equals(scene.name));
-        LoadPlaylistPack(playlist);
+        var newPlaylist = Playlists.GetByName(scene.name);
+        SetActivePlaylist(newPlaylist);
+    }
+    #endregion
+
+    #region PublicMethods
+    public void SetState(AudioState state)
+    {
+        activeState = state;
+        var newSong = GetSongByState();
+        SwapSong(newSong);
+        RaiseStateChanged(state);
     }
 
-    private void InitJukeBox()
+    public AudioState GetActiveState()
     {
-        if (jukebox is null)
+        return activeState;
+    }
+    #endregion
+
+    #region PrivateMethods
+    private void SetActivePlaylist(Playlist playlist)
+    {
+        if (playlist is null)
         {
-            jukebox = new Jukebox(channels);
+            playlist = Playlists.GetByName(null);
         }
 
-        jukebox.Start();
+        if (
+            (activePlaylist is null || !activePlaylist.name.Equals(playlist.name))
+            && !(playlist is null))
+        {
+            activePlaylist = playlist;
+            var newSong = GetSongByState();
+            SwapSong(newSong);
+        }
     }
 
-    private void LoadPlaylistPack(PlaylistPack pack)
+    private Song GetSongByState()
     {
-        if (pack.menuPlaylist == null || pack.combatPlaylist == null || pack.neutralPlaylist == null || pack.ambientPlaylist == null)
+        var song = activePlaylist.songs.GetByType(activeState);
+        return song is null ? activePlaylist.songs.First() : song;
+    }
+
+    private void SwapSong(Song song)
+    {
+        SwapAudioSource(song);
+        Debug.Log(activePlaylist.name);
+    }
+
+    private void SwapAudioSource(Song song)
+    {
+        if (music01.isPlaying)
         {
-            Debug.LogWarning("Missing Playlists in scenePlaylistPack");
-            channels[0].playlist = scenePlaylists[0].menuPlaylist;
-            channels[1].playlist = scenePlaylists[0].combatPlaylist;
-            channels[2].playlist = scenePlaylists[0].neutralPlaylist;
-            channels[3].playlist = scenePlaylists[0].ambientPlaylist;
+            music02.clip = song.Clip;
+            music02.loop = true;
+            music02.volume = 0.5f;
+            music02.Play();
+            music01.Stop();
         }
         else
         {
-            channels[0].playlist = pack.menuPlaylist;
-            channels[1].playlist = pack.combatPlaylist;
-            channels[2].playlist = pack.neutralPlaylist;
-            channels[3].playlist = pack.ambientPlaylist;
+            music01.clip = song.Clip;
+            music01.loop = true;
+            music01.volume = 0.5f;
+            music01.Play();
+            music02.Stop();
         }
 
-        jukebox.SetChannels(channels);
+        activeSong = song;
     }
-
-    public void SetVolume(float volume)
-    {
-        this.volume = volume;
-        OnVolumeChange.Invoke(this, volume);
-    }
+    #endregion
 }
 
-public enum ChannelTypes
+public enum AudioState
 {
     MainMenu,
     Combat,
