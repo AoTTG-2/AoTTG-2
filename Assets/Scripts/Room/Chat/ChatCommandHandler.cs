@@ -518,7 +518,7 @@ public static class ChatCommandHandler
     private static void OutputCurrentSong()
     {
         var currentSong = FormatSystemMessage(Service.Audio.NowPlaying());
-        instance.chatRoom.UpdateChat($"Currently playing {currentSong}");
+        instance.chatRoom.UpdateChat($"Currently playing:<br> {currentSong}");
     }
 
     private static void SwitchTeam(int team)
