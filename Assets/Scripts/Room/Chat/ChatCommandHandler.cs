@@ -515,6 +515,12 @@ public static class ChatCommandHandler
         instance.chatRoom.ClearMessages();
     }
 
+    private static void OutputCurrentSong()
+    {
+        var currentSong = FormatSystemMessage(Service.Audio.NowPlaying());
+        instance.chatRoom.UpdateChat($"Currently playing {currentSong}");
+    }
+
     private static void SwitchTeam(int team)
     {
         instance.photonView.RPC(nameof(FengGameManagerMKII.setTeamRPC), player, new object[] { team });
@@ -667,6 +673,9 @@ public static class ChatCommandHandler
                 break;
             case ChatCommand.Teleport:
                 Teleport(commands);
+                break;
+            case ChatCommand.Song:
+                OutputCurrentSong();
                 break;
             default:
                 break;

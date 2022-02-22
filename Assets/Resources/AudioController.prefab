@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &421190163
+--- !u!1 &786220692
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 421190165}
-  - component: {fileID: 421190164}
+  - component: {fileID: 786220694}
+  - component: {fileID: 786220693}
   m_Layer: 0
-  m_Name: Music01
-  m_TagString: AudioController
+  m_Name: music01
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &421190165
+--- !u!4 &786220694
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421190163}
+  m_GameObject: {fileID: 786220692}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,19 +31,18 @@ Transform:
   m_Father: {fileID: 4076508099050654392}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &421190164
+--- !u!82 &786220693
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421190163}
+  m_GameObject: {fileID: 786220692}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2144182554780831375, guid: c4f49230decbe4a4fa11f6a5adb39e0a,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -128,7 +127,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1587272878
+--- !u!1 &1346931568
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,22 +135,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1587272880}
-  - component: {fileID: 1587272879}
+  - component: {fileID: 1346931570}
+  - component: {fileID: 1346931569}
   m_Layer: 0
-  m_Name: Music02
-  m_TagString: AudioController
+  m_Name: msuic02
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1587272880
+--- !u!4 &1346931570
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587272878}
+  m_GameObject: {fileID: 1346931568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -159,19 +158,18 @@ Transform:
   m_Father: {fileID: 4076508099050654392}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1587272879
+--- !u!82 &1346931569
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587272878}
+  m_GameObject: {fileID: 1346931568}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2144182554780831375, guid: c4f49230decbe4a4fa11f6a5adb39e0a,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -284,8 +282,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 421190165}
-  - {fileID: 1587272880}
+  - {fileID: 786220694}
+  - {fileID: 1346931570}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -301,8 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3554dc411304934daf19091dc2551c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music01: {fileID: 421190164}
-  music02: {fileID: 1587272879}
+  music01: {fileID: 786220693}
+  music02: {fileID: 1346931569}
   Playlists:
   - {fileID: 11400000, guid: b8fc9b4a64d468e45b71da0ebc470279, type: 2}
   - {fileID: 11400000, guid: 8580fc43e6dca784ea42f903136115eb, type: 2}

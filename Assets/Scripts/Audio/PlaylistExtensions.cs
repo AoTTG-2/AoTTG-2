@@ -14,9 +14,14 @@ namespace Assets.Scripts.Audio
             return playlist is null ? list.FirstOrDefault(p => p.name.Equals("Default", StringComparison.OrdinalIgnoreCase)) : playlist;
         }
 
-        public static Song GetByType(this List<Song> songs, AudioState state)
+        public static List<Song> GetByType(this List<Song> songs, AudioState state)
         {
-            return songs.FirstOrDefault(s => s.Type.Equals(state));
+            return songs.Where(s => s.Type.Equals(state)).ToList();
+        }
+
+        public static List<Song> GetByName(this List<Song> songs, string name)
+        {
+            return songs.Where(s => s.Name.Equals(name)).ToList();
         }
     }
 }

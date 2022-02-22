@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Menu;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.UI.Menu;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -18,7 +19,7 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
-            AudioController.Instance.SetState(AudioState.MainMenu);
+            Service.Audio.InvokeAudioStateChanged(AudioState.MainMenu);
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
             MapConverter.gameObject.SetActive(false);

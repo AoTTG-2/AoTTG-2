@@ -34,7 +34,7 @@ namespace Assets.Scripts.Characters.Humans
         public EquipmentType EquipmentType;
 
 
-        private CombatTimer combat;
+        private CombatTimer combatTimer;
         private const float HookRaycastDistance = 1000f;
 
 
@@ -247,7 +247,7 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
-            combat = gameObject.AddComponent<CombatTimer>();
+            combatTimer = gameObject.AddComponent<CombatTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -288,7 +288,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
-            AudioController.Instance.SetState(AudioState.Ambient);
+            Service.Audio.InvokeAudioStateChanged(AudioState.Ambient);
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -1461,6 +1461,7 @@ namespace Assets.Scripts.Characters.Humans
             if ((!titanForm && !isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
             {
                 currentSpeed = Rigidbody.velocity.magnitude;
+
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {
                     Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f);
@@ -4218,18 +4219,18 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (collision.CompareTag("SoundTrigger"))
             {
-                combat.AddTime(5);
+                combatTimer.AddTime(5);
             }
         }
 
         private void OnTriggerStay(Collider collision)
         {
-            if (collision.CompareTag("SoundTrigger") && combat.IsEngaged)
+            if (collision.CompareTag("SoundTrigger") && combatTimer.IsActiveState)
             {
                 // Checks the titans State to see if it is dead. If dead then will not set the engaged in combat tracker. If dead then the engaged in combat timer will go down if not around another titan.
                 if (collision.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
                 {
-                    combat.AddTime(5);
+                    combatTimer.AddTime(5);
                 }
             }
         }

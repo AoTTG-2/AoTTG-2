@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\BombPvpSkill.cs" />
     <Compile Include="Assets\Scripts\Services\DiscordTestService.cs" />
     <Compile Include="Assets\Scripts\DayNightCycle\DayLengthController.cs" />
+    <Compile Include="Assets\Scripts\Base\StateTimer.cs" />
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
@@ -527,6 +528,8 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Services\AudioService.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IAudioService.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

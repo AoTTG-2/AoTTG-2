@@ -1,54 +1,42 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts.Characters.Humans
 {
-    public class CombatTimer : MonoBehaviour
+    public class CombatTimer : StateTimer
     {
-        private int maxTimer;
-        private float timer;
-        public bool IsEngaged { get { return timer > 0; } }
-        public CombatTimer()
+        protected override void SetState()
         {
-            this.maxTimer = 15;
-        }
-
-        private void Awake()
-        {
-            enabled = true;
-        }
-
-        private void FixedUpdate()
-        {
-            SubtractTime();
-            CheckState();
-        }
-
-        private void SubtractTime()
-        {
-            var deltaTime = Time.deltaTime;
-            var result = timer - deltaTime;
-            timer = result < 0 ? 0 : result;
-        }
-
-        private void CheckState()
-        {
-            var currentState = AudioController.Instance.GetActiveState();
+            var service = Service.Audio;
+            var currentState = service.GetCurrentState();
             var combatState = currentState.Equals(AudioState.Combat);
-            if (IsEngaged && !combatState)
+            if (IsActiveState && !combatState)
             {
-                AudioController.Instance.SetState(AudioState.Combat);
+                service.InvokeAudioStateChanged(AudioState.Combat);
             }
-            else if (!IsEngaged && combatState)
+            else if (!IsActiveState && combatState)
             {
-                AudioController.Instance.SetState(AudioState.Neutral);
+                service.InvokeAudioStateChanged(AudioState.Neutral);
             }
-            
         }
+    }
 
-        public void AddTime(int time)
+    public class SpeedTimer : CombatTimer
+    {
+        protected override void SetState()
         {
-            var total = timer + time;
-            timer = (total < maxTimer) ? total : maxTimer;
+            var service = Service.Audio;
+            var currentState = service.GetCurrentState();
+            var actionState = currentState.Equals(AudioState.Action);
+            var combatState = currentState.Equals(AudioState.Combat);
+            if (IsActiveState && !actionState && !combatState)
+            {
+                service.InvokeAudioStateChanged(AudioState.Action);
+            }
+            else if (!IsActiveState && actionState)
+            {
+                service.InvokeAudioStateChanged(AudioState.Neutral);
+            }
         }
     }
 }

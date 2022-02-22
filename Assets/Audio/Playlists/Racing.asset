@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7a9ce8e782d2e44bad106d58295940, type: 3}
-  m_Name: Neutral2
+  m_Script: {fileID: 11500000, guid: b8a23d5c2677dd8458e140da320c49f0, type: 3}
+  m_Name: Racing
   m_EditorClassIdentifier: 
-  Composer: TestComposer
-  Clip: {fileID: 8300000, guid: d931bc4bad3033447886413dca34d393, type: 3}
-  Type: 2
+  songs:
+  - {fileID: 11400000, guid: 06164fe9ce930184d9f87b16a8fc21e3, type: 2}

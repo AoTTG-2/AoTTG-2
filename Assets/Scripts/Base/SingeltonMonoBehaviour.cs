@@ -5,28 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.Base
+public abstract class SingeltonMonoBehaviour<Tclass> : MonoBehaviour where Tclass : class
 {
-    public class SingeltonMonoBehaviour<Tclass> : MonoBehaviour where Tclass : class
+    public static Tclass Instance;
+
+    protected virtual void Awake()
     {
-        public static Tclass Instance;
+        CheckSingleton();
+    }
 
-        protected virtual void Awake()
+    private void CheckSingleton()
+    {
+        if (Instance is null)
         {
-            CheckSingleton();
+            Instance = this as Tclass;
+            DontDestroyOnLoad(gameObject);
         }
-
-        private void CheckSingleton()
+        else if (this as Tclass != Instance)
         {
-            if (Instance is null)
-            {
-                Instance = this as Tclass;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }
