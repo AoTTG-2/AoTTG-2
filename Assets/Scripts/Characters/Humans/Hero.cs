@@ -35,6 +35,7 @@ namespace Assets.Scripts.Characters.Humans
 
 
         private CombatTimer combatTimer;
+        private SpeedTimer speedTimer;
         private const float HookRaycastDistance = 1000f;
 
 
@@ -248,6 +249,7 @@ namespace Assets.Scripts.Characters.Humans
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
             combatTimer = gameObject.AddComponent<CombatTimer>();
+            speedTimer = gameObject.AddComponent<SpeedTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -1461,6 +1463,11 @@ namespace Assets.Scripts.Characters.Humans
             if ((!titanForm && !isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
             {
                 currentSpeed = Rigidbody.velocity.magnitude;
+
+                if (currentSpeed > 150)
+                {
+                    speedTimer.AddTime(2);
+                }
 
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {

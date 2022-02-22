@@ -61,7 +61,6 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
         if (audioService.GetCurrentState() != State)
         {
             audioService.InvokeAudioStateChanged(State);
-            SwapSong();
         }
     }
 
@@ -143,7 +142,7 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
         }
         else
         {
-            return songs?.First();
+            return songs.Count > 0 ? songs?.First() : null;
         }
     }
 

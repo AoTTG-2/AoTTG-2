@@ -19,7 +19,7 @@ namespace Assets.Scripts.Audio
             return list.FirstOrDefault(p => p.name.Equals("Default", StringComparison.OrdinalIgnoreCase));
         }
 
-        public static List<Song> GetByType(this List<Song> songs, AudioState state)
+        public static List<Song> GetByType(this List<Song> songs, AudioState? state)
         {
             return songs.Where(s => s.Type.Equals(state)).ToList();
         }

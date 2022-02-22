@@ -20,23 +20,4 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
     }
-
-    public class SpeedTimer : CombatTimer
-    {
-        protected override void SetState()
-        {
-            var service = Service.Audio;
-            var currentState = service.GetCurrentState();
-            var actionState = currentState.Equals(AudioState.Action);
-            var combatState = currentState.Equals(AudioState.Combat);
-            if (IsActiveState && !actionState && !combatState)
-            {
-                service.InvokeAudioStateChanged(AudioState.Action);
-            }
-            else if (!IsActiveState && actionState)
-            {
-                service.InvokeAudioStateChanged(AudioState.Neutral);
-            }
-        }
-    }
 }

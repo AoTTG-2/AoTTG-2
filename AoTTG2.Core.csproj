@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{E6C40411-EB01-50BB-60FB-9FD91C7D600C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -56,6 +57,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Characters\Humans\SpeedTimer.cs" />
     <Compile Include="Assets\Scripts\Security\AuthorizationResult.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\EnumNamedArrayAttribute.cs" />
     <Compile Include="Assets\Scripts\Usable\CannonBall.cs" />
@@ -532,7 +534,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
+    <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

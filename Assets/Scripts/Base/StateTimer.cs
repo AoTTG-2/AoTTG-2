@@ -53,7 +53,7 @@ public abstract class StateTimer : MonoBehaviour
     {
     }
 
-    public void AddTime(int time)
+    public void AddTime(float time)
     {
         var total = timer + time;
         timer = (total < maxTimer) ? total : maxTimer;
