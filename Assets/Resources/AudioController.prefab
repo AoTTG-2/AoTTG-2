@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 786220693}
   m_Layer: 0
   m_Name: music01
-  m_TagString: Untagged
+  m_TagString: AudioController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,9 +40,10 @@ AudioSource:
   m_GameObject: {fileID: 786220692}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2144182554780831375, guid: c4f49230decbe4a4fa11f6a5adb39e0a,
+    type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -138,8 +139,8 @@ GameObject:
   - component: {fileID: 1346931570}
   - component: {fileID: 1346931569}
   m_Layer: 0
-  m_Name: msuic02
-  m_TagString: Untagged
+  m_Name: music02
+  m_TagString: AudioController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,9 +168,10 @@ AudioSource:
   m_GameObject: {fileID: 1346931568}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2144182554780831375, guid: c4f49230decbe4a4fa11f6a5adb39e0a,
+    type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -305,4 +307,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8fc9b4a64d468e45b71da0ebc470279, type: 2}
   - {fileID: 11400000, guid: 8580fc43e6dca784ea42f903136115eb, type: 2}
   - {fileID: 11400000, guid: 98626416fef7fd346b0bd492208df28b, type: 2}
+  State: 0
   MusicVolume: 0.5

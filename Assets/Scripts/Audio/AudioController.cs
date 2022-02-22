@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using System;
@@ -31,7 +32,7 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
     protected override void Awake()
     {
         base.Awake();
-        Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         audioService.OnAudioStateChanged += Audio_OnAudioStateChanged;
         audioService.OnMusicVolumeChanged += Audio_OnMusicVolumeChanged;
         audioService.OnSongChanged += AudioService_OnSongChanged;
@@ -90,14 +91,19 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
         SwapSong();
     }
 
-    private void Level_OnLevelLoaded(int scene, Assets.Scripts.Room.Level level)
+    private void Level_OnLevelLoaded(int scene, Level level)
     {
+        //This event is not Invoked as it should, so now level is always null
+        var gamemode = level?.Gamemodes.FirstOrDefault()?.Name;
         var newPlaylist = Playlists.GetByName(level?.SceneName);
+        newPlaylist = newPlaylist is null ? Playlists.GetByName(gamemode) : newPlaylist;
 
-        if (newPlaylist is null)
-        {
-            newPlaylist = Playlists.GetByName(level?.Gamemodes.FirstOrDefault()?.Name);
-        }
+        SetActivePlaylist(newPlaylist);
+    }
+
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
+    {
+        var newPlaylist = Playlists.GetByName(scene.name);
 
         SetActivePlaylist(newPlaylist);
     }
@@ -108,7 +114,7 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
     {
         if (playlist is null)
         {
-            playlist = Playlists.GetByName(null);
+            playlist = Playlists.GetDefault();
         }
 
         if (
@@ -121,7 +127,7 @@ public class AudioController : SingeltonMonoBehaviour<AudioController>
 
     private Song GetRandomSongByState()
     {
-        var songs = activePlaylist.songs.GetByType(audioService.GetCurrentState());
+        var songs = activePlaylist?.songs.GetByType(audioService.GetCurrentState());
         List<Song> songsNotCurrent = null;
         var rnd = 0;
 

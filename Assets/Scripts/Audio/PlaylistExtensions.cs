@@ -11,7 +11,12 @@ namespace Assets.Scripts.Audio
         public static Playlist GetByName(this List<Playlist> list, string name)
         {
             var playlist = list.FirstOrDefault(p => p.name.Equals(name));
-            return playlist is null ? list.FirstOrDefault(p => p.name.Equals("Default", StringComparison.OrdinalIgnoreCase)) : playlist;
+            return playlist;
+        }
+
+        public static Playlist GetDefault(this List<Playlist> list)
+        {
+            return list.FirstOrDefault(p => p.name.Equals("Default", StringComparison.OrdinalIgnoreCase));
         }
 
         public static List<Song> GetByType(this List<Song> songs, AudioState state)
