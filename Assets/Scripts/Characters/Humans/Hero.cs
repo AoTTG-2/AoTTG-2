@@ -290,7 +290,6 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
-            Service.Audio.InvokeAudioStateChanged(AudioState.Ambient);
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 

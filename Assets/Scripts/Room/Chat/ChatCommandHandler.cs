@@ -595,6 +595,9 @@ public static class ChatCommandHandler
         string message;
         switch (command)
         {
+            case ChatCommand.MusicVolume:
+                SetMusicVolume(parameter);
+                break;
             case ChatCommand.Cloth:
                 message = ClothFactory.GetDebugInfo();
                 instance.chatRoom.AddMessage(message);
@@ -680,5 +683,20 @@ public static class ChatCommandHandler
             default:
                 break;
         }
+    }
+
+    private static void SetMusicVolume(string parameter)
+    {
+        var parsed = float.TryParse(parameter, out var volume);
+        if (parsed && volume >= 0 && volume <= 1)
+        {
+            Service.Audio.InvokeMusicVolumeChanged(volume);
+        }
+        else
+        {
+            instance.chatRoom.UpdateChat("Volume has to be a value between 0 and 1");
+            return;
+        }
+        
     }
 }

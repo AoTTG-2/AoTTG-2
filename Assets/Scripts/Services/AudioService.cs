@@ -10,7 +10,7 @@ namespace Assets.Scripts.Services
     public class AudioService : IAudioService
     {
         private DateTime latestStateChange;
-        private AudioState currentState;
+        private AudioState? currentState;
         private float musicVolume;
         private Song currentSong;
         public event EventHandler<AudioState> OnAudioStateChanged;
@@ -30,6 +30,11 @@ namespace Assets.Scripts.Services
 
         public void InvokeMusicVolumeChanged(float volume)
         {
+            if (musicVolume.Equals(volume))
+            {
+                return;
+            }
+
             musicVolume = volume;
             OnMusicVolumeChanged?.Invoke(this, volume);
         }
@@ -42,7 +47,7 @@ namespace Assets.Scripts.Services
 
         public AudioState GetCurrentState()
         {
-            return currentState;
+            return currentState is null ? AudioState.MainMenu : currentState.Value;
         }
 
         public float GetCurrentMusicVolume()
@@ -59,11 +64,6 @@ namespace Assets.Scripts.Services
         {
             var timeToChange = DateTime.Now - latestStateChange > new TimeSpan(0, 0, 5);
 
-            if (state.Equals(currentState))
-            {
-                return null;
-            }
-
             var stateMatrix = new Dictionary<AudioState, List<AudioState>>
             {
                 { AudioState.MainMenu, new List<AudioState>() { AudioState.Ambient, AudioState.Action, AudioState.Neutral } },
@@ -76,6 +76,11 @@ namespace Assets.Scripts.Services
             if (state.Equals(AudioState.MainMenu))
             {
                 return state;
+            }
+
+            if (state.Equals(currentState))
+            {
+                return null;
             }
 
             //If statematrix contains a key with the current state and any of the values are equal to the incoming

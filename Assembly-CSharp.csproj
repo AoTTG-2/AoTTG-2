@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{4A532FBF-508E-F4C1-F6DB-E3E049119902}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -68,78 +69,82 @@
     <Compile Include="Assets\PhotonChatApi\ChatChannel.cs" />
     <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
+    <Compile Include="Assets\Tests\AudioControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-     <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\Shaders\TiltShift.shader" />
-     <None Include="Assets\Shaders\Sky System\CGInc\GPUVoronoiNoise4D.cginc" />
-     <None Include="Assets\StreamingAssets\Custom Maps\Experimental\test map.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
-     <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Future Trax 1.txt" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
-     <None Include="Assets\Shaders\Sky System\CustomSky.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope + Riblei - Machina 2 (-Checkpoint Edit).txt" />
-     <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
-     <None Include="Assets\Shaders\Particle Alpha Blend Scale.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-     <None Include="Assets\contributors.txt" />
-     <None Include="Assets\Shaders\Projector Multiply.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
-     <None Include="Assets\Resources\shaders\Double Sided.shader" />
-     <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope - Blood Of The Racers 2.txt" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\All Legacy Objects &amp; Textures.txt" />
-     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-     <None Include="Assets\Ui\Icons\FontAwesome\LICENSE.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Riblei + Alex4TheWin + Sylvia - Celestial Marine (Beta).txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
-     <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\Shaders\TintedUIBlur.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Bug On The Rose (Basic).txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\Shaders\xft_displacement_screen.shader" />
-     <None Include="Assets\Shaders\3d text.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\custom_map.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (AlphaClip).shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Don&apos;t move Map.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-     <None Include="Assets\StreamingAssets\Custom Maps\Experimental\peach_castle.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <None Include="Assets\Shaders\Double Sided Transparent Diffuse Bump Cutout.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\AoTTG2 Map.txt" />
-     <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\Shaders\TiltShift.shader" />
+    <None Include="Assets\Shaders\Sky System\CGInc\GPUVoronoiNoise4D.cginc" />
+    <None Include="Assets\StreamingAssets\Custom Maps\Experimental\test map.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
+    <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Future Trax 1.txt" />
+    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
+    <None Include="Assets\Shaders\Sky System\CustomSky.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope + Riblei - Machina 2 (-Checkpoint Edit).txt" />
+    <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
+    <None Include="Assets\Shaders\Particle Alpha Blend Scale.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\contributors.txt" />
+    <None Include="Assets\Shaders\Projector Multiply.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
+    <None Include="Assets\Resources\shaders\Double Sided.shader" />
+    <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope - Blood Of The Racers 2.txt" />
+    <None Include="Assets\Scene\scene\Custom Map Converter\All Legacy Objects &amp; Textures.txt" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\Ui\Icons\FontAwesome\LICENSE.txt" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Riblei + Alex4TheWin + Sylvia - Celestial Marine (Beta).txt" />
+    <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
+    <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Shaders\TintedUIBlur.shader" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Bug On The Rose (Basic).txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\Shaders\xft_displacement_screen.shader" />
+    <None Include="Assets\Shaders\3d text.shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
+    <None Include="Assets\Scene\scene\Custom Map Converter\custom_map.txt" />
+    <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (AlphaClip).shader" />
+    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
+    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont).shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Don't move Map.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\StreamingAssets\Custom Maps\Experimental\peach_castle.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\Shaders\Double Sided Transparent Diffuse Bump Cutout.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
+    <None Include="Assets\Scene\scene\Custom Map Converter\AoTTG2 Map.txt" />
+    <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
+    <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <Reference Include="nunit.framework">
+      <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

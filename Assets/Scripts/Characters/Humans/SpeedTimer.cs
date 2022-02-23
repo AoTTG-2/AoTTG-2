@@ -14,7 +14,7 @@ namespace Assets.Scripts.Characters.Humans
             var service = Service.Audio;
             var currentState = service.GetCurrentState();
             var actionState = currentState.Equals(AudioState.Action);
-            if (IsActiveState && !actionState && totalTimeInState > 5)
+            if (IsActiveState && !actionState && totalTimeInState > 3)
             {
                 service.InvokeAudioStateChanged(AudioState.Action);
             }

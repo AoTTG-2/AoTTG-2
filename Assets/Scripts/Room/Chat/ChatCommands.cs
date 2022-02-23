@@ -1,5 +1,6 @@
 ﻿public enum ChatCommand
 {
+    MusicVolume,
     Song,
     Cloth,
     Aso,
