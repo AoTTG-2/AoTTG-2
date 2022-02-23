@@ -34,7 +34,7 @@ namespace Assets.Scripts.Characters.Humans
         public EquipmentType EquipmentType;
 
 
-        private CombatTimer combatTimer;
+        public CombatTimer CombatTimer;
         private SpeedTimer speedTimer;
         private const float HookRaycastDistance = 1000f;
 
@@ -248,7 +248,7 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
-            combatTimer = gameObject.AddComponent<CombatTimer>();
+            CombatTimer = gameObject.AddComponent<CombatTimer>();
             speedTimer = gameObject.AddComponent<SpeedTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
@@ -290,6 +290,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
+            Service.Music.SetMusicState(MusicState.Ambient);
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -2700,6 +2701,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (invincible <= 0f)
             {
+                Service.Music.SetMusicState(MusicState.HumanPlayerDead);
                 if (titanForm && (eren_titan != null))
                 {
                     eren_titan.lifeTime = 0.1f;
@@ -3268,6 +3270,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             hasDied = true;
             state = HumanState.Die;
+            Service.Music.SetMusicState(MusicState.HumanPlayerDead);
         }
 
         [PunRPC]
@@ -4223,20 +4226,22 @@ namespace Assets.Scripts.Characters.Humans
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (collision.CompareTag("SoundTrigger"))
-            {
-                combatTimer.AddTime(5);
-            }
+            AddTimeToCombatTimer(collision);
         }
 
         private void OnTriggerStay(Collider collision)
         {
-            if (collision.CompareTag("SoundTrigger") && combatTimer.IsActiveState)
+            AddTimeToCombatTimer(collision);
+        }
+
+        private void AddTimeToCombatTimer(Collider collider)
+        {
+            if (collider.CompareTag("SoundTrigger"))
             {
                 // Checks the titans State to see if it is dead. If dead then will not set the engaged in combat tracker. If dead then the engaged in combat timer will go down if not around another titan.
-                if (collision.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
+                if (collider.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
                 {
-                    combatTimer.AddTime(5);
+                    CombatTimer.AddTime();
                 }
             }
         }

@@ -517,7 +517,7 @@ public static class ChatCommandHandler
 
     private static void OutputCurrentSong()
     {
-        var currentSong = FormatSystemMessage(Service.Audio.NowPlaying());
+        var currentSong = FormatSystemMessage(Service.Music.NowPlaying);
         instance.chatRoom.UpdateChat($"Currently playing:<br> {currentSong}");
     }
 
@@ -690,7 +690,7 @@ public static class ChatCommandHandler
         var parsed = float.TryParse(parameter, out var volume);
         if (parsed && volume >= 0 && volume <= 1)
         {
-            Service.Audio.InvokeMusicVolumeChanged(volume);
+            Service.Music.SetMusicVolume(volume);
         }
         else
         {

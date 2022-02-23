@@ -11,16 +11,16 @@ namespace Assets.Scripts.Characters.Humans
 
         protected override void SetState()
         {
-            var service = Service.Audio;
-            var currentState = service.GetCurrentState();
-            var actionState = currentState.Equals(AudioState.Action);
+            var service = Service.Music;
+            var currentState = service.ActiveState;
+            var actionState = currentState.Equals(MusicState.Action);
             if (IsActiveState && !actionState && totalTimeInState > 3)
             {
-                service.InvokeAudioStateChanged(AudioState.Action);
+                service.SetMusicState(MusicState.Action);
             }
             else if (!IsActiveState && actionState)
             {
-                service.InvokeAudioStateChanged(AudioState.Neutral);
+                service.SetMusicState(MusicState.Neutral);
             }
         }
     }

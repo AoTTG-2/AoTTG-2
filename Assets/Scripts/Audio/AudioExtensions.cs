@@ -21,17 +21,12 @@ namespace Assets.Scripts.Audio
             return list.FirstOrDefault(p => p.name.Equals("Default", StringComparison.OrdinalIgnoreCase));
         }
 
-        public static List<Song> GetByState(this List<Song> songs, AudioState? state)
+        public static List<Song> GetByState(this List<Song> songs, MusicState? state)
         {
             return songs.Where(s => s.Type.Equals(state)).ToList();
         }
 
-        public static List<Song> GetByName(this List<Song> songs, string name)
-        {
-            return songs.Where(s => s.Name.Equals(name)).ToList();
-        }
-
-        public static Song GetRandomByState(this List<Song> songs, AudioState? state)
+        public static Song GetRandomByState(this List<Song> songs, MusicState? state)
         {
             var filteredSongs = songs.Where(s => s.Type.Equals(state)).ToList();
             var count = filteredSongs.Count;
@@ -45,11 +40,6 @@ namespace Assets.Scripts.Audio
                 return filteredSongs.FirstOrDefault();
             }
             
-        }
-
-        public static bool Equals(this AudioMixerSnapshot snapshot, AudioState state)
-        {
-            return snapshot.name.Equals(state.ToString());
         }
     }
 }

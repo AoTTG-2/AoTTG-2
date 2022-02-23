@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3554dc411304934daf19091dc2551c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music01: {fileID: 0}
-  music02: {fileID: 0}
+  Mixer: {fileID: 2144182554780831375, guid: c4f49230decbe4a4fa11f6a5adb39e0a, type: 2}
+  Volume: 0.5
   Playlists:
   - {fileID: 11400000, guid: b8fc9b4a64d468e45b71da0ebc470279, type: 2}
   - {fileID: 11400000, guid: 8580fc43e6dca784ea42f903136115eb, type: 2}
   - {fileID: 11400000, guid: 98626416fef7fd346b0bd492208df28b, type: 2}
   State: 0
-  MusicVolume: 0.5
+  TransitionTime: 2

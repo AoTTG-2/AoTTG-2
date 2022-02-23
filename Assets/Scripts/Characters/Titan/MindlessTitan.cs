@@ -731,6 +731,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
             CurrentAttack.Execute();
+            ((Hero) Target).CombatTimer?.AddTime();
         }
 
         protected override void OnChasing()
@@ -743,6 +744,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (CanRun())
             {
+                ((Hero) Target).CombatTimer?.AddTime();
                 CurrentAnimation = AnimationRun;
                 Stamina -= Time.deltaTime * 2;
             }

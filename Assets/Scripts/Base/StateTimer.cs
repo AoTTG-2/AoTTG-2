@@ -10,12 +10,14 @@ public abstract class StateTimer : MonoBehaviour
     protected float totalTimeInState;
     protected int maxTimer;
     protected float timer;
+    protected float timeToAdd;
 
     public bool IsActiveState { get { return timer > 0; } }
 
     public StateTimer()
     {
         maxTimer = 15;
+        timeToAdd = 5;
     }
 
     protected virtual void FixedUpdate()
@@ -57,5 +59,10 @@ public abstract class StateTimer : MonoBehaviour
     {
         var total = timer + time;
         timer = (total < maxTimer) ? total : maxTimer;
+    }
+
+    public void AddTime()
+    {
+        AddTime(timeToAdd);
     }
 }

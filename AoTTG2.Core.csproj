@@ -110,7 +110,7 @@
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IAudioService.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IMusicService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ThrownBlade.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
@@ -232,10 +232,11 @@
     <Compile Include="Assets\Scripts\CustomMaps\CustomMap.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\LanguageDropdown.cs" />
     <Compile Include="Assets\Scripts\Extensions\LocalizationExtensions.cs" />
-    <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
+    <Compile Include="Assets\Scripts\Audio\MusicController.cs" />
     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
     <Compile Include="Assets\Scripts\Settings\PhotonServerConfig.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\SettingsGUI.cs" />
@@ -334,7 +335,7 @@
     <Compile Include="Assets\Scripts\Services\UiService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\CombatTimer.cs" />
     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
-    <Compile Include="Assets\Scripts\Services\AudioService.cs" />
+    <Compile Include="Assets\Scripts\Services\MusicService.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugToolsPanel.cs" />
     <Compile Include="Assets\Scripts\Services\Service.cs" />
     <Compile Include="Assets\Scripts\Audio\Song.cs" />
@@ -531,6 +532,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Services\Interface\IAudioService.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -19,7 +19,7 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
-            Service.Audio.InvokeAudioStateChanged(AudioState.MainMenu);
+            Service.Music.SetMusicState(MusicState.MainMenu);
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
             MapConverter.gameObject.SetActive(false);

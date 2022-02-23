@@ -7,16 +7,16 @@ namespace Assets.Scripts.Characters.Humans
     {
         protected override void SetState()
         {
-            var service = Service.Audio;
-            var currentState = service.GetCurrentState();
-            var combatState = currentState.Equals(AudioState.Combat);
+            var service = Service.Music;
+            var currentState = service.ActiveState;
+            var combatState = currentState.Equals(MusicState.Combat);
             if (IsActiveState && !combatState)
             {
-                service.InvokeAudioStateChanged(AudioState.Combat);
+                service.SetMusicState(MusicState.Combat);
             }
             else if (!IsActiveState && combatState)
             {
-                service.InvokeAudioStateChanged(AudioState.Neutral);
+                service.SetMusicState(MusicState.Neutral);
             }
         }
     }
