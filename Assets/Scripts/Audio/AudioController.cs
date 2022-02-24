@@ -10,12 +10,19 @@ using UnityEngine.Audio;
 
 namespace Assets.Scripts.Audio
 {
+    /// <summary>
+    /// Includes common parameters and logic that is to be shared between controller dealing with audio. Inherits <see cref="SingeltonMonoBehaviour{Tclass}"/>
+    /// </summary>
+    /// <typeparam name="Tclass"></typeparam>
     public abstract class AudioController<Tclass> : SingeltonMonoBehaviour<Tclass> where Tclass : class
     {
         #region Public Properties
-        public AudioMixerGroup Mixer;
+        [Tooltip("Audio mixer group that the controller has responsibility for")]
+        public AudioMixerGroup MixerGroup;
+        [Tooltip("Current volume of the attatched audio mixer group")]
         [Range(0.0001f, 1f)]
         public float Volume;
+        [Tooltip("The name of the attatched audio mixer group's exposed volume parameter")]
         public string VolumeParameterName;
         #endregion
 

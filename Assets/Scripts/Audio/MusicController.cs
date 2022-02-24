@@ -16,18 +16,20 @@ using UnityEngine.SceneManagement;
 namespace Assets.Scripts.Audio
 {
     /// <summary>
-    /// Controls the MusicMixer
+    /// Controls the music.
     /// </summary>
     public class MusicController : AudioController<MusicController>
     {
-        #region PrivateProperties
+        #region Private Properties
         private bool firstStart = true;
         private readonly IMusicService musicService = Service.Music;
         #endregion
 
-        #region PublicProperties
+        #region Public Properties
+        [Tooltip("Contains the playlists that can be used by this MusicController")]
         public List<Playlist> Playlists;
         public MusicState State;
+        [Tooltip("The time in seconds for transitioning from one snapshot to another")]
         public float TransitionTime;
         #endregion
 
@@ -49,7 +51,7 @@ namespace Assets.Scripts.Audio
         protected void FixedUpdate()
         {
             StartAudiosourcesIfNotPlaying();
-            CheckMusicVolume(Mixer.audioMixer);
+            CheckMusicVolume(MixerGroup.audioMixer);
             CheckState();
         }
         #endregion
@@ -74,10 +76,10 @@ namespace Assets.Scripts.Audio
         }
         #endregion
 
-        #region PrivateMethods
+        #region Private Methods
         private void TransitionToSnapshot(MusicState state)
         {
-            var snapshot = Mixer.audioMixer.FindSnapshot(state.ToString());
+            var snapshot = MixerGroup.audioMixer.FindSnapshot(state.ToString());
 
             if (snapshot != null)
             {
@@ -117,7 +119,7 @@ namespace Assets.Scripts.Audio
             foreach (var audioState in Enum.GetNames(typeof(MusicState)))
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
-                var output = Mixer.audioMixer.FindMatchingGroups(audioState).ToList().FirstOrDefault();
+                var output = MixerGroup.audioMixer.FindMatchingGroups(audioState).ToList().FirstOrDefault();
 
                 audioSource.playOnAwake = false;
                 audioSource.outputAudioMixerGroup = output;

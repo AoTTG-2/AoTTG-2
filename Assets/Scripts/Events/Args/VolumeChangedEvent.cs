@@ -16,6 +16,9 @@ namespace Assets.Scripts.Events.Args
         #endregion
 
         #region Public Properties
+        /// <summary>
+        /// Gets the current volume.
+        /// </summary>
         public float Volume { get; }
         #endregion
     }
