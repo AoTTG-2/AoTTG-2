@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Graphics
 {
+    /// <summary>
+    /// Used to set or unlock the framerate.
+    /// </summary>
     public static class FramerateController
     {
         public static void SetFramerateLimit(int limit)

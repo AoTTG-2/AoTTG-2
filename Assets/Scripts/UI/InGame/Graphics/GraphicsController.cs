@@ -4,22 +4,22 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.InGame
 {
-    public class GraphicsController : MonoBehaviour {
-
+    public class GraphicsController : MonoBehaviour
+    {
         public Button SaveGraphicPrefs;
         public Button LoadGraphicPrefs;
         public Button DeleteGraphicPrefs;
         public Text PrefsLabel;
 
         public GeneralGraphics GeneralGraphic;
-		public ResolutionSwitcher ResolutionSwitcher;
+        public ResolutionSwitcher ResolutionSwitcher;
 
         public const string GDATA = "GraphicsData";
-		public const string QDATA = "QualityProfile";
+        public const string QDATA = "QualityProfile";
         public const string FDATA = "FPSLimit";
 
-        protected void Start()
-		{
+        private void Start()
+        {
             SaveGraphicPrefs.onClick.AddListener(SaveGraphicPlayerPrefs);
             LoadGraphicPrefs.onClick.AddListener(LoadGraphicPlayerPrefs);
             DeleteGraphicPrefs.onClick.AddListener(DeletePrefs);
@@ -28,14 +28,14 @@ namespace Assets.Scripts.UI.InGame
             LoadGraphicPlayerPrefs();
         }
 
-		private void SaveGraphicPlayerPrefs()
-		{
-			try
-			{
-				var graphicsData = new GeneralGraphics.GraphicsData(GeneralGraphic);
+        private void SaveGraphicPlayerPrefs()
+        {
+            try
+            {
+                var graphicsData = new GeneralGraphics.GraphicsData(GeneralGraphic);
                 SetPlayerPreference(GDATA, graphicsData);
 
-				var qualityData = new QualitySwitcher.QualityData(GeneralGraphic.QualitySwitcher);
+                var qualityData = new QualitySwitcher.QualityData(GeneralGraphic.QualitySwitcher);
                 SetPlayerPreference(QDATA, qualityData);
 
                 var fpsData = new GeneralGraphics.FpsData(GeneralGraphic);
@@ -45,17 +45,17 @@ namespace Assets.Scripts.UI.InGame
 
                 SetPrefsLabelSuccess("Saved player prefs");
             }
-			catch (Exception ex)
-			{
-				Debug.LogError(ex);
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
                 SetPrefsLabelError("Error saving player prefs");
             }
-		}
+        }
 
         private void LoadGraphicPlayerPrefs()
-		{
-			try
-			{
+        {
+            try
+            {
                 if (!PrefsExist())
                 {
                     SetPrefsLabelError("No saved player prefs exist");
@@ -66,25 +66,25 @@ namespace Assets.Scripts.UI.InGame
                 var qualityData = JsonUtility.FromJson<QualitySwitcher.QualityData>(PlayerPrefs.GetString(QDATA));
                 var fpsData = JsonUtility.FromJson<GeneralGraphics.FpsData>(PlayerPrefs.GetString(FDATA));
 
-                GeneralGraphic.FPSLimit.text = fpsData.Limit;
+                GeneralGraphic.FpsLimit.text = fpsData.Limit;
 
                 GeneralGraphic.QualitySwitcher.Slider.value = qualityData.Slider;
 
                 GeneralGraphic.UpdateGraphicSettings(graphicsData);
 
                 SetPrefsLabelSuccess("Loaded player prefs");
-			}
-			catch(Exception ex)
-			{
-				Debug.LogError(ex);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
                 SetPrefsLabelError("Error loading player prefs");
-			}
-		}
+            }
+        }
 
-		private void DeletePrefs()
-		{
-			PlayerPrefs.DeleteKey(GDATA);
-			PlayerPrefs.DeleteKey(QDATA);
+        private void DeletePrefs()
+        {
+            PlayerPrefs.DeleteKey(GDATA);
+            PlayerPrefs.DeleteKey(QDATA);
             PlayerPrefs.DeleteKey(FDATA);
 
             SetPrefsLabelWarning("Deleted player prefs");
@@ -121,5 +121,5 @@ namespace Assets.Scripts.UI.InGame
             PrefsLabel.color = color;
             PrefsLabel.text = message;
         }
-	}
+    }
 }
