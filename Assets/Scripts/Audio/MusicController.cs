@@ -120,11 +120,6 @@ namespace Assets.Scripts.Audio
                 audioSource.playOnAwake = false;
                 audioSource.outputAudioMixerGroup = output;
 
-                if (audioState.Equals(MusicState.MainMenu | MusicState.HumanPlayerGrabbed))
-                {
-                    audioSource.loop = true;
-                }
-
                 sources.Add(audioSource);
             }
 
