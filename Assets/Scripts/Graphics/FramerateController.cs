@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Assets.Scripts.Graphics
 {
     /// <summary>
-    /// Used to set or unlock the framerate.
+    /// Used to set the framerate to a specific value or unlock the framerate.
     /// </summary>
     public static class FramerateController
     {
