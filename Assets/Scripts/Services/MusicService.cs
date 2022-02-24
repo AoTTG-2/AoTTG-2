@@ -5,8 +5,6 @@ using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Services
@@ -26,25 +24,6 @@ namespace Assets.Scripts.Services
         private List<MusicState> instantStates;
         #endregion
 
-        #region Events
-        /// <summary>
-        /// The active <see cref="MusicState"/> has changed.
-        /// </summary>
-        public event OnMusicStateChanged OnStateChanged;
-        /// <summary>
-        /// The music volume has changed.
-        /// </summary>
-        public event OnVolumeChanged OnVolumeChanged;
-        /// <summary>
-        /// The active <see cref="Song"/> has changed.
-        /// </summary>
-        public event OnSongChanged OnSongChanged;
-        /// <summary>
-        /// The active <see cref="Playlist"/> has changed.
-        /// </summary>
-        public event OnPlaylistChanged OnPlaylistChanged;
-        #endregion
-        
         #region Public Properties
         /// <summary>
         /// Gets the currently active <see cref="Playlist"/>
@@ -62,6 +41,25 @@ namespace Assets.Scripts.Services
         /// Gets name and composer for the <see cref="Song"/> that is currently playing.
         /// </summary>
         public string NowPlaying => currentSong is null ? "No song currently playing!" : $"{currentSong.Name} - {currentSong.Composer}";
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// The active <see cref="MusicState"/> has changed.
+        /// </summary>
+        public event OnMusicStateChanged OnStateChanged;
+        /// <summary>
+        /// The music volume has changed.
+        /// </summary>
+        public event OnVolumeChanged OnVolumeChanged;
+        /// <summary>
+        /// The active <see cref="Song"/> has changed.
+        /// </summary>
+        public event OnSongChanged OnSongChanged;
+        /// <summary>
+        /// The active <see cref="Playlist"/> has changed.
+        /// </summary>
+        public event OnPlaylistChanged OnPlaylistChanged;
         #endregion
 
         #region Constructors
