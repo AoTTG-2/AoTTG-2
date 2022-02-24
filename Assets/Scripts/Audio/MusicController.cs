@@ -37,7 +37,7 @@ namespace Assets.Scripts.Audio
         protected override void Awake()
         {
             base.Awake();
-            audioSources = CreateAudioSources();
+            CreateAudioSources();
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
             musicService.OnStateChanged += MusicService_OnStateChanged;
             musicService.OnVolumeChanged += MusicService_OnVolumeChanged; ;
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Audio
         #region Eventlistners
         private void MusicService_OnVolumeChanged(MusicVolumeChangedEvent musicVolumeEvent)
         {
-            Volume = musicVolumeEvent.Volume;
+            Volume = NormalizeVolume(musicVolumeEvent.Volume);
         }
 
         private void MusicService_OnStateChanged(MusicStateChangedEvent musicStateEvent)
@@ -108,10 +108,9 @@ namespace Assets.Scripts.Audio
             }
         }
 
-        private List<AudioSource> CreateAudioSources()
+        private void CreateAudioSources()
         {
             //Creates one audiosource for each state and sets the outputMixerGroup that has the same name as the state
-            var sources = new List<AudioSource>();
             foreach (var audioState in Enum.GetNames(typeof(MusicState)))
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
@@ -120,10 +119,8 @@ namespace Assets.Scripts.Audio
                 audioSource.playOnAwake = false;
                 audioSource.outputAudioMixerGroup = output;
 
-                sources.Add(audioSource);
+                audioSources.Add(audioSource);
             }
-
-            return sources;
         }
 
         private void StartAudiosourcesIfNotPlaying()

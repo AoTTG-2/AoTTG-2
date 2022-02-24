@@ -33,6 +33,7 @@ namespace Assets.Scripts.Audio
         protected AudioController()
         {
             Volume = .5f;
+            audioSources = new List<AudioSource>();
         }
         #endregion
 
@@ -44,9 +45,9 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Protected Methods
-        protected float GetLogVolume(float volume)
+        protected float NormalizeVolume(float volume)
         {
-            return volume == 0 ? MinVolume : volume > 1 ? MaxVolume : volume;
+            return volume <= 0 ? MinVolume : (volume > 1 ? MaxVolume : volume);
         }
         #endregion
     }

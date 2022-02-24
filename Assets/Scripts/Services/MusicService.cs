@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Assets.Scripts.Services
 {
     /// <summary>
-    /// Services that stores states and handles events related to the music.
+    /// Service that stores states and handles events related to the music.
     /// </summary>
     public class MusicService : IMusicService
     {
@@ -125,16 +125,16 @@ namespace Assets.Scripts.Services
             var isTimeToChange = now - nextStateChangeTime < now.TimeOfDay;
             var stateExistsInPlaylist = currentPlaylist.songs.GetByState(stateEvent.State)?.Count > 0;
 
-            // If statematrix contains a key with the current state and any of the values are equal to the incoming
-            // state and it has been more than 3 sec (or the time set by the event) since the last change, or it's an instant state,
-            // then return true and change state, else return false and don't change state.
             var nextStateNotCurrent = stateEvent.State != currentState;
             var currentStateExistsAsKeyInMatrix = stateMatrix.TryGetValue(currentState, out var matrixForCurrentState);
             var canTransitionFromCurrentState = currentStateExistsAsKeyInMatrix && (matrixForCurrentState.Any(v => v.Equals(stateEvent.State)) || matrixForCurrentState.Count < 1);
-
             var rule = isTimeToChange && nextStateNotCurrent && canTransitionFromCurrentState && stateExistsInPlaylist;
             var exception = instantStates.Contains(stateEvent.State);
 
+            // If statematrix contains a key with the current state   
+            // and any of the values for that key are equal to the incoming state
+            // and the time to to change has passed, or it's an instant state,
+            // then set next state change time and return true, else return false.
             if (rule || exception)
             {
                 SetNextStateChangeTime(stateEvent);
@@ -148,7 +148,8 @@ namespace Assets.Scripts.Services
 
         private void BuildStateMatrix()
         {
-            // The statematrix is a ruleset saying that if the current state = key then value is the possible states we can transition to.
+            // The statematrix is a ruleset saying that if the current state = key
+            // then value is the possible states we can transition to.
             // empty list in value = accept all transitions
             stateMatrix = new Dictionary<MusicState, List<MusicState>>
             {
