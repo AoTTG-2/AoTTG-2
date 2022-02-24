@@ -21,10 +21,11 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Public Properties
-        [Tooltip("Contains the playlists that can be used by this MusicController")]
+        [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
         public List<Playlist> Playlists;
+        [Tooltip("Displays the current state of the MusicController, can be changed manually for testing (the system can override any changes you make here, so it's better to use the audiomixer and \"Edit in play mode\").")]
         public MusicState State;
-        [Tooltip("The time in seconds for transitioning from one snapshot to another")]
+        [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
         public float TransitionTime;
         #endregion
 

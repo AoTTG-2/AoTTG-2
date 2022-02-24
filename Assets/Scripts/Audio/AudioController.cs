@@ -16,12 +16,12 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Public Properties
-        [Tooltip("Audio mixer group that the controller has responsibility for")]
+        [Tooltip("Audio mixer group that the controller has responsibility for.")]
         public AudioMixerGroup MixerGroup;
-        [Tooltip("Current volume of the attatched audio mixer group")]
+        [Tooltip("Current volume of the attatched audio mixer group.")]
         [Range(MinVolume, MaxVolume)]
         public float Volume;
-        [Tooltip("The name of the attatched audio mixer group's exposed volume parameter")]
+        [Tooltip("The name of the attatched audio mixer group's exposed volume parameter.")]
         public string VolumeParameterName;
         #endregion
 
