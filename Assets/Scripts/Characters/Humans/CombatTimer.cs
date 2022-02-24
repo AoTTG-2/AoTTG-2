@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using Assets.Scripts.Services;
+﻿using Assets.Scripts.Services;
+using Assets.Scripts.Events.Args;
 
 namespace Assets.Scripts.Characters.Humans
 {
     public class CombatTimer : StateTimer
     {
+        #region Protected Methods
         protected override void SetState()
         {
             var service = Service.Music;
@@ -12,12 +13,14 @@ namespace Assets.Scripts.Characters.Humans
             var combatState = currentState.Equals(MusicState.Combat);
             if (IsActiveState && !combatState)
             {
-                service.SetMusicState(MusicState.Combat);
+                service.SetMusicState(new MusicStateChangedEvent(MusicState.Combat));
             }
             else if (!IsActiveState && combatState)
             {
-                service.SetMusicState(MusicState.Neutral);
+                service.SetMusicState(new MusicStateChangedEvent(MusicState.Neutral));
             }
         }
+        #endregion
+ 
     }
 }

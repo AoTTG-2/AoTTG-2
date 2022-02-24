@@ -13,6 +13,7 @@ using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 using Assets.Scripts.Utility;
+using Assets.Scripts.Events.Args;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -690,12 +691,11 @@ public static class ChatCommandHandler
         var parsed = float.TryParse(parameter, out var volume);
         if (parsed && volume >= 0 && volume <= 1)
         {
-            Service.Music.SetMusicVolume(volume);
+            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
         }
         else
         {
             instance.chatRoom.UpdateChat("Volume has to be a value between 0 and 1");
-            return;
         }
         
     }

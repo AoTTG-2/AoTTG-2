@@ -191,7 +191,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var hero = grabTarget.GetComponent<Hero>();
                     EatSet(hero);
                     GrabbedTarget = grabTarget;
-                    Service.Music.SetMusicState(MusicState.HumanPlayerGrabbed);
+                    Service.Music.SetMusicState(new Events.Args.MusicStateChangedEvent(MusicState.HumanPlayerGrabbed, 6));
                 }
             }
             if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)

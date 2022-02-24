@@ -4,6 +4,7 @@ using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
+using Assets.Scripts.Events.Args;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Serialization;
@@ -290,7 +291,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
-            Service.Music.SetMusicState(MusicState.Ambient);
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.Ambient));
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -2701,7 +2702,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (invincible <= 0f)
             {
-                Service.Music.SetMusicState(MusicState.HumanPlayerDead);
+                Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
                 if (titanForm && (eren_titan != null))
                 {
                     eren_titan.lifeTime = 0.1f;
@@ -3270,7 +3271,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             hasDied = true;
             state = HumanState.Die;
-            Service.Music.SetMusicState(MusicState.HumanPlayerDead);
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
         }
 
         [PunRPC]

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Events.Args;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
@@ -21,7 +22,7 @@ namespace Assets.Scripts.Audio
     {
         #region PrivateProperties
         private bool firstStart = true;
-        private List<AudioSource> audioSources;
+        private readonly IMusicService musicService = Service.Music;
         #endregion
 
         #region PublicProperties
@@ -30,7 +31,9 @@ namespace Assets.Scripts.Audio
         public float TransitionTime;
         #endregion
 
+        #region Constructors
         public MusicController() : base() { }
+        #endregion
 
         #region MonoBehaviour
         protected override void Awake()
@@ -38,46 +41,34 @@ namespace Assets.Scripts.Audio
             base.Awake();
             audioSources = CreateAudioSources();
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            musicService.OnAudioStateChanged += Audio_OnAudioStateChanged;
+            musicService.OnStateChanged += MusicService_OnStateChanged;
+            musicService.OnVolumeChanged += MusicService_OnVolumeChanged; ;
             SetActivePlaylist(null);
         }
 
         protected void FixedUpdate()
         {
-            StartAudioSourcesIfNotPlaying();
+            StartAudiosourcesIfNotPlaying();
             CheckMusicVolume(Mixer.audioMixer);
             CheckState();
         }
         #endregion
 
-        #region EventListners
-        protected void Audio_OnMusicVolumeChanged(object sender, float volume)
+        #region Eventlistners
+        private void MusicService_OnVolumeChanged(MusicVolumeChangedEvent musicVolumeEvent)
         {
-            Volume = GetLogVolume(volume);
+            Volume = musicVolumeEvent.Volume;
         }
 
-        private void Audio_OnAudioStateChanged(object sender, MusicState state)
+        private void MusicService_OnStateChanged(MusicStateChangedEvent musicStateEvent)
         {
-            State = state;
-            TransitionToSnapshot(state);
+            State = musicStateEvent.State;
+            TransitionToSnapshot(musicStateEvent.State);
         }
 
-        private void Level_OnLevelLoaded(int scene, Level level)
-        {
-            //This event is not Invoked as it should, so right now level is always null
-            var gamemode = level?.Gamemodes.FirstOrDefault()?.Name;
-            var newPlaylist = Playlists.GetByName(level?.SceneName);
-            newPlaylist = newPlaylist is null ? Playlists.GetByName(gamemode) : newPlaylist;
-
-            SetActivePlaylist(newPlaylist);
-        }
-
+        // Use OnLevelLoaded instead when it is working properly
         private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
         {
-            if (!musicService.ActivePlaylist.name.Equals(scene.name))
-            {
-                Service.Music.SetMusicState(MusicState.Ambient);
-            }
             var newPlaylist = Playlists.GetByName(scene.name);
             SetActivePlaylist(newPlaylist);
         }
@@ -98,14 +89,11 @@ namespace Assets.Scripts.Audio
 
         private void SetActivePlaylist(Playlist playlist)
         {
-            if (playlist is null)
-            {
-                playlist = Playlists.GetDefault();
-            }
+            playlist = playlist is null ? Playlists.GetDefault() : playlist;
 
-            if (!(playlist is null) && !musicService.ActivePlaylist.name.Equals(playlist.name))
+            if (playlist != null && musicService.ActivePlaylist.name != playlist.name)
             {
-                musicService.SetActivePlaylist(playlist);
+                musicService.SetActivePlaylist(new PlaylistChangedEvent(playlist));
             }
         }
 
@@ -113,26 +101,26 @@ namespace Assets.Scripts.Audio
         {
             var currentState = musicService.ActiveState;
             var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(currentState.ToString()));
-            var clipName = audioSource.clip?.name;
+            var clipName = audioSource.clip != null ? audioSource.clip.name : null;
             var song = musicService.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(currentState));
             
             if (song != null)
             {
-                musicService.SetActiveSong(song);
+                musicService.SetActiveSong(new SongChangedEvent(song));
             }
         }
 
         private List<AudioSource> CreateAudioSources()
         {
             //Creates one audiosource for each state and sets the outputMixerGroup that has the same name as the state
-            List<AudioSource> sources = new List<AudioSource>();
+            var sources = new List<AudioSource>();
             foreach (var audioState in Enum.GetNames(typeof(MusicState)))
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
-                var outputs = Mixer.audioMixer.FindMatchingGroups(audioState).ToList();
+                var output = Mixer.audioMixer.FindMatchingGroups(audioState).ToList().FirstOrDefault();
 
                 audioSource.playOnAwake = false;
-                audioSource.outputAudioMixerGroup = outputs.First();
+                audioSource.outputAudioMixerGroup = output;
 
                 if (audioState.Equals(MusicState.MainMenu | MusicState.HumanPlayerGrabbed))
                 {
@@ -145,9 +133,8 @@ namespace Assets.Scripts.Audio
             return sources;
         }
 
-        private void StartAudioSourcesIfNotPlaying()
+        private void StartAudiosourcesIfNotPlaying()
         {
-            var currentState = musicService.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
@@ -160,7 +147,7 @@ namespace Assets.Scripts.Audio
                 }
 
                 src.volume = 1f;
-                if (!state.Equals(currentState) && firstStart)
+                if (state != musicService.ActiveState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
@@ -177,33 +164,21 @@ namespace Assets.Scripts.Audio
         {
             if (musicService.ActiveState != State)
             {
-                musicService.SetMusicState(State);
+                musicService.SetMusicState(new MusicStateChangedEvent(State));
             }
         }
 
         private void CheckMusicVolume(AudioMixer audioMixer)
         {
-            // MusicVol is the name of the MusicMixer's exposed volume preoperty
-            audioMixer.GetFloat("MusicVol", out var volume);
-            var musicVolume = Mathf.Log10(Volume) * 20;
+            audioMixer.GetFloat(VolumeParameterName, out var volume);
+            var musicVolume = Volume.Log10Volume();
 
-            if (!volume.Equals(musicVolume))
+            if (volume != musicVolume)
             {
-                audioMixer.SetFloat("MusicVol", musicVolume);
-                musicService.SetMusicVolume(Volume);
+                audioMixer.SetFloat(VolumeParameterName, musicVolume);
+                musicService.SetMusicVolume(new MusicVolumeChangedEvent(Volume));
             }
         }
         #endregion
     }
-}
-
-public enum MusicState
-{
-    MainMenu,
-    Combat,
-    Neutral,
-    Ambient,
-    Action,
-    HumanPlayerDead,
-    HumanPlayerGrabbed,
 }

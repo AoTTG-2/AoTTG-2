@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Args;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +10,26 @@ namespace Assets.Scripts.Services.Interface
 {
     public interface IMusicService : IAudioService
     {
+        #region Properties
         Playlist ActivePlaylist { get; }
         MusicState ActiveState { get; }
         string NowPlaying { get; }
+        #endregion
 
-        event EventHandler<MusicState> OnAudioStateChanged;
-        event EventHandler<float> OnMusicVolumeChanged;
-        event EventHandler<Song> OnSongChanged;
-        event EventHandler<Playlist> OnPlaylistChanged;
 
-        void SetMusicState(MusicState state);
-        void SetMusicVolume(float volume);
-        void SetActiveSong(Song song);
-        void SetActivePlaylist(Playlist playlist);
+        #region Events
+        event OnMusicStateChanged OnStateChanged;
+        event OnVolumeChanged OnVolumeChanged;
+        event OnSongChanged OnSongChanged;
+        event OnPlaylistChanged OnPlaylistChanged;
+        #endregion
+
+
+        #region Methods
+        void SetMusicState(MusicStateChangedEvent stateEvent);
+        void SetMusicVolume(MusicVolumeChangedEvent volumeEvent);
+        void SetActiveSong(SongChangedEvent songEvent);
+        void SetActivePlaylist(PlaylistChangedEvent playlistEvent);
+        #endregion
     }
 }

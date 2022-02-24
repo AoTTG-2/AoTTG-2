@@ -7,19 +7,26 @@ using UnityEngine;
 
 public abstract class StateTimer : MonoBehaviour
 {
+    #region ProtectedProperties
     protected float totalTimeInState;
     protected int maxTimer;
     protected float timer;
     protected float timeToAdd;
+    #endregion
 
+    #region Public Properties
     public bool IsActiveState { get { return timer > 0; } }
+    #endregion
 
+    #region Constructors
     public StateTimer()
     {
         maxTimer = 15;
         timeToAdd = 5;
     }
+    #endregion
 
+    #region Monobehaviours
     protected virtual void FixedUpdate()
     {
         CalcTotalTime();
@@ -31,7 +38,9 @@ public abstract class StateTimer : MonoBehaviour
     {
         enabled = true;
     }
+    #endregion
 
+    #region Private Methods
     private void CalcTotalTime()
     {
         if (IsActiveState)
@@ -50,11 +59,13 @@ public abstract class StateTimer : MonoBehaviour
         var result = timer - deltaTime;
         timer = result < 0 ? 0 : result;
     }
+    #endregion
 
-    protected virtual void SetState()
-    {
-    }
+    #region Protected Methods
+    protected abstract void SetState();
+    #endregion
 
+    #region Public Methods
     public void AddTime(float time)
     {
         var total = timer + time;
@@ -65,4 +76,5 @@ public abstract class StateTimer : MonoBehaviour
     {
         AddTime(timeToAdd);
     }
+    #endregion
 }

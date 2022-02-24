@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Events.Args;
+using Assets.Scripts.Services;
 using Assets.Scripts.UI.Menu;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
-            Service.Music.SetMusicState(MusicState.MainMenu);
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.MainMenu));
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
             MapConverter.gameObject.SetActive(false);
