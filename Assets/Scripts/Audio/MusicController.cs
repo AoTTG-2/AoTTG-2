@@ -88,14 +88,12 @@ namespace Assets.Scripts.Audio
         }
         private void Pause_OnPaused(object sender, EventArgs e)
         {
-            audioSources.ForEach(src => src.Pause());
-            isPaused = !isPaused;
+            TogglePause();
         }
 
         private void Pause_OnUnPaused(object sender, EventArgs e)
         {
-            audioSources.ForEach(src => src.UnPause());
-            isPaused = !isPaused;
+            TogglePause();
         }
         #endregion
 
@@ -128,6 +126,26 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Private Methods
+        private void TogglePause()
+        {
+            audioSources.ForEach(src =>
+            {
+                src.volume = Volume;
+                if (isPaused)
+                {
+                    src.volume = Volume;
+                    src.UnPause();
+                }
+                else
+                {
+                    src.volume = 0;
+                    src.Pause();
+                }
+
+            });
+            isPaused = !isPaused;
+        }
+
         private void TransitionToSnapshot(MusicState state)
         {
             var snapshot = MixerGroup.audioMixer.FindSnapshot(state.ToString());
