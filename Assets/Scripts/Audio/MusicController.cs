@@ -80,7 +80,7 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Eventlistners
-        // Use OnLevelLoaded instead when it is working properly
+        // Use OnLevelLoaded instead, when it is working properly
         private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
         {
             var newPlaylist = Playlists.GetByName(scene.name);

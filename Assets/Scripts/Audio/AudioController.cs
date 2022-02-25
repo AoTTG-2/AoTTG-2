@@ -34,7 +34,6 @@ namespace Assets.Scripts.Audio
         #region Constructors
         protected AudioController()
         {
-            Volume = .5f;
             audioSources = new List<AudioSource>();
         }
         #endregion
