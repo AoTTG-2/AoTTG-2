@@ -15,7 +15,7 @@ namespace Assets.Scripts.UI.InGame
 
         protected override void OnDisable() {
             base.OnDisable();
-			GraphicController.label.text = "";
+			GraphicController.PrefsLabel.text = "";
 		}
 	}
 }
