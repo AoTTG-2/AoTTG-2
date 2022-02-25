@@ -149,11 +149,17 @@ namespace Assets.Scripts.Audio
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
                 var parsed = Enum.TryParse<MusicState>(mixerGroupName, true, out var state);
+                Song song = null;
 
                 if (parsed)
                 {
-                    var song = Service.Music.ActivePlaylist.songs.GetRandomByState(state);
+                    song = Service.Music.ActivePlaylist.songs.GetRandomByState(state);
                     src.clip = song != null ? song.Clip : null;
+                }
+
+                if (ActiveState == state && src.clip != null)
+                {
+                    Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
                 src.volume = 1f;
