@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Events;
+﻿using Assets.Scripts.Base;
+using Assets.Scripts.Events;
 using Assets.Scripts.Services;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,17 +39,12 @@ namespace Assets.Scripts.Audio
         }
         #endregion
 
-        #region Monobehaviours
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-        #endregion
-
         #region Protected Methods
         protected float NormalizeVolume(float volume)
         {
-            return volume <= 0 ? MinVolume : (volume > 1 ? MaxVolume : volume);
+            volume = volume <= 0 ? MinVolume : volume;
+            volume = volume > 1 ? MaxVolume : volume;
+            return volume;
         }
         #endregion
     }

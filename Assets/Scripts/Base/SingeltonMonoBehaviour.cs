@@ -1,37 +1,40 @@
 ﻿using UnityEngine;
 
-/// <summary>
-/// Inheritance from this class implements the singeltion pattern for a <see cref="MonoBehaviour"/> class.
-/// </summary>
-/// <typeparam name="Tclass"></typeparam>
-public abstract class SingeltonMonoBehaviour<Tclass> : MonoBehaviour where Tclass : class
+namespace Assets.Scripts.Base
 {
-    #region Public Properties
     /// <summary>
-    /// Gets active instance of this class.
+    /// Inheritance from this class implements the singeltion pattern for a <see cref="MonoBehaviour"/> class.
     /// </summary>
-    public static Tclass Instance;
-    #endregion
-
-    #region Monobehaviours
-    protected virtual void Awake()
+    /// <typeparam name="Tclass"></typeparam>
+    public abstract class SingeltonMonoBehaviour<Tclass> : MonoBehaviour where Tclass : class
     {
-        CheckSingleton();
-    }
-    #endregion
+        #region Public Properties
+        /// <summary>
+        /// Gets active instance of this class.
+        /// </summary>
+        public static Tclass Instance;
+        #endregion
 
-    #region Private Properties
-    private void CheckSingleton()
-    {
-        if (Instance is null)
+        #region Monobehaviours
+        protected virtual void Awake()
         {
-            Instance = this as Tclass;
-            DontDestroyOnLoad(gameObject);
+            CheckSingleton();
         }
-        else if (this as Tclass != Instance)
+        #endregion
+
+        #region Private Properties
+        private void CheckSingleton()
         {
-            Destroy(gameObject);
+            if (Instance is null)
+            {
+                Instance = this as Tclass;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (this as Tclass != Instance)
+            {
+                Destroy(gameObject);
+            }
         }
+        #endregion
     }
-    #endregion
 }

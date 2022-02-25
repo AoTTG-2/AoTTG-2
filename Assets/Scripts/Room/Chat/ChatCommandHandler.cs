@@ -691,11 +691,6 @@ public static class ChatCommandHandler
         if (float.TryParse(parameter, out var volume))
         {
             MusicController.Instance.SetVolume(volume);
-        }
-        else
-        {
-            instance.chatRoom.UpdateChat("Volume has to be a value between 0 and 1");
-        }
-        
+        }     
     }
 }

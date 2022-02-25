@@ -188,7 +188,7 @@ namespace Assets.Scripts.Audio
             foreach (var audioState in Enum.GetNames(typeof(MusicState)))
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
-                var output = MixerGroup.audioMixer.FindMatchingGroups(audioState).ToList().FirstOrDefault();
+                var output = MixerGroup.audioMixer.FindMatchingGroups(audioState).AsEnumerable().FirstOrDefault();
 
                 audioSource.playOnAwake = false;
                 audioSource.outputAudioMixerGroup = output;
@@ -288,5 +288,16 @@ namespace Assets.Scripts.Audio
             nextStateChangeTime = DateTime.Now.AddSeconds(seconds);
         }
         #endregion
+    }
+
+    public enum MusicState
+    {
+        MainMenu,
+        Combat,
+        Neutral,
+        Ambient,
+        Action,
+        HumanPlayerDead,
+        HumanPlayerGrabbed,
     }
 }

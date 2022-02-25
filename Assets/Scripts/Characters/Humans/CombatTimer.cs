@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Events.Args;
 using Assets.Scripts.Audio;
+using Assets.Scripts.Base;
 
 namespace Assets.Scripts.Characters.Humans
 {

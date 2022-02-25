@@ -4238,13 +4238,9 @@ namespace Assets.Scripts.Characters.Humans
 
         private void AddTimeToCombatTimer(Collider collider)
         {
-            if (collider.CompareTag("SoundTrigger"))
+            if (collider.CompareTag("SoundTrigger") && collider.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
             {
-                // Checks the titans State to see if it is dead. If dead then will not set the engaged in combat tracker. If dead then the engaged in combat timer will go down if not around another titan.
-                if (collider.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
-                {
-                    CombatTimer.AddTime();
-                }
+                CombatTimer.AddTime();
             }
         }
     }

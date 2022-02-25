@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.Events.Args
+﻿using Assets.Scripts.Audio;
+
+namespace Assets.Scripts.Events.Args
 {
     public class SongChangedEvent
     {
