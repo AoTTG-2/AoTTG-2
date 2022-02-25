@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Events.Args;
 using Assets.Scripts.Audio;
 using Assets.Scripts.Base;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts.Characters.Humans
 {
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Characters.Humans
         #region Protected Methods
         protected override void SetState()
         {
-            var controller = MusicController.Instance;
+            var controller = Service.Music;
             var currentState = controller.ActiveState;
             var combatState = currentState.Equals(MusicState.Combat);
             if (IsActiveState && !combatState)

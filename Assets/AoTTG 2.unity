@@ -16908,12 +16908,12 @@ PrefabInstance:
     - target: {fileID: 1650797095130246448, guid: 0de197a6b7c13144e9b9b3816740e2e1,
         type: 3}
       propertyPath: viewIdField
-      value: 998
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1650797095130246448, guid: 0de197a6b7c13144e9b9b3816740e2e1,
         type: 3}
       propertyPath: instantiationId
-      value: 998
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1650797095130246449, guid: 0de197a6b7c13144e9b9b3816740e2e1,
         type: 3}
@@ -16985,26 +16985,6 @@ PrefabInstance:
       propertyPath: chat
       value: 
       objectReference: {fileID: 3684867478270308841}
-    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
-        type: 3}
-      propertyPath: commonTable.m_TableReference.m_TableCollectionName
-      value: GUID:879b6323c2565614498240db2876337d
-      objectReference: {fileID: 0}
-    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
-        type: 3}
-      propertyPath: rushGamemodeTable.m_TableReference.m_TableCollectionName
-      value: GUID:d25bedce60a69f443b24b17f39261f41
-      objectReference: {fileID: 0}
-    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
-        type: 3}
-      propertyPath: waveGamemodeTable.m_TableReference.m_TableCollectionName
-      value: GUID:3afcd4554bcf8b445ab94ca7305ea6b9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6383447370369808301, guid: 0de197a6b7c13144e9b9b3816740e2e1,
-        type: 3}
-      propertyPath: sharedGamemodeTable.m_TableReference.m_TableCollectionName
-      value: GUID:c2ae64d1d52689246ad40b03f2b46c42
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de197a6b7c13144e9b9b3816740e2e1, type: 3}
 --- !u!1 &2005390465
@@ -79654,23 +79634,7 @@ PrefabInstance:
     - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
         type: 3}
       propertyPath: Volume
-      value: 0.192
-      objectReference: {fileID: 0}
-    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
-        type: 3}
-      propertyPath: Playlists.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
-        type: 3}
-      propertyPath: Playlists.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8580fc43e6dca784ea42f903136115eb,
-        type: 2}
-    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
-        type: 3}
-      propertyPath: Playlists.Array.data[1]
-      value: 
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4076508099050654392, guid: 17dae60896e99784b8b075c5d270192c,
         type: 3}

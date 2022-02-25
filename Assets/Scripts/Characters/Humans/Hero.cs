@@ -292,7 +292,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
-            MusicController.Instance.SetMusicState(new MusicStateChangedEvent(MusicState.Ambient));
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.Ambient));
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -2703,7 +2703,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (invincible <= 0f)
             {
-                MusicController.Instance.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
+                Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
                 if (titanForm && (eren_titan != null))
                 {
                     eren_titan.lifeTime = 0.1f;
@@ -3272,7 +3272,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             hasDied = true;
             state = HumanState.Die;
-            MusicController.Instance.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
         }
 
         [PunRPC]
