@@ -79651,6 +79651,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1595354040}
     m_Modifications:
+    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
+        type: 3}
+      propertyPath: Volume
+      value: 0.192
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
+        type: 3}
+      propertyPath: Playlists.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
+        type: 3}
+      propertyPath: Playlists.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8580fc43e6dca784ea42f903136115eb,
+        type: 2}
+    - target: {fileID: 1055948025725530710, guid: 17dae60896e99784b8b075c5d270192c,
+        type: 3}
+      propertyPath: Playlists.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4076508099050654392, guid: 17dae60896e99784b8b075c5d270192c,
         type: 3}
       propertyPath: m_RootOrder
