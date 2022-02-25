@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Characters.Humans;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Gamemode;
-using Assets.Scripts.Services;
 using System;
 using UnityEngine;
 
@@ -191,7 +191,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                     var hero = grabTarget.GetComponent<Hero>();
                     EatSet(hero);
                     GrabbedTarget = grabTarget;
-                    Service.Music.SetMusicState(new Events.Args.MusicStateChangedEvent(MusicState.HumanPlayerGrabbed, 6));
+                    MusicController.Instance.SetMusicState(new Events.Args.MusicStateChangedEvent(MusicState.HumanPlayerGrabbed, 6));
                 }
             }
             if (Titan.Animation[AttackAnimation].normalizedTime >= 1f)

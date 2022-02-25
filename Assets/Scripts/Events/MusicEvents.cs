@@ -9,4 +9,6 @@ namespace Assets.Scripts.Events
 {
     public delegate void OnSongChanged(SongChangedEvent songChangedEvent);
     public delegate void OnPlaylistChanged(PlaylistChangedEvent playlistChangedEvent);
+    public delegate void OnMusicPaused();
+    public delegate void OnMusicUnPaused();
 }

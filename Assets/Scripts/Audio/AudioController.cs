@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Services;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 

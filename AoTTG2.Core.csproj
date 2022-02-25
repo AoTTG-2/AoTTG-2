@@ -110,7 +110,6 @@
     <Compile Include="Assets\Scripts\Gamemode\RacingGamemode.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
-    <Compile Include="Assets\Scripts\Services\Interface\IMusicService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ThrownBlade.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
     <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
@@ -158,6 +157,7 @@
     <Compile Include="Assets\Scripts\Services\InventoryService.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\SpawnMenu.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\PvPAhssSettings.cs" />
+    <Compile Include="Assets\Scripts\Events\MusicEvents.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanTrigger.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\ArmComponent.cs" />
@@ -259,6 +259,7 @@
     <Compile Include="Assets\Scripts\UI\CursorMode.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\Blades.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitan.cs" />
+    <Compile Include="Assets\Scripts\Audio\Enums\MusicStates.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanEyesComponent.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Options\TeamMode.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\TextTranslator.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Assets\Scripts\UI\InGame\Controls\RebindElement.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Scoreboard\SortLabelIndicator.cs" />
     <Compile Include="Assets\Scripts\Gamemode\InfectionGamemode.cs" />
+    <Compile Include="Assets\Scripts\Events\Args\MusicStateChangedEvent.cs" />
     <Compile Include="Assets\Scripts\Services\EntityService.cs" />
     <Compile Include="Assets\Scripts\Effects\STransform.cs" />
     <Compile Include="Assets\Scripts\UI\Radial\Radial.cs" />
@@ -337,7 +339,6 @@
     <Compile Include="Assets\Scripts\Services\UiService.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\CombatTimer.cs" />
     <Compile Include="Assets\Scripts\Effects\XffectCache.cs" />
-    <Compile Include="Assets\Scripts\Services\MusicService.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugToolsPanel.cs" />
     <Compile Include="Assets\Scripts\Services\Service.cs" />
     <Compile Include="Assets\Scripts\Audio\Song.cs" />
@@ -357,6 +358,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\Skill.cs" />
     <Compile Include="Assets\Scripts\Events\FactionEvents.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\ServerSettingsPage.cs" />
+    <Compile Include="Assets\Scripts\Events\Args\SongChangedEvent.cs" />
     <Compile Include="Assets\Scripts\Effects\UVAffector.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\ParentFollow.cs" />
     <Compile Include="Assets\Scripts\CustomMaps\MapObject.cs" />
@@ -491,6 +493,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\Attack.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Capture\CheckPointState.cs" />
     <Compile Include="Assets\Scripts\Effects\RotateAffector.cs" />
+    <Compile Include="Assets\Scripts\Events\Args\PlaylistChangedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Input\InputUi.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\PetraSkill.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\DebugStatsPanel.cs" />
@@ -536,11 +539,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Audio\Enums\MusicStates.cs" />
-    <Compile Include="Assets\Scripts\Events\Args\MusicStateChangedEvent.cs" />
-    <Compile Include="Assets\Scripts\Events\Args\SongChangedEvent.cs" />
-    <Compile Include="Assets\Scripts\Events\MusicEvents.cs" />
-    <Compile Include="Assets\Scripts\Events\Args\PlaylistChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

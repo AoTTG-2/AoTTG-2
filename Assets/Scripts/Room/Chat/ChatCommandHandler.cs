@@ -13,7 +13,7 @@ using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 using Assets.Scripts.Utility;
-using Assets.Scripts.Events.Args;
+using Assets.Scripts.Audio;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -518,7 +518,7 @@ public static class ChatCommandHandler
 
     private static void OutputCurrentSong()
     {
-        var currentSong = FormatSystemMessage(Service.Music.NowPlaying);
+        var currentSong = FormatSystemMessage(MusicController.Instance.NowPlaying);
         instance.chatRoom.UpdateChat($"Currently playing:<br> {currentSong}");
     }
 
@@ -688,10 +688,9 @@ public static class ChatCommandHandler
 
     private static void SetMusicVolume(string parameter)
     {
-        var parsed = float.TryParse(parameter, out var volume);
-        if (parsed && volume >= 0 && volume <= 1)
+        if (float.TryParse(parameter, out var volume))
         {
-            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
+            MusicController.Instance.SetVolume(volume);
         }
         else
         {

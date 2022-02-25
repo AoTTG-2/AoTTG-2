@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Events.Args;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +17,43 @@ namespace Assets.Scripts.Audio
     {
         #region Private Properties
         private bool firstStart = true;
-        private readonly IMusicService musicService = Service.Music;
+        private DateTime nextStateChangeTime;
+        private Song activeSong;
+        private Playlist activePlaylist;
+        private Dictionary<MusicState, List<MusicState>> stateMatrix;
+        private List<MusicState> instantStates;
+        private bool isPaused;
         #endregion
 
         #region Public Properties
+        public MusicState ActiveState;
         [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
         public List<Playlist> Playlists;
-        [Tooltip("Displays the current state of the MusicController, can be changed manually for testing (the system can override any changes you make here, so it's better to use the audiomixer and \"Edit in play mode\").")]
-        public MusicState State;
         [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
         public float TransitionTime;
+        /// <summary>
+        /// Gets the name of the current song and composer.
+        /// </summary>
+        public string NowPlaying => activeSong != null ? $"{activeSong.Name} - {activeSong.Composer}" : string.Empty;
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// The active <see cref="MusicState"/> has changed.
+        /// </summary>
+        public event OnMusicStateChanged OnStateChanged;
+        /// <summary>
+        /// The active <see cref="Song"/> has changed.
+        /// </summary>
+        public event OnSongChanged OnSongChanged;
+        /// <summary>
+        /// The active <see cref="Playlist"/> has changed.
+        /// </summary>
+        public event OnPlaylistChanged OnPlaylistChanged;
+        /// <summary>
+        /// The volume has changed.
+        /// </summary>
+        public event OnVolumeChanged OnVolumeChanged;
         #endregion
 
         #region Constructors
@@ -38,37 +65,65 @@ namespace Assets.Scripts.Audio
         {
             base.Awake();
             CreateAudioSources();
-            SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            musicService.OnStateChanged += MusicService_OnStateChanged;
-            musicService.OnVolumeChanged += MusicService_OnVolumeChanged; ;
+            BuildStateMatrix();
             SetActivePlaylist(null);
+            SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+            Service.Pause.OnPaused += Pause_OnPaused;
+            Service.Pause.OnUnPaused += Pause_OnUnPaused;
         }
 
         protected void FixedUpdate()
         {
             StartAudiosourcesIfNotPlaying();
             CheckMusicVolume(MixerGroup.audioMixer);
-            CheckState();
         }
         #endregion
 
         #region Eventlistners
-        private void MusicService_OnVolumeChanged(MusicVolumeChangedEvent musicVolumeEvent)
-        {
-            Volume = NormalizeVolume(musicVolumeEvent.Volume);
-        }
-
-        private void MusicService_OnStateChanged(MusicStateChangedEvent musicStateEvent)
-        {
-            State = musicStateEvent.State;
-            TransitionToSnapshot(musicStateEvent.State);
-        }
-
         // Use OnLevelLoaded instead when it is working properly
         private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
         {
             var newPlaylist = Playlists.GetByName(scene.name);
             SetActivePlaylist(newPlaylist);
+        }
+        private void Pause_OnPaused(object sender, EventArgs e)
+        {
+            audioSources.ForEach(src => src.Pause());
+            isPaused = !isPaused;
+        }
+
+        private void Pause_OnUnPaused(object sender, EventArgs e)
+        {
+            audioSources.ForEach(src => src.UnPause());
+            isPaused = !isPaused;
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Sets the music volume.
+        /// </summary>
+        /// <param name="volume"></param>
+        public void SetVolume(float volume)
+        {
+            Volume = NormalizeVolume(volume);
+            OnVolumeChanged?.Invoke(new MusicVolumeChangedEvent(Volume));
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Sets the active <see cref="MusicState"/>.
+        /// </summary>
+        /// <param name="musicStateEvent"></param>
+        public void SetMusicState(MusicStateChangedEvent musicStateEvent)
+        {
+            if (ValidateTransition(musicStateEvent))
+            {
+                ActiveState = musicStateEvent.State;
+                OnStateChanged?.Invoke(musicStateEvent);
+                TransitionToSnapshot(musicStateEvent.State);
+            }
         }
         #endregion
 
@@ -79,7 +134,7 @@ namespace Assets.Scripts.Audio
 
             if (snapshot != null)
             {
-                SetCurrentSong();
+                SetActiveSong();
                 snapshot.audioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
                 snapshot.TransitionTo(TransitionTime);
             }
@@ -89,22 +144,23 @@ namespace Assets.Scripts.Audio
         {
             playlist = playlist is null ? Playlists.GetDefault() : playlist;
 
-            if (playlist != null && musicService.ActivePlaylist.name != playlist.name)
+            if (playlist != null && activePlaylist?.name != playlist.name)
             {
-                musicService.SetActivePlaylist(new PlaylistChangedEvent(playlist));
+                activePlaylist = playlist;
+                OnPlaylistChanged?.Invoke(new PlaylistChangedEvent(playlist));
             }
         }
 
-        private void SetCurrentSong()
+        private void SetActiveSong()
         {
-            var currentState = musicService.ActiveState;
-            var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(currentState.ToString()));
+            var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(ActiveState.ToString()));
             var clipName = audioSource.clip != null ? audioSource.clip.name : null;
-            var song = musicService.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(currentState));
+            var song = activePlaylist != null ? activePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(ActiveState)) : null;
             
             if (song != null)
             {
-                musicService.SetActiveSong(new SongChangedEvent(song));
+                activeSong = song;
+                OnSongChanged?.Invoke(new SongChangedEvent(song));
             }
         }
 
@@ -132,16 +188,16 @@ namespace Assets.Scripts.Audio
 
                 if (parsed)
                 {
-                    var song = musicService.ActivePlaylist.songs.GetRandomByState(state);
+                    var song = activePlaylist.songs.GetRandomByState(state);
                     src.clip = song != null ? song.Clip : null;
                 }
 
                 src.volume = 1f;
-                if (state != musicService.ActiveState && firstStart)
+                if (state != ActiveState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
-                else
+                else if (!isPaused)
                 {
                     src.Play();
                 }
@@ -150,24 +206,68 @@ namespace Assets.Scripts.Audio
             firstStart = false;
         }
 
-        private void CheckState()
+        private void CheckMusicVolume(AudioMixer audioMixer)
         {
-            if (musicService.ActiveState != State)
+            audioMixer.GetFloat(VolumeParameterName, out var mixerVolume);
+            var musicVolume = Volume.Log10Volume();
+
+            if (mixerVolume != musicVolume)
             {
-                musicService.SetMusicState(new MusicStateChangedEvent(State));
+                audioMixer.SetFloat(VolumeParameterName, musicVolume);
             }
         }
 
-        private void CheckMusicVolume(AudioMixer audioMixer)
+        private bool ValidateTransition(MusicStateChangedEvent stateEvent)
         {
-            audioMixer.GetFloat(VolumeParameterName, out var volume);
-            var musicVolume = Volume.Log10Volume();
+            var now = DateTime.Now;
+            var isTimeToChange = now - nextStateChangeTime < now.TimeOfDay;
+            var stateExistsInPlaylist = activePlaylist != null && activePlaylist.songs.GetByState(stateEvent.State)?.Count > 0;
 
-            if (volume != musicVolume)
+            var nextStateNotCurrent = stateEvent.State != ActiveState;
+            var currentStateExistsAsKeyInMatrix = stateMatrix.TryGetValue(ActiveState, out var matrixForCurrentState);
+            var canTransitionFromCurrentState = currentStateExistsAsKeyInMatrix && (matrixForCurrentState.Any(v => v.Equals(stateEvent.State)) || matrixForCurrentState.Count < 1);
+            var rule = isTimeToChange && nextStateNotCurrent && canTransitionFromCurrentState && stateExistsInPlaylist;
+            var exception = instantStates.Contains(stateEvent.State);
+
+            // If statematrix contains a key with the current state   
+            // and any of the values for that key are equal to the incoming state
+            // and the time to to change has passed, or it's an instant state,
+            // then set next state change time and return true, else return false.
+            if (rule || exception)
             {
-                audioMixer.SetFloat(VolumeParameterName, musicVolume);
-                musicService.SetMusicVolume(new MusicVolumeChangedEvent(Volume));
+                SetNextStateChangeTime(stateEvent);
+                return true;
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void BuildStateMatrix()
+        {
+            // The statematrix is a ruleset saying that if the current state = key
+            // then value is the possible states we can transition to.
+            // empty list in value = accept all transitions
+            stateMatrix = new Dictionary<MusicState, List<MusicState>>
+            {
+                { MusicState.MainMenu, new List<MusicState>() },
+                { MusicState.Ambient, new List<MusicState>() { MusicState.Neutral, MusicState.Combat, MusicState.Action } },
+                { MusicState.Neutral, new List<MusicState>() { MusicState.Ambient, MusicState.Combat, MusicState.Action } },
+                { MusicState.Action, new List<MusicState>() { MusicState.Combat, MusicState.Neutral } },
+                { MusicState.Combat, new List<MusicState>() { MusicState.Neutral } },
+                { MusicState.HumanPlayerDead, new List<MusicState>() { MusicState.Ambient } },
+            };
+
+            // These states are exceptions from the stateMatrix and will always trigger a change
+            instantStates = new List<MusicState>() { MusicState.MainMenu, MusicState.HumanPlayerGrabbed, MusicState.HumanPlayerDead };
+        }
+
+        private void SetNextStateChangeTime(MusicStateChangedEvent stateEvent)
+        {
+            var seconds = stateEvent.KeepStateActive.Equals(0) ? 3 : stateEvent.KeepStateActive;
+            // sets a point in time when the next state transition can take place
+            nextStateChangeTime = DateTime.Now.AddSeconds(seconds);
         }
         #endregion
     }

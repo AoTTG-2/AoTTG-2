@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Services;
-using Assets.Scripts.Events.Args;
+﻿using Assets.Scripts.Events.Args;
+using Assets.Scripts.Audio;
 
 namespace Assets.Scripts.Characters.Humans
 {
@@ -8,16 +8,16 @@ namespace Assets.Scripts.Characters.Humans
         #region Protected Methods
         protected override void SetState()
         {
-            var service = Service.Music;
-            var currentState = service.ActiveState;
+            var controller = MusicController.Instance;
+            var currentState = controller.ActiveState;
             var combatState = currentState.Equals(MusicState.Combat);
             if (IsActiveState && !combatState)
             {
-                service.SetMusicState(new MusicStateChangedEvent(MusicState.Combat));
+                controller.SetMusicState(new MusicStateChangedEvent(MusicState.Combat));
             }
             else if (!IsActiveState && combatState)
             {
-                service.SetMusicState(new MusicStateChangedEvent(MusicState.Neutral));
+                controller.SetMusicState(new MusicStateChangedEvent(MusicState.Neutral));
             }
         }
         #endregion
