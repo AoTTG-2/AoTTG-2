@@ -33,11 +33,15 @@ namespace Assets.Scripts.Settings.Types
 
         public static bool operator ==(BoolSetting left, bool right)
         {
+            // If there is no value, then it should always return false
+            if (!left?.HasValue == true) return false;
             return left?.Value == right;
         }
 
         public static bool operator !=(BoolSetting left, bool right)
         {
+            // If there is no value, then it should always return false
+            if (!left?.HasValue == true) return false;
             return left?.Value != right;
         }
 

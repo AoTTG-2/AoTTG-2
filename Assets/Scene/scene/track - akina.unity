@@ -31578,17 +31578,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.28699377
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.3277283
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.986637
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
@@ -31634,6 +31634,17 @@ PrefabInstance:
       propertyPath: CurrentGamemode
       value: 
       objectReference: {fileID: 11400000, guid: 9437bca3ea608204589e32dee80308f5,
+        type: 2}
+    - target: {fileID: 8224132647567728514, guid: 30f4658f699ad5546b88e92392bc6827,
+        type: 3}
+      propertyPath: CurrentRuleSets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224132647567728514, guid: 30f4658f699ad5546b88e92392bc6827,
+        type: 3}
+      propertyPath: CurrentRuleSets.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f3e6e98c45198694ba81d1e7a5582145,
         type: 2}
     - target: {fileID: 8224132647567728515, guid: 30f4658f699ad5546b88e92392bc6827,
         type: 3}

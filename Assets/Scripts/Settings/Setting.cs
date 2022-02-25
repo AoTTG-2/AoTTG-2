@@ -27,7 +27,7 @@ namespace Assets.Scripts.Settings
 
         public DebugSettings DefaultDebug;
         public GameSettings DefaultGameSetting;
-        public GamemodeSetting DefaultGamemodeSetting;
+        public GamemodeSetting DefaultGamemodeSetting; //TODO: Instead of using the Level gamemode, it uses this
         public List<Level> DefaultLevels;
         public List<RuleSet> RuleSets;
 

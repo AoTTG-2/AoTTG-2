@@ -9,10 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05fa15911aac03640a9770f0cd8aedd5, type: 3}
-  m_Name: Forest - Classic - Forest Waves
+  m_Script: {fileID: 11500000, guid: 8f4e610b509e3354d893e384fce10632, type: 3}
+  m_Name: Endless
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Endless
+  gamemodes:
+    Capture: {fileID: 0}
+    Catch: {fileID: 0}
+    Infection: {fileID: 0}
+    KillTitans: {fileID: 0}
+    PvP: {fileID: 0}
+    Racing: {fileID: 0}
+    Rush: {fileID: 0}
+    Trost: {fileID: 0}
+    Wave: {fileID: 0}
+  PvP: {fileID: 0}
+  Titan: {fileID: 0}
+  Horse: {fileID: 0}
+  Respawn: {fileID: 0}
+  Time: {fileID: 0}
+  Global: {fileID: 0}
   Description:
     value: 
     hasValue: 0
@@ -24,7 +40,7 @@ MonoBehaviour:
     hasValue: 0
   TeamMode:
     value: 0
-    hasValue: 1
+    hasValue: 0
   SaveKDROnDisconnect:
     value: 0
     hasValue: 0
@@ -44,26 +60,5 @@ MonoBehaviour:
     value: 0
     hasValue: 0
   Endless:
-    value: 0
-    hasValue: 0
-  PvP: {fileID: 0}
-  Titan: {fileID: 0}
-  Horse: {fileID: 0}
-  Respawn: {fileID: 0}
-  Time: {fileID: 0}
-  Global: {fileID: 0}
-  StartWave:
     value: 1
     hasValue: 1
-  MaxWave:
-    value: 200
-    hasValue: 1
-  WaveIncrement:
-    value: 0
-    hasValue: 0
-  BossWave:
-    value: 0
-    hasValue: 0
-  BossType:
-    value: 0
-    hasValue: 0

@@ -8,7 +8,7 @@ namespace Assets.Scripts.Settings.Game
     [CreateAssetMenu(fileName = "Custom", menuName = "Settings/Game", order = 1)]
     public class GameSettings : BaseSettings
     {
-        [SerializeField] private GamemodeConfiguration gamemodes;
+        [SerializeField] protected GamemodeConfiguration gamemodes;
 
         public GamemodeSetting CurrentGamemode { get; private set; }
         public PvPSettings PvP;
@@ -48,6 +48,7 @@ namespace Assets.Scripts.Settings.Game
         {
             GamemodeSetting currentGamemode = levelSetting switch
             {
+                CatchGamemodeSetting _ => gamemodes.Catch,
                 CaptureGamemodeSetting _ => gamemodes.Capture,
                 InfectionGamemodeSetting _ => gamemodes.Infection,
                 KillTitansGamemodeSetting _ => gamemodes.KillTitans,

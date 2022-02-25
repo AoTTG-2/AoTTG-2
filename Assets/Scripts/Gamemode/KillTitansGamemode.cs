@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Game.Gamemodes;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -30,7 +32,7 @@ namespace Assets.Scripts.Gamemode
             photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
-
+        
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
@@ -78,5 +80,43 @@ namespace Assets.Scripts.Gamemode
                 SpawnTitans(Setting.Gamemode.Titan.Start.Value);
             }
         }
+
+        public override void OnRestart()
+        {
+            EndlessScore = 0;
+            base.OnRestart();
+        }
+
+        #region Endless
+        private int EndlessScore { get; set; }
+        
+        protected override void OnEntityUnRegistered(Entity entity)
+        {
+            if (!Settings.Endless)
+            {
+                base.OnEntityUnRegistered(entity);
+                return;
+            }
+
+            EndlessScore++;
+            if (entity is MindlessTitan)
+            {
+                SpawnService.Spawn<MindlessTitan>(GetTitanConfiguration());
+            }
+        }
+
+        protected override void SetStatusTop()
+        {
+            if (!Settings.Endless)
+            {
+                base.SetStatusTop();
+                return;
+            }
+            var content = $"Titans Killed: {EndlessScore} Time : {TimeService.GetRoundDisplayTime()}";
+            UiService.SetMessage(LabelPosition.Top, content);
+        }
+        #endregion
+
+
     }
 }

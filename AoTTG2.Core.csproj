@@ -500,6 +500,7 @@
     <Compile Include="Assets\Scripts\Characters\Faction.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanHitEvent.cs" />
     <Compile Include="Assets\Scripts\Xft\VertexPool.cs" />
+    <Compile Include="Assets\Scripts\Gamemode\Options\WorldMode.cs" />
     <Compile Include="Assets\Scripts\Effects\ColorAffector.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\MindlessTitanType.cs" />
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
@@ -525,7 +526,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Gamemode\Options\WorldMode.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

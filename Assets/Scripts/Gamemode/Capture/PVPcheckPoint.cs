@@ -1,4 +1,4 @@
-using Assets.Scripts;
+﻿using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Settings;
@@ -138,13 +138,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     {
         if (this.state == CheckPointState.Human)
         {
-            return $"<color=#{ColorSet.color_human}>H</color>[-]";
+            return $"<color=#{ColorSet.color_human}>H</color>";
         }
         if (this.state == CheckPointState.Titan)
         {
-            return $"<color=#{ColorSet.color_titan_player}>T</color>[-]";
+            return $"<color=#{ColorSet.color_titan_player}>T</color>";
         }
-        return $"<color=#{ColorSet.color_D}>_</color>[-]";
+        return $"<color=#{ColorSet.color_D}>_</color>";
     }
 
     private void humanGetsPoint()

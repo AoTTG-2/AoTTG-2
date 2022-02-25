@@ -30,6 +30,8 @@ namespace Assets.Scripts.Gamemode.Racing
             {
                 OriginalColor = Material.color;
             }
+
+            WorldMode_OnValueChanged(Setting.Gamemode.WorldMode.Value);
         }
 
         private void OnDestroy()

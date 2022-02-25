@@ -10,6 +10,7 @@ using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -28,15 +29,19 @@ namespace Assets.Scripts.Gamemode
         protected override void SetStatusTop()
         {
             if (!IsValid) return;
-            var content = "| ";
+            var content = new StringBuilder();
             foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
             {
-                content = content + checkpoint.getStateString() + " ";
+                content.Append($" {checkpoint.getStateString()} ");
             }
-            content = $"| {Settings.PvPTitanScoreLimit.Value - PvpTitanScore} {content} {Settings.PvPHumanScoreLimit.Value - PvpHumanScore} \n" +
-                      $"Time : {TimeService.GetRoundDisplayTime()}";
 
-            UiService.SetMessage(LabelPosition.Top, content);
+            if (!Settings.Endless)
+            {
+                content = new StringBuilder($"{Settings.PvPHumanScoreLimit.Value - PvpTitanScore}    | {content} |   {Settings.PvPHumanScoreLimit.Value - PvpHumanScore}");
+            }
+            content.Append($"\nTime : {TimeService.GetRoundDisplayTime()}");
+
+            UiService.SetMessage(LabelPosition.Top, content.ToString());
         }
         
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
@@ -91,7 +96,7 @@ namespace Assets.Scripts.Gamemode
 
         private void CheckWinConditions()
         {
-            if (!Settings.Endless.Value) return;
+            if (Settings.Endless.Value) return;
 
             if (PhotonNetwork.isMasterClient)
             {
@@ -131,6 +136,7 @@ namespace Assets.Scripts.Gamemode
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
+            //TODO: NullReferenceHere on Utgard
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)

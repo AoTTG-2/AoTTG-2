@@ -9,6 +9,9 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
 {
     public abstract class GamemodeSetting : BaseSettings
     {
+        /// <summary>
+        /// Enum to define the GamemodeType. Where possible, rather use <code>Setting.Gamemode is TYPE</code> Will become obsolete once we can use C# 9.0
+        /// </summary>
         public GamemodeType GamemodeType { get; protected set; }
 
         public StringSetting Description;
@@ -38,12 +41,29 @@ namespace Assets.Scripts.Settings.Game.Gamemodes
             {
                 case RuleSet ruleSet:
                     {
+                        // Global Settings
                         if (ruleSet.PvP != null) PvP.Override(ruleSet.PvP);
                         if (ruleSet.Titan != null) Titan.Override(ruleSet.Titan);
                         if (ruleSet.Horse != null) Horse.Override(ruleSet.Horse);
                         if (ruleSet.Respawn != null) Respawn.Override(ruleSet.Respawn);
                         if (ruleSet.Time != null) Time.Override(ruleSet.Time);
                         if (ruleSet.Global != null) Global.Override(ruleSet.Global);
+
+                        // Global Gamemode specific settings
+                        if (ruleSet.Description.HasValue) Description.Value = ruleSet.Description.Value;
+                        if (ruleSet.MOTD.HasValue) MOTD.Value = ruleSet.MOTD.Value;
+                        if (ruleSet.WorldMode.HasValue) WorldMode.Value = ruleSet.WorldMode.Value;
+                        if (ruleSet.TeamMode.HasValue) TeamMode.Value = ruleSet.TeamMode.Value;
+                        if (ruleSet.SaveKDROnDisconnect.HasValue) SaveKDROnDisconnect.Value = ruleSet.SaveKDROnDisconnect.Value;
+                        if (ruleSet.PointMode.HasValue) PointMode.Value = ruleSet.PointMode.Value;
+                        if (ruleSet.ImpactForce.HasValue) ImpactForce.Value = ruleSet.ImpactForce.Value;
+                        if (ruleSet.Supply.HasValue) Supply.Value = ruleSet.Supply.Value;
+                        if (ruleSet.IsPlayerTitanEnabled.HasValue) IsPlayerTitanEnabled.Value = ruleSet.IsPlayerTitanEnabled.Value;
+                        if (ruleSet.PlayerShifers.HasValue) PlayerShifers.Value = ruleSet.PlayerShifers.Value;
+                        if (ruleSet.Endless.HasValue) Endless.Value = ruleSet.Endless.Value;
+
+                        // Override any gamemode specific
+                        ruleSet.TryOverrideGamemode(this);
                         break;
                     }
                 case GamemodeSetting gamemode:

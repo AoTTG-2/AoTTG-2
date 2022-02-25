@@ -3395,7 +3395,7 @@ namespace Assets.Scripts.Characters.Humans
         public void NetDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
         {
             GameObject obj2;
-            if ((photonView.isMine) && (Setting.Gamemode.GamemodeType != GamemodeType.TitanRush))
+            if ((photonView.isMine) && (Setting.Gamemode.GamemodeType  != GamemodeType.TitanRush))
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
