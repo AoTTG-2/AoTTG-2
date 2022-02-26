@@ -50,6 +50,7 @@ namespace Assets.Scripts.Audio
         {
             StartAudiosourcesIfNotPlaying();
             CheckMusicVolume(MixerGroup.audioMixer);
+            CheckMusicState();
         }
         #endregion
 
@@ -185,6 +186,14 @@ namespace Assets.Scripts.Audio
             if (mixerVolume != musicVolume)
             {
                 audioMixer.SetFloat(VolumeParameterName, musicVolume);
+            }
+        }
+
+        private void CheckMusicState()
+        {
+            if (ActiveState != Service.Music.ActiveState)
+            {
+                Service.Music.SetMusicState(new MusicStateChangedEvent(ActiveState));
             }
         }
         #endregion
