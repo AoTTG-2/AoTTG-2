@@ -13,7 +13,7 @@ namespace Assets.Scripts.Audio
     /// <summary>
     /// Controls the music.
     /// </summary>
-    public class MusicController : AudioController<MusicController>
+    public class MusicController : AudioController
     {
         #region Private Properties
         private bool firstStart = true;
@@ -39,11 +39,12 @@ namespace Assets.Scripts.Audio
             CreateAudioSources();
             SetActivePlaylist(null);
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            Service.Pause.OnPaused += Pause_OnPaused;
-            Service.Pause.OnUnPaused += Pause_OnUnPaused;
+            //Service.Pause.OnPaused += Pause_OnPaused;
+            //Service.Pause.OnUnPaused += Pause_OnUnPaused;
             Service.Music.OnStateChanged += Music_OnStateChanged;
             Service.Music.OnVolumeChanged += Music_OnVolumeChanged;
         }
+
 
         protected void FixedUpdate()
         {

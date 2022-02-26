@@ -8,12 +8,12 @@ using UnityEngine.Audio;
 namespace Assets.Scripts.Audio
 {
     /// <summary>
-    /// Includes common parameters and logic that is to be shared between controllers dealing with audio. Inherits <see cref="SingeltonMonoBehaviour{Tclass}"/>
+    /// Includes common parameters and logic that is to be shared between controllers dealing with audio
     /// </summary>
-    /// <typeparam name="Tclass"></typeparam>
-    public abstract class AudioController<Tclass> : SingeltonMonoBehaviour<Tclass> where Tclass : class
+    public abstract class AudioController : MonoBehaviour
     {
         #region Private Properties
+        private static AudioController instance;
         private const float MinVolume = 0.0001f;
         private const float MaxVolume = 1;
         #endregion
@@ -36,6 +36,22 @@ namespace Assets.Scripts.Audio
         protected AudioController()
         {
             audioSources = new List<AudioSource>();
+        }
+        #endregion
+
+        #region Monobehaviours
+        protected virtual void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         #endregion
 
