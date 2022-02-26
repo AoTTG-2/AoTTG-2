@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Events;
-using Assets.Scripts.Events.Args;
+﻿using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
