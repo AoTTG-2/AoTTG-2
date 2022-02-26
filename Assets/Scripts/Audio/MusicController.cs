@@ -17,6 +17,7 @@ namespace Assets.Scripts.Audio
         #region Private Properties
         private bool firstStart = true;
         private bool isPaused;
+        private readonly float defaultAudiosourceVolume = 1;
         #endregion
 
         #region Public Properties
@@ -87,10 +88,9 @@ namespace Assets.Scripts.Audio
         {
             audioSources.ForEach(src =>
             {
-                src.volume = Volume;
                 if (isPaused)
                 {
-                    src.volume = Volume;
+                    src.volume = defaultAudiosourceVolume;
                     src.UnPause();
                 }
                 else
@@ -163,7 +163,7 @@ namespace Assets.Scripts.Audio
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
-                src.volume = 1f;
+                src.volume = defaultAudiosourceVolume;
                 if (state != ActiveState && firstStart)
                 {
                     src.PlayDelayed(1);
