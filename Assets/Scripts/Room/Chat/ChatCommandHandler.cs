@@ -14,6 +14,7 @@ using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 using Assets.Scripts.Utility;
 using Assets.Scripts.Events.Args;
+using System.Globalization;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -679,7 +680,7 @@ public static class ChatCommandHandler
 
     private static void SetMusicVolume(string parameter)
     {
-        if (float.TryParse(parameter, out var volume))
+        if (float.TryParse(parameter, NumberStyles.Float, CultureInfo.InvariantCulture, out var volume))
         {
             Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
         }     
