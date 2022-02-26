@@ -1,80 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class StateTimer : MonoBehaviour
+namespace Assets.Scripts.Base
 {
-    #region ProtectedProperties
-    protected float totalTimeInState;
-    protected int maxTimer;
-    protected float timer;
-    protected float timeToAdd;
-    #endregion
-
-    #region Public Properties
-    public bool IsActiveState { get { return timer > 0; } }
-    #endregion
-
-    #region Constructors
-    public StateTimer()
+    public abstract class StateTimer : MonoBehaviour
     {
-        maxTimer = 15;
-        timeToAdd = 5;
-    }
-    #endregion
+        #region ProtectedProperties
+        protected float totalTimeInState;
+        protected int maxTimer;
+        protected float timer;
+        protected float timeToAdd;
+        #endregion
 
-    #region Monobehaviours
-    protected virtual void FixedUpdate()
-    {
-        CalcTotalTime();
-        SubtractTime();
-        SetState();
-    }
+        #region Public Properties
+        public bool IsActiveState { get { return timer > 0; } }
+        #endregion
 
-    protected virtual void Awake()
-    {
-        enabled = true;
-    }
-    #endregion
-
-    #region Private Methods
-    private void CalcTotalTime()
-    {
-        if (IsActiveState)
+        #region Constructors
+        protected StateTimer()
         {
-            totalTimeInState += Time.deltaTime;
+            maxTimer = 15;
+            timeToAdd = 5;
         }
-        else if (totalTimeInState > 0)
+        #endregion
+
+        #region Monobehaviours
+        protected virtual void FixedUpdate()
         {
-            totalTimeInState = 0;
+            CalcTotalTime();
+            SubtractTime();
+            SetState();
         }
-    }
 
-    private void SubtractTime()
-    {
-        var deltaTime = Time.deltaTime;
-        var result = timer - deltaTime;
-        timer = result < 0 ? 0 : result;
-    }
-    #endregion
+        protected virtual void Awake()
+        {
+            enabled = true;
+        }
+        #endregion
 
-    #region Protected Methods
-    protected abstract void SetState();
-    #endregion
+        #region Private Methods
+        private void CalcTotalTime()
+        {
+            if (IsActiveState)
+            {
+                totalTimeInState += Time.deltaTime;
+            }
+            else if (totalTimeInState > 0)
+            {
+                totalTimeInState = 0;
+            }
+        }
 
-    #region Public Methods
-    public void AddTime(float time)
-    {
-        var total = timer + time;
-        timer = (total < maxTimer) ? total : maxTimer;
-    }
+        private void SubtractTime()
+        {
+            var deltaTime = Time.deltaTime;
+            var result = timer - deltaTime;
+            timer = result < 0 ? 0 : result;
+        }
+        #endregion
 
-    public void AddTime()
-    {
-        AddTime(timeToAdd);
+        #region Protected Methods
+        protected abstract void SetState();
+        #endregion
+
+        #region Public Methods
+        public void AddTime(float time)
+        {
+            var total = timer + time;
+            timer = (total < maxTimer) ? total : maxTimer;
+        }
+
+        public void AddTime()
+        {
+            AddTime(timeToAdd);
+        }
+        #endregion
     }
-    #endregion
 }

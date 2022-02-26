@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Audio;
 using Assets.Scripts.Events.Args;
 using Assets.Scripts.Graphics;
+using Assets.Scripts.Services;
 using Assets.Scripts.UI.Menu;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
-            MusicController.Instance.SetMusicState(new MusicStateChangedEvent(MusicState.MainMenu));
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.MainMenu));
             FramerateController.LockFramerateToRefreshRate();
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);

@@ -13,7 +13,7 @@ using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 using Assets.Scripts.Utility;
-using Assets.Scripts.Audio;
+using Assets.Scripts.Events.Args;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -516,12 +516,6 @@ public static class ChatCommandHandler
         instance.chatRoom.ClearMessages();
     }
 
-    private static void OutputCurrentSong()
-    {
-        var currentSong = FormatSystemMessage(MusicController.Instance.NowPlaying);
-        instance.chatRoom.UpdateChat($"Currently playing:<br> {currentSong}");
-    }
-
     private static void SwitchTeam(int team)
     {
         instance.photonView.RPC(nameof(FengGameManagerMKII.setTeamRPC), player, new object[] { team });
@@ -678,9 +672,6 @@ public static class ChatCommandHandler
             case ChatCommand.Teleport:
                 Teleport(commands);
                 break;
-            case ChatCommand.Song:
-                OutputCurrentSong();
-                break;
             default:
                 break;
         }
@@ -690,12 +681,7 @@ public static class ChatCommandHandler
     {
         if (float.TryParse(parameter, out var volume))
         {
-            MusicController.Instance.SetVolume(volume);
-        }
-        else
-        {
-            instance.chatRoom.UpdateChat("Volume has to be a value between 0 and 1");
-        }
-        
+            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
+        }     
     }
 }

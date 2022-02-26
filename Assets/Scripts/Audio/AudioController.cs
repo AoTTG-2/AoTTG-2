@@ -1,16 +1,13 @@
-﻿using Assets.Scripts.Events;
-using Assets.Scripts.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Assets.Scripts.Audio
 {
     /// <summary>
-    /// Includes common parameters and logic that is to be shared between controllers dealing with audio. Inherits <see cref="SingeltonMonoBehaviour{Tclass}"/>
+    /// Includes common parameters and logic that is to be shared between controllers dealing with audio
     /// </summary>
-    /// <typeparam name="Tclass"></typeparam>
-    public abstract class AudioController<Tclass> : SingeltonMonoBehaviour<Tclass> where Tclass : class
+    public abstract class AudioController : MonoBehaviour
     {
         #region Private Properties
         private const float MinVolume = 0.0001f;
@@ -39,16 +36,18 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Monobehaviours
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            base.Awake();
+            DontDestroyOnLoad(gameObject);
         }
         #endregion
 
         #region Protected Methods
         protected float NormalizeVolume(float volume)
         {
-            return volume <= 0 ? MinVolume : (volume > 1 ? MaxVolume : volume);
+            volume = volume <= 0 ? MinVolume : volume;
+            volume = volume > 1 ? MaxVolume : volume;
+            return volume;
         }
         #endregion
     }

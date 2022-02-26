@@ -3,7 +3,7 @@
     public abstract class VolumeChangedEvent
     {
         #region Constructors
-        public VolumeChangedEvent(float volume)
+        protected VolumeChangedEvent(float volume)
         {
             Volume = volume;
         }
