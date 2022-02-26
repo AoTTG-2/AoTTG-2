@@ -39,8 +39,8 @@ namespace Assets.Scripts.Audio
             CreateAudioSources();
             SetActivePlaylist(null);
             SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            //Service.Pause.OnPaused += Pause_OnPaused;
-            //Service.Pause.OnUnPaused += Pause_OnUnPaused;
+            Service.Pause.OnPaused += Pause_OnPaused;
+            Service.Pause.OnUnPaused += Pause_OnUnPaused;
             Service.Music.OnStateChanged += Music_OnStateChanged;
             Service.Music.OnVolumeChanged += Music_OnVolumeChanged;
         }

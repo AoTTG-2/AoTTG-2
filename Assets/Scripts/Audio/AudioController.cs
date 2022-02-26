@@ -13,7 +13,6 @@ namespace Assets.Scripts.Audio
     public abstract class AudioController : MonoBehaviour
     {
         #region Private Properties
-        private static AudioController instance;
         private const float MinVolume = 0.0001f;
         private const float MaxVolume = 1;
         #endregion
@@ -43,15 +42,6 @@ namespace Assets.Scripts.Audio
         protected virtual void Awake()
         {
             DontDestroyOnLoad(gameObject);
-
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
         }
         #endregion
 
