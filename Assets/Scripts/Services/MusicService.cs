@@ -16,12 +16,14 @@ namespace Assets.Scripts.Services
     {
         #region Private Properties
         private DateTime nextStateChangeTime;
-        private MusicState activetState;
+        private MusicState activeState;
+        private MusicState? previousActivetState;
         private float musicVolume;
         private Song activeSong;
         private Playlist activePlaylist;
         private Dictionary<MusicState, List<MusicState>> stateMatrix;
         private List<MusicState> instantStates;
+        private List<MusicState> playFromBegining;
         #endregion
 
         #region Public Properties
@@ -32,7 +34,7 @@ namespace Assets.Scripts.Services
         /// <summary>
         /// Gets the currently active <see cref="MusicState"/>
         /// </summary>
-        public MusicState ActiveState => activetState;
+        public MusicState ActiveState => activeState;
         /// <summary>
         /// Gets the current music volume.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Assets.Scripts.Services
         #region Constructors
         public MusicService()
         {
-            BuildStateMatrix();
+            CreateRuleset();
         }
         #endregion
 
@@ -76,13 +78,14 @@ namespace Assets.Scripts.Services
         /// <param name="stateEvent"></param>
         public void SetMusicState(MusicStateChangedEvent stateEvent)
         {
-            if (!ValidateTransition(stateEvent))
+            if (ValidateTransition(stateEvent))
             {
-                return;
+                previousActivetState = activeState;
+                activeState = stateEvent.ActiveState;
+                var restart = playFromBegining.Contains(activeState);
+                var newEvent = new MusicStateChangedEvent(previousActivetState, activeState, stateEvent.KeepStateActive, restart);
+                OnStateChanged?.Invoke(newEvent);
             }
-
-            activetState = stateEvent.State;
-            OnStateChanged?.Invoke(stateEvent);
         }
         /// <summary>
         /// Sets the music volume.
@@ -90,13 +93,11 @@ namespace Assets.Scripts.Services
         /// <param name="volumeEvent"></param>
         public void SetMusicVolume(MusicVolumeChangedEvent volumeEvent)
         {
-            if (musicVolume.Equals(volumeEvent.Volume))
+            if (!musicVolume.Equals(volumeEvent.Volume))
             {
-                return;
+                musicVolume = volumeEvent.Volume;
+                OnVolumeChanged?.Invoke(volumeEvent);
             }
-
-            musicVolume = volumeEvent.Volume;
-            OnVolumeChanged?.Invoke(volumeEvent);
         }
         /// <summary>
         /// Sets the active <see cref="Song"/>.
@@ -129,17 +130,17 @@ namespace Assets.Scripts.Services
         {
             var now = DateTime.Now;
             var isTimeToChange = now - nextStateChangeTime < now.TimeOfDay;
-            var stateExistsInPlaylist = activePlaylist != null && activePlaylist.songs.GetByState(stateEvent.State)?.Count > 0;
+            var stateExistsInPlaylist = activePlaylist != null && activePlaylist.songs.GetByState(stateEvent.ActiveState)?.Count > 0;
 
             // If statematrix contains a key with the current state and any of the values are equal to the incoming
             // state and it has been more than 3 sec (or the time set by the event) since the last change, or it's an instant state,
             // then return true and change state, else return false and don't change state.
-            var nextStateNotCurrent = stateEvent.State != activetState;
-            var currentStateExistsAsKeyInMatrix = stateMatrix.TryGetValue(activetState, out var matrixForCurrentState);
-            var canTransitionFromCurrentState = currentStateExistsAsKeyInMatrix && (matrixForCurrentState.Any(v => v.Equals(stateEvent.State)) || matrixForCurrentState.Count < 1);
+            var nextStateNotCurrent = stateEvent.ActiveState != activeState;
+            var currentStateExistsAsKeyInMatrix = stateMatrix.TryGetValue(activeState, out var matrixForCurrentState);
+            var canTransitionFromCurrentState = currentStateExistsAsKeyInMatrix && (matrixForCurrentState.Any(v => v.Equals(stateEvent.ActiveState)) || matrixForCurrentState.Count < 1);
 
             var rule = isTimeToChange && nextStateNotCurrent && canTransitionFromCurrentState && stateExistsInPlaylist;
-            var exception = instantStates.Contains(stateEvent.State);
+            var exception = instantStates.Contains(stateEvent.ActiveState);
 
             if (rule || exception)
             {
@@ -152,7 +153,7 @@ namespace Assets.Scripts.Services
             }
         }
 
-        private void BuildStateMatrix()
+        private void CreateRuleset()
         {
             // The statematrix is a ruleset saying that if the current state = key then value is the possible states we can transition to.
             // empty list in value = accept all transitions
@@ -168,6 +169,8 @@ namespace Assets.Scripts.Services
 
             // These states are exceptions from the stateMatrix and will always trigger a change
             instantStates = new List<MusicState>() { MusicState.MainMenu, MusicState.HumanPlayerGrabbed, MusicState.HumanPlayerDead };
+
+            playFromBegining = new List<MusicState>() { MusicState.Ambient, MusicState.HumanPlayerGrabbed, MusicState.HumanPlayerDead };
         }
 
         private void SetNextStateChangeTime(MusicStateChangedEvent stateEvent)
