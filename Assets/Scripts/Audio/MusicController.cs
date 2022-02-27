@@ -13,24 +13,25 @@ namespace Assets.Scripts.Audio
     /// <summary>
     /// Controls the music.
     /// </summary>
-    public class MusicController : AudioController
+    internal class MusicController : AudioController
     {
         #region Private Properties
         private bool firstStart = true;
         private bool isPaused;
         private readonly float defaultAudiosourceVolume = 1;
         [SerializeField]
-        protected MusicState ActiveState;
+        [Tooltip("Changes the active MusicState, used for testing transitions (Still abides by the internal transition rules).")]
+        private MusicState activeState;
         [SerializeField]
         [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
-        protected List<Playlist> Playlists;
+        private List<Playlist> playlists;
         [SerializeField]
         [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
-        protected float TransitionTime;
+        private float transitionTime;
         #endregion
 
         #region Constructors
-        public MusicController() : base() { }
+        private MusicController() : base() { }
         #endregion
 
         #region MonoBehaviour
@@ -64,14 +65,14 @@ namespace Assets.Scripts.Audio
         private void Music_OnStateChanged(MusicStateChangedEvent musicStateEvent)
         {
             
-            ActiveState = musicStateEvent.ActiveState;
+            activeState = musicStateEvent.ActiveState;
             CrossfadeVolume(musicStateEvent);
         }
 
         // Use OnLevelLoaded instead, when it is working properly
         private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
         {
-            var newPlaylist = Playlists.GetByName(scene.name);
+            var newPlaylist = playlists.GetByName(scene.name);
             SetActivePlaylist(newPlaylist);
         }
         private void Pause_OnPaused(object sender, EventArgs e)
@@ -107,7 +108,7 @@ namespace Assets.Scripts.Audio
 
         private void SetActivePlaylist(Playlist playlist)
         {
-            playlist = playlist is null ? Playlists.GetDefault() : playlist;
+            playlist = playlist is null ? playlists.GetDefault() : playlist;
             Service.Music.SetActivePlaylist(new PlaylistChangedEvent(playlist));
         }
 
@@ -185,9 +186,9 @@ namespace Assets.Scripts.Audio
 
         private void SyncStateForEditor()
         {
-            if (ActiveState != Service.Music.ActiveState)
+            if (activeState != Service.Music.ActiveState)
             {
-                Service.Music.SetMusicState(new MusicStateChangedEvent(ActiveState));
+                Service.Music.SetMusicState(new MusicStateChangedEvent(activeState));
             }
         }
 
@@ -225,9 +226,9 @@ namespace Assets.Scripts.Audio
         {
             float timeElapsed = 0;
 
-            while (timeElapsed < TransitionTime)
+            while (timeElapsed < transitionTime)
             {
-                var function = timeElapsed / TransitionTime;
+                var function = timeElapsed / transitionTime;
                 var fromVol = Mathf.Lerp(MaxVolume, MinVolume, function).ToLogVolume();
                 var toVol = Mathf.Lerp(MinVolume, MaxVolume, function).ToLogVolume();
                 FadeGroup(from, fromVol);

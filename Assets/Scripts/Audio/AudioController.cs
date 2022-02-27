@@ -7,7 +7,7 @@ namespace Assets.Scripts.Audio
     /// <summary>
     /// Includes common parameters and logic that is to be shared between controllers dealing with audio
     /// </summary>
-    public abstract class AudioController : MonoBehaviour
+    internal abstract class AudioController : MonoBehaviour
     {
         #region Protected Properties
         protected List<AudioSource> audioSources;
