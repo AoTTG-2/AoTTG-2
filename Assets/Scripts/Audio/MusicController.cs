@@ -18,7 +18,6 @@ namespace Assets.Scripts.Audio
         #region Private Properties
         private bool firstStart = true;
         private bool isPaused;
-        private readonly float defaultAudiosourceVolume = 1;
         [SerializeField]
         [Tooltip("Changes the active MusicState, used for testing transitions (Still abides by the internal transition rules).")]
         private MusicState activeState;
@@ -93,7 +92,7 @@ namespace Assets.Scripts.Audio
             {
                 if (isPaused)
                 {
-                    src.volume = defaultAudiosourceVolume;
+                    src.volume = MaxVolume;
                     src.UnPause();
                 }
                 else
@@ -156,7 +155,7 @@ namespace Assets.Scripts.Audio
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
-                src.volume = defaultAudiosourceVolume;
+                src.volume = MaxVolume;
                 if (state != activeState && firstStart)
                 {
                     src.PlayDelayed(1);
