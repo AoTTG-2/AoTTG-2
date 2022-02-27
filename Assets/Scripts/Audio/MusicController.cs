@@ -30,7 +30,7 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Constructors
-        private MusicController() : base() { }
+        public MusicController() : base() { }
         #endregion
 
         #region MonoBehaviour
