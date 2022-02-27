@@ -18,15 +18,15 @@ namespace Assets.Scripts.Audio
         #region Private Properties
         private bool firstStart = true;
         private bool isPaused;
-        #endregion
-
-        #region Public Properties
+        [SerializeField]
         [Tooltip("Changes the active MusicState, used for testing transitions (Still abides by the internal transition rules).")]
-        public MusicState activeState;
+        private MusicState activeState;
+        [SerializeField]
         [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
-        public List<Playlist> playlists;
+        private List<Playlist> playlists;
+        [SerializeField]
         [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
-        public float transitionTime;
+        private float transitionTime;
         #endregion
 
         #region Constructors
@@ -58,12 +58,12 @@ namespace Assets.Scripts.Audio
         #region Eventlistners
         private void Music_OnVolumeChanged(MusicVolumeChangedEvent musicVolumeEvent)
         {
-            Volume = NormalizeVolume(musicVolumeEvent.Volume);
+            volume = NormalizeVolume(musicVolumeEvent.Volume);
         }
 
         private void Music_OnStateChanged(MusicStateChangedEvent musicStateEvent)
         {
-            
+
             activeState = musicStateEvent.ActiveState;
             CrossfadeVolume(musicStateEvent);
         }
@@ -126,7 +126,7 @@ namespace Assets.Scripts.Audio
             foreach (var audioState in Enum.GetNames(typeof(MusicState)))
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
-                var output = MixerGroup.audioMixer.FindMatchingGroups(audioState).AsEnumerable().FirstOrDefault();
+                var output = mixerGroup.audioMixer.FindMatchingGroups(audioState).AsEnumerable().FirstOrDefault();
 
                 audioSource.playOnAwake = false;
                 audioSource.outputAudioMixerGroup = output;
@@ -137,7 +137,7 @@ namespace Assets.Scripts.Audio
 
         private void StartAudiosourcesIfNotPlaying()
         {
-            var serviceState = Service.Music.ActiveState;
+            var activeState = Service.Music.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
@@ -150,13 +150,13 @@ namespace Assets.Scripts.Audio
                     src.clip = song != null ? song.Clip : null;
                 }
 
-                if (serviceState == state && src.clip != null)
+                if (activeState == state && src.clip != null)
                 {
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
                 src.volume = MaxVolume;
-                if (state != serviceState && firstStart)
+                if (state != activeState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
@@ -171,14 +171,14 @@ namespace Assets.Scripts.Audio
 
         private void SyncVolumeFromEditor()
         {
-            var mixer = MixerGroup.audioMixer;
-            var exposedParameterName = GetExposedParameterName(MixerGroup);
+            var mixer = mixerGroup.audioMixer;
+            var exposedParameterName = GetExposedParameterName(mixerGroup);
             mixer.GetFloat(exposedParameterName, out var mixerVolume);
-            var musicVolume = Volume.ToLogVolume();
+            var musicVolume = volume.ToLogVolume();
 
             if (mixerVolume != musicVolume)
             {
-                
+
                 mixer.SetFloat(exposedParameterName, musicVolume);
             }
         }
@@ -208,8 +208,8 @@ namespace Assets.Scripts.Audio
 
             SetActiveSong();
 
-            var fromMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(from.ToString()).FirstOrDefault();
-            var toMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(to.ToString()).FirstOrDefault();
+            var fromMixerGroup = mixerGroup.audioMixer.FindMatchingGroups(from.ToString()).FirstOrDefault();
+            var toMixerGroup = mixerGroup.audioMixer.FindMatchingGroups(to.ToString()).FirstOrDefault();
 
             StartCoroutine(CrossfadeBetweenGroups(fromMixerGroup, toMixerGroup));
         }
