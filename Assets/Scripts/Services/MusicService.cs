@@ -17,7 +17,6 @@ namespace Assets.Scripts.Services
         #region Private Properties
         private DateTime nextStateChangeTime;
         private MusicState activeState;
-        private MusicState? previousActivetState;
         private float musicVolume;
         private Song activeSong;
         private Playlist activePlaylist;
@@ -80,7 +79,7 @@ namespace Assets.Scripts.Services
         {
             if (ValidateTransition(stateEvent))
             {
-                previousActivetState = activeState;
+                var previousActivetState = activeState;
                 activeState = stateEvent.ActiveState;
                 var restart = playFromBegining.Contains(activeState);
                 var newEvent = new MusicStateChangedEvent(previousActivetState, activeState, stateEvent.KeepStateActive, restart);

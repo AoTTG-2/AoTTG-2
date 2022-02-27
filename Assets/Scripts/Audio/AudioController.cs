@@ -13,16 +13,16 @@ namespace Assets.Scripts.Audio
         protected List<AudioSource> audioSources;
         protected const float MinVolume = 0.0001f;
         protected const float MaxVolume = 1;
-        [SerializeField]
+        #endregion
+
+        #region Public Properties
         [Tooltip("Audio mixer group that the controller has responsibility for.")]
-        protected AudioMixerGroup MixerGroup;
+        public AudioMixerGroup MixerGroup;
         [Tooltip("Current volume of the attatched audio mixer group.")]
         [Range(MinVolume, MaxVolume)]
-        [SerializeField]
-        protected float Volume;
-        [SerializeField]
+        public float Volume;
         [Tooltip("The suffix of the exposed parameter for mixer groups (i.e. if the group is named Master and the name of the exposed volume parameter is MasterVol then the suffix should be \"Vol\").")]
-        protected string ExposedParameterSuffix;
+        public string ExposedParameterSuffix;
         #endregion
 
         #region Constructors

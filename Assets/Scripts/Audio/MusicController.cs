@@ -18,15 +18,15 @@ namespace Assets.Scripts.Audio
         #region Private Properties
         private bool firstStart = true;
         private bool isPaused;
-        [SerializeField]
+        #endregion
+
+        #region Public Properties
         [Tooltip("Changes the active MusicState, used for testing transitions (Still abides by the internal transition rules).")]
-        private MusicState activeState;
-        [SerializeField]
+        public MusicState activeState;
         [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
-        private List<Playlist> playlists;
-        [SerializeField]
+        public List<Playlist> playlists;
         [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
-        private float transitionTime;
+        public float transitionTime;
         #endregion
 
         #region Constructors
@@ -137,7 +137,7 @@ namespace Assets.Scripts.Audio
 
         private void StartAudiosourcesIfNotPlaying()
         {
-            var activeState = Service.Music.ActiveState;
+            var serviceState = Service.Music.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
@@ -150,13 +150,13 @@ namespace Assets.Scripts.Audio
                     src.clip = song != null ? song.Clip : null;
                 }
 
-                if (activeState == state && src.clip != null)
+                if (serviceState == state && src.clip != null)
                 {
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
                 src.volume = MaxVolume;
-                if (state != activeState && firstStart)
+                if (state != serviceState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
