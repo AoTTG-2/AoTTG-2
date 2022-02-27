@@ -19,19 +19,18 @@ namespace Assets.Scripts.Audio
         private bool firstStart = true;
         private bool isPaused;
         private readonly float defaultAudiosourceVolume = 1;
-        private MusicState previousState;
-        #endregion
-
-        #region Public Properties
-        public MusicState ActiveState;
+        [SerializeField]
+        protected MusicState ActiveState;
+        [SerializeField]
         [Tooltip("Contains the playlists that can be used by this MusicController (playlists should be named the same as the scene they are to be used in).")]
-        public List<Playlist> Playlists;
+        protected List<Playlist> Playlists;
+        [SerializeField]
         [Tooltip("The time in seconds for transitioning from one snapshot to another.")]
-        public float TransitionTime;
+        protected float TransitionTime;
         #endregion
 
         #region Constructors
-        public MusicController() : base() { previousState = ActiveState; }
+        public MusicController() : base() { }
         #endregion
 
         #region MonoBehaviour
@@ -188,9 +187,6 @@ namespace Assets.Scripts.Audio
         {
             if (ActiveState != Service.Music.ActiveState)
             {
-                // previousState is only used for the transitions 
-                // to work when you switch state in the editor
-                previousState = Service.Music.ActiveState;
                 Service.Music.SetMusicState(new MusicStateChangedEvent(ActiveState));
             }
         }
@@ -211,11 +207,6 @@ namespace Assets.Scripts.Audio
             }
 
             SetActiveSong();
-
-            if (from == to)
-            {
-                from = previousState;
-            }
 
             var fromMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(from.ToString()).FirstOrDefault();
             var toMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(to.ToString()).FirstOrDefault();
