@@ -137,26 +137,26 @@ namespace Assets.Scripts.Audio
 
         private void StartAudiosourcesIfNotPlaying()
         {
-            var activeState = Service.Music.ActiveState;
+            var serviceState = Service.Music.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
-                var parsed = Enum.TryParse<MusicState>(mixerGroupName, true, out var state);
+                var parsed = Enum.TryParse<MusicState>(mixerGroupName, true, out var mixerState);
                 Song song = null;
 
                 if (parsed)
                 {
-                    song = Service.Music.ActivePlaylist.songs.GetRandomByState(state);
+                    song = Service.Music.ActivePlaylist.songs.GetRandomByState(mixerState);
                     src.clip = song != null ? song.Clip : null;
                 }
 
-                if (activeState == state && src.clip != null)
+                if (serviceState == mixerState && src.clip != null)
                 {
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
                 src.volume = MaxVolume;
-                if (state != activeState && firstStart)
+                if (mixerState != serviceState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
