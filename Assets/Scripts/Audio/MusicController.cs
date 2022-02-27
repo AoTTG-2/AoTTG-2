@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +19,9 @@ namespace Assets.Scripts.Audio
         private bool firstStart = true;
         private bool isPaused;
         private readonly float defaultAudiosourceVolume = 1;
+        // previousState is only used for the transitions 
+        // to work when you switch state in the editor
+        private MusicState previousState;
         #endregion
 
         #region Public Properties
@@ -29,7 +33,7 @@ namespace Assets.Scripts.Audio
         #endregion
 
         #region Constructors
-        public MusicController() : base() { }
+        public MusicController() : base() { previousState = ActiveState; }
         #endregion
 
         #region MonoBehaviour
@@ -49,7 +53,7 @@ namespace Assets.Scripts.Audio
         protected void FixedUpdate()
         {
             StartAudiosourcesIfNotPlaying();
-            CheckMusicVolume(MixerGroup.audioMixer);
+            CheckMusicVolume();
             CheckMusicState();
         }
         #endregion
@@ -62,8 +66,8 @@ namespace Assets.Scripts.Audio
 
         private void Music_OnStateChanged(MusicStateChangedEvent musicStateEvent)
         {
+            CrossfadeVolume(ActiveState, musicStateEvent.State);
             ActiveState = musicStateEvent.State;
-            TransitionToSnapshot(musicStateEvent.State);
         }
 
         // Use OnLevelLoaded instead, when it is working properly
@@ -103,18 +107,6 @@ namespace Assets.Scripts.Audio
             isPaused = !isPaused;
         }
 
-        private void TransitionToSnapshot(MusicState state)
-        {
-            var snapshot = MixerGroup.audioMixer.FindSnapshot(state.ToString());
-
-            if (snapshot != null)
-            {
-                SetActiveSong();
-                snapshot.audioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;
-                snapshot.TransitionTo(TransitionTime);
-            }
-        }
-
         private void SetActivePlaylist(Playlist playlist)
         {
             playlist = playlist is null ? Playlists.GetDefault() : playlist;
@@ -123,9 +115,10 @@ namespace Assets.Scripts.Audio
 
         private void SetActiveSong()
         {
-            var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(ActiveState.ToString()));
+            var state = Service.Music.ActiveState.ToString();
+            var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(state));
             var clipName = audioSource.clip != null ? audioSource.clip.name : null;
-            var song = Service.Music.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(ActiveState));
+            var song = Service.Music.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(state));
             Service.Music.SetActiveSong(new SongChangedEvent(song));
         }
 
@@ -146,6 +139,7 @@ namespace Assets.Scripts.Audio
 
         private void StartAudiosourcesIfNotPlaying()
         {
+            var activeState = Service.Music.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
             {
                 var mixerGroupName = src.outputAudioMixerGroup.name;
@@ -158,13 +152,13 @@ namespace Assets.Scripts.Audio
                     src.clip = song != null ? song.Clip : null;
                 }
 
-                if (ActiveState == state && src.clip != null)
+                if (activeState == state && src.clip != null)
                 {
                     Service.Music.SetActiveSong(new SongChangedEvent(song));
                 }
 
                 src.volume = defaultAudiosourceVolume;
-                if (state != ActiveState && firstStart)
+                if (state != activeState && firstStart)
                 {
                     src.PlayDelayed(1);
                 }
@@ -177,14 +171,17 @@ namespace Assets.Scripts.Audio
             firstStart = false;
         }
 
-        private void CheckMusicVolume(AudioMixer audioMixer)
+        private void CheckMusicVolume()
         {
-            audioMixer.GetFloat(VolumeParameterName, out var mixerVolume);
-            var musicVolume = Volume.Log10Volume();
+            var mixer = MixerGroup.audioMixer;
+            var exposedParameterName = GetExposedParameterName(MixerGroup);
+            mixer.GetFloat(exposedParameterName, out var mixerVolume);
+            var musicVolume = Volume.ToLogVolume();
 
             if (mixerVolume != musicVolume)
             {
-                audioMixer.SetFloat(VolumeParameterName, musicVolume);
+                
+                mixer.SetFloat(exposedParameterName, musicVolume);
             }
         }
 
@@ -192,7 +189,59 @@ namespace Assets.Scripts.Audio
         {
             if (ActiveState != Service.Music.ActiveState)
             {
+                previousState = Service.Music.ActiveState;
                 Service.Music.SetMusicState(new MusicStateChangedEvent(ActiveState));
+            }
+        }
+
+        // our custom crossfade uses exposed variables from the audio mixer groups to 
+        // perform a linear crossfade between diffrent groups, this is technically a hack
+        // since Unity only supports linear crossfading of the output volume through the much simpler to use snapshot mode,
+        // but on the logarithmic volume scale where -40db is 50% which creats a short period of silence in the middle of the fade,
+        // this is a better way to do it since there is no silence, even if it's more complicated.
+        private void CrossfadeVolume(MusicState from, MusicState to)
+        {
+            SetActiveSong();
+
+            if (from == to)
+            {
+                from = previousState;
+            }
+            var fromMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(from.ToString()).FirstOrDefault();
+            var toMixerGroup = MixerGroup.audioMixer.FindMatchingGroups(to.ToString()).FirstOrDefault();
+
+            StopAllCoroutines();
+
+            StartCoroutine(CrossfadeBetweenGroups(fromMixerGroup, toMixerGroup));
+        }
+
+        private IEnumerator CrossfadeBetweenGroups(AudioMixerGroup from, AudioMixerGroup to)
+        {
+            float timeElapsed = 0;
+
+            while (timeElapsed < TransitionTime)
+            {
+                var function = timeElapsed / TransitionTime;
+                var fromVol = Mathf.Lerp(MaxVolume, MinVolume, function).ToLogVolume();
+                var toVol = Mathf.Lerp(MinVolume, MaxVolume, function).ToLogVolume();
+                FadeGroup(from, fromVol);
+                FadeGroup(to, toVol);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (from != to)
+            {
+                // the loop above doesn't bring the volume quite all the way too zero, so we do that here
+                from.audioMixer.SetFloat(GetExposedParameterName(from), MinVolume.ToLogVolume());
+            }
+        }
+
+        private void FadeGroup(AudioMixerGroup group, float groupVol)
+        {
+            if (group != null)
+            {
+                group.audioMixer.SetFloat(GetExposedParameterName(group), groupVol);
             }
         }
         #endregion

@@ -63,7 +63,7 @@ namespace Assets.Scripts.Audio
         /// </summary>
         /// <param name="volume">Must be a value between 0,0 and 1.0 for a correct conversion</param>
         /// <returns>Mathf.Log10(<paramref name="volume"/>) * 20</returns>
-        public static float Log10Volume(this float volume)
+        public static float ToLogVolume(this float volume)
         {
             return Mathf.Log10(volume) * 20;
         }

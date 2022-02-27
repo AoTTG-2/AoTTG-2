@@ -9,23 +9,20 @@ namespace Assets.Scripts.Audio
     /// </summary>
     public abstract class AudioController : MonoBehaviour
     {
-        #region Private Properties
-        private const float MinVolume = 0.0001f;
-        private const float MaxVolume = 1;
-        #endregion
-
         #region Public Properties
         [Tooltip("Audio mixer group that the controller has responsibility for.")]
         public AudioMixerGroup MixerGroup;
         [Tooltip("Current volume of the attatched audio mixer group.")]
         [Range(MinVolume, MaxVolume)]
         public float Volume;
-        [Tooltip("The name of the attatched audio mixer group's exposed volume parameter.")]
-        public string VolumeParameterName;
+        [Tooltip("The suffix of the exposed parameter for mixer groups (i.e. if the group is named Master and the name of the exposed volume parameter is MasterVol then the suffix should be \"Vol\").")]
+        public string ExposedParameterSuffix;
         #endregion
 
         #region Protected Properties
         protected List<AudioSource> audioSources;
+        protected const float MinVolume = 0.0001f;
+        protected const float MaxVolume = 1;
         #endregion
 
         #region Constructors
@@ -48,6 +45,12 @@ namespace Assets.Scripts.Audio
             volume = volume <= 0 ? MinVolume : volume;
             volume = volume > 1 ? MaxVolume : volume;
             return volume;
+        }
+
+        // ALL mixer group exposed parameters must have the same suffix that is set in the field Suffix
+        protected string GetExposedParameterName(AudioMixerGroup mixerGroup)
+        {
+            return $"{mixerGroup.name}{ExposedParameterSuffix}";
         }
         #endregion
     }
