@@ -48,7 +48,7 @@ namespace Assets.Scripts.Audio
         }
 
 
-        protected void FixedUpdate()
+        private void FixedUpdate()
         {
             StartAudiosourcesIfNotPlaying();
             SyncVolumeFromEditor();
