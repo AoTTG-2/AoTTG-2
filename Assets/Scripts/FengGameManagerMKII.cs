@@ -436,7 +436,6 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            Application.targetFrameRate = Screen.currentResolution.refreshRate;
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log($"Version: {versionManager.Version}");
