@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [Obsolete("Various extension methods which were created for the RC mod, however these are very poorly optimized and should not be used.")]
