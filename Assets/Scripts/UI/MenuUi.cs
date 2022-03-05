@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.UI.Menu;
+﻿using Assets.Scripts.Graphics;
+using Assets.Scripts.UI.Menu;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -18,6 +19,7 @@ namespace Assets.Scripts.UI
 
         public void ShowMainMenu()
         {
+            FramerateController.LockFramerateToRefreshRate();
             MainMenu.gameObject.SetActive(true);
             Singleplayer.gameObject.SetActive(false);
             MapConverter.gameObject.SetActive(false);
