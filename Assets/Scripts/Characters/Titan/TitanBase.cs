@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Characters.Humans;
+using System;
 using System.Linq;
 using Assets.Scripts.Characters.Titan.Attacks;
 using Assets.Scripts.Characters.Titan.Behavior;
@@ -409,7 +410,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 photonView.RPC(nameof(OnNapeHitRpc), PhotonTargets.All, attacker.photonView.viewID, damage);
             }
-            ((Humans.Hero) Target).CombatTimer?.AddTime();
+            if (Target is Hero hero) hero.CombatTimer?.AddTime();
         }
 
         [Obsolete("Blocking all damage for 0.2s isn't viable. Instead block this per view ID instead of all")]

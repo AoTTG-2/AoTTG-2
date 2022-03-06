@@ -49,7 +49,7 @@ namespace Assets.Scripts.Audio
 
         private void FixedUpdate()
         {
-            StartAudiosourcesIfNotPlaying();
+            StartAudioSourcesIfNotPlaying();
             SyncVolumeFromEditor();
             SyncStateForEditor();
         }
@@ -107,7 +107,7 @@ namespace Assets.Scripts.Audio
 
         private void SetActivePlaylist(Playlist playlist)
         {
-            playlist = playlist is null ? playlists.GetDefault() : playlist;
+            playlist ??= playlists.GetDefault();
             Service.Music.SetActivePlaylist(new PlaylistChangedEvent(playlist));
         }
 
@@ -115,8 +115,8 @@ namespace Assets.Scripts.Audio
         {
             var state = Service.Music.ActiveState;
             var audioSource = audioSources.FirstOrDefault(src => src.outputAudioMixerGroup.name.Equals(state.ToString()));
-            var clipName = audioSource.clip != null ? audioSource.clip.name : null;
-            var song = Service.Music.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(state.ToString()));
+            var clipName = audioSource?.clip != null ? audioSource.clip.name : null;
+            var song = Service.Music.ActivePlaylist.songs.FirstOrDefault(s => s.Name.Equals(clipName) && s.Type.Equals(state));
             Service.Music.SetActiveSong(new SongChangedEvent(song));
         }
 
@@ -135,7 +135,7 @@ namespace Assets.Scripts.Audio
             }
         }
 
-        private void StartAudiosourcesIfNotPlaying()
+        private void StartAudioSourcesIfNotPlaying()
         {
             var serviceState = Service.Music.ActiveState;
             audioSources.Where(src => !src.isPlaying).ToList().ForEach(src =>
@@ -191,11 +191,14 @@ namespace Assets.Scripts.Audio
             }
         }
 
-        // our custom crossfade uses exposed variables from the audio mixer groups to 
-        // perform a linear crossfade between diffrent groups, this is technically a hack
-        // since Unity only supports linear crossfading of the output volume through the much simpler to use snapshot mode,
-        // but on the logarithmic volume scale where -40db is 50% which creats a short period of silence in the middle of the fade,
-        // this is a better way to do it since there is no silence, even if it's more complicated.
+        /// <summary>
+        /// our custom crossfade uses exposed variables from the audio mixer groups to 
+        /// perform a linear crossfade between diffrent groups, this is technically a hack
+        /// since Unity only supports linear crossfading of the output volume through the much simpler to use snapshot mode,
+        /// but on the logarithmic volume scale where -40db is 50% which creats a short period of silence in the middle of the fade,
+        /// this is a better way to do it since there is no silence, even if it's more complicated.
+        /// </summary>
+        /// <param name="stateChangedEvent"></param>
         private void CrossfadeVolume(MusicStateChangedEvent stateChangedEvent)
         {
             var from = stateChangedEvent.PreviousActiveState;

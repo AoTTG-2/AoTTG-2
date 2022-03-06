@@ -1,6 +1,8 @@
-﻿namespace Assets.Scripts.Events.Args
+﻿using System;
+
+namespace Assets.Scripts.Events.Args
 {
-    public abstract class VolumeChangedEvent
+    public abstract class VolumeChangedEvent : EventArgs
     {
         #region Constructors
         protected VolumeChangedEvent(float volume)

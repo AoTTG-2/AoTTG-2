@@ -1,8 +1,9 @@
 ﻿using Assets.Scripts.Audio;
+using System;
 
 namespace Assets.Scripts.Events.Args
 {
-    public class MusicStateChangedEvent
+    public class MusicStateChangedEvent : EventArgs
     {
         #region Constructors
         public MusicStateChangedEvent(MusicState activeState)

@@ -26,40 +26,24 @@ namespace Assets.Scripts.Services
         #endregion
 
         #region Public Properties
-        /// <summary>
-        /// Gets the currently active <see cref="Playlist"/>
-        /// </summary>
-        public Playlist ActivePlaylist => activePlaylist is null ? ScriptableObject.CreateInstance<Playlist>() : activePlaylist;
-        /// <summary>
-        /// Gets the currently active <see cref="MusicState"/>
-        /// </summary>
+        /// <inheritdoc/>
+        public Playlist ActivePlaylist => activePlaylist ?? ScriptableObject.CreateInstance<Playlist>();
+        /// <inheritdoc/>
         public MusicState ActiveState => activeState;
-        /// <summary>
-        /// Gets the current music volume.
-        /// </summary>
+        /// <inheritdoc/>
         public float Volume => musicVolume;
-        /// <summary>
-        /// Gets name and composer for the <see cref="Song"/> that is currently playing.
-        /// </summary>
+        /// <inheritdoc/>
         public string NowPlaying => activeSong is null ? "No song currently playing!" : $"{activeSong.Name} - {activeSong.Composer}";
         #endregion
 
         #region Events
-        /// <summary>
-        /// The active <see cref="MusicState"/> has changed.
-        /// </summary>
+        /// <inheritdoc/>
         public event OnMusicStateChanged OnStateChanged;
-        /// <summary>
-        /// The music volume has changed.
-        /// </summary>
+        /// <inheritdoc/>
         public event OnVolumeChanged OnVolumeChanged;
-        /// <summary>
-        /// The active <see cref="Song"/> has changed.
-        /// </summary>
+        /// <inheritdoc/>
         public event OnSongChanged OnSongChanged;
-        /// <summary>
-        /// The active <see cref="Playlist"/> has changed.
-        /// </summary>
+        /// <inheritdoc/>
         public event OnPlaylistChanged OnPlaylistChanged;
         #endregion
 
@@ -71,25 +55,19 @@ namespace Assets.Scripts.Services
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Sets the active <see cref="MusicState"/>.
-        /// </summary>
-        /// <param name="stateEvent"></param>
+        /// <inheritdoc/>
         public void SetMusicState(MusicStateChangedEvent stateEvent)
         {
             if (ValidateTransition(stateEvent))
             {
-                var previousActivetState = activeState;
+                var previousActiveState = activeState;
                 activeState = stateEvent.ActiveState;
                 var restart = playFromBegining.Contains(activeState);
-                var newEvent = new MusicStateChangedEvent(previousActivetState, activeState, stateEvent.KeepStateActive, restart);
+                var newEvent = new MusicStateChangedEvent(previousActiveState, activeState, stateEvent.KeepStateActive, restart);
                 OnStateChanged?.Invoke(newEvent);
             }
         }
-        /// <summary>
-        /// Sets the music volume.
-        /// </summary>
-        /// <param name="volumeEvent"></param>
+        /// <inheritdoc/>
         public void SetMusicVolume(MusicVolumeChangedEvent volumeEvent)
         {
             if (!musicVolume.Equals(volumeEvent.Volume))
@@ -98,10 +76,7 @@ namespace Assets.Scripts.Services
                 OnVolumeChanged?.Invoke(volumeEvent);
             }
         }
-        /// <summary>
-        /// Sets the active <see cref="Song"/>.
-        /// </summary>
-        /// <param name="songEvent"></param>
+        /// <inheritdoc/>
         public void SetActiveSong(SongChangedEvent songEvent)
         {
             if (songEvent.Song != null)
@@ -110,10 +85,7 @@ namespace Assets.Scripts.Services
                 OnSongChanged?.Invoke(songEvent);
             }
         }
-        /// <summary>
-        /// Sets the active <see cref="Playlist"/>.
-        /// </summary>
-        /// <param name="playlistEvent"></param>
+        /// <inheritdoc/>
         public void SetActivePlaylist(PlaylistChangedEvent playlistEvent)
         {
             if (playlistEvent.Playlist != null || (activePlaylist != null && activePlaylist.name != playlistEvent.Playlist.name))

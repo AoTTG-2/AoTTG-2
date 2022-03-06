@@ -1,8 +1,9 @@
 ﻿using Assets.Scripts.Audio;
+using System;
 
 namespace Assets.Scripts.Events.Args
 {
-    public class PlaylistChangedEvent
+    public class PlaylistChangedEvent : EventArgs
     {
         #region Constructors
         public PlaylistChangedEvent(Playlist playlist)
