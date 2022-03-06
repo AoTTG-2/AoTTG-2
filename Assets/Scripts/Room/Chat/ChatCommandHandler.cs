@@ -13,6 +13,8 @@ using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
 using Assets.Scripts.Utility;
+using Assets.Scripts.Events.Args;
+using System.Globalization;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -589,6 +591,9 @@ public static class ChatCommandHandler
         string message;
         switch (command)
         {
+            case ChatCommand.MusicVolume:
+                SetMusicVolume(parameter);
+                break;
             case ChatCommand.Cloth:
                 message = ClothFactory.GetDebugInfo();
                 instance.chatRoom.AddMessage(message);
@@ -671,5 +676,13 @@ public static class ChatCommandHandler
             default:
                 break;
         }
+    }
+
+    private static void SetMusicVolume(string parameter)
+    {
+        if (float.TryParse(parameter, NumberStyles.Float, CultureInfo.InvariantCulture, out var volume))
+        {
+            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
+        }     
     }
 }

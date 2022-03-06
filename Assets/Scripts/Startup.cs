@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Audio;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Game;
 using Assets.Scripts.Settings.Game.Gamemodes;
@@ -30,6 +31,7 @@ namespace Assets.Scripts
         public UIInputHandler UIInputHandler;
         public IN_GAME_MAIN_CAMERA MainCamera;
         public GameObject Gamemode;
+        [SerializeField] internal MusicController MusicController;
 
 
         [Tooltip("Assure that the StartupObjects are all disabled in the Unity Editor!")]
@@ -118,7 +120,7 @@ namespace Assets.Scripts
             //Setup(MainCamera.gameObject);
             Setup(UIHandler.gameObject);
             Setup(UIInputHandler.gameObject);
-
+            Setup(MusicController.gameObject);
             
 
             // Joins a lobby & creates a room

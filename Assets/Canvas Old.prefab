@@ -3368,12 +3368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb560be7de325748834cfa52fd584cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SaveGraphicPrefs: {fileID: 0}
+  LoadGraphicPrefs: {fileID: 0}
+  DeleteGraphicPrefs: {fileID: 0}
+  PrefsLabel: {fileID: 0}
   GeneralGraphic: {fileID: 323642728869707606}
-  QualitySwitcher: {fileID: 323642728068843119}
   ResolutionSwitcher: {fileID: 323642729118066709}
-  FPSLimiter: {fileID: 323642729292974302}
-  label: {fileID: 323642728804261415}
-  CustomSettings: {fileID: 323642728256572105}
 --- !u!1 &323642727482849693
 GameObject:
   m_ObjectHideFlags: 0
@@ -6744,7 +6744,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 323642729292974302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FPSLimiter, Assembly-CSharp
         m_MethodName: SetFPSLimit
         m_Mode: 1
@@ -11031,7 +11031,7 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 323642729292974302}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: SetFPSLimit
         m_Mode: 1
@@ -15883,14 +15883,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6aabd438724f44a8fada887c9aa7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VSyncCheck: {fileID: 323642728885135080}
-  textureQuality: {fileID: 323642728790786440}
-  shadowRes: {fileID: 323642727431477549}
-  antiAliasing: {fileID: 323642728897945741}
-  shadows: {fileID: 323642727274206490}
-  vSync: {fileID: 323642727993753750}
-  softParticles: {fileID: 323642729088531904}
-  customSettings: {fileID: 323642728256572105}
+  FpsLimit: {fileID: 0}
+  QualitySwitcher: {fileID: 0}
+  TextureQuality: {fileID: 0}
+  ShadowRes: {fileID: 0}
+  AntiAliasing: {fileID: 0}
+  Shadows: {fileID: 0}
+  VSync: {fileID: 0}
+  SoftParticles: {fileID: 0}
+  CustomSettings: {fileID: 0}
 --- !u!1 &323642728879473318
 GameObject:
   m_ObjectHideFlags: 0
@@ -19292,7 +19293,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 323642729292974297}
-  - component: {fileID: 323642729292974302}
   m_Layer: 5
   m_Name: FPSLimiter
   m_TagString: Untagged
@@ -19319,20 +19319,6 @@ RectTransform:
   m_AnchoredPosition: {x: -390, y: -163}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &323642729292974302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323642729292974296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a95fd59995e3c841b10fa4766103ce3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fpsLimiter: {fileID: 323642728455112466}
-  limit: 0
 --- !u!1 &323642729303849789
 GameObject:
   m_ObjectHideFlags: 0

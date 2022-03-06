@@ -17167,6 +17167,7 @@ GameObject:
   - component: {fileID: 4813783946394471498}
   - component: {fileID: 4894091188459476194}
   - component: {fileID: 2620334365897627989}
+  - component: {fileID: 364216746341218469}
   m_Layer: 8
   m_Name: HumanBase2
   m_TagString: Player
@@ -17336,6 +17337,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Color: {r: 0.735849, g: 0.71228117, b: 0.2256141, a: 0.5882353}
   Material: {fileID: 2100000, guid: 6ade4bf5cbf618f43bd5a70fc275f96d, type: 2}
+--- !u!135 &364216746341218469
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4759177353935902774}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4759248361373675086
 GameObject:
   m_ObjectHideFlags: 0
