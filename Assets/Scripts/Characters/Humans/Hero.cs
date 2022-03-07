@@ -1,9 +1,11 @@
+using Assets.Scripts.Audio;
 using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
+using Assets.Scripts.Events.Args;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Serialization;
@@ -34,7 +36,8 @@ namespace Assets.Scripts.Characters.Humans
         public EquipmentType EquipmentType;
 
 
-
+        public CombatTimer CombatTimer;
+        private SpeedTimer speedTimer;
         private const float HookRaycastDistance = 1000f;
 
 
@@ -225,7 +228,7 @@ namespace Assets.Scripts.Characters.Humans
 
 
         private readonly HookUI hookUI = new HookUI();
-
+        private Coroutine CombatStateStart;
         #endregion
 
 
@@ -247,6 +250,8 @@ namespace Assets.Scripts.Characters.Humans
             Animation = GetComponent<Animation>();
             Rigidbody = GetComponent<Rigidbody>();
             SmoothSync = GetComponent<SmoothSyncMovement>();
+            CombatTimer = gameObject.AddComponent<CombatTimer>();
+            speedTimer = gameObject.AddComponent<SpeedTimer>();
 
             InGameUI = GameObject.Find("InGameUi");
             Cache();
@@ -287,6 +292,7 @@ namespace Assets.Scripts.Characters.Humans
 
         private void Start()
         {
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.Ambient));
             gameObject.AddComponent<PlayerInteractable>();
             SetHorse();
 
@@ -1459,6 +1465,12 @@ namespace Assets.Scripts.Characters.Humans
             if ((!titanForm && !isCannon) && (!IN_GAME_MAIN_CAMERA.isPausing))
             {
                 currentSpeed = Rigidbody.velocity.magnitude;
+
+                if (currentSpeed > 150)
+                {
+                    speedTimer.AddTime(2);
+                }
+
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {
                     Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f);
@@ -2691,6 +2703,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (invincible <= 0f)
             {
+                Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
                 if (titanForm && (eren_titan != null))
                 {
                     eren_titan.lifeTime = 0.1f;
@@ -3259,6 +3272,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             hasDied = true;
             state = HumanState.Die;
+            Service.Music.SetMusicState(new MusicStateChangedEvent(MusicState.HumanPlayerDead));
         }
 
         [PunRPC]
@@ -4210,6 +4224,24 @@ namespace Assets.Scripts.Characters.Humans
         {
             eren_titan = PhotonView.Find(id).gameObject.GetComponent<ErenTitan>();
             titanForm = true;
+        }
+
+        private void OnTriggerEnter(Collider collision)
+        {
+            AddTimeToCombatTimer(collision);
+        }
+
+        private void OnTriggerStay(Collider collision)
+        {
+            AddTimeToCombatTimer(collision);
+        }
+
+        private void AddTimeToCombatTimer(Collider collider)
+        {
+            if (collider.CompareTag("SoundTrigger") && collider.transform.root.GetComponent<MindlessTitan>().State != TitanState.Dead)
+            {
+                CombatTimer.AddTime();
+            }
         }
     }
 }
