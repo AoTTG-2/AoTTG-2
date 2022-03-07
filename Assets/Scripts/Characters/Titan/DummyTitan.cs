@@ -84,7 +84,7 @@ namespace Assets.Scripts.Characters.Titan
                 }      
             }
 
-             if (State == TitanState.Chase && !wiggleNoise.isPlaying)
+            if (State == TitanState.Chase && !wiggleNoise.isPlaying)
             {
                 photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Chasing);
             }
