@@ -5046,13 +5046,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
+      propertyPath: UVModule.fps
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
+        type: 3}
+      propertyPath: UVModule.tilesX
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
+        type: 3}
+      propertyPath: UVModule.tilesY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
+        type: 3}
       propertyPath: simulationSpeed
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
       propertyPath: ShapeModule.m_Scale.x
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
@@ -5062,7 +5077,7 @@ PrefabInstance:
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
       propertyPath: ShapeModule.m_Scale.z
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
