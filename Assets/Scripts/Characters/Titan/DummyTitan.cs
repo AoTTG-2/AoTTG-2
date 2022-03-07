@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
+using System.Collections;
 
 namespace Assets.Scripts.Characters.Titan
 {
@@ -83,11 +84,10 @@ namespace Assets.Scripts.Characters.Titan
                 }      
             }
 
-            if (State == TitanState.Chase && !wiggleNoise.isPlaying)
+             if (State == TitanState.Chase && !wiggleNoise.isPlaying)
             {
                 photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Chasing);
             }
-
         }
 
         // Plays the audio depending on what state the dummy titan is in
@@ -111,13 +111,12 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        // Stops the audio depending on what state the dummy titan is in
         [PunRPC]
         private void StopAudio(AudioState state)
         {
             switch (state)
             {
-                case AudioState.Chasing:
+                case AudioState.Falling:
                     wiggleNoise.Stop();
                     break;
             }
