@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.Characters.Titan.Configuration;
 using UnityEngine;
-using System.Collections;
 
 namespace Assets.Scripts.Characters.Titan
 {
@@ -221,7 +220,7 @@ namespace Assets.Scripts.Characters.Titan
         [PunRPC]
         protected override void UpdateHealthLabelRpc(int currentHealth, int maxHealth)
         {
-            if(reset == false) photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Hit);
+            if(!reset) photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.Hit);
             if (currentHealth < 0)
             {
                 currentHealth = 0;
