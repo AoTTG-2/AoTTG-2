@@ -28,6 +28,7 @@ namespace Assets.Scripts.Characters.Humans
         public int myTeam = 1;
         public float scoreMulti = 1f;
         public Rigidbody body;
+        private bool isHit = false;
 
 
 
@@ -66,11 +67,16 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
+        private void OnTriggerExit(Collider collider)
+        {
+            isHit = false;
+        }
         private void OnTriggerStay(Collider collider)
         {
+            isHit = true;
             if (!IsActive) return;
 
-            if (!currentHitsII.Contains(collider.gameObject))
+            if (!currentHitsII.Contains(collider.gameObject) && isHit)
             {
                 currentHitsII.Add(collider.gameObject);
                 currentCamera.StartShake(0.1f, 0.1f, 0.95f);

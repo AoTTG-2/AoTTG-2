@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7557086264410606324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5480400318459522953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Color: {r: 0.11764706, g: 0.14509805, b: 0.7921569, a: 0.78431374}
-  Material: {fileID: 2100000, guid: 6ade4bf5cbf618f43bd5a70fc275f96d, type: 2}
---- !u!114 &6172538124608909145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5480480216098911199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &701818524308380412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +70,8 @@ MonoBehaviour:
   Body: {fileID: 57899769264525718}
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   EquipmentType: 0
+  CombatTimer: {fileID: 0}
+  weaponDisabledOnReloading: 0
   UseWeaponTrail: 1
   bombCD: 0
   bombImmune: 0
@@ -156,8 +132,7 @@ MonoBehaviour:
   speedFX: {fileID: 0}
   speedFX1: {fileID: 0}
   spinning: 0
-  reelForce: 0
-  scrollWheelDisipation: 2
+  scrollWheelWaitValue: 0.05
   targetV: {x: 0, y: 0, z: 0}
   throwedBlades: 0
   titanForm: 0
@@ -201,6 +176,32 @@ MonoBehaviour:
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   Presets:
   - {fileID: 11400000, guid: 8b4e88e2d6b866f4ea290ac991063019, type: 2}
+--- !u!114 &6172538124608909145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480480216098911199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d769059bd3f79784e8ed4dc10796bc5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7557086264410606324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480400318459522953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.11764706, g: 0.14509805, b: 0.7921569, a: 0.78431374}
+  Material: {fileID: 2100000, guid: 6ade4bf5cbf618f43bd5a70fc275f96d, type: 2}
 --- !u!114 &5741283646105969352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +471,7 @@ PrefabInstance:
     - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
         type: 3}
       propertyPath: m_Interpolate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4813783946394471498, guid: 9d0f5396cd3426341858e2ea74b8d2c8,
         type: 3}
