@@ -15,14 +15,14 @@ MonoBehaviour:
   AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 0
+  HostType: 2
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 0
+  JoinLobby: 1
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 1
@@ -34,7 +34,6 @@ MonoBehaviour:
   - changeDoor
   - changeHumanPt
   - changeState
-  - ChangeState
   - changeTitanPt
   - Chat
   - ChatPM
@@ -43,6 +42,8 @@ MonoBehaviour:
   - CrossFadeRpc
   - DestroyRpc
   - endMovingRock
+  - GetHit
+  - getRacingResult
   - Grab
   - grabbedTargetEscape
   - GrabEscapeRpc
@@ -59,7 +60,6 @@ MonoBehaviour:
   - InitializeRpc
   - InitializeRPC
   - initRPC
-  - InitRPC
   - InstantiateRpc
   - killObject
   - labelRPC
@@ -79,6 +79,7 @@ MonoBehaviour:
   - NetPlayAnimation
   - netPlayAnimationAt
   - NetPlayAnimationAt
+  - netRefreshRacingResult
   - NetSetIsGrabbedFalse
   - netShowDamage
   - netTauntAttack
@@ -93,12 +94,10 @@ MonoBehaviour:
   - OnNapeHitRpc
   - PauseRpc
   - PickupItemInit
-  - PlayAudio
   - playsoundRPC
   - PunPickup
   - PunPickupSimple
   - PunRespawn
-  - RacingFinishRpc
   - RacingStartRpc
   - RefreshCaptureScore
   - removeMe
@@ -123,7 +122,6 @@ MonoBehaviour:
   - SetMyPhotonCamera
   - SetMyTeam
   - setPhase
-  - SetRacingResultsRpc
   - setSize
   - SetSize
   - setTeamRPC
@@ -134,7 +132,6 @@ MonoBehaviour:
   - startMovingRock
   - startNeckSteam
   - startSweepSmoke
-  - StopAudio
   - stopSweepSmoke
   - SyncBodyPartRpc
   - SyncSettingsRpc
@@ -145,4 +142,7 @@ MonoBehaviour:
   - updateKillInfo
   - verifyPlayerHasLeft
   - WhoIsMyErenTitan
+  - RacingFinishRpc
+  - SetRacingResultsRpc
+  - InitRPC
   DisableAutoOpenWizard: 1
