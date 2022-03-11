@@ -155,7 +155,7 @@ public class PhotonEditor : EditorWindow
 		#endif
 
 		#if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
-        // AOTTG2 HOTFIX. Switching branches triggers these before the project can be initialized, causing PhotonServerSettings.asset to reset
+		// AOTTG2 HOTFIX. Switching branches triggers these before the project can be initialized, causing PhotonServerSettings.asset to reset
 		//EditorApplication.projectChanged += EditorUpdate;
         //EditorApplication.hierarchyChanged += EditorUpdate;
         #else
