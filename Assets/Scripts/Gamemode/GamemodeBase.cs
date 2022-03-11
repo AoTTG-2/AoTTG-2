@@ -92,16 +92,7 @@ namespace Assets.Scripts.Gamemode
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
-
-        //private void Start()
-        //{
-        //    EntityService.OnRegister += OnEntityRegistered;
-        //    EntityService.OnUnRegister += OnEntityUnRegistered;
-        //    FactionService.OnFactionDefeated += OnFactionDefeated;
-        //    StartCoroutine(OnUpdateEverySecond());
-        //    StartCoroutine(OnUpdateEveryTenthSecond());
-        //}
-
+        
         private void OnDestroy()
         {
             EntityService.OnRegister -= OnEntityRegistered;

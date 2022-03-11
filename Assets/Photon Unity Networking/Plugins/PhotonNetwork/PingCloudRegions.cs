@@ -190,7 +190,7 @@ public class PhotonPingManager
             ping = new PingNativeDynamic();
         }
         #elif UNITY_WEBGL
-        if (PhotonHandler.PingImplementation == typeof(PingHttp))
+        if (PhotonHandler.PingImplementation == null || PhotonHandler.PingImplementation == typeof(PingHttp))
         {
             ping = new PingHttp();
         }

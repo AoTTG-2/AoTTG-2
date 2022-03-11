@@ -155,8 +155,9 @@ public class PhotonEditor : EditorWindow
 		#endif
 
 		#if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
-		EditorApplication.projectChanged += EditorUpdate;
-        EditorApplication.hierarchyChanged += EditorUpdate;
+        // AOTTG2 HOTFIX. Switching branches triggers these before the project can be initialized, causing PhotonServerSettings.asset to reset
+		//EditorApplication.projectChanged += EditorUpdate;
+        //EditorApplication.hierarchyChanged += EditorUpdate;
         #else
         EditorApplication.projectWindowChanged += EditorUpdate;
         EditorApplication.hierarchyWindowChanged += EditorUpdate;
@@ -269,10 +270,10 @@ public class PhotonEditor : EditorWindow
             return;
         }
 
-        //if (PhotonNetwork.PhotonServerSettings.HostType == ServerSettings.HostingOption.NotSet)
-        //{
-        //    EditorUtility.DisplayDialog(CurrentLang.SetupWizardWarningTitle, CurrentLang.SetupWizardWarningMessage, CurrentLang.OkButton);
-        //}
+        if (PhotonNetwork.PhotonServerSettings.HostType == ServerSettings.HostingOption.NotSet)
+        {
+            EditorUtility.DisplayDialog(CurrentLang.SetupWizardWarningTitle, CurrentLang.SetupWizardWarningMessage, CurrentLang.OkButton);
+        }
     }
 
 
@@ -291,7 +292,7 @@ public class PhotonEditor : EditorWindow
     {
         if (BackgroundImage == null)
         {
-            BackgroundImage = AssetDatabase.LoadAssetAtPath("Assets/Photon Unity Networking/Editor/PhotonNetwork/background.jpg", typeof(Texture2D)) as Texture2D;
+            BackgroundImage = AssetDatabase.LoadAssetAtPath("Assets/Photon Unity Networking/Editor/PhotonNetwork/background.png", typeof(Texture2D)) as Texture2D;
         }
 
         PhotonSetupStates oldGuiState = this.photonSetupState; // used to fix an annoying Editor input field issue: wont refresh until focus is changed.

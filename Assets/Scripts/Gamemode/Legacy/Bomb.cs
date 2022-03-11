@@ -28,7 +28,6 @@ public class Bomb : Photon.MonoBehaviour
             float num2;
             float num3;
             float num4;
-            base.photonView.observed = this;
             this.correctPlayerPos = base.transform.position;
             this.correctPlayerRot = Quaternion.identity;
             PhotonPlayer owner = base.photonView.owner;

@@ -33,7 +33,7 @@ public class PickupItemSimple : Photon.MonoBehaviour
         }
 
         this.SentPickup = true;
-        this.photonView.RPC(nameof(PunPickupSimple), PhotonTargets.AllViaServer);
+        this.photonView.RPC("PunPickupSimple", PhotonTargets.AllViaServer);
     }
 
     [PunRPC]

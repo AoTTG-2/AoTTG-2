@@ -16,11 +16,26 @@ MonoBehaviour:
     m_Code: nl
   m_SharedData: {fileID: 11400000, guid: 9a44487fd5161e94a84321c3c80a64d1, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - id: 0
   m_TableData:
   - m_Id: 12971282432
-    m_Localized: Vang de bal! (Offline oefenen)
+    m_Localized: 'Vang de bal!\n
+
+      {0} {0:Ball|Ball|Ballen} over'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - id: 0
+  - m_Id: 110476326960578560
+    m_Localized: 'Vang de bal! Eindeloos\n
+
+      {0} {0:Ball|Ball|Balls} gevangen'
+    m_Metadata:
+      m_Items:
+      - id: 0
   references:
     version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 001026050300000000409350a27d8801

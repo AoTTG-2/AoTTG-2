@@ -26,7 +26,6 @@ public class CannonBall : Photon.MonoBehaviour
     {
         if (base.photonView != null)
         {
-            base.photonView.observed = this;
             this.correctPos = base.transform.position;
             this.correctVelocity = Vector3.zero;
             base.GetComponent<SphereCollider>().enabled = false;
