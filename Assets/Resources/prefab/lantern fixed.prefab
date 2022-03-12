@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4362723677655746027}
   - component: {fileID: 1976927782689288481}
   - component: {fileID: 7049687270213830050}
-  - component: {fileID: 3703488143108120643}
   m_Layer: 9
   m_Name: lantern fixed
   m_TagString: Untagged
@@ -96,17 +95,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00324372, y: 0.0061602998, z: 0.003}
   m_Center: {x: 0, y: 0.00305673, z: 0.000100440055}
---- !u!114 &3703488143108120643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31394528101667060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9f4844f8ec27b41bdde4d7a988f41a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DayAndNightController: {fileID: 0}
-  skybox: 0
