@@ -25,7 +25,10 @@ namespace Assets.Scripts.UI.Tooltip
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            LeanTween.cancel(delay.uniqueId);
+            if (LeanTween.isTweening())
+            {
+                LeanTween.cancel(delay.uniqueId);
+            }
             TooltipSystem.Hide();
         }
     }

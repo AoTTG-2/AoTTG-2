@@ -2,7 +2,25 @@ fileFormatVersion: 2
 guid: 6b26c640d88afd846946698ad609762b
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -317432591482870100
+    second: beanbonesAction
+  - first:
+      74: -3880581976594992817
+    second: ArmatureAction
+  - first:
+      74: -1691575990641119628
+    second: beanbones|ArmatureAction
+  - first:
+      74: -8584416843702689808
+    second: beanbones|beanbonesAction
+  - first:
+      74: 5511194861757358340
+    second: sawneybones|ArmatureAction
+  - first:
+      74: -497772041971589438
+    second: sawneybones|ArmatureAction (1)
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -50,7 +68,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: beanbonesAction
+      takeName: beanbonesAction
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 159
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []

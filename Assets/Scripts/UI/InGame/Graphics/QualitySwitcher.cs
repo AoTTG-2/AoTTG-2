@@ -8,12 +8,21 @@ namespace Assets.Scripts.UI.InGame
 		public Text Label;
 		public Slider Slider;
 
-		public void UpdateQuality()
+        private void Start()
+        {
+            Slider.onValueChanged.AddListener(delegate
+            {
+                UpdateQuality(this);
+            });
+        }
+
+        public void UpdateQuality(QualitySwitcher qualitySwitcher)
 		{
-			int sValue = (int)Slider.value;
+			int sValue = (int) qualitySwitcher.Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
-			Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
-			FindObjectOfType<GeneralGraphics>().UpdateObjects();
+            Debug.Log($"QualityLevel set to {QualitySettings.GetQualityLevel()}");
+            qualitySwitcher.Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
+			FindObjectOfType<GeneralGraphics>().UpdateUi();
 		}
 
 		[Serializable]
