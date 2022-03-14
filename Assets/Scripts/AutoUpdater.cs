@@ -1,31 +1,32 @@
 using System.IO;
+using System.Net;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+using System.ComponentModel;
+using System.Xml;
+//using System.IO.Compression;
 
 public class AutoUpdater : MonoBehaviour
 {
-    GithubResponse response;
+    [SerializeField]
+    string url;
+    public static string version = "v.0.0.1";
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log(File.Exists(Application.persistentDataPath + "/Updater.app"));
+        StartCoroutine(GetGithubResponse(url));
     }
 
     IEnumerator GetGithubResponse(string url)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
-
         if (request.result == UnityWebRequest.Result.ConnectionError)
         {
             Debug.LogError(request.error);
@@ -35,9 +36,71 @@ public class AutoUpdater : MonoBehaviour
             var str = request.downloadHandler.text;
             Debug.Log("Github response successed");
             Debug.Log(str);
-            response = JsonConvert.DeserializeObject<GithubResponse>(str);
+            GithubResponse response = JsonConvert.DeserializeObject<GithubResponse>(str);
             Debug.Log(response.TagName);
+            if (response.TagName != version)
+            {
+                //DownloadFile(response.Assets[1].BrowserDownloadUrl, "Updater.zip",
+                //    Application.persistentDataPath, true,
+                //    OnDownloadingUpdaterFinished);
+
+                DownloadFile(response.Assets[0].BrowserDownloadUrl, "NewVersion.zip",
+                    Application.dataPath + "/../../", false, "NewVersion.app",
+                    OnDownloadingNewVersionFinished);
+            }
         }
+    }
+
+    void DownloadFile(string Url, string name, string savePath, bool isZip, string nameAfterUnzip, Action onComplete)
+    {
+        WebClient client = new WebClient();
+        void OnDownloadComplete(object obj, AsyncCompletedEventArgs a)
+        {
+            if (File.Exists(Application.dataPath + "/../" + name))
+            {
+                File.Move(Application.dataPath + "/../" + name, savePath + name);
+                if (isZip)
+                {
+                    UnzipFile(savePath, name, nameAfterUnzip);
+                }
+            }
+            onComplete();
+        }
+        client.DownloadFileCompleted += OnDownloadComplete;
+        client.DownloadFileTaskAsync(Url, name);
+    }
+
+    //void OnDownloadingUpdaterFinished(){}
+
+    void OnDownloadingNewVersionFinished()
+    {
+        Save(Application.dataPath + "/../NewVersion.zip", Application.dataPath + "/../AoTTG.app",
+            Application.persistentDataPath + "/UpdaterConfig.wow");
+        if (File.Exists(Application.persistentDataPath + "/Updater.app"))
+            System.Diagnostics.Process.Start(Application.persistentDataPath + "/Updater.app");
+    }
+
+    // TODO find some way to unzip the file downloaded
+    void UnzipFile(string path, string nameBefore, string nameAfter)
+    {
+        //GZipStream stream = new GZipStream(File.Open(path + nameBefore, FileMode.Open), CompressionMode.Decompress);
+        //FileStream stream1 = File.Create(path + nameAfter);
+        //stream.CopyTo(stream1);
+    }
+
+    void Save(string newVersionPath, string currentVersionPath, string savePath)
+    {
+        XmlDocument xml = new XmlDocument();
+        XmlElement root = xml.CreateElement("Root");
+        XmlElement element1 = xml.CreateElement("newVersionPath");
+        XmlElement element2 = xml.CreateElement("currentVersionPath");
+        element1.InnerText = newVersionPath;
+        element2.InnerText = currentVersionPath;
+        root.AppendChild(element1);
+        root.AppendChild(element2);
+        xml.AppendChild(root);
+        xml.Save(savePath);
+        Debug.Log(savePath);
     }
 }
 
