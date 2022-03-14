@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2635101059282763916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913919553695921088}
+  m_Layer: 0
+  m_Name: particleLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &913919553695921088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2635101059282763916}
+  m_LocalRotation: {x: -4.3297803e-17, y: 0.7071069, z: 0.70710677, w: 4.329781e-17}
+  m_LocalPosition: {x: -0.19598998, y: 0.24101566, z: 0.053810462}
+  m_LocalScale: {x: 0.009999998, y: 0.009999997, z: 0.009999997}
+  m_Children: []
+  m_Father: {fileID: 6248856512369140387}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7542194520777793784
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +60,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6248856512369140387}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4630725231419240415
 MeshFilter:
@@ -111,6 +141,7 @@ Transform:
   m_LocalPosition: {x: 18, y: 0, z: -348.75327}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
+  - {fileID: 913919553695921088}
   - {fileID: 4098015380657054466}
   m_Father: {fileID: 0}
   m_RootOrder: 0
