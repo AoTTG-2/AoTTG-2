@@ -14,7 +14,7 @@ public class AutoUpdater : MonoBehaviour
     [SerializeField]
     string url;
     [SerializeField]
-    GameObject updatePanel, updateCheck;
+    GameObject updatePanel, updateCheckPanel, warningPanel;
     [SerializeField]
     TMP_Text versionText, downloadingText;
     GithubResponse response;
@@ -42,8 +42,9 @@ public class AutoUpdater : MonoBehaviour
             if (response.TagName != version)
             {
                 updatePanel.SetActive(true);
-                updateCheck.SetActive(true);
+                updateCheckPanel.SetActive(true);
                 downloadingText.gameObject.SetActive(false);
+                warningPanel.SetActive(false);
                 versionText.text = response.TagName;
             }
             else
@@ -59,10 +60,25 @@ public class AutoUpdater : MonoBehaviour
             "NewVersion.zip", Application.dataPath + "/../../",
             OnDownloadingNewVersionFinished, OnDownloadProgressCanged);
 
-        updateCheck.SetActive(false);
+        updateCheckPanel.SetActive(false);
         downloadingText.gameObject.SetActive(true);
 
         downloadingText.text = "downloiading...";
+    }
+
+    public void OnSkipButtonClicked()
+    {
+        warningPanel.SetActive(true);
+    }
+
+    public void OnLemmeThinkButtonClicked()
+    {
+        warningPanel.SetActive(false);
+    }
+
+    public void OnYesButtonClicked()
+    {
+        Destroy(updatePanel);
     }
 
     void OnDownloadingNewVersionFinished()
@@ -79,10 +95,7 @@ public class AutoUpdater : MonoBehaviour
         downloadingText.text = "downloiading...        " + args.BytesReceived + "/" + response.Assets[0].Size + "  (" + args.ProgressPercentage + "%)";
     }
 
-    public void OnSkipButtonClicked()
-    {
-        Destroy(updatePanel);
-    }
+    
 
     /// <summary>
     /// A function for downloading any file
