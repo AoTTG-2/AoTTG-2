@@ -7,19 +7,23 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 using System.ComponentModel;
-using System.Xml;
-//using System.IO.Compression;
+using TMPro;
 
 public class AutoUpdater : MonoBehaviour
 {
     [SerializeField]
     string url;
-    public static string version = "v.0.0.1";
+    [SerializeField]
+    GameObject updatePanel, updateCheck;
+    [SerializeField]
+    TMP_Text versionText, downloadingText;
+    GithubResponse response;
+    [SerializeField]
+    string version = "v1.8";
 
-    // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(File.Exists(Application.persistentDataPath + "/Updater.app"));
+        updatePanel.SetActive(false);
         StartCoroutine(GetGithubResponse(url));
     }
 
@@ -34,24 +38,62 @@ public class AutoUpdater : MonoBehaviour
         else if (request.result == UnityWebRequest.Result.Success)
         {
             var str = request.downloadHandler.text;
-            Debug.Log("Github response successed");
-            Debug.Log(str);
-            GithubResponse response = JsonConvert.DeserializeObject<GithubResponse>(str);
-            Debug.Log(response.TagName);
+            response = JsonConvert.DeserializeObject<GithubResponse>(str);
             if (response.TagName != version)
             {
-                //DownloadFile(response.Assets[1].BrowserDownloadUrl, "Updater.zip",
-                //    Application.persistentDataPath, true,
-                //    OnDownloadingUpdaterFinished);
-
-                DownloadFile(response.Assets[0].BrowserDownloadUrl, "NewVersion.zip",
-                    Application.dataPath + "/../../", false, "NewVersion.app",
-                    OnDownloadingNewVersionFinished);
+                updatePanel.SetActive(true);
+                updateCheck.SetActive(true);
+                downloadingText.gameObject.SetActive(false);
+                versionText.text = response.TagName;
+            }
+            else
+            {
+                Destroy(updatePanel);
             }
         }
     }
 
-    void DownloadFile(string Url, string name, string savePath, bool isZip, string nameAfterUnzip, Action onComplete)
+    public void OnUpdateButtonClicked()
+    {
+        DownloadFile(response.Assets[0].BrowserDownloadUrl,
+            "NewVersion.zip", Application.dataPath + "/../../",
+            OnDownloadingNewVersionFinished, OnDownloadProgressCanged);
+
+        updateCheck.SetActive(false);
+        downloadingText.gameObject.SetActive(true);
+
+        downloadingText.text = "downloiading...";
+    }
+
+    void OnDownloadingNewVersionFinished()
+    {
+        Debug.Log("Download finished");
+        downloadingText.text = "Completed!";
+        System.Diagnostics.Process.Start(Application.dataPath + "/../../NewVersion.zip");
+        //File.Delete(Application.dataPath + "/../../NewVersion.zip");
+        Application.Quit();
+    }
+
+    void OnDownloadProgressCanged(object obj, DownloadProgressChangedEventArgs args)
+    {
+        downloadingText.text = "downloiading...        " + args.BytesReceived + "/" + response.Assets[0].Size + "  (" + args.ProgressPercentage + "%)";
+    }
+
+    public void OnSkipButtonClicked()
+    {
+        Destroy(updatePanel);
+    }
+
+    /// <summary>
+    /// A function for downloading any file
+    /// </summary>
+    /// <param name="Url">The file's URL</param>
+    /// <param name="name">name you want to name it as</param>
+    /// <param name="savePath">Where do you want to save it</param>
+    /// <param name="isZip">Need to unzip or not</param>
+    /// <param name="nameAfterUnzip">The name after unzipping</param>
+    /// <param name="onComplete">This willbe called when everything is finished</param>
+    void DownloadFile(string Url, string name, string savePath, Action onComplete, DownloadProgressChangedEventHandler progressChangeEvent)
     {
         WebClient client = new WebClient();
         void OnDownloadComplete(object obj, AsyncCompletedEventArgs a)
@@ -59,48 +101,12 @@ public class AutoUpdater : MonoBehaviour
             if (File.Exists(Application.dataPath + "/../" + name))
             {
                 File.Move(Application.dataPath + "/../" + name, savePath + name);
-                if (isZip)
-                {
-                    UnzipFile(savePath, name, nameAfterUnzip);
-                }
             }
             onComplete();
         }
         client.DownloadFileCompleted += OnDownloadComplete;
         client.DownloadFileTaskAsync(Url, name);
-    }
-
-    //void OnDownloadingUpdaterFinished(){}
-
-    void OnDownloadingNewVersionFinished()
-    {
-        Save(Application.dataPath + "/../NewVersion.zip", Application.dataPath + "/../AoTTG.app",
-            Application.persistentDataPath + "/UpdaterConfig.wow");
-        if (File.Exists(Application.persistentDataPath + "/Updater.app"))
-            System.Diagnostics.Process.Start(Application.persistentDataPath + "/Updater.app");
-    }
-
-    // TODO find some way to unzip the file downloaded
-    void UnzipFile(string path, string nameBefore, string nameAfter)
-    {
-        //GZipStream stream = new GZipStream(File.Open(path + nameBefore, FileMode.Open), CompressionMode.Decompress);
-        //FileStream stream1 = File.Create(path + nameAfter);
-        //stream.CopyTo(stream1);
-    }
-
-    void Save(string newVersionPath, string currentVersionPath, string savePath)
-    {
-        XmlDocument xml = new XmlDocument();
-        XmlElement root = xml.CreateElement("Root");
-        XmlElement element1 = xml.CreateElement("newVersionPath");
-        XmlElement element2 = xml.CreateElement("currentVersionPath");
-        element1.InnerText = newVersionPath;
-        element2.InnerText = currentVersionPath;
-        root.AppendChild(element1);
-        root.AppendChild(element2);
-        xml.AppendChild(root);
-        xml.Save(savePath);
-        Debug.Log(savePath);
+        client.DownloadProgressChanged += progressChangeEvent;
     }
 }
 
