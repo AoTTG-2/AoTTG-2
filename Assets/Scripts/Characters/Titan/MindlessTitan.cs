@@ -102,7 +102,7 @@ namespace Assets.Scripts.Characters.Titan
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
             grabTF.transform.SetParent(transform);
-            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
+            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection" && x.name != "Sound")
                 .ToArray();
             CheckColliders();
 
@@ -731,6 +731,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
             CurrentAttack.Execute();
+            if (Target is Hero hero) hero.CombatTimer?.AddTime();
         }
 
         protected override void OnChasing()
@@ -743,6 +744,7 @@ namespace Assets.Scripts.Characters.Titan
 
             if (CanRun())
             {
+                if (Target is Hero hero) hero.CombatTimer?.AddTime();
                 CurrentAnimation = AnimationRun;
                 Stamina -= Time.deltaTime * 2;
             }
