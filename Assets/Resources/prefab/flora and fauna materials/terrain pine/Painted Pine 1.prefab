@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 569148526330037103}
   - component: {fileID: 1392426474254657247}
   - component: {fileID: 351984070305510790}
-  - component: {fileID: 3067715988848902829}
   m_Layer: 9
   m_Name: Painted Pine 1
   m_TagString: Untagged
@@ -82,17 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3067715988848902829
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913620757981338069}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6788349149212916154, guid: 02089b94d235fc5408e349e52cdabc22, type: 3}

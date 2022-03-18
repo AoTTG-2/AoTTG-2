@@ -122,7 +122,6 @@ GameObject:
   - component: {fileID: 6248856512369140387}
   - component: {fileID: 9207611003581784994}
   - component: {fileID: 8660661346853332288}
-  - component: {fileID: 177790978106164560}
   m_Layer: 9
   m_Name: Large Pine 2
   m_TagString: Untagged
@@ -195,17 +194,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &177790978106164560
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8509842069821718171}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4382980671203965233, guid: 798b5d081b7335c40a6d42a6f159a1e5, type: 3}
