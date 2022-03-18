@@ -354,6 +354,46 @@ namespace Assets.Scripts.Room
 
                 }
             });
+
+            _levels.Add(new Level
+            {
+                Name = "Trost_Revamped",
+                Description = "Big Trost Map",
+                SceneName = "Trost_Revamp",
+
+                Gamemodes = new List<GamemodeSettings>
+                {
+                    new KillTitansSettings
+                    {
+                        GamemodeType = GamemodeType.Titans,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new EndlessSettings
+                    {
+                        GamemodeType = GamemodeType.Endless,
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                    new WaveGamemodeSettings
+                    {
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        },
+                    },
+                }
+            });
         }
 
         private static void AddAoTTG2Maps()
