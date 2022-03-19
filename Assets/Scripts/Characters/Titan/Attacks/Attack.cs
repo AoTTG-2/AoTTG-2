@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Constants;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
@@ -150,11 +151,17 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             }
 
             var radius = Titan.Size * 2.2f + 1f;
-            var mask = LayerMask.GetMask("PlayerHitBox", "EnemyAABB");
+            var mask = LayerMask.GetMask("PlayerHitBox", "EnemyAABB", "Ground");
 
             entities = new HashSet<Entity>();
             foreach (var collider in Physics.OverlapSphere(bodyPart.GetComponent<Collider>().transform.position, radius, mask))
             {
+                if (collider.gameObject.layer == (int) Layers.Ground)
+                {
+                    var meat = PhotonNetwork.Instantiate("fx/Thunder", bodyPart.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                    meat.transform.position = bodyPart.position;
+                }
+
                 //TODO #160
                 if (collider.transform.root.tag != "Player" && collider.name != "AABB") continue;
 

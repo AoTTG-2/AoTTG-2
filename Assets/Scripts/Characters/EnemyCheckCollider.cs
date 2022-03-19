@@ -1,5 +1,6 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
+using Assets.Scripts.Constants;
 using UnityEngine;
 
 /// <summary>
@@ -91,6 +92,11 @@ public class EnemyCheckCollider : Photon.MonoBehaviour
             else if (((other.gameObject.tag == "erenHitbox") && (this.dmg > 0)) && !other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().isHit)
             {
                 other.gameObject.transform.root.gameObject.GetComponent<ErenTitan>().hitByTitan();
+            }
+            else if (other.gameObject.layer == (int) Layers.Ground)
+            {
+                var meat = PhotonNetwork.Instantiate("fx/Thunder", transform.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                meat.transform.position = transform.position;
             }
         }
     }
