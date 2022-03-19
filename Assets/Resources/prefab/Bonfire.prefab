@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7713351408233706470}
   - component: {fileID: 5543829388981143340}
   - component: {fileID: 1479382938036351541}
+  - component: {fileID: 6393321517880540862}
   m_Layer: 9
   m_Name: Bonfire
   m_TagString: Untagged
@@ -97,6 +98,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7998806513205308417, guid: 97658101e88754e438aaee822feb525f, type: 3}
+--- !u!114 &6393321517880540862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336387674860431097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9f4844f8ec27b41bdde4d7a988f41a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DayAndNightController: {fileID: 0}
+  skybox: 0
 --- !u!1 &6628370035990837320
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,28 +5061,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
-      propertyPath: UVModule.fps
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
-        type: 3}
-      propertyPath: UVModule.tilesX
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
-        type: 3}
-      propertyPath: UVModule.tilesY
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
-        type: 3}
       propertyPath: simulationSpeed
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
       propertyPath: ShapeModule.m_Scale.x
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
@@ -5077,7 +5077,7 @@ PrefabInstance:
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
       propertyPath: ShapeModule.m_Scale.z
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2174787074198055882, guid: a1390cf37fa3b0e4d85ca5c083c9238d,
         type: 3}
