@@ -158,7 +158,7 @@ namespace Assets.Scripts.Characters.Titan.Attacks
             {
                 if (collider.gameObject.layer == (int) Layers.Ground)
                 {
-                    var meat = PhotonNetwork.Instantiate("fx/Thunder", bodyPart.position, Quaternion.Euler(270f, 0f, 0f), 0);
+                    var meat = PhotonNetwork.Instantiate("fx/VOID", bodyPart.position, Quaternion.Euler(270f, 0f, 0f), 0);
                     meat.transform.position = bodyPart.position;
                 }
 
