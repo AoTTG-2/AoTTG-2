@@ -3220,24 +3220,25 @@ namespace Assets.Scripts.Characters.Humans
             var startPos = transform.position;
             var startRot = transform.rotation;
             var hook = PhotonNetwork.Instantiate("hook", startPos, startRot, 0).GetComponent<Bullet>();
+
+            var multiOffset = transform.right * (distance <= 50f ? distance * 0.05f : distance * 0.3f);
             if (Bullet.IsLeft(source))
             {
                 hookLeft = hook;
-                LaunchHook(hook);
+                LaunchHook(hook, !single ? -multiOffset : Vector3.zero);
                 launchPointLeft = Vector3.zero;
             }
             else
             {
                 hookRight = hook;
-                LaunchHook(hook);
+                LaunchHook(hook, !single ? multiOffset : Vector3.zero);
                 launchPointRight = Vector3.zero;
             }
 
-            void LaunchHook(Bullet hook)
+            void LaunchHook(Bullet hook, Vector3 offset)
             {
-                var num = !single ? distance <= 50f ? distance * 0.05f : distance * 0.3f : 0f;
                 var hookPos = hook.transform.position = hookRef.transform.position;
-                var vector = Vector3.Normalize(point - transform.right * num - hookPos) * 3f;
+                var vector = Vector3.Normalize(point - hookPos + offset) * 3f;
                 hook.Launch(source, hookRef, vector, Rigidbody.velocity, this, leviMode);
             }
         }
