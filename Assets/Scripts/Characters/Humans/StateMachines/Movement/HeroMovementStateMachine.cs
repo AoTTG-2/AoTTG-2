@@ -12,19 +12,15 @@ public class HeroMovementStateMachine : StateMachine
     public Hero Hero { get; }
     public HeroStateReusableData ReusableData { get; }
     public HeroIdlingState IdlingState { get; }
-    public HeroDashinState DashingState { get; }
+    public HeroDodgingState DodgingState { get; }
     public HeroRunningState RunningState { get; }
-    /*public PlayerSprintingState SprintingState { get; }
-    public PlayerDashingState DashingState { get; }*/
 
     public HeroMovementStateMachine(Hero hero)
     {
         Hero = hero;
         ReusableData = new HeroStateReusableData();
         IdlingState = new HeroIdlingState(this);
-        DashingState = new HeroDashinState(this);
+        DodgingState = new HeroDodgingState(this);
         RunningState = new HeroRunningState(this);
-        /*SprintingState = new PlayerSprintingState(this);
-        DashingState = new PlayerDashingState(this);*/
     }
 }

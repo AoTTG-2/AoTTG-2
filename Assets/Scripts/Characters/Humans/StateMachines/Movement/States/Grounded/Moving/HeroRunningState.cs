@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Characters.Humans.Constants;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded.Moving
@@ -14,6 +13,49 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         {
             base.Enter();
             stateMachine.ReusableData.MovementSpeedModifier = movementData.BaseSpeed;
+            AddInputActionsCallbacks();
+        }
+        public override void Exit()
+        {
+            base.Exit();
+            RemoveInputActionsCallbacks();
+        }
+        public override void Update()
+        {
+            Move();
+        }
+        #endregion
+        #region Main Methods
+        private void Move()
+        {
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
+
+            Vector3 movementVector = GetMovementInputDirection();
+            float resultAngle = GetGlobalFacingDirection(movementVector.x, movementVector.z);
+            Vector3 zero = GetGlobaleFacingVector3(resultAngle);
+            float movementMagnitudeChecker = (movementVector.magnitude <= 0.95f) ? ((movementVector.magnitude >= 0.25f) ? movementVector.magnitude : 0f) : 1f;
+            zero *= movementMagnitudeChecker;
+            zero *= movementData.BaseSpeed;
+            if (resultAngle != -874f)
+            {
+                facingDirection = resultAngle;
+                targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
+            }
+
+            Vector3 velocity = stateMachine.Hero.Rigidbody.velocity;
+            Vector3 force = zero - velocity;
+
+            force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
+            force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
+            force.y = 0f;
+            stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
+            RotateHeroToFaceDirection();
+            stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
+            UpdateAnimation();
+        }
+        private void UpdateAnimation()
+        {
+            CrossFade(HeroAnim.RUN_1, 0.1f);
         }
         #endregion
     }

@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Humans.Constants;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         public override void Enter()
         {
             base.Enter();
-
-            stateMachine.ReusableData.MovementSpeedModifier = 0f;
             ResetVelocity();
+            UpdateAnimation();
+            stateMachine.ReusableData.MovementSpeedModifier = 0f;
         }
 
         public override void Update()
@@ -25,6 +26,12 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
 
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
+        }
+        #endregion
+        #region Main Methods
+        private void UpdateAnimation()
+        {
+            stateMachine.Hero.IdleAnimation();
         }
         #endregion
     }

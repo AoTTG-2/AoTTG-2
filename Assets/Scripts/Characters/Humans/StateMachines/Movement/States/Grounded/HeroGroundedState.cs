@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded
@@ -32,7 +28,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         #region Input Methods
         private void OnDodgeStarted(InputAction.CallbackContext contenxt)
         {
-            stateMachine.ChangeState(stateMachine.DashingState);
+            stateMachine.ChangeState(stateMachine.DodgingState);
         }
 
         private void OnMovementCanceled(InputAction.CallbackContext context)
