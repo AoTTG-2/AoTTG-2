@@ -3238,8 +3238,6 @@ namespace Assets.Scripts.Characters.Humans
                 var num = !single ? distance <= 50f ? distance * 0.05f : distance * 0.3f : 0f;
                 var hookPos = hook.transform.position = hookRef.transform.position;
                 var vector = Vector3.Normalize(point - transform.right * num - hookPos) * 3f;
-                Debug.DrawLine(hookPos + Vector3.up * 0.01f, point + Vector3.up * 0.01f, Color.green, 10f);
-                Debug.DrawLine(hookPos, hookPos + vector.normalized * distance, Color.magenta, 10f);
                 hook.Launch(source, hookRef, vector, Rigidbody.velocity, this, leviMode);
             }
         }
