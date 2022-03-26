@@ -6,39 +6,41 @@ namespace Assets.Scripts.StateMachine
 {
     public abstract class StateMachine
     {
-        protected IState currentState;
+        public IState CurrentState { get; protected set; }
+        public IState PreviousState { get; protected set; }
 
         public void ChangeState(IState newState)
         {
-            currentState?.Exit();
-            currentState = newState;
+            CurrentState?.Exit();
+            PreviousState = CurrentState;
+            CurrentState = newState;
             newState.Enter();
         }
 
         public void HandleInput()
         {
-            currentState?.HandleInput();
+            CurrentState?.HandleInput();
         }
         public void Update()
         {
-            currentState?.Update();
+            CurrentState?.Update();
         }
         public void PhysicsUpdate()
         {
-            currentState?.PhysicsUpdate();
+            CurrentState?.PhysicsUpdate();
         }
 
         public void OnAnimationEnterEvent()
         {
-            currentState?.OnAnimatonEnterEvent();
+            CurrentState?.OnAnimatonEnterEvent();
         }
         public void OnAnimationExitEvent()
         {
-            currentState?.OnAnimationExitEvent();
+            CurrentState?.OnAnimationExitEvent();
         }
         public void OnAnimationTransitionEvent()
         {
-            currentState?.OnAnimationTransitionEvent();
+            CurrentState?.OnAnimationTransitionEvent();
         }
     }
 }

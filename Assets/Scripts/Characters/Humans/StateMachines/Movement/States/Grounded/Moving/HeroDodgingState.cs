@@ -1,16 +1,17 @@
 using Assets.Scripts.Characters.Humans.Constants;
-using Assets.Scripts.Characters.Humans.Data.States.Grounded;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded
 {
-    // TODO: Dash Distance/Time is way too high, find the exact amount in Hero.cs
+    /// <summary>
+    /// Dodging State Class.
+    /// Defines everything that is needed and can be done while the hero is dodging.
+    /// Requires its animation to have a reference to the OnAnimationExitEvent funciton in Hero.cs.
+    /// </summary>
     public class HeroDodgingState : HeroGroundedState
     {
-        private readonly HeroDashData dashData;
         public HeroDodgingState(HeroMovementStateMachine heroMovementStateMachine) : base(heroMovementStateMachine)
         {
-            dashData = movementData.DashData;
         }
         #region IState Methods
         public override void Enter()
@@ -18,16 +19,36 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             base.Enter();
             Dodge();
         }
+        //Need to override base so that hero can't trigger any buttons while dodging
+        protected override void AddInputActionsCallbacks()
+        {
+        }
+        protected override void RemoveInputActionsCallbacks()
+        {
+        }
+        public override void OnAnimationExitEvent()
+        {
+            if (stateMachine.ReusableData.MovementInput != Vector2.zero)
+            {
+                stateMachine.ChangeState(stateMachine.RunningState);
+                return;
+            }
+            stateMachine.ChangeState(stateMachine.IdlingState);
+        }
         #endregion
         #region Main Methods
         private void Dodge()
         {
             UpdateAnimation();
-            //Add Force in Movement Direction
-
-            //Remove Force after 1 second
-
-            //Transition to idle 
+            Vector3 zero = (-stateMachine.Hero.transform.forward * 2.4f) * movementData.BaseSpeed;
+            Vector3 currentVelocity = GetPlayerHorizontalVelocity();
+            Vector3 force = zero - currentVelocity;
+            force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
+            force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
+            force.y = 0f;
+            ResetVelocity();
+            stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
+            stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
         }
         private void UpdateAnimation()
         {

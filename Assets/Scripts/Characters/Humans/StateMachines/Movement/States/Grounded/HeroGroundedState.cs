@@ -2,6 +2,10 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded
 {
+    /// <summary>
+    /// Grounded State Class.
+    /// Defines everything that is needed and can be done while on the ground.
+    /// </summary>
     public class HeroGroundedState : HeroMovementState
     {
         public HeroGroundedState(HeroMovementStateMachine heroMovementStateMachine) : base(heroMovementStateMachine)

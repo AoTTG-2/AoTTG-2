@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Humans.Equipment;
 using Assets.Scripts.Characters.Humans.Skills;
+using Assets.Scripts.Characters.Humans.StateMachines;
 using Assets.Scripts.Characters.Humans.Utils;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Constants;
@@ -42,11 +43,11 @@ namespace Assets.Scripts.Characters.Humans
         private SpeedTimer speedTimer;
         private const float HookRaycastDistance = 1000f;
 
+        #region State Machine Variables
         [field: SerializeField] public HeroSO Data { get; private set; }
         public HumanInput HumanInput { get; private set; }
         private HeroMovementStateMachine movementStateMachine;
-
-
+        #endregion
 
         #region Properties
         public Equipment.Equipment Equipment { get; set; }
@@ -1316,7 +1317,6 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
         }
-
         private void CheckForScrollingInput()
         {
             if (InputManager.Key(InputHuman.ReelIn))
@@ -1703,17 +1703,6 @@ namespace Assets.Scripts.Characters.Humans
                             }
                             justGrounded = false;
                             zero = Rigidbody.velocity;
-                        }
-                        if (state == HumanState.GroundDodge)
-                        {
-                            if ((Animation[HeroAnim.DODGE].normalizedTime >= 0.2f) && (Animation[HeroAnim.DODGE].normalizedTime < 0.8f))
-                            {
-                                zero = ((-transform.forward * 2.4f) * speed);
-                            }
-                            if (Animation[HeroAnim.DODGE].normalizedTime > 0.8f)
-                            {
-                                zero = (Rigidbody.velocity * 0.9f);
-                            }
                         }
                         if (state == HumanState.Land)
                         {
@@ -2836,15 +2825,13 @@ namespace Assets.Scripts.Characters.Humans
             //Whereas this may not be completely accurate to AoTTG, it is very close. Further balancing required in the future.
             Rigidbody.AddForce(Rigidbody.velocity * 0.00f, ForceMode.Acceleration);
         }
-
-        public void IdleAnimation()
+        public void OnAnimationExitEvent()
         {
-            StartCoroutine(TransitionToIdle());
+            movementStateMachine?.OnAnimationExitEvent();
         }
-        private IEnumerator TransitionToIdle()
+        public void OnAnimationEnterEvent()
         {
-            yield return new WaitForSeconds(.1f);
-            CrossFade(HeroAnim.STAND);
+            movementStateMachine?.OnAnimationEnterEvent();
         }
 
         private Vector3 GetGlobaleFacingVector3(float resultAngle)

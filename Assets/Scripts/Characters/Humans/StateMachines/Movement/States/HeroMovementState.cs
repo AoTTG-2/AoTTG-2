@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States
 {
+    /// <summary>
+    /// Movement State Class.
+    /// Defines everything that is needed and can be done while moving.
+    /// </summary>
     public class HeroMovementState : IState
     {
         protected HeroMovementStateMachine stateMachine;
         protected HeroGroundedData movementData;
         protected float currentSpeed;
-        //Variables Stolen From Hero.cs
+
         protected float facingDirection;
         protected Quaternion targetRotation;
         protected float maxVelocityChange = 10f;

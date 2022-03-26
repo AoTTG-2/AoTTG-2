@@ -1,11 +1,12 @@
 using Assets.Scripts.Characters.Humans.Constants;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded
 {
+    /// <summary>
+    /// Idling State Class.
+    /// Defines everything that is needed and can be done while idling.
+    /// </summary>
     public class HeroIdlingState : HeroGroundedState
     {
         public HeroIdlingState(HeroMovementStateMachine heroMovementStateMachine) : base(heroMovementStateMachine)
@@ -22,8 +23,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
 
         public override void Update()
         {
-            base.Update();
-
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
         }
@@ -31,7 +30,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         #region Main Methods
         private void UpdateAnimation()
         {
-            stateMachine.Hero.IdleAnimation();
+            CrossFade(HeroAnim.STAND, 0.1f);
         }
         #endregion
     }

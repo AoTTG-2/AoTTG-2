@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded.Moving
 {
+    /// <summary>
+    /// Running State Class.
+    /// Defines everything that is needed and can be done while running.
+    /// </summary>
     public class HeroRunningState : HeroMovingState
     {
         public HeroRunningState(HeroMovementStateMachine heroMovementStateMachine) : base(heroMovementStateMachine)
@@ -13,12 +17,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         {
             base.Enter();
             stateMachine.ReusableData.MovementSpeedModifier = movementData.BaseSpeed;
-            AddInputActionsCallbacks();
-        }
-        public override void Exit()
-        {
-            base.Exit();
-            RemoveInputActionsCallbacks();
         }
         public override void Update()
         {
@@ -55,7 +53,13 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         private void UpdateAnimation()
         {
-            CrossFade(HeroAnim.RUN_1, 0.1f);
+            if (stateMachine.Hero.Animation.IsPlaying(HeroAnim.RUN_1)) return;
+            float crossfadeTime = 0f;
+            if(stateMachine.PreviousState == stateMachine.DodgingState)
+            {
+                crossfadeTime = 0.1f;
+            }
+            CrossFade(HeroAnim.RUN_1, crossfadeTime);
         }
         #endregion
     }

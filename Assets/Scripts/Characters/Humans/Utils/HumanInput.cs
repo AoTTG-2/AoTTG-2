@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Characters.Humans.Utils
 {
+    /// <summary>
+    /// Class which handles Human related inputs.
+    /// </summary>
     public class HumanInput : MonoBehaviour
     {
         public InputActions InputActions { get; private set; }
