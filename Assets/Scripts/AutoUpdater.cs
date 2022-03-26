@@ -8,6 +8,7 @@ using System;
 using UnityEngine.Networking;
 using System.ComponentModel;
 using TMPro;
+using System.Security.Cryptography;
 
 public class AutoUpdater : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class AutoUpdater : MonoBehaviour
     TMP_Text versionText, downloadingText;
     GithubResponse response;
     [SerializeField]
-    string version = "v1.8";
+    string version = "v1.8", hashCode = "";
 
     void Start()
     {
@@ -83,11 +84,26 @@ public class AutoUpdater : MonoBehaviour
 
     void OnDownloadingNewVersionFinished()
     {
-        Debug.Log("Download finished");
-        downloadingText.text = "Completed!";
-        System.Diagnostics.Process.Start(Application.dataPath + "/../../NewVersion.zip");
-        //File.Delete(Application.dataPath + "/../../NewVersion.zip");
-        Application.Quit();
+        //Debug.Log("Download finished");
+        downloadingText.text = "Checking...";
+        using (var md = MD5.Create())
+        {
+            using (var file = File.OpenRead(Application.dataPath + "/../../NewVersion.zip"))
+            {
+                var hash = BitConverter.ToString(md.ComputeHash(file));
+                if (hash == hashCode)
+                {
+                    downloadingText.text = "Complete!";
+                    System.Diagnostics.Process.Start(Application.dataPath + "/../../NewVersion.zip");
+                    //File.Delete(Application.dataPath + "/../../NewVersion.zip");
+                    Application.Quit();
+                }
+                else
+                {
+                    //Debug.Log(hash);
+                }
+            }
+        }
     }
 
     void OnDownloadProgressCanged(object obj, DownloadProgressChangedEventArgs args)
@@ -95,17 +111,6 @@ public class AutoUpdater : MonoBehaviour
         downloadingText.text = "downloiading...        " + args.BytesReceived + "/" + response.Assets[0].Size + "  (" + args.ProgressPercentage + "%)";
     }
 
-    
-
-    /// <summary>
-    /// A function for downloading any file
-    /// </summary>
-    /// <param name="Url">The file's URL</param>
-    /// <param name="name">name you want to name it as</param>
-    /// <param name="savePath">Where do you want to save it</param>
-    /// <param name="isZip">Need to unzip or not</param>
-    /// <param name="nameAfterUnzip">The name after unzipping</param>
-    /// <param name="onComplete">This willbe called when everything is finished</param>
     void DownloadFile(string Url, string name, string savePath, Action onComplete, DownloadProgressChangedEventHandler progressChangeEvent)
     {
         WebClient client = new WebClient();
