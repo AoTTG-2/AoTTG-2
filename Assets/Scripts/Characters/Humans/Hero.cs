@@ -240,9 +240,6 @@ namespace Assets.Scripts.Characters.Humans
         public Rigidbody Rigidbody { get; protected set; }
         public SmoothSyncMovement SmoothSync { get; protected set; }
 
-        private Bullet.Source LeftSource => useGun ? Bullet.Source.GunLeft : Bullet.Source.BeltLeft;
-        private Bullet.Source RightSource => useGun ? Bullet.Source.GunRight : Bullet.Source.BeltRight;
-        
         [SerializeField] StringVariable bombMainPath;
 
         #region Unity Methods
@@ -3203,17 +3200,17 @@ namespace Assets.Scripts.Characters.Humans
             sparks_em.enabled = false;
         }
 
-        public void LaunchRope(Bullet.Source source, float distance, Vector3 point, bool single, bool leviMode = false)
+        public void LaunchRope(Bullet.HookSource source, float distance, Vector3 point, bool single, bool leviMode = false)
         {
             if (currentGas <= 0f) return;
             UseGas();
 
             var hookRef = source switch
             {
-                Bullet.Source.BeltLeft => hookRefL1,
-                Bullet.Source.BeltRight => hookRefR1,
-                Bullet.Source.GunLeft => hookRefL2,
-                Bullet.Source.GunRight => hookRefR2,
+                Bullet.HookSource.BeltLeft => hookRefL1,
+                Bullet.HookSource.BeltRight => hookRefR1,
+                Bullet.HookSource.GunLeft => hookRefL2,
+                Bullet.HookSource.GunRight => hookRefR2,
                 _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
             };
 
@@ -3243,12 +3240,18 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
         
-        public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false) =>
-            LaunchRope(LeftSource, distance, point, single, leviMode);
+        public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = useGun ? Bullet.HookSource.GunLeft : Bullet.HookSource.BeltLeft;
+            LaunchRope(source, distance, point, single, leviMode);
+        }
 
-        public void LaunchRightRope(float distance, Vector3 point, bool single, bool leviMode = false) =>
-            LaunchRope(RightSource, distance, point, single, leviMode);
-        
+        public void LaunchRightRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = useGun ? Bullet.HookSource.GunRight : Bullet.HookSource.BeltRight;
+            LaunchRope(source, distance, point, single, leviMode);
+        }
+
         private void LeftArmAimTo(Vector3 target)
         {
             float y = target.x - upperarmL.transform.position.x;

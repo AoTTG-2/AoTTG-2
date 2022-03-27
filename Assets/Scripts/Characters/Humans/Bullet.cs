@@ -216,7 +216,7 @@ namespace Assets.Scripts.Characters.Humans
             UnityEngine.Object.Destroy(base.gameObject);
         }
         
-        public void Launch(Source source, GameObject hookRef, Vector3 v, Vector3 v2, Hero hero, bool leviMode = false)
+        public void Launch(HookSource source, GameObject hookRef, Vector3 v, Vector3 v2, Hero hero, bool leviMode = false)
         {
             if (phase == 2) return;
             
@@ -243,16 +243,16 @@ namespace Assets.Scripts.Characters.Humans
         }
 
         [PunRPC]
-        private void myMasterIs(int id, Source source)
+        private void myMasterIs(int id, HookSource source)
         {
             master = PhotonView.Find(id).gameObject;
             var hero = master.GetComponent<Hero>();
             myRef = source switch
             {
-                Source.BeltLeft => hero.hookRefL1,
-                Source.BeltRight => hero.hookRefR1,
-                Source.GunLeft => hero.hookRefL2,
-                Source.GunRight => hero.hookRefR2,
+                HookSource.BeltLeft => hero.hookRefL1,
+                HookSource.BeltRight => hero.hookRefR1,
+                HookSource.GunLeft => hero.hookRefL2,
+                HookSource.GunRight => hero.hookRefR2,
                 _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
             };
         }
@@ -480,17 +480,17 @@ namespace Assets.Scripts.Characters.Humans
             }
         }
 
-        public static bool IsLeft(Source source) =>
+        public static bool IsLeft(HookSource source) =>
             source switch
             {
-                Source.BeltLeft => true,
-                Source.GunLeft => true,
-                Source.BeltRight => false,
-                Source.GunRight => false,
+                HookSource.BeltLeft => true,
+                HookSource.GunLeft => true,
+                HookSource.BeltRight => false,
+                HookSource.GunRight => false,
                 _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
             };
 
-        public enum Source
+        public enum HookSource
         {
             BeltLeft,
             BeltRight,
