@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PhotonService
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PhotonService
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.Services.PhotonService">
+  
+  
+  <h1 id="Assets_Scripts_Services_PhotonService" data-uid="Assets.Scripts.Services.PhotonService" class="text-break">Class PhotonService
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><a class="xref" href="Photon.PunBehaviour.html">PunBehaviour</a></div>
+    <div class="level3"><span class="xref">PhotonService</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+    <div><a class="xref" href="Assets.Scripts.Services.Interface.IPhotonService.html">IPhotonService</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftRoom">PunBehaviour.OnLeftRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_">PunBehaviour.OnMasterClientSwitched(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___">PunBehaviour.OnPhotonCreateRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___">PunBehaviour.OnPhotonJoinRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCreatedRoom">PunBehaviour.OnCreatedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedLobby">PunBehaviour.OnJoinedLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftLobby">PunBehaviour.OnLeftLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_">PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectionFail_DisconnectCause_">PunBehaviour.OnConnectionFail(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_">PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnReceivedRoomListUpdate">PunBehaviour.OnReceivedRoomListUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedRoom">PunBehaviour.OnJoinedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___">PunBehaviour.OnPhotonRandomJoinFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToMaster">PunBehaviour.OnConnectedToMaster()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonMaxCccuReached">PunBehaviour.OnPhotonMaxCccuReached()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_">PunBehaviour.OnPhotonCustomRoomPropertiesChanged(Hashtable)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___">PunBehaviour.OnPhotonPlayerPropertiesChanged(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnUpdatedFriendList">PunBehaviour.OnUpdatedFriendList()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_">PunBehaviour.OnCustomAuthenticationFailed(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__">PunBehaviour.OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_">PunBehaviour.OnWebRpcResponse(OperationResponse)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipRequest_System_Object___">PunBehaviour.OnOwnershipRequest(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLobbyStatisticsUpdate">PunBehaviour.OnLobbyStatisticsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_">PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipTransfered_System_Object___">PunBehaviour.OnOwnershipTransfered(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.Services.html">Assets.Scripts.Services</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_Services_PhotonService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PhotonService : PunBehaviour, IPunCallbacks, IPhotonService</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_VersionManager.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.VersionManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L13">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_Services_PhotonService_VersionManager" data-uid="Assets.Scripts.Services.PhotonService.VersionManager">VersionManager</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VersionManager VersionManager</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.VersionManager.html">VersionManager</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_ChangePhotonServer_Assets_Scripts_Settings_PhotonServerConfig_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.ChangePhotonServer(Assets.Scripts.Settings.PhotonServerConfig)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L69">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_ChangePhotonServer_" data-uid="Assets.Scripts.Services.PhotonService.ChangePhotonServer*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_ChangePhotonServer_Assets_Scripts_Settings_PhotonServerConfig_" data-uid="Assets.Scripts.Services.PhotonService.ChangePhotonServer(Assets.Scripts.Settings.PhotonServerConfig)">ChangePhotonServer(PhotonServerConfig)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ChangePhotonServer(PhotonServerConfig server)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Settings.PhotonServerConfig.html">PhotonServerConfig</a></td>
+        <td><span class="parametername">server</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_Connect.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.Connect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L59">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_Connect_" data-uid="Assets.Scripts.Services.PhotonService.Connect*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_Connect" data-uid="Assets.Scripts.Services.PhotonService.Connect">Connect()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Connect()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_GetAllServers.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.GetAllServers%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L46">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_GetAllServers_" data-uid="Assets.Scripts.Services.PhotonService.GetAllServers*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_GetAllServers" data-uid="Assets.Scripts.Services.PhotonService.GetAllServers">GetAllServers()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;PhotonServerConfig&gt; GetAllServers()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Assets.Scripts.Settings.PhotonServerConfig.html">PhotonServerConfig</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_GetConfigByName_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.GetConfigByName(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L53">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_GetConfigByName_" data-uid="Assets.Scripts.Services.PhotonService.GetConfigByName*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_GetConfigByName_System_String_" data-uid="Assets.Scripts.Services.PhotonService.GetConfigByName(System.String)">GetConfigByName(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PhotonServerConfig GetConfigByName(string configName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">configName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Settings.PhotonServerConfig.html">PhotonServerConfig</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_GetCurrentConfig.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.GetCurrentConfig%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L48">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_GetCurrentConfig_" data-uid="Assets.Scripts.Services.PhotonService.GetCurrentConfig*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_GetCurrentConfig" data-uid="Assets.Scripts.Services.PhotonService.GetCurrentConfig">GetCurrentConfig()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PhotonServerConfig GetCurrentConfig()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Settings.PhotonServerConfig.html">PhotonServerConfig</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_IsChangingRegion.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.IsChangingRegion%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L45">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_IsChangingRegion_" data-uid="Assets.Scripts.Services.PhotonService.IsChangingRegion*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_IsChangingRegion" data-uid="Assets.Scripts.Services.PhotonService.IsChangingRegion">IsChangingRegion()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsChangingRegion()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_OnConnectedToPhoton.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.OnConnectedToPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L30">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_OnConnectedToPhoton_" data-uid="Assets.Scripts.Services.PhotonService.OnConnectedToPhoton*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_OnConnectedToPhoton" data-uid="Assets.Scripts.Services.PhotonService.OnConnectedToPhoton">OnConnectedToPhoton()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnConnectedToPhoton()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToPhoton">PunBehaviour.OnConnectedToPhoton()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService_OnDisconnectedFromPhoton.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService.OnDisconnectedFromPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L35">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_PhotonService_OnDisconnectedFromPhoton_" data-uid="Assets.Scripts.Services.PhotonService.OnDisconnectedFromPhoton*"></a>
+  <h4 id="Assets_Scripts_Services_PhotonService_OnDisconnectedFromPhoton" data-uid="Assets.Scripts.Services.PhotonService.OnDisconnectedFromPhoton">OnDisconnectedFromPhoton()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnDisconnectedFromPhoton()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnDisconnectedFromPhoton">PunBehaviour.OnDisconnectedFromPhoton()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+  <div>
+      <a class="xref" href="Assets.Scripts.Services.Interface.IPhotonService.html">IPhotonService</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_PhotonService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.PhotonService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/PhotonService.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ChatPeer
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ChatPeer
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.Chat.ChatPeer">
+  
+  
+  <h1 id="Photon_Chat_ChatPeer" data-uid="Photon.Chat.ChatPeer" class="text-break">Class ChatPeer
+  </h1>
+  <div class="markdown level0 summary"><p>Provides basic operations of the Photon Chat server. This internal class is used by public ChatClient.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ExitGames.Client.Photon.PhotonPeer</span></div>
+    <div class="level2"><span class="xref">ChatPeer</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.WarningSize</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.NoSocket</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.NativeDatagramEncrypt</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.DebugBuild</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ClientSdkId</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SocketImplementationConfig</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.DebugOut</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RhttpMinConnections</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RhttpMaxConnections</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ChannelCount</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SentCountAllowance</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.InitialResendTimeMax</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TimePingInterval</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.DisconnectTimeout</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.OutgoingStreamBufferSize</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.AsyncKeyExchange</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.PayloadEncryptionSecret</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Encryptor</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.CommandLogToString()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.MessageBufferPoolTrim(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsReset()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.VitalStatsToString(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Connect(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Connect(System.String, System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Disconnect()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.StopThread()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.FetchServerTimestamp()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.EstablishEncryption()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.InitDatagramEncryption(System.Byte[], System.Byte[], System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.InitPayloadEncryption(System.Byte[])</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Service()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SendOutgoingCommands()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SendAcksOnly()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.DispatchIncomingCommands()</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SendOperation(System.Byte, System.Collections.Generic.Dictionary&lt;System.Byte, System.Object&gt;, ExitGames.Client.Photon.SendOptions)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.OpCustom(System.Byte, System.Collections.Generic.Dictionary&lt;System.Byte, System.Object&gt;, System.Boolean, System.Byte, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.OpCustom(ExitGames.Client.Photon.OperationRequest, System.Boolean, System.Byte, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RegisterType(System.Type, System.Byte, ExitGames.Client.Photon.SerializeMethod, ExitGames.Client.Photon.DeserializeMethod)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RegisterType(System.Type, System.Byte, ExitGames.Client.Photon.SerializeStreamMethod, ExitGames.Client.Photon.DeserializeStreamMethod)</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.CommandBufferSize</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LimitOfUnreliableCommands</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LocalTimeInMilliSeconds</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ClientSdkIdShifted</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ClientVersion</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SerializationProtocolType</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SocketImplementation</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.Listener</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ReuseEventInstance</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.BytesIn</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.BytesOut</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ByteCountCurrentDispatch</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.CommandInfoCurrentDispatch</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ByteCountLastOperation</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.CommandLogSize</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.EnableServerTracing</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.QuickResendAttempts</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.PeerState</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.PeerID</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.QueuedIncomingCommands</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.QueuedOutgoingCommands</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.CrcEnabled</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.PacketLossByCrc</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.PacketLossByChallenge</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.SentReliableCommandsCount</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ResentReliableCommands</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ServerTimeInMilliSeconds</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LocalMsTimestampDelegate</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ConnectionTime</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LastSendAckTime</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LastSendOutgoingTime</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LongestSentCall</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RoundTripTime</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.RoundTripTimeVariance</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.LastRoundTripTime</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TimestampOfLastSocketReceive</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ServerAddress</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.ServerIpAddress</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.UsedProtocol</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TransportProtocol</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.IsSimulationEnabled</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.NetworkSimulationSettings</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.MaximumTransferUnit</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.IsEncryptionAvailable</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.IsSendingOnlyAcks</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsIncoming</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsOutgoing</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsGameLevel</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsElapsedMs</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.TrafficStatsEnabled</span>
+    </div>
+    <div>
+      <span class="xref">ExitGames.Client.Photon.PhotonPeer.EncryptorType</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.Chat.html">Photon.Chat</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="Photon_Chat_ChatPeer_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ChatPeer : PhotonPeer</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer__ctor_ExitGames_Client_Photon_IPhotonPeerListener_ExitGames_Client_Photon_ConnectionProtocol_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.%23ctor(ExitGames.Client.Photon.IPhotonPeerListener%2CExitGames.Client.Photon.ConnectionProtocol)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L46">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatPeer__ctor_" data-uid="Photon.Chat.ChatPeer.#ctor*"></a>
+  <h4 id="Photon_Chat_ChatPeer__ctor_ExitGames_Client_Photon_IPhotonPeerListener_ExitGames_Client_Photon_ConnectionProtocol_" data-uid="Photon.Chat.ChatPeer.#ctor(ExitGames.Client.Photon.IPhotonPeerListener,ExitGames.Client.Photon.ConnectionProtocol)">ChatPeer(IPhotonPeerListener, ConnectionProtocol)</h4>
+  <div class="markdown level1 summary"><p>Chat Peer constructor. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatPeer(IPhotonPeerListener listener, ConnectionProtocol protocol)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.IPhotonPeerListener</span></td>
+        <td><span class="parametername">listener</span></td>
+        <td><p>Chat listener implementation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.ConnectionProtocol</span></td>
+        <td><span class="parametername">protocol</span></td>
+        <td><p>Protocol to be used by the peer.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer_NameServerHost.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.NameServerHost%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L30">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatPeer_NameServerHost" data-uid="Photon.Chat.ChatPeer.NameServerHost">NameServerHost</h4>
+  <div class="markdown level1 summary"><p>Name Server Host Name for Photon Cloud. Without port and without any prefix.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string NameServerHost = &quot;ns.exitgames.com&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer_NameServerHttp.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.NameServerHttp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L33">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatPeer_NameServerHttp" data-uid="Photon.Chat.ChatPeer.NameServerHttp">NameServerHttp</h4>
+  <div class="markdown level1 summary"><p>Name Server for HTTP connections to the Photon Cloud. Includes prefix and port.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string NameServerHttp = &quot;http://ns.exitgamescloud.com:80/photon/n&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer_NameServerAddress.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.NameServerAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L39">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatPeer_NameServerAddress_" data-uid="Photon.Chat.ChatPeer.NameServerAddress*"></a>
+  <h4 id="Photon_Chat_ChatPeer_NameServerAddress" data-uid="Photon.Chat.ChatPeer.NameServerAddress">NameServerAddress</h4>
+  <div class="markdown level1 summary"><p>Name Server Address for Photon Cloud (based on current protocol). You can use the default values and usually won&apos;t have to set this value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NameServerAddress { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer_AuthenticateOnNameServer_System_String_System_String_System_String_Photon_Chat_AuthenticationValues_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.AuthenticateOnNameServer(System.String%2CSystem.String%2CSystem.String%2CPhoton.Chat.AuthenticationValues)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L140">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatPeer_AuthenticateOnNameServer_" data-uid="Photon.Chat.ChatPeer.AuthenticateOnNameServer*"></a>
+  <h4 id="Photon_Chat_ChatPeer_AuthenticateOnNameServer_System_String_System_String_System_String_Photon_Chat_AuthenticationValues_" data-uid="Photon.Chat.ChatPeer.AuthenticateOnNameServer(System.String,System.String,System.String,Photon.Chat.AuthenticationValues)">AuthenticateOnNameServer(String, String, String, AuthenticationValues)</h4>
+  <div class="markdown level1 summary"><p>Authenticates on NameServer. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AuthenticateOnNameServer(string appId, string appVersion, string region, AuthenticationValues authValues)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appVersion</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">region</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.AuthenticationValues.html">AuthenticationValues</a></td>
+        <td><span class="parametername">authValues</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the authentication operation request could be sent.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer_Connect.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer.Connect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L128">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatPeer_Connect_" data-uid="Photon.Chat.ChatPeer.Connect*"></a>
+  <h4 id="Photon_Chat_ChatPeer_Connect" data-uid="Photon.Chat.ChatPeer.Connect">Connect()</h4>
+  <div class="markdown level1 summary"><p>Connects to NameServer. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Connect()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the connection attempt could be sent.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatPeer.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatPeer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L27" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

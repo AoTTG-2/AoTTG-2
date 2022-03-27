@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class EndlessGamemode
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class EndlessGamemode
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.Gamemode.EndlessGamemode">
+  
+  
+  <h1 id="Assets_Scripts_Gamemode_EndlessGamemode" data-uid="Assets.Scripts.Gamemode.EndlessGamemode" class="text-break">Class EndlessGamemode
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><a class="xref" href="Photon.PunBehaviour.html">PunBehaviour</a></div>
+    <div class="level3"><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html">GamemodeBase</a></div>
+    <div class="level4"><span class="xref">EndlessGamemode</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_EntityService">GamemodeBase.EntityService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_FactionService">GamemodeBase.FactionService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_PlayerService">GamemodeBase.PlayerService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SpawnService">GamemodeBase.SpawnService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_TimeService">GamemodeBase.TimeService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_UiService">GamemodeBase.UiService</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_HumanScore">GamemodeBase.HumanScore</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_TitanScore">GamemodeBase.TitanScore</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_Coroutines">GamemodeBase.Coroutines</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_IsRoundOver">GamemodeBase.IsRoundOver</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnDisconnectedFromPhoton">GamemodeBase.OnDisconnectedFromPhoton()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEverySecond">GamemodeBase.OnUpdateEverySecond()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEveryTenthSecond">GamemodeBase.OnUpdateEveryTenthSecond()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnFactionDefeated_Assets_Scripts_Characters_Faction_">GamemodeBase.OnFactionDefeated(Faction)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnEntityRegistered_Assets_Scripts_Characters_Entity_">GamemodeBase.OnEntityRegistered(Entity)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetDefaultTitanType">GamemodeBase.GetDefaultTitanType()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetPlayerTitanConfiguration">GamemodeBase.GetPlayerTitanConfiguration()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration">GamemodeBase.GetTitanConfiguration()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration_Assets_Scripts_Characters_Titan_MindlessTitanType_">GamemodeBase.GetTitanConfiguration(MindlessTitanType)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_">GamemodeBase.SpawnTitans(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_System_Func_Assets_Scripts_Characters_Titan_Configuration_TitanConfiguration__">GamemodeBase.SpawnTitans(Int32, Func&lt;TitanConfiguration&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetSpawnLocation">GamemodeBase.GetSpawnLocation()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetPlayerSpawnLocation_System_String_">GamemodeBase.GetPlayerSpawnLocation(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GetVictoryMessage_System_Single_System_Single_">GamemodeBase.GetVictoryMessage(Single, Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopLeft">GamemodeBase.SetStatusTopLeft()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopRight">GamemodeBase.SetStatusTopRight()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnGameEndRpc_System_String_System_Int32_System_Int32_PhotonMessageInfo_">GamemodeBase.OnGameEndRpc(String, Int32, Int32, PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToPhoton">PunBehaviour.OnConnectedToPhoton()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftRoom">PunBehaviour.OnLeftRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_">PunBehaviour.OnMasterClientSwitched(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___">PunBehaviour.OnPhotonCreateRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___">PunBehaviour.OnPhotonJoinRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCreatedRoom">PunBehaviour.OnCreatedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedLobby">PunBehaviour.OnJoinedLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftLobby">PunBehaviour.OnLeftLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_">PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectionFail_DisconnectCause_">PunBehaviour.OnConnectionFail(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_">PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnReceivedRoomListUpdate">PunBehaviour.OnReceivedRoomListUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedRoom">PunBehaviour.OnJoinedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___">PunBehaviour.OnPhotonRandomJoinFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToMaster">PunBehaviour.OnConnectedToMaster()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonMaxCccuReached">PunBehaviour.OnPhotonMaxCccuReached()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_">PunBehaviour.OnPhotonCustomRoomPropertiesChanged(Hashtable)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___">PunBehaviour.OnPhotonPlayerPropertiesChanged(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnUpdatedFriendList">PunBehaviour.OnUpdatedFriendList()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_">PunBehaviour.OnCustomAuthenticationFailed(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__">PunBehaviour.OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_">PunBehaviour.OnWebRpcResponse(OperationResponse)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipRequest_System_Object___">PunBehaviour.OnOwnershipRequest(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLobbyStatisticsUpdate">PunBehaviour.OnLobbyStatisticsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_">PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipTransfered_System_Object___">PunBehaviour.OnOwnershipTransfered(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.Gamemode.html">Assets.Scripts.Gamemode</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_Gamemode_EndlessGamemode_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class EndlessGamemode : GamemodeBase, IPunCallbacks</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode_GamemodeType.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode.GamemodeType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L12">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_EndlessGamemode_GamemodeType_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.GamemodeType*"></a>
+  <h4 id="Assets_Scripts_Gamemode_EndlessGamemode_GamemodeType" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.GamemodeType">GamemodeType</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override GamemodeType GamemodeType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GamemodeType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_GamemodeType">GamemodeBase.GamemodeType</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode_Level_OnLevelLoaded_System_Int32_Assets_Scripts_Room_Level_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode.Level_OnLevelLoaded(System.Int32%2CAssets.Scripts.Room.Level)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L17">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_EndlessGamemode_Level_OnLevelLoaded_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.Level_OnLevelLoaded*"></a>
+  <h4 id="Assets_Scripts_Gamemode_EndlessGamemode_Level_OnLevelLoaded_System_Int32_Assets_Scripts_Room_Level_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.Level_OnLevelLoaded(System.Int32,Assets.Scripts.Room.Level)">Level_OnLevelLoaded(Int32, Level)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Level_OnLevelLoaded(int scene, Level level)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">scene</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Room.Level.html">Level</a></td>
+        <td><span class="parametername">level</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_Level_OnLevelLoaded_System_Int32_Assets_Scripts_Room_Level_">GamemodeBase.Level_OnLevelLoaded(Int32, Level)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode_OnEntityUnRegistered_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode.OnEntityUnRegistered(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L29">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_EndlessGamemode_OnEntityUnRegistered_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.OnEntityUnRegistered*"></a>
+  <h4 id="Assets_Scripts_Gamemode_EndlessGamemode_OnEntityUnRegistered_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.OnEntityUnRegistered(Assets.Scripts.Characters.Entity)">OnEntityUnRegistered(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnEntityUnRegistered(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnEntityUnRegistered_Assets_Scripts_Characters_Entity_">GamemodeBase.OnEntityUnRegistered(Entity)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode_OnRestart.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode.OnRestart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L23">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_EndlessGamemode_OnRestart_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.OnRestart*"></a>
+  <h4 id="Assets_Scripts_Gamemode_EndlessGamemode_OnRestart" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.OnRestart">OnRestart()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnRestart()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_OnRestart">GamemodeBase.OnRestart()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode_SetStatusTop.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode.SetStatusTop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L38">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_EndlessGamemode_SetStatusTop_" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.SetStatusTop*"></a>
+  <h4 id="Assets_Scripts_Gamemode_EndlessGamemode_SetStatusTop" data-uid="Assets.Scripts.Gamemode.EndlessGamemode.SetStatusTop">SetStatusTop()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void SetStatusTop()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html#Assets_Scripts_Gamemode_GamemodeBase_SetStatusTop">GamemodeBase.SetStatusTop()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_EndlessGamemode.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.EndlessGamemode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/EndlessGamemode.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

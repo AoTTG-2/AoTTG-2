@@ -1,0 +1,808 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Scoreboard
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Scoreboard
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard">
+  
+  
+  <h1 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard" class="text-break">Class Scoreboard
+  </h1>
+  <div class="markdown level0 summary"><p>The UI Scoreboard class, which is used to display various details of the round</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Assets.Scripts.UI.UiElement.html">UiElement</a></div>
+    <div class="level2"><a class="xref" href="Assets.Scripts.UI.UiContainer.html">UiContainer</a></div>
+    <div class="level3"><a class="xref" href="Assets.Scripts.UI.InGame.UiMenu.html">UiMenu</a></div>
+    <div class="level4"><span class="xref">Scoreboard</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Assets.Scripts.UI.IUiContainer.html">IUiContainer</a></div>
+    <div><a class="xref" href="Assets.Scripts.UI.Menu.IUiElement.html">IUiElement</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiContainer.html#Assets_Scripts_UI_UiContainer_children">UiContainer.children</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiContainer.html#Assets_Scripts_UI_UiContainer_GetNumVisibleChildren">UiContainer.GetNumVisibleChildren()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiContainer.html#Assets_Scripts_UI_UiContainer_AddChild_Assets_Scripts_UI_Menu_IUiElement_">UiContainer.AddChild(IUiElement)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiContainer.html#Assets_Scripts_UI_UiContainer_RemoveChild_Assets_Scripts_UI_Menu_IUiElement_">UiContainer.RemoveChild(IUiElement)</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiContainer.html#Assets_Scripts_UI_UiContainer_GetChildren">UiContainer.GetChildren()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiElement.html#Assets_Scripts_UI_UiElement_IsVisible">UiElement.IsVisible()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiElement.html#Assets_Scripts_UI_UiElement_Show">UiElement.Show()</a>
+    </div>
+    <div>
+      <a class="xref" href="Assets.Scripts.UI.UiElement.html#Assets_Scripts_UI_UiElement_Hide">UiElement.Hide()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.UI.InGame.Scoreboard.html">Assets.Scripts.UI.InGame.Scoreboard</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Scoreboard : UiMenu, IUiContainer, IUiElement</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_gameMode.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.gameMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L20">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_gameMode" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.gameMode">gameMode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TMP_Text gameMode</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TMP_Text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerCount.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L19">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerCount" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerCount">playerCount</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TMP_Text playerCount</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TMP_Text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerInfoPrefab.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerInfoPrefab%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L13">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerInfoPrefab" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerInfoPrefab">playerInfoPrefab</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameObject playerInfoPrefab</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerListParent.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerListParent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L14">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_playerListParent" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.playerListParent">playerListParent</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GameObject playerListParent</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_roomName.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.roomName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L18">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_roomName" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.roomName">roomName</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TMP_Text roomName</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TMP_Text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortButtons.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortButtons%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L16">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortButtons" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortButtons">sortButtons</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SortButton[] sortButtons</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.UI.InGame.Scoreboard.SortButton.html">SortButton</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortContainer.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortContainer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L21">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortContainer" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortContainer">sortContainer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TMP_Text sortContainer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TMP_Text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortLabel.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortLabel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L22">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_sortLabel" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.sortLabel">sortLabel</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string sortLabel</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnDisable.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnDisable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L31">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnDisable_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnDisable*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnDisable" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnDisable">OnDisable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnDisable()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.UI.InGame.UiMenu.html#Assets_Scripts_UI_InGame_UiMenu_OnDisable">UiMenu.OnDisable()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnEnable.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnEnable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L26">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnEnable_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnEnable*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_OnEnable" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.OnEnable">OnEnable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void OnEnable()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Assets.Scripts.UI.InGame.UiMenu.html#Assets_Scripts_UI_InGame_UiMenu_OnEnable">UiMenu.OnEnable()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByDeaths_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByDeaths(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L153">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByDeaths_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByDeaths*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByDeaths_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByDeaths(PhotonPlayer,PhotonPlayer)">SortByDeaths(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByDeaths(PhotonPlayer a, PhotonPlayer b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByID_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByID(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L138">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByID_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByID*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByID_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByID(PhotonPlayer,PhotonPlayer)">SortByID(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByID(PhotonPlayer b, PhotonPlayer a)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByKills_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByKills(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L148">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByKills_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByKills*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByKills_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByKills(PhotonPlayer,PhotonPlayer)">SortByKills(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByKills(PhotonPlayer a, PhotonPlayer b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByMaxDamage_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByMaxDamage(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L158">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByMaxDamage_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByMaxDamage*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByMaxDamage_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByMaxDamage(PhotonPlayer,PhotonPlayer)">SortByMaxDamage(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByMaxDamage(PhotonPlayer a, PhotonPlayer b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByName_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByName(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L143">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByName_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByName*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByName_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByName(PhotonPlayer,PhotonPlayer)">SortByName(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByName(PhotonPlayer b, PhotonPlayer a)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByScore_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByScore(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L168">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByScore_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByScore*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByScore_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByScore(PhotonPlayer,PhotonPlayer)">SortByScore(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByScore(PhotonPlayer a, PhotonPlayer b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByTotalDamage_PhotonPlayer_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByTotalDamage(PhotonPlayer%2CPhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L163">View Source</a>
+  </span>
+  <a id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByTotalDamage_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByTotalDamage*"></a>
+  <h4 id="Assets_Scripts_UI_InGame_Scoreboard_Scoreboard_SortByTotalDamage_PhotonPlayer_PhotonPlayer_" data-uid="Assets.Scripts.UI.InGame.Scoreboard.Scoreboard.SortByTotalDamage(PhotonPlayer,PhotonPlayer)">SortByTotalDamage(PhotonPlayer, PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int SortByTotalDamage(PhotonPlayer a, PhotonPlayer b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Assets.Scripts.UI.IUiContainer.html">IUiContainer</a>
+  </div>
+  <div>
+      <a class="xref" href="Assets.Scripts.UI.Menu.IUiElement.html">IUiElement</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_UI_InGame_Scoreboard_Scoreboard.md&amp;value=---%0Auid%3A%20Assets.Scripts.UI.InGame.Scoreboard.Scoreboard%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/UI/InGame/Scoreboard/Scoreboard.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

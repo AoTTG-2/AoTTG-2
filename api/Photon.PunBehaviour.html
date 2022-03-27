@@ -1,0 +1,1097 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class PunBehaviour
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class PunBehaviour
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.PunBehaviour">
+  
+  
+  <h1 id="Photon_PunBehaviour" data-uid="Photon.PunBehaviour" class="text-break">Class PunBehaviour
+  </h1>
+  <div class="markdown level0 summary"><p>This class provides a .photonView and all callbacks/events that PUN can call. Override the events/methods you want to use.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><span class="xref">PunBehaviour</span></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.FengGameManagerMKII.html">FengGameManagerMKII</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html">GamemodeBase</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.AuthenticationService.html">AuthenticationService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.DiscordService.html">DiscordService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.DiscordTestService.html">DiscordTestService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.FactionService.html">FactionService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.PauseService.html">PauseService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.PhotonService.html">PhotonService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.SettingsService.html">SettingsService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.TimeService.html">TimeService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.Services.UiService.html">UiService</a></div>
+      <div class="level3"><a class="xref" href="Assets.Scripts.UI.UiMenuPUN.html">UiMenuPUN</a></div>
+      <div class="level3"><a class="xref" href="ExitGames.UtilityScripts.PlayerRoomIndexing.html">PlayerRoomIndexing</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.html">Photon</a></h6>
+  <h6><strong>Assembly</strong>: PhotonUnityNetworking.dll</h6>
+  <h5 id="Photon_PunBehaviour_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PunBehaviour : MonoBehaviour, IPunCallbacks</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>By extending this class, you can implement individual methods as override.</p>
+<p>Visual Studio and MonoDevelop should provide the list of methods when you begin typing &quot;override&quot;.
+<strong>Your implementation does not have to call &quot;base.method()&quot;.</strong></p>
+<p>This class implements IPunCallbacks, which is used as definition of all PUN callbacks.
+Don&apos;t implement IPunCallbacks in your classes. Instead, implent PunBehaviour or individual methods.</p>
+</div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnConnectedToMaster.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnConnectedToMaster%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L759">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnConnectedToMaster_" data-uid="Photon.PunBehaviour.OnConnectedToMaster*"></a>
+  <h4 id="Photon_PunBehaviour_OnConnectedToMaster" data-uid="Photon.PunBehaviour.OnConnectedToMaster">OnConnectedToMaster()</h4>
+  <div class="markdown level1 summary"><p>Called after the connection to the master is established and authenticated but only when PhotonNetwork.autoJoinLobby is false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnConnectedToMaster()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnConnectedToMaster_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If you set PhotonNetwork.autoJoinLobby to true, OnJoinedLobby() will be called instead of this.</p>
+<p>You can join rooms and create them even without being in a lobby. The default lobby is used in that case.
+The list of available rooms won&apos;t become available unless you join a lobby via PhotonNetwork.joinLobby.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnConnectedToPhoton.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnConnectedToPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L552">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnConnectedToPhoton_" data-uid="Photon.PunBehaviour.OnConnectedToPhoton*"></a>
+  <h4 id="Photon_PunBehaviour_OnConnectedToPhoton" data-uid="Photon.PunBehaviour.OnConnectedToPhoton">OnConnectedToPhoton()</h4>
+  <div class="markdown level1 summary"><p>Called when the initial connection got established but before you can use the server. OnJoinedLobby() or OnConnectedToMaster() are called when PUN is ready.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnConnectedToPhoton()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnConnectedToPhoton_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This callback is only useful to detect if the server can be reached at all (technically).
+Most often, it&apos;s enough to implement OnFailedToConnectToPhoton() and OnDisconnectedFromPhoton().</p>
+<p><em>OnJoinedLobby() or OnConnectedToMaster() are called when PUN is ready.</em></p>
+<p>When this is called, the low level connection is established and PUN will send your AppId, the user, etc in the background.
+This is not called for transitions from the masterserver to game servers.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnConnectionFail_DisconnectCause_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnConnectionFail(DisconnectCause)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L671">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnConnectionFail_" data-uid="Photon.PunBehaviour.OnConnectionFail*"></a>
+  <h4 id="Photon_PunBehaviour_OnConnectionFail_DisconnectCause_" data-uid="Photon.PunBehaviour.OnConnectionFail(DisconnectCause)">OnConnectionFail(DisconnectCause)</h4>
+  <div class="markdown level1 summary"><p>Called when something causes the connection to fail (after it was established), followed by a call to OnDisconnectedFromPhoton().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnConnectionFail(DisconnectCause cause)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DisconnectCause</span></td>
+        <td><span class="parametername">cause</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnConnectionFail_DisconnectCause__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If the server could not be reached in the first place, OnFailedToConnectToPhoton is called instead.
+The reason for the error is provided as DisconnectCause.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnCreatedRoom.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnCreatedRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L614">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnCreatedRoom_" data-uid="Photon.PunBehaviour.OnCreatedRoom*"></a>
+  <h4 id="Photon_PunBehaviour_OnCreatedRoom" data-uid="Photon.PunBehaviour.OnCreatedRoom">OnCreatedRoom()</h4>
+  <div class="markdown level1 summary"><p>Called when this client created a room and entered it. OnJoinedRoom() will be called as well.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnCreatedRoom()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnCreatedRoom_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This callback is only called on the client which created a room (see PhotonNetwork.CreateRoom).</p>
+<p>As any client might close (or drop connection) anytime, there is a chance that the
+creator of a room does not execute OnCreatedRoom.</p>
+<p>If you need specific room properties or a &quot;start signal&quot;, it is safer to implement
+OnMasterClientSwitched() and to make the new MasterClient check the room&apos;s state.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnCustomAuthenticationFailed(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L836">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnCustomAuthenticationFailed_" data-uid="Photon.PunBehaviour.OnCustomAuthenticationFailed*"></a>
+  <h4 id="Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_" data-uid="Photon.PunBehaviour.OnCustomAuthenticationFailed(System.String)">OnCustomAuthenticationFailed(String)</h4>
+  <div class="markdown level1 summary"><p>Called when the custom authentication failed. Followed by disconnect!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnCustomAuthenticationFailed(string debugMessage)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">debugMessage</span></td>
+        <td><p>Contains a debug message why authentication failed. This has to be fixed during development time.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Custom Authentication can fail due to user-input, bad tokens/secrets.
+If authentication is successful, this method is not called. Implement OnJoinedLobby() or OnConnectedToMaster() (as usual).</p>
+<p>During development of a game, it might also fail due to wrong configuration on the server side.
+In those cases, logging the debugMessage is very important.</p>
+<p>Unless you setup a custom authentication service for your app (in the <a href="https://www.photonengine.com/dashboard">Dashboard</a>),
+this won&apos;t be called!</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnCustomAuthenticationResponse(System.Collections.Generic.Dictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L852">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnCustomAuthenticationResponse_" data-uid="Photon.PunBehaviour.OnCustomAuthenticationResponse*"></a>
+  <h4 id="Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="Photon.PunBehaviour.OnCustomAuthenticationResponse(System.Collections.Generic.Dictionary{System.String,System.Object})">OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"><p>Called when your Custom Authentication service responds with additional data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnCustomAuthenticationResponse(Dictionary&lt;string, object&gt; data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Custom Authentication services can include some custom data in their response.
+When present, that data is made available in this callback as Dictionary.
+While the keys of your data have to be strings, the values can be either string or a number (in Json).
+You need to make extra sure, that the value type is the one you expect. Numbers become (currently) int64.</p>
+<p>Example: void OnCustomAuthenticationResponse(Dictionary&lt;string, object&gt; data) { ... }</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnDisconnectedFromPhoton.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnDisconnectedFromPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L660">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnDisconnectedFromPhoton_" data-uid="Photon.PunBehaviour.OnDisconnectedFromPhoton*"></a>
+  <h4 id="Photon_PunBehaviour_OnDisconnectedFromPhoton" data-uid="Photon.PunBehaviour.OnDisconnectedFromPhoton">OnDisconnectedFromPhoton()</h4>
+  <div class="markdown level1 summary"><p>Called after disconnecting from the Photon server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnDisconnectedFromPhoton()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnDisconnectedFromPhoton_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>In some cases, other callbacks are called before OnDisconnectedFromPhoton is called.
+Examples: OnConnectionFail() and OnFailedToConnectToPhoton().</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L649">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnFailedToConnectToPhoton_" data-uid="Photon.PunBehaviour.OnFailedToConnectToPhoton*"></a>
+  <h4 id="Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_" data-uid="Photon.PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)">OnFailedToConnectToPhoton(DisconnectCause)</h4>
+  <div class="markdown level1 summary"><p>Called if a connect call to the Photon server failed before the connection was established, followed by a call to OnDisconnectedFromPhoton().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnFailedToConnectToPhoton(DisconnectCause cause)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DisconnectCause</span></td>
+        <td><span class="parametername">cause</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This is called when no connection could be established at all.
+It differs from OnConnectionFail, which is called when an existing connection fails.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnJoinedLobby.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnJoinedLobby%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L627">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnJoinedLobby_" data-uid="Photon.PunBehaviour.OnJoinedLobby*"></a>
+  <h4 id="Photon_PunBehaviour_OnJoinedLobby" data-uid="Photon.PunBehaviour.OnJoinedLobby">OnJoinedLobby()</h4>
+  <div class="markdown level1 summary"><p>Called on entering a lobby on the Master Server. The actual room-list updates will call OnReceivedRoomListUpdate().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnJoinedLobby()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnJoinedLobby_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Note: When PhotonNetwork.autoJoinLobby is false, OnConnectedToMaster() will be called and the room list won&apos;t become available.</p>
+<p>While in the lobby, the roomlist is automatically updated in fixed intervals (which you can&apos;t modify).
+The room list gets available when OnReceivedRoomListUpdate() gets called after OnJoinedLobby().</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnJoinedRoom.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnJoinedRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L710">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnJoinedRoom_" data-uid="Photon.PunBehaviour.OnJoinedRoom*"></a>
+  <h4 id="Photon_PunBehaviour_OnJoinedRoom" data-uid="Photon.PunBehaviour.OnJoinedRoom">OnJoinedRoom()</h4>
+  <div class="markdown level1 summary"><p>Called when entering a room (by creating or joining it). Called on all clients (including the Master Client).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnJoinedRoom()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnJoinedRoom_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method is commonly used to instantiate player characters.
+If a match has to be started &quot;actively&quot;, you can call an [PunRPC](@ref PhotonView.RPC) triggered by a user&apos;s button-press or a timer.</p>
+<p>When this is called, you can usually already access the existing players in the room via PhotonNetwork.playerList.
+Also, all custom properties should be already available as Room.customProperties. Check Room.playerCount to find out if
+enough players are in the room to start playing.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnLeftLobby.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnLeftLobby%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L638">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnLeftLobby_" data-uid="Photon.PunBehaviour.OnLeftLobby*"></a>
+  <h4 id="Photon_PunBehaviour_OnLeftLobby" data-uid="Photon.PunBehaviour.OnLeftLobby">OnLeftLobby()</h4>
+  <div class="markdown level1 summary"><p>Called after leaving a lobby.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnLeftLobby()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnLeftLobby_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When you leave a lobby, [CreateRoom](@ref PhotonNetwork.CreateRoom) and [JoinRandomRoom](@ref PhotonNetwork.JoinRandomRoom)
+automatically refer to the default lobby.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnLeftRoom.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnLeftRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L563">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnLeftRoom_" data-uid="Photon.PunBehaviour.OnLeftRoom*"></a>
+  <h4 id="Photon_PunBehaviour_OnLeftRoom" data-uid="Photon.PunBehaviour.OnLeftRoom">OnLeftRoom()</h4>
+  <div class="markdown level1 summary"><p>Called when the local user/client left a room.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnLeftRoom()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnLeftRoom_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When leaving a room, PUN brings you back to the Master Server.
+Before you can use lobbies and join or create rooms, OnJoinedLobby() or OnConnectedToMaster() will get called again.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnLobbyStatisticsUpdate.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnLobbyStatisticsUpdate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L899">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnLobbyStatisticsUpdate_" data-uid="Photon.PunBehaviour.OnLobbyStatisticsUpdate*"></a>
+  <h4 id="Photon_PunBehaviour_OnLobbyStatisticsUpdate" data-uid="Photon.PunBehaviour.OnLobbyStatisticsUpdate">OnLobbyStatisticsUpdate()</h4>
+  <div class="markdown level1 summary"><p>Called when the Master Server sent an update for the Lobby Statistics, updating PhotonNetwork.LobbyStatistics.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnLobbyStatisticsUpdate()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnLobbyStatisticsUpdate_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This callback has two preconditions:
+EnableLobbyStatistics must be set to true, before this client connects.
+And the client has to be connected to the Master Server, which is providing the info about lobbies.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnMasterClientSwitched(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L574">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnMasterClientSwitched_" data-uid="Photon.PunBehaviour.OnMasterClientSwitched*"></a>
+  <h4 id="Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_" data-uid="Photon.PunBehaviour.OnMasterClientSwitched(PhotonPlayer)">OnMasterClientSwitched(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"><p>Called after switching to a new MasterClient when the current one leaves.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnMasterClientSwitched(PhotonPlayer newMasterClient)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">newMasterClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This is not called when this client enters a room.
+The former MasterClient is still in the player list when this method get called.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnOwnershipRequest_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnOwnershipRequest(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L887">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnOwnershipRequest_" data-uid="Photon.PunBehaviour.OnOwnershipRequest*"></a>
+  <h4 id="Photon_PunBehaviour_OnOwnershipRequest_System_Object___" data-uid="Photon.PunBehaviour.OnOwnershipRequest(System.Object[])">OnOwnershipRequest(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when another player requests ownership of a PhotonView from you (the current owner).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnOwnershipRequest(object[] viewAndPlayer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">viewAndPlayer</span></td>
+        <td><p>The PhotonView is viewAndPlayer[0] and the requesting player is viewAndPlayer[1].</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnOwnershipRequest_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The parameter viewAndPlayer contains:</p>
+<p>PhotonView view = viewAndPlayer[0] as PhotonView;</p>
+<p>PhotonPlayer requestingPlayer = viewAndPlayer[1] as PhotonPlayer;</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnOwnershipTransfered_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnOwnershipTransfered(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L931">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnOwnershipTransfered_" data-uid="Photon.PunBehaviour.OnOwnershipTransfered*"></a>
+  <h4 id="Photon_PunBehaviour_OnOwnershipTransfered_System_Object___" data-uid="Photon.PunBehaviour.OnOwnershipTransfered(System.Object[])">OnOwnershipTransfered(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when ownership of a PhotonView is transfered to another player.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnOwnershipTransfered(object[] viewAndPlayers)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">viewAndPlayers</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnOwnershipTransfered_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The parameter viewAndPlayers contains:</p>
+<p>PhotonView view = viewAndPlayers[0] as PhotonView;</p>
+<p>PhotonPlayer newOwner = viewAndPlayers[1] as PhotonPlayer;</p>
+<p>PhotonPlayer oldOwner = viewAndPlayers[2] as PhotonPlayer;</p>
+</div>
+  <h5 id="Photon_PunBehaviour_OnOwnershipTransfered_System_Object____examples">Examples</h5>
+  <p>void OnOwnershipTransfered(object[] viewAndPlayers) {} //</p>
+
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonCreateRoomFailed(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L586">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonCreateRoomFailed_" data-uid="Photon.PunBehaviour.OnPhotonCreateRoomFailed*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___" data-uid="Photon.PunBehaviour.OnPhotonCreateRoomFailed(System.Object[])">OnPhotonCreateRoomFailed(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when a CreateRoom() call failed. The parameter provides ErrorCode and message (as array).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonCreateRoomFailed(object[] codeAndMsg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">codeAndMsg</span></td>
+        <td><p>codeAndMsg[0] is a short ErrorCode and codeAndMsg[1] is a string debug msg.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Most likely because the room name is already in use (some other client was faster than you).
+PUN logs some info if the PhotonNetwork.logLevel is &gt;= PhotonLogLevel.Informational.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonCustomRoomPropertiesChanged(ExitGames.Client.Photon.Hashtable)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L783">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_" data-uid="Photon.PunBehaviour.OnPhotonCustomRoomPropertiesChanged*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_" data-uid="Photon.PunBehaviour.OnPhotonCustomRoomPropertiesChanged(ExitGames.Client.Photon.Hashtable)">OnPhotonCustomRoomPropertiesChanged(Hashtable)</h4>
+  <div class="markdown level1 summary"><p>Called when a room&apos;s custom properties changed. The propertiesThatChanged contains all that was set via Room.SetCustomProperties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.Hashtable</span></td>
+        <td><span class="parametername">propertiesThatChanged</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Since v1.25 this method has one parameter: Hashtable propertiesThatChanged.<br>
+Changing properties must be done by Room.SetCustomProperties, which causes this callback locally, too.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L681">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonInstantiate_" data-uid="Photon.PunBehaviour.OnPhotonInstantiate*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_" data-uid="Photon.PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)">OnPhotonInstantiate(PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"><p>Called on all scripts on a GameObject (and children) that have been Instantiated using PhotonNetwork.Instantiate.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonInstantiate(PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>PhotonMessageInfo parameter provides info about who created the object and when (based off PhotonNetworking.time).</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonJoinRoomFailed(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L598">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonJoinRoomFailed_" data-uid="Photon.PunBehaviour.OnPhotonJoinRoomFailed*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___" data-uid="Photon.PunBehaviour.OnPhotonJoinRoomFailed(System.Object[])">OnPhotonJoinRoomFailed(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when a JoinRoom() call failed. The parameter provides ErrorCode and message (as array).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonJoinRoomFailed(object[] codeAndMsg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">codeAndMsg</span></td>
+        <td><p>codeAndMsg[0] is short ErrorCode. codeAndMsg[1] is string debug msg.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Most likely error is that the room does not exist or the room is full (some other client was faster than you).
+PUN logs some info if the PhotonNetwork.logLevel is &gt;= PhotonLogLevel.Informational.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonMaxCccuReached.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonMaxCccuReached%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L771">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonMaxCccuReached_" data-uid="Photon.PunBehaviour.OnPhotonMaxCccuReached*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonMaxCccuReached" data-uid="Photon.PunBehaviour.OnPhotonMaxCccuReached">OnPhotonMaxCccuReached()</h4>
+  <div class="markdown level1 summary"><p>Because the concurrent user limit was (temporarily) reached, this client is rejected by the server and disconnecting.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonMaxCccuReached()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnPhotonMaxCccuReached_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When this happens, the user might try again later. You can&apos;t create or join rooms in OnPhotonMaxCcuReached(), cause the client will be disconnecting.
+You can raise the CCU limits with a new license (when you host yourself) or extended subscription (when using the Photon Cloud).
+The Photon Cloud will mail you when the CCU limit was reached. This is also visible in the Dashboard (webpage).</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L914">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonPlayerActivityChanged_" data-uid="Photon.PunBehaviour.OnPhotonPlayerActivityChanged*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_" data-uid="Photon.PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)">OnPhotonPlayerActivityChanged(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"><p>Called when a remote Photon Player activity changed. This will be called ONLY if PlayerTtl is greater than 0.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonPlayerActivityChanged(PhotonPlayer otherPlayer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">otherPlayer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Use PhotonPlayer.IsInactive to check a player&apos;s current activity state.</p>
+<p>Example: void OnPhotonPlayerActivityChanged(PhotonPlayer otherPlayer) {...}</p>
+<p>This callback has precondition:
+PlayerTtl must be greater than 0.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L721">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonPlayerConnected_" data-uid="Photon.PunBehaviour.OnPhotonPlayerConnected*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_" data-uid="Photon.PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)">OnPhotonPlayerConnected(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"><p>Called when a remote player entered the room. This PhotonPlayer is already added to the playerlist at this time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonPlayerConnected(PhotonPlayer newPlayer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">newPlayer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If your game starts with a certain number of players, this callback can be useful to check the
+Room.playerCount and find out if you can start.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L733">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonPlayerDisconnected_" data-uid="Photon.PunBehaviour.OnPhotonPlayerDisconnected*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_" data-uid="Photon.PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)">OnPhotonPlayerDisconnected(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"><p>Called when a remote player left the room. This PhotonPlayer is already removed from the playerlist at this time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">otherPlayer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>When your client calls PhotonNetwork.leaveRoom, PUN will call this method on the remaining clients.
+When a remote client drops connection or gets closed, this callback gets executed. after a timeout
+of several seconds.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonPlayerPropertiesChanged(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L807">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_" data-uid="Photon.PunBehaviour.OnPhotonPlayerPropertiesChanged*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___" data-uid="Photon.PunBehaviour.OnPhotonPlayerPropertiesChanged(System.Object[])">OnPhotonPlayerPropertiesChanged(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when custom player-properties are changed. Player and the changed properties are passed as object[].</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">playerAndUpdatedProps</span></td>
+        <td><p>Contains PhotonPlayer and the properties that changed See remarks.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Since v1.25 this method has one parameter: object[] playerAndUpdatedProps, which contains two entries.<br>
+[0] is the affected PhotonPlayer.<br>
+[1] is the Hashtable of properties that changed.<br></p>
+<p>We are using a object[] due to limitations of Unity&apos;s GameObject.SendMessage (which has only one optional parameter).</p>
+<p>Changing properties must be done by PhotonPlayer.SetCustomProperties, which causes this callback locally, too.</p>
+<p>Example:<pre>
+void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
+PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;
+Hashtable props = playerAndUpdatedProps[1] as Hashtable;
+//...
+}</pre></p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnPhotonRandomJoinFailed(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L746">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnPhotonRandomJoinFailed_" data-uid="Photon.PunBehaviour.OnPhotonRandomJoinFailed*"></a>
+  <h4 id="Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___" data-uid="Photon.PunBehaviour.OnPhotonRandomJoinFailed(System.Object[])">OnPhotonRandomJoinFailed(Object[])</h4>
+  <div class="markdown level1 summary"><p>Called when a JoinRandom() call failed. The parameter provides ErrorCode and message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnPhotonRandomJoinFailed(object[] codeAndMsg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">codeAndMsg</span></td>
+        <td><p>codeAndMsg[0] is short ErrorCode. codeAndMsg[1] is string debug msg.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Most likely all rooms are full or no rooms are available. <br>
+When using multiple lobbies (via JoinLobby or TypedLobby), another lobby might have more/fitting rooms.<br>
+PUN logs some info if the PhotonNetwork.logLevel is &gt;= PhotonLogLevel.Informational.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnReceivedRoomListUpdate.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnReceivedRoomListUpdate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L695">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnReceivedRoomListUpdate_" data-uid="Photon.PunBehaviour.OnReceivedRoomListUpdate*"></a>
+  <h4 id="Photon_PunBehaviour_OnReceivedRoomListUpdate" data-uid="Photon.PunBehaviour.OnReceivedRoomListUpdate">OnReceivedRoomListUpdate()</h4>
+  <div class="markdown level1 summary"><p>Called for any update of the room-listing while in a lobby (PhotonNetwork.insideLobby) on the Master Server
+or when a response is received for PhotonNetwork.GetCustomRoomList().</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnReceivedRoomListUpdate()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnReceivedRoomListUpdate_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>PUN provides the list of rooms by PhotonNetwork.GetRoomList().<br>
+Each item is a RoomInfo which might include custom properties (provided you defined those as lobby-listed when creating a room).</p>
+<p>Not all types of lobbies provide a listing of rooms to the client. Some are silent and specialized for server-side matchmaking.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnUpdatedFriendList.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnUpdatedFriendList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L818">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnUpdatedFriendList_" data-uid="Photon.PunBehaviour.OnUpdatedFriendList*"></a>
+  <h4 id="Photon_PunBehaviour_OnUpdatedFriendList" data-uid="Photon.PunBehaviour.OnUpdatedFriendList">OnUpdatedFriendList()</h4>
+  <div class="markdown level1 summary"><p>Called when the server sent the response to a FindFriends request and updated PhotonNetwork.Friends.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnUpdatedFriendList()</code></pre>
+  </div>
+  <h5 id="Photon_PunBehaviour_OnUpdatedFriendList_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The friends list is available as PhotonNetwork.Friends, listing name, online state and
+the room a user is in (if any).</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour.OnWebRpcResponse(ExitGames.Client.Photon.OperationResponse)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L872">View Source</a>
+  </span>
+  <a id="Photon_PunBehaviour_OnWebRpcResponse_" data-uid="Photon.PunBehaviour.OnWebRpcResponse*"></a>
+  <h4 id="Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_" data-uid="Photon.PunBehaviour.OnWebRpcResponse(ExitGames.Client.Photon.OperationResponse)">OnWebRpcResponse(OperationResponse)</h4>
+  <div class="markdown level1 summary"><p>Called by PUN when the response to a WebRPC is available. See PhotonNetwork.WebRPC.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnWebRpcResponse(OperationResponse response)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.OperationResponse</span></td>
+        <td><span class="parametername">response</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Important: The response.ReturnCode is 0 if Photon was able to reach your web-service.
+The content of the response is what your web-service sent. You can create a WebResponse instance from it.
+Example: WebRpcResponse webResponse = new WebRpcResponse(operationResponse);</p>
+<p>Please note: Class OperationResponse is in a namespace which needs to be &quot;used&quot;:
+using ExitGames.Client.Photon;  // includes OperationResponse (and other classes)</p>
+<p>The OperationResponse.ReturnCode by Photon is:<pre>
+0 for &quot;OK&quot;
+-3 for &quot;Web-Service not configured&quot; (see Dashboard / WebHooks)
+-5 for &quot;Web-Service does now have RPC path/name&quot; (at least for Azure)</pre></p>
+</div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_PunBehaviour.md&amp;value=---%0Auid%3A%20Photon.PunBehaviour%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonClasses.cs/#L538" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

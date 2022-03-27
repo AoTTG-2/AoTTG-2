@@ -1,0 +1,695 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class FactionService
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class FactionService
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.Services.FactionService">
+  
+  
+  <h1 id="Assets_Scripts_Services_FactionService" data-uid="Assets.Scripts.Services.FactionService" class="text-break">Class FactionService
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><a class="xref" href="Photon.PunBehaviour.html">PunBehaviour</a></div>
+    <div class="level3"><span class="xref">FactionService</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+    <div><a class="xref" href="Assets.Scripts.Services.Interface.IFactionService.html">IFactionService</a></div>
+    <div><a class="xref" href="Assets.Scripts.Services.Interface.IService.html">IService</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToPhoton">PunBehaviour.OnConnectedToPhoton()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftRoom">PunBehaviour.OnLeftRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_">PunBehaviour.OnMasterClientSwitched(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___">PunBehaviour.OnPhotonCreateRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___">PunBehaviour.OnPhotonJoinRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCreatedRoom">PunBehaviour.OnCreatedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedLobby">PunBehaviour.OnJoinedLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftLobby">PunBehaviour.OnLeftLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_">PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnDisconnectedFromPhoton">PunBehaviour.OnDisconnectedFromPhoton()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectionFail_DisconnectCause_">PunBehaviour.OnConnectionFail(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_">PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnReceivedRoomListUpdate">PunBehaviour.OnReceivedRoomListUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedRoom">PunBehaviour.OnJoinedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___">PunBehaviour.OnPhotonRandomJoinFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToMaster">PunBehaviour.OnConnectedToMaster()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonMaxCccuReached">PunBehaviour.OnPhotonMaxCccuReached()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_">PunBehaviour.OnPhotonCustomRoomPropertiesChanged(Hashtable)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___">PunBehaviour.OnPhotonPlayerPropertiesChanged(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnUpdatedFriendList">PunBehaviour.OnUpdatedFriendList()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_">PunBehaviour.OnCustomAuthenticationFailed(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__">PunBehaviour.OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_">PunBehaviour.OnWebRpcResponse(OperationResponse)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipRequest_System_Object___">PunBehaviour.OnOwnershipRequest(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLobbyStatisticsUpdate">PunBehaviour.OnLobbyStatisticsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_">PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipTransfered_System_Object___">PunBehaviour.OnOwnershipTransfered(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.Services.html">Assets.Scripts.Services</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_Services_FactionService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class FactionService : PunBehaviour, IPunCallbacks, IFactionService, IService</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_Add_Assets_Scripts_Characters_Faction_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.Add(Assets.Scripts.Characters.Faction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L45">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_Add_" data-uid="Assets.Scripts.Services.FactionService.Add*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_Add_Assets_Scripts_Characters_Faction_" data-uid="Assets.Scripts.Services.FactionService.Add(Assets.Scripts.Characters.Faction)">Add(Faction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(Faction faction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a></td>
+        <td><span class="parametername">faction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_CountFriendly_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.CountFriendly(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L138">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_CountFriendly_" data-uid="Assets.Scripts.Services.FactionService.CountFriendly*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_CountFriendly_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Services.FactionService.CountFriendly(Assets.Scripts.Characters.Entity)">CountFriendly(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CountFriendly(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_CountHostile_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.CountHostile(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L133">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_CountHostile_" data-uid="Assets.Scripts.Services.FactionService.CountHostile*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_CountHostile_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Services.FactionService.CountHostile(Assets.Scripts.Characters.Entity)">CountHostile(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int CountHostile(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_GetAll.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.GetAll%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L50">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_GetAll_" data-uid="Assets.Scripts.Services.FactionService.GetAll*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_GetAll" data-uid="Assets.Scripts.Services.FactionService.GetAll">GetAll()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Faction&gt; GetAll()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_GetAllHostile_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.GetAllHostile(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L93">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_GetAllHostile_" data-uid="Assets.Scripts.Services.FactionService.GetAllHostile*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_GetAllHostile_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Services.FactionService.GetAllHostile(Assets.Scripts.Characters.Entity)">GetAllHostile(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HashSet&lt;Entity&gt; GetAllHostile(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.HashSet</span>&lt;<a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_GetHumanity.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.GetHumanity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L55">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_GetHumanity_" data-uid="Assets.Scripts.Services.FactionService.GetHumanity*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_GetHumanity" data-uid="Assets.Scripts.Services.FactionService.GetHumanity">GetHumanity()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Faction GetHumanity()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_GetTitanity.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.GetTitanity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L60">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_GetTitanity_" data-uid="Assets.Scripts.Services.FactionService.GetTitanity*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_GetTitanity" data-uid="Assets.Scripts.Services.FactionService.GetTitanity">GetTitanity()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Faction GetTitanity()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_IsFriendly_Assets_Scripts_Characters_Entity_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.IsFriendly(Assets.Scripts.Characters.Entity%2CAssets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L128">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_IsFriendly_" data-uid="Assets.Scripts.Services.FactionService.IsFriendly*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_IsFriendly_Assets_Scripts_Characters_Entity_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Services.FactionService.IsFriendly(Assets.Scripts.Characters.Entity,Assets.Scripts.Characters.Entity)">IsFriendly(Entity, Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsFriendly(Entity self, Entity target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">self</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">target</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_IsHostile_Assets_Scripts_Characters_Entity_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.IsHostile(Assets.Scripts.Characters.Entity%2CAssets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L123">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_IsHostile_" data-uid="Assets.Scripts.Services.FactionService.IsHostile*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_IsHostile_Assets_Scripts_Characters_Entity_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Services.FactionService.IsHostile(Assets.Scripts.Characters.Entity,Assets.Scripts.Characters.Entity)">IsHostile(Entity, Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsHostile(Entity self, Entity target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">self</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">target</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_OnRestart.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.OnRestart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L119">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_OnRestart_" data-uid="Assets.Scripts.Services.FactionService.OnRestart*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_OnRestart" data-uid="Assets.Scripts.Services.FactionService.OnRestart">OnRestart()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnRestart()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_Remove_Assets_Scripts_Characters_Faction_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.Remove(Assets.Scripts.Characters.Faction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L65">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Services_FactionService_Remove_" data-uid="Assets.Scripts.Services.FactionService.Remove*"></a>
+  <h4 id="Assets_Scripts_Services_FactionService_Remove_Assets_Scripts_Characters_Faction_" data-uid="Assets.Scripts.Services.FactionService.Remove(Assets.Scripts.Characters.Faction)">Remove(Faction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Remove(Faction faction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a></td>
+        <td><span class="parametername">faction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService_OnFactionDefeated.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService.OnFactionDefeated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L13">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_Services_FactionService_OnFactionDefeated" data-uid="Assets.Scripts.Services.FactionService.OnFactionDefeated">OnFactionDefeated</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event OnFactionDefeated OnFactionDefeated</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Events.OnFactionDefeated.html">OnFactionDefeated</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+  <div>
+      <a class="xref" href="Assets.Scripts.Services.Interface.IFactionService.html">IFactionService</a>
+  </div>
+  <div>
+      <a class="xref" href="Assets.Scripts.Services.Interface.IService.html">IService</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Services_FactionService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Services.FactionService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Services/FactionService.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

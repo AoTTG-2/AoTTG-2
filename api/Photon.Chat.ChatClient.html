@@ -1,0 +1,2213 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ChatClient
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ChatClient
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.Chat.ChatClient">
+  
+  
+  <h1 id="Photon_Chat_ChatClient" data-uid="Photon.Chat.ChatClient" class="text-break">Class ChatClient
+  </h1>
+  <div class="markdown level0 summary"><p>Central class of the Photon Chat API to connect, handle channels and messages.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ChatClient</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">ExitGames.Client.Photon.IPhotonPeerListener</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.Chat.html">Photon.Chat</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="Photon_Chat_ChatClient_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ChatClient : IPhotonPeerListener</code></pre>
+  </div>
+  <h5 id="Photon_Chat_ChatClient_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>This class must be instantiated with a IChatClientListener instance to get the callbacks.
+Integrate it into your game loop by calling Service regularly. If the target platform supports Threads/Tasks,
+set UseBackgroundWorkerForSending = true, to let the ChatClient keep the connection by sending from
+an independent thread.</p>
+<p>Call Connect with an AppId that is setup as Photon Chat application. Note: Connect covers multiple
+messages between this client and the servers. A short workflow will connect you to a chat server.</p>
+<p>Each ChatClient resembles a user in chat (set in Connect). Each user automatically subscribes a channel
+for incoming private messages and can message any other user privately.
+Before you publish messages in any non-private channel, that channel must be subscribed.</p>
+<p>PublicChannels is a list of subscribed channels, containing messages and senders.
+PrivateChannels contains all incoming and sent private messages.</p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient__ctor_Photon_Chat_IChatClientListener_ExitGames_Client_Photon_ConnectionProtocol_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.%23ctor(Photon.Chat.IChatClientListener%2CExitGames.Client.Photon.ConnectionProtocol)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L196">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient__ctor_" data-uid="Photon.Chat.ChatClient.#ctor*"></a>
+  <h4 id="Photon_Chat_ChatClient__ctor_Photon_Chat_IChatClientListener_ExitGames_Client_Photon_ConnectionProtocol_" data-uid="Photon.Chat.ChatClient.#ctor(Photon.Chat.IChatClientListener,ExitGames.Client.Photon.ConnectionProtocol)">ChatClient(IChatClientListener, ConnectionProtocol)</h4>
+  <div class="markdown level1 summary"><p>Chat client constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatClient(IChatClientListener listener, ConnectionProtocol protocol = ConnectionProtocol.Udp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.IChatClientListener.html">IChatClientListener</a></td>
+        <td><span class="parametername">listener</span></td>
+        <td><p>The chat listener implementation.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.ConnectionProtocol</span></td>
+        <td><span class="parametername">protocol</span></td>
+        <td><p>Connection protocol to be used by this client. Default is <span class="xref">ExitGames.Client.Photon.ConnectionProtocol.Udp</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_chatPeer.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.chatPeer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L140">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatClient_chatPeer" data-uid="Photon.Chat.ChatClient.chatPeer">chatPeer</h4>
+  <div class="markdown level1 summary"><p>The Chat Peer used by this client. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatPeer chatPeer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatPeer.html">ChatPeer</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_DefaultMaxSubscribers.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.DefaultMaxSubscribers%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L45">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatClient_DefaultMaxSubscribers" data-uid="Photon.Chat.ChatClient.DefaultMaxSubscribers">DefaultMaxSubscribers</h4>
+  <div class="markdown level1 summary"><p>Default maximum value possible for <a class="xref" href="Photon.Chat.ChatChannel.html#Photon_Chat_ChatChannel_MaxSubscribers">MaxSubscribers</a> when <a class="xref" href="Photon.Chat.ChatChannel.html#Photon_Chat_ChatChannel_PublishSubscribers">PublishSubscribers</a> is enabled</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int DefaultMaxSubscribers = 100</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_MessageLimit.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.MessageLimit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L128">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatClient_MessageLimit" data-uid="Photon.Chat.ChatClient.MessageLimit">MessageLimit</h4>
+  <div class="markdown level1 summary"><p>If greater than 0, new channels will limit the number of messages they cache locally.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MessageLimit</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_MessageLimit_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This can be useful to limit the amount of memory used by chats.
+You can set a MessageLimit per channel but this value gets applied to new ones.</p>
+<p>Note:
+Changing this value, does not affect ChatChannels that are already in use!</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_PrivateChannels.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.PrivateChannels%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L132">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatClient_PrivateChannels" data-uid="Photon.Chat.ChatClient.PrivateChannels">PrivateChannels</h4>
+  <div class="markdown level1 summary"><p>Private channels in which this client has exchanged messages. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Dictionary&lt;string, ChatChannel&gt; PrivateChannels</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="Photon.Chat.ChatChannel.html">ChatChannel</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_PublicChannels.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.PublicChannels%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L130">View Source</a>
+  </span>
+  <h4 id="Photon_Chat_ChatClient_PublicChannels" data-uid="Photon.Chat.ChatClient.PublicChannels">PublicChannels</h4>
+  <div class="markdown level1 summary"><p>Public channels this client is subscribed to. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Dictionary&lt;string, ChatChannel&gt; PublicChannels</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="Photon.Chat.ChatChannel.html">ChatChannel</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_AppId.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.AppId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L94">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_AppId_" data-uid="Photon.Chat.ChatClient.AppId*"></a>
+  <h4 id="Photon_Chat_ChatClient_AppId" data-uid="Photon.Chat.ChatClient.AppId">AppId</h4>
+  <div class="markdown level1 summary"><p>The AppID as assigned from the Photon Cloud.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AppId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_AppVersion.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.AppVersion%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L91">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_AppVersion_" data-uid="Photon.Chat.ChatClient.AppVersion*"></a>
+  <h4 id="Photon_Chat_ChatClient_AppVersion" data-uid="Photon.Chat.ChatClient.AppVersion">AppVersion</h4>
+  <div class="markdown level1 summary"><p>The version of your client. A new version also creates a new &quot;virtual app&quot; to separate players from older client versions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AppVersion { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_AuthValues.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.AuthValues%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L98">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_AuthValues_" data-uid="Photon.Chat.ChatClient.AuthValues*"></a>
+  <h4 id="Photon_Chat_ChatClient_AuthValues" data-uid="Photon.Chat.ChatClient.AuthValues">AuthValues</h4>
+  <div class="markdown level1 summary"><p>Settable only before you connect!</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AuthenticationValues AuthValues { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.AuthenticationValues.html">AuthenticationValues</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_CanChat.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.CanChat%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L71">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_CanChat_" data-uid="Photon.Chat.ChatClient.CanChat*"></a>
+  <h4 id="Photon_Chat_ChatClient_CanChat" data-uid="Photon.Chat.ChatClient.CanChat">CanChat</h4>
+  <div class="markdown level1 summary"><p>Checks if this client is ready to send messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanChat { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ChatRegion.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ChatRegion%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L57">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ChatRegion_" data-uid="Photon.Chat.ChatClient.ChatRegion*"></a>
+  <h4 id="Photon_Chat_ChatClient_ChatRegion" data-uid="Photon.Chat.ChatClient.ChatRegion">ChatRegion</h4>
+  <div class="markdown level1 summary"><p>Settable only before you connect! Defaults to &quot;EU&quot;.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ChatRegion { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_DebugOut.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.DebugOut%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L896">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_DebugOut_" data-uid="Photon.Chat.ChatClient.DebugOut*"></a>
+  <h4 id="Photon_Chat_ChatClient_DebugOut" data-uid="Photon.Chat.ChatClient.DebugOut">DebugOut</h4>
+  <div class="markdown level1 summary"><p>Sets the level (and amount) of debug output provided by the library.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DebugLevel DebugOut { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.DebugLevel</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_DebugOut_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This affects the callbacks to IChatClientListener.DebugReturn.
+Default Level: Error.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_DisconnectedCause.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.DisconnectedCause%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L67">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_DisconnectedCause_" data-uid="Photon.Chat.ChatClient.DisconnectedCause*"></a>
+  <h4 id="Photon_Chat_ChatClient_DisconnectedCause" data-uid="Photon.Chat.ChatClient.DisconnectedCause">DisconnectedCause</h4>
+  <div class="markdown level1 summary"><p>Disconnection cause. Check this inside <a class="xref" href="Photon.Chat.IChatClientListener.html#Photon_Chat_IChatClientListener_OnDisconnected">OnDisconnected()</a>. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatDisconnectCause DisconnectedCause { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatDisconnectCause.html">ChatDisconnectCause</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_FrontendAddress.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.FrontendAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L51">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_FrontendAddress_" data-uid="Photon.Chat.ChatClient.FrontendAddress*"></a>
+  <h4 id="Photon_Chat_ChatClient_FrontendAddress" data-uid="Photon.Chat.ChatClient.FrontendAddress">FrontendAddress</h4>
+  <div class="markdown level1 summary"><p>The address of the actual chat server assigned from NameServer. Public for read only.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FrontendAddress { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_NameServerAddress.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.NameServerAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L48">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_NameServerAddress_" data-uid="Photon.Chat.ChatClient.NameServerAddress*"></a>
+  <h4 id="Photon_Chat_ChatClient_NameServerAddress" data-uid="Photon.Chat.ChatClient.NameServerAddress">NameServerAddress</h4>
+  <div class="markdown level1 summary"><p>The address of last connected Name Server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NameServerAddress { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SocketImplementationConfig.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SocketImplementationConfig%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L186">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SocketImplementationConfig_" data-uid="Photon.Chat.ChatClient.SocketImplementationConfig*"></a>
+  <h4 id="Photon_Chat_ChatClient_SocketImplementationConfig" data-uid="Photon.Chat.ChatClient.SocketImplementationConfig">SocketImplementationConfig</h4>
+  <div class="markdown level1 summary"><p>Defines which IPhotonSocket class to use per ConnectionProtocol.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;ConnectionProtocol, Type&gt; SocketImplementationConfig { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">ExitGames.Client.Photon.ConnectionProtocol</span>, <span class="xref">System.Type</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_SocketImplementationConfig_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Several platforms have special Socket implementations and slightly different APIs.
+To accomodate this, switching the socket implementation for a network protocol was made available.
+By default, UDP and TCP have socket implementations assigned.</p>
+<p>You only need to set the SocketImplementationConfig once, after creating a PhotonPeer
+and before connecting. If you switch the TransportProtocol, the correct implementation is being used.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_State.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.State%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L64">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_State_" data-uid="Photon.Chat.ChatClient.State*"></a>
+  <h4 id="Photon_Chat_ChatClient_State" data-uid="Photon.Chat.ChatClient.State">State</h4>
+  <div class="markdown level1 summary"><p>Current state of the ChatClient. Also use CanChat.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatState State { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatState.html">ChatState</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_TransportProtocol.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.TransportProtocol%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L163">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_TransportProtocol_" data-uid="Photon.Chat.ChatClient.TransportProtocol*"></a>
+  <h4 id="Photon_Chat_ChatClient_TransportProtocol" data-uid="Photon.Chat.ChatClient.TransportProtocol">TransportProtocol</h4>
+  <div class="markdown level1 summary"><p>Exposes the TransportProtocol of the used PhotonPeer. Settable while not connected.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ConnectionProtocol TransportProtocol { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.ConnectionProtocol</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_UseBackgroundWorkerForSending.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.UseBackgroundWorkerForSending%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L160">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_UseBackgroundWorkerForSending_" data-uid="Photon.Chat.ChatClient.UseBackgroundWorkerForSending*"></a>
+  <h4 id="Photon_Chat_ChatClient_UseBackgroundWorkerForSending" data-uid="Photon.Chat.ChatClient.UseBackgroundWorkerForSending">UseBackgroundWorkerForSending</h4>
+  <div class="markdown level1 summary"><p>Defines if a background thread will call SendOutgoingCommands, while your code calls Service to dispatch received messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UseBackgroundWorkerForSending { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_UseBackgroundWorkerForSending_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The benefit of using a background thread to call SendOutgoingCommands is this:</p>
+<p>Even if your game logic is being paused, the background thread will keep the connection to the server up.
+On a lower level, acknowledgements and pings will prevent a server-side timeout while (e.g.) Unity loads assets.</p>
+<p>Your game logic still has to call Service regularly, or else incoming messages are not dispatched.
+As this typically triggers UI updates, it&apos;s easier to call Service from the main/UI thread.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_UserId.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.UserId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L104">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_UserId_" data-uid="Photon.Chat.ChatClient.UserId*"></a>
+  <h4 id="Photon_Chat_ChatClient_UserId" data-uid="Photon.Chat.ChatClient.UserId">UserId</h4>
+  <div class="markdown level1 summary"><p>The unique ID of a user/person, stored in AuthValues.UserId. Set it before you connect.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string UserId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_UserId_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This value wraps AuthValues.UserId.
+It&apos;s not a nickname and we assume users with the same userID are the same person.</p>
+</div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_AddFriends_System_String___.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.AddFriends(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L706">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_AddFriends_" data-uid="Photon.Chat.ChatClient.AddFriends*"></a>
+  <h4 id="Photon_Chat_ChatClient_AddFriends_System_String___" data-uid="Photon.Chat.ChatClient.AddFriends(System.String[])">AddFriends(String[])</h4>
+  <div class="markdown level1 summary"><p>Adds friends to a list on the Chat Server which will send you status updates for those.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AddFriends(string[] friends)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">friends</span></td>
+        <td><p>Array of friend userIds.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the operation could be sent.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_AddFriends_System_String____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>AddFriends and RemoveFriends enable clients to handle their friend list
+in the Photon Chat server. Having users on your friends list gives you access
+to their current online status (and whatever info your client sets in it).</p>
+<p>Each user can set an online status consisting of an integer and an arbitrary
+(serializable) object. The object can be null, Hashtable, object[] or anything
+else Photon can serialize.</p>
+<p>The status is published automatically to friends (anyone who set your user ID
+with AddFriends).</p>
+<p>Photon flushes friends-list when a chat client disconnects, so it has to be
+set each time. If your community API gives you access to online status already,
+you could filter and set online friends in AddFriends.</p>
+<p>Actual friend relations are not persistent and have to be stored outside
+of Photon.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_CanChatInChannel_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.CanChatInChannel(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L80">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_CanChatInChannel_" data-uid="Photon.Chat.ChatClient.CanChatInChannel*"></a>
+  <h4 id="Photon_Chat_ChatClient_CanChatInChannel_System_String_" data-uid="Photon.Chat.ChatClient.CanChatInChannel(System.String)">CanChatInChannel(String)</h4>
+  <div class="markdown level1 summary"><p>Checks if this client is ready to publish messages inside a public channel.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CanChatInChannel(string channelName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>The channel to do the check with.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Whether or not this client is ready to publish messages inside the public channel with the specified channelName.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Connect_System_String_System_String_Photon_Chat_AuthenticationValues_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Connect(System.String%2CSystem.String%2CPhoton.Chat.AuthenticationValues)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L217">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Connect_" data-uid="Photon.Chat.ChatClient.Connect*"></a>
+  <h4 id="Photon_Chat_ChatClient_Connect_System_String_System_String_Photon_Chat_AuthenticationValues_" data-uid="Photon.Chat.ChatClient.Connect(System.String,System.String,Photon.Chat.AuthenticationValues)">Connect(String, String, AuthenticationValues)</h4>
+  <div class="markdown level1 summary"><p>Connects this client to the Photon Chat Cloud service, which will also authenticate the user (and set a UserId).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Connect(string appId, string appVersion, AuthenticationValues authValues)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appId</span></td>
+        <td><p>Get your Photon Chat AppId from the <a href="https://dashboard.photonengine.com">Dashboard</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appVersion</span></td>
+        <td><p>Any version string you make up. Used to separate users and variants of your clients, which might be incompatible.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.AuthenticationValues.html">AuthenticationValues</a></td>
+        <td><span class="parametername">authValues</span></td>
+        <td><p>Values for authentication. You can leave this null, if you set a UserId before. If you set authValues, they will override any UserId set before.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ConnectAndSetStatus_System_String_System_String_Photon_Chat_AuthenticationValues_System_Int32_System_Object_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ConnectAndSetStatus(System.String%2CSystem.String%2CPhoton.Chat.AuthenticationValues%2CSystem.Int32%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L273">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ConnectAndSetStatus_" data-uid="Photon.Chat.ChatClient.ConnectAndSetStatus*"></a>
+  <h4 id="Photon_Chat_ChatClient_ConnectAndSetStatus_System_String_System_String_Photon_Chat_AuthenticationValues_System_Int32_System_Object_" data-uid="Photon.Chat.ChatClient.ConnectAndSetStatus(System.String,System.String,Photon.Chat.AuthenticationValues,System.Int32,System.Object)">ConnectAndSetStatus(String, String, AuthenticationValues, Int32, Object)</h4>
+  <div class="markdown level1 summary"><p>Connects this client to the Photon Chat Cloud service, which will also authenticate the user (and set a UserId).
+This also sets an online status once connected. By default it will set user status to <a class="xref" href="Photon.Chat.ChatUserStatus.html#Photon_Chat_ChatUserStatus_Online">Online</a>.
+See <a class="xref" href="Photon.Chat.ChatClient.html#Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_System_Object_">SetOnlineStatus(Int32, Object)</a> for more information.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ConnectAndSetStatus(string appId, string appVersion, AuthenticationValues authValues, int status = 2, object message = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appId</span></td>
+        <td><p>Get your Photon Chat AppId from the <a href="https://dashboard.photonengine.com">Dashboard</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">appVersion</span></td>
+        <td><p>Any version string you make up. Used to separate users and variants of your clients, which might be incompatible.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.AuthenticationValues.html">AuthenticationValues</a></td>
+        <td><span class="parametername">authValues</span></td>
+        <td><p>Values for authentication. You can leave this null, if you set a UserId before. If you set authValues, they will override any UserId set before.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>User status to set when connected. Predefined states are in class <a class="xref" href="Photon.Chat.ChatUserStatus.html">ChatUserStatus</a>. Other values can be used at will.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Optional status Also sets a status-message which your friends can get.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the connection attempt could be sent at all.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Disconnect.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Disconnect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L333">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Disconnect_" data-uid="Photon.Chat.ChatClient.Disconnect*"></a>
+  <h4 id="Photon_Chat_ChatClient_Disconnect" data-uid="Photon.Chat.ChatClient.Disconnect">Disconnect()</h4>
+  <div class="markdown level1 summary"><p>Disconnects from the Chat Server by sending a &quot;disconnect command&quot;, which prevents a timeout server-side.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Disconnect()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_GetPrivateChannelNameByUser_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.GetPrivateChannelNameByUser(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L828">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_GetPrivateChannelNameByUser_" data-uid="Photon.Chat.ChatClient.GetPrivateChannelNameByUser*"></a>
+  <h4 id="Photon_Chat_ChatClient_GetPrivateChannelNameByUser_System_String_" data-uid="Photon.Chat.ChatClient.GetPrivateChannelNameByUser(System.String)">GetPrivateChannelNameByUser(String)</h4>
+  <div class="markdown level1 summary"><p>Get you the (locally used) channel name for the chat between this client and another user.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetPrivateChannelNameByUser(string userName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">userName</span></td>
+        <td><p>Remote user&apos;s name or UserId.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The (locally used) channel name for a private channel.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_GetPrivateChannelNameByUser_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Do not subscribe to this channel.
+Private channels do not need to be explicitly subscribed to.
+Use this for debugging purposes mainly.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_PublishMessage_System_String_System_Object_System_Boolean_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.PublishMessage(System.String%2CSystem.Object%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L497">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_PublishMessage_" data-uid="Photon.Chat.ChatClient.PublishMessage*"></a>
+  <h4 id="Photon_Chat_ChatClient_PublishMessage_System_String_System_Object_System_Boolean_" data-uid="Photon.Chat.ChatClient.PublishMessage(System.String,System.Object,System.Boolean)">PublishMessage(String, Object, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Sends a message to a public channel which this client subscribed to.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool PublishMessage(string channelName, object message, bool forwardAsWebhook = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>Name of the channel to publish to.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Your message (string or any serializable data).</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">forwardAsWebhook</span></td>
+        <td><p>Optionally, public messages can be forwarded as webhooks. Configure webhooks for your Chat app to use this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>False if the client is not yet ready to send messages.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_PublishMessage_System_String_System_Object_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Before you publish to a channel, you have to subscribe it.
+Everyone in that channel will get the message.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_RemoveFriends_System_String___.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.RemoveFriends(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L784">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_RemoveFriends_" data-uid="Photon.Chat.ChatClient.RemoveFriends*"></a>
+  <h4 id="Photon_Chat_ChatClient_RemoveFriends_System_String___" data-uid="Photon.Chat.ChatClient.RemoveFriends(System.String[])">RemoveFriends(String[])</h4>
+  <div class="markdown level1 summary"><p>Removes the provided entries from the list on the Chat Server and stops their status updates.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RemoveFriends(string[] friends)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">friends</span></td>
+        <td><p>Array of friend userIds.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the operation could be sent.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_RemoveFriends_System_String____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Photon flushes friends-list when a chat client disconnects. Unless you want to
+remove individual entries, you don&apos;t have to RemoveFriends.</p>
+<p>AddFriends and RemoveFriends enable clients to handle their friend list
+in the Photon Chat server. Having users on your friends list gives you access
+to their current online status (and whatever info your client sets in it).</p>
+<p>Each user can set an online status consisting of an integer and an arbitratry
+(serializable) object. The object can be null, Hashtable, object[] or anything
+else Photon can serialize.</p>
+<p>The status is published automatically to friends (anyone who set your user ID
+with AddFriends).</p>
+<p>Photon flushes friends-list when a chat client disconnects, so it has to be
+set each time. If your community API gives you access to online status already,
+you could filter and set online friends in AddFriends.</p>
+<p>Actual friend relations are not persistent and have to be stored outside
+of Photon.</p>
+<p>AddFriends and RemoveFriends enable clients to handle their friend list
+in the Photon Chat server. Having users on your friends list gives you access
+to their current online status (and whatever info your client sets in it).</p>
+<p>Each user can set an online status consisting of an integer and an arbitratry
+(serializable) object. The object can be null, Hashtable, object[] or anything
+else Photon can serialize.</p>
+<p>The status is published automatically to friends (anyone who set your user ID
+with AddFriends).</p>
+<p>Actual friend relations are not persistent and have to be stored outside
+of Photon.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SendAcksOnly.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SendAcksOnly%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L323">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SendAcksOnly_" data-uid="Photon.Chat.ChatClient.SendAcksOnly*"></a>
+  <h4 id="Photon_Chat_ChatClient_SendAcksOnly" data-uid="Photon.Chat.ChatClient.SendAcksOnly">SendAcksOnly()</h4>
+  <div class="markdown level1 summary"><p>Obsolete: Better use UseBackgroundWorkerForSending and Service(). </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Better use UseBackgroundWorkerForSending and Service().&quot;)]
+public void SendAcksOnly()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SendPrivateMessage_System_String_System_Object_System_Boolean_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SendPrivateMessage(System.String%2CSystem.Object%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L547">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SendPrivateMessage_" data-uid="Photon.Chat.ChatClient.SendPrivateMessage*"></a>
+  <h4 id="Photon_Chat_ChatClient_SendPrivateMessage_System_String_System_Object_System_Boolean_" data-uid="Photon.Chat.ChatClient.SendPrivateMessage(System.String,System.Object,System.Boolean)">SendPrivateMessage(String, Object, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Sends a private message to a single target user. Calls OnPrivateMessage on the receiving client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SendPrivateMessage(string target, object message, bool forwardAsWebhook = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">target</span></td>
+        <td><p>Username to send this message to.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>The message you want to send. Can be a simple string or anything serializable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">forwardAsWebhook</span></td>
+        <td><p>Optionally, private messages can be forwarded as webhooks. Configure webhooks for your Chat app to use this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if this clients can send the message to the server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SendPrivateMessage_System_String_System_Object_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SendPrivateMessage(System.String%2CSystem.Object%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L560">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SendPrivateMessage_" data-uid="Photon.Chat.ChatClient.SendPrivateMessage*"></a>
+  <h4 id="Photon_Chat_ChatClient_SendPrivateMessage_System_String_System_Object_System_Boolean_System_Boolean_" data-uid="Photon.Chat.ChatClient.SendPrivateMessage(System.String,System.Object,System.Boolean,System.Boolean)">SendPrivateMessage(String, Object, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Sends a private message to a single target user. Calls OnPrivateMessage on the receiving client.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SendPrivateMessage(string target, object message, bool encrypt, bool forwardAsWebhook)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">target</span></td>
+        <td><p>Username to send this message to.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>The message you want to send. Can be a simple string or anything serializable.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">encrypt</span></td>
+        <td><p>Optionally, private messages can be encrypted. Encryption is not end-to-end as the server decrypts the message.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">forwardAsWebhook</span></td>
+        <td><p>Optionally, private messages can be forwarded as webhooks. Configure webhooks for your Chat app to use this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if this clients can send the message to the server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Service.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Service%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L288">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Service_" data-uid="Photon.Chat.ChatClient.Service*"></a>
+  <h4 id="Photon_Chat_ChatClient_Service" data-uid="Photon.Chat.ChatClient.Service">Service()</h4>
+  <div class="markdown level1 summary"><p>Must be called regularly to keep connection between client and server alive and to process incoming messages.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Service()</code></pre>
+  </div>
+  <h5 id="Photon_Chat_ChatClient_Service_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method limits the effort it does automatically using the private variable msDeltaForServiceCalls.
+That value is lower for connect and multiplied by 4 when chat-server connection is ready.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SetOnlineStatus(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L658">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SetOnlineStatus_" data-uid="Photon.Chat.ChatClient.SetOnlineStatus*"></a>
+  <h4 id="Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_" data-uid="Photon.Chat.ChatClient.SetOnlineStatus(System.Int32)">SetOnlineStatus(Int32)</h4>
+  <div class="markdown level1 summary"><p>Sets the user&apos;s status without changing your status-message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SetOnlineStatus(int status)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Predefined states are in class ChatUserStatus. Other values can be used at will.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the operation gets called on the server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_SetOnlineStatus_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The predefined status values can be found in class ChatUserStatus.
+State ChatUserStatus.Invisible will make you offline for everyone and send no message.</p>
+<p>You can set custom values in the status integer. Aside from the pre-configured ones,
+all states will be considered visible and online. Else, no one would see the custom state.</p>
+<p>This overload does not change the set message.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_System_Object_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.SetOnlineStatus(System.Int32%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L677">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_SetOnlineStatus_" data-uid="Photon.Chat.ChatClient.SetOnlineStatus*"></a>
+  <h4 id="Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_System_Object_" data-uid="Photon.Chat.ChatClient.SetOnlineStatus(System.Int32,System.Object)">SetOnlineStatus(Int32, Object)</h4>
+  <div class="markdown level1 summary"><p>Sets the user&apos;s status without changing your status-message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool SetOnlineStatus(int status, object message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>Predefined states are in class ChatUserStatus. Other values can be used at will.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Also sets a status-message which your friends can get.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the operation gets called on the server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_SetOnlineStatus_System_Int32_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The predefined status values can be found in class ChatUserStatus.
+State ChatUserStatus.Invisible will make you offline for everyone and send no message.</p>
+<p>You can set custom values in the status integer. Aside from the pre-configured ones,
+all states will be considered visible and online. Else, no one would see the custom state.</p>
+<p>The message object can be anything that Photon can serialize, including (but not limited to)
+Hashtable, object[] and string. This value is defined by your own conventions.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_StopThread.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.StopThread%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L344">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_StopThread_" data-uid="Photon.Chat.ChatClient.StopThread*"></a>
+  <h4 id="Photon_Chat_ChatClient_StopThread" data-uid="Photon.Chat.ChatClient.StopThread">StopThread()</h4>
+  <div class="markdown level1 summary"><p>Locally shuts down the connection to the Chat Server. This resets states locally but the server will have to timeout this peer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopThread()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Subscribe_System_String_System_Int32_System_Int32_Photon_Chat_ChannelCreationOptions_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Subscribe(System.String%2CSystem.Int32%2CSystem.Int32%2CPhoton.Chat.ChannelCreationOptions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L1415">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Subscribe_" data-uid="Photon.Chat.ChatClient.Subscribe*"></a>
+  <h4 id="Photon_Chat_ChatClient_Subscribe_System_String_System_Int32_System_Int32_Photon_Chat_ChannelCreationOptions_" data-uid="Photon.Chat.ChatClient.Subscribe(System.String,System.Int32,System.Int32,Photon.Chat.ChannelCreationOptions)">Subscribe(String, Int32, Int32, ChannelCreationOptions)</h4>
+  <div class="markdown level1 summary"><p>Subscribe to a single channel and optionally sets its well-know channel properties in case the channel is created.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Subscribe(string channel, int lastMsgId = 0, int messagesFromHistory = -1, ChannelCreationOptions creationOptions = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>name of the channel to subscribe to</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">lastMsgId</span></td>
+        <td><p>ID of the last received message from this channel when re subscribing to receive only missed messages, default is 0</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">messagesFromHistory</span></td>
+        <td><p>how many missed messages to receive from history, default is none/-1</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChannelCreationOptions.html">ChannelCreationOptions</a></td>
+        <td><span class="parametername">creationOptions</span></td>
+        <td><p>options to be used in case the channel to subscribe to will be created.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Subscribe_System_String___.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Subscribe(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L355">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Subscribe_" data-uid="Photon.Chat.ChatClient.Subscribe*"></a>
+  <h4 id="Photon_Chat_ChatClient_Subscribe_System_String___" data-uid="Photon.Chat.ChatClient.Subscribe(System.String[])">Subscribe(String[])</h4>
+  <div class="markdown level1 summary"><p>Sends operation to subscribe to a list of channels by name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Subscribe(string[] channels)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>List of channels to subscribe to. Avoid null or empty values.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the operation could be sent at all (Example: Fails if not connected to Chat Server).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Subscribe_System_String___System_Int32_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Subscribe(System.String%5B%5D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L427">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Subscribe_" data-uid="Photon.Chat.ChatClient.Subscribe*"></a>
+  <h4 id="Photon_Chat_ChatClient_Subscribe_System_String___System_Int32_" data-uid="Photon.Chat.ChatClient.Subscribe(System.String[],System.Int32)">Subscribe(String[], Int32)</h4>
+  <div class="markdown level1 summary"><p>Sends operation to subscribe client to channels, optionally fetching a number of messages from the cache.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Subscribe(string[] channels, int messagesFromHistory)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>List of channels to subscribe to. Avoid null or empty values.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">messagesFromHistory</span></td>
+        <td><p>0: no history. 1 and higher: number of messages in history. -1: all available history.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the operation could be sent at all (Example: Fails if not connected to Chat Server).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_Subscribe_System_String___System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Subscribes channels will forward new messages to this user. Use PublishMessage to do so.
+The messages cache is limited but can be useful to get into ongoing conversations, if that&apos;s needed.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Subscribe_System_String___System_Int32___.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Subscribe(System.String%5B%5D%2CSystem.Int32%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L366">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Subscribe_" data-uid="Photon.Chat.ChatClient.Subscribe*"></a>
+  <h4 id="Photon_Chat_ChatClient_Subscribe_System_String___System_Int32___" data-uid="Photon.Chat.ChatClient.Subscribe(System.String[],System.Int32[])">Subscribe(String[], Int32[])</h4>
+  <div class="markdown level1 summary"><p>Sends operation to subscribe to a list of channels by name and possibly retrieve messages we did not receive while unsubscribed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Subscribe(string[] channels, int[] lastMsgIds)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>List of channels to subscribe to. Avoid null or empty values.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">lastMsgIds</span></td>
+        <td><p>ID of last message received per channel. Useful when re subscribing to receive only messages we missed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>If the operation could be sent at all (Example: Fails if not connected to Chat Server).</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_TryGetChannel_System_String_Photon_Chat_ChatChannel__.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.TryGetChannel(System.String%2CPhoton.Chat.ChatChannel%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L862">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_TryGetChannel_" data-uid="Photon.Chat.ChatClient.TryGetChannel*"></a>
+  <h4 id="Photon_Chat_ChatClient_TryGetChannel_System_String_Photon_Chat_ChatChannel__" data-uid="Photon.Chat.ChatClient.TryGetChannel(System.String,Photon.Chat.ChatChannel@)">TryGetChannel(String, out ChatChannel)</h4>
+  <div class="markdown level1 summary"><p>Simplified access to all channels by name. Checks public channels first, then private ones.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetChannel(string channelName, out ChatChannel channel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>Name of the channel to get.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatChannel.html">ChatChannel</a></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>Out parameter gives you the found channel, if any.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the channel was found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_TryGetChannel_System_String_Photon_Chat_ChatChannel___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Public channels exist only when subscribed to them.
+Private channels exist only when at least one message is exchanged with the target user privately.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_TryGetChannel_System_String_System_Boolean_Photon_Chat_ChatChannel__.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.TryGetChannel(System.String%2CSystem.Boolean%2CPhoton.Chat.ChatChannel%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L842">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_TryGetChannel_" data-uid="Photon.Chat.ChatClient.TryGetChannel*"></a>
+  <h4 id="Photon_Chat_ChatClient_TryGetChannel_System_String_System_Boolean_Photon_Chat_ChatChannel__" data-uid="Photon.Chat.ChatClient.TryGetChannel(System.String,System.Boolean,Photon.Chat.ChatChannel@)">TryGetChannel(String, Boolean, out ChatChannel)</h4>
+  <div class="markdown level1 summary"><p>Simplified access to either private or public channels by name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetChannel(string channelName, bool isPrivate, out ChatChannel channel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>Name of the channel to get. For private channels, the channel-name is composed of both user&apos;s names.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isPrivate</span></td>
+        <td><p>Define if you expect a private or public channel.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatChannel.html">ChatChannel</a></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>Out parameter gives you the found channel, if any.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the channel was found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_TryGetChannel_System_String_System_Boolean_Photon_Chat_ChatChannel___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Public channels exist only when subscribed to them.
+Private channels exist only when at least one message is exchanged with the target user privately.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_TryGetPrivateChannelByUser_System_String_Photon_Chat_ChatChannel__.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.TryGetPrivateChannelByUser(System.String%2CPhoton.Chat.ChatChannel%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L878">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_TryGetPrivateChannelByUser_" data-uid="Photon.Chat.ChatClient.TryGetPrivateChannelByUser*"></a>
+  <h4 id="Photon_Chat_ChatClient_TryGetPrivateChannelByUser_System_String_Photon_Chat_ChatChannel__" data-uid="Photon.Chat.ChatClient.TryGetPrivateChannelByUser(System.String,Photon.Chat.ChatChannel@)">TryGetPrivateChannelByUser(String, out ChatChannel)</h4>
+  <div class="markdown level1 summary"><p>Simplified access to private channels by target user.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TryGetPrivateChannelByUser(string userId, out ChatChannel channel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td><p>UserId of the target user in the private channel.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatChannel.html">ChatChannel</a></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>Out parameter gives you the found channel, if any.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>True if the channel was found.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_Unsubscribe_System_String___.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.Unsubscribe(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L461">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_Unsubscribe_" data-uid="Photon.Chat.ChatClient.Unsubscribe*"></a>
+  <h4 id="Photon_Chat_ChatClient_Unsubscribe_System_String___" data-uid="Photon.Chat.ChatClient.Unsubscribe(System.String[])">Unsubscribe(String[])</h4>
+  <div class="markdown level1 summary"><p>Unsubscribes from a list of channels, which stops getting messages from those.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Unsubscribe(string[] channels)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>Names of channels to unsubscribe.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>False, if not connected to a chat server.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_ChatClient_Unsubscribe_System_String____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The client will remove these channels from the PublicChannels dictionary once the server sent a response to this request.</p>
+<p>The request will be sent to the server and IChatClientListener.OnUnsubscribed gets called when the server
+actually removed the channel subscriptions.</p>
+<p>Unsubscribe will fail if you include null or empty channel names.</p>
+</div>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_DebugReturn_ExitGames_Client_Photon_DebugLevel_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ExitGames%23Client%23Photon%23IPhotonPeerListener%23DebugReturn(ExitGames.Client.Photon.DebugLevel%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L906">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_DebugReturn_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#DebugReturn*"></a>
+  <h4 id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_DebugReturn_ExitGames_Client_Photon_DebugLevel_System_String_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#DebugReturn(ExitGames.Client.Photon.DebugLevel,System.String)">IPhotonPeerListener.DebugReturn(DebugLevel, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IPhotonPeerListener.DebugReturn(DebugLevel level, string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.DebugLevel</span></td>
+        <td><span class="parametername">level</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnEvent_ExitGames_Client_Photon_EventData_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ExitGames%23Client%23Photon%23IPhotonPeerListener%23OnEvent(ExitGames.Client.Photon.EventData)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L911">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnEvent_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnEvent*"></a>
+  <h4 id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnEvent_ExitGames_Client_Photon_EventData_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnEvent(ExitGames.Client.Photon.EventData)">IPhotonPeerListener.OnEvent(EventData)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IPhotonPeerListener.OnEvent(EventData eventData)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.EventData</span></td>
+        <td><span class="parametername">eventData</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnOperationResponse_ExitGames_Client_Photon_OperationResponse_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ExitGames%23Client%23Photon%23IPhotonPeerListener%23OnOperationResponse(ExitGames.Client.Photon.OperationResponse)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L939">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnOperationResponse_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnOperationResponse*"></a>
+  <h4 id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnOperationResponse_ExitGames_Client_Photon_OperationResponse_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnOperationResponse(ExitGames.Client.Photon.OperationResponse)">IPhotonPeerListener.OnOperationResponse(OperationResponse)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IPhotonPeerListener.OnOperationResponse(OperationResponse operationResponse)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.OperationResponse</span></td>
+        <td><span class="parametername">operationResponse</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnStatusChanged_ExitGames_Client_Photon_StatusCode_.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient.ExitGames%23Client%23Photon%23IPhotonPeerListener%23OnStatusChanged(ExitGames.Client.Photon.StatusCode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L968">View Source</a>
+  </span>
+  <a id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnStatusChanged_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnStatusChanged*"></a>
+  <h4 id="Photon_Chat_ChatClient_ExitGames_Client_Photon_IPhotonPeerListener_OnStatusChanged_ExitGames_Client_Photon_StatusCode_" data-uid="Photon.Chat.ChatClient.ExitGames#Client#Photon#IPhotonPeerListener#OnStatusChanged(ExitGames.Client.Photon.StatusCode)">IPhotonPeerListener.OnStatusChanged(StatusCode)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IPhotonPeerListener.OnStatusChanged(StatusCode statusCode)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.StatusCode</span></td>
+        <td><span class="parametername">statusCode</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">ExitGames.Client.Photon.IPhotonPeerListener</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatClient.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatClient%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatClient.cs/#L40" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

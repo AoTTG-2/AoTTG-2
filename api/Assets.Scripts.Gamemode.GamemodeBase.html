@@ -1,0 +1,1241 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class GamemodeBase
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class GamemodeBase
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.Gamemode.GamemodeBase">
+  
+  
+  <h1 id="Assets_Scripts_Gamemode_GamemodeBase" data-uid="Assets.Scripts.Gamemode.GamemodeBase" class="text-break">Class GamemodeBase
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><a class="xref" href="Photon.PunBehaviour.html">PunBehaviour</a></div>
+    <div class="level3"><span class="xref">GamemodeBase</span></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.CaptureGamemode.html">CaptureGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.Catch.CatchGamemode.html">CatchGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.EndlessGamemode.html">EndlessGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.InfectionGamemode.html">InfectionGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.KillTitansGamemode.html">KillTitansGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.PvPAhssGamemode.html">PvPAhssGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.RacingGamemode.html">RacingGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.TitanRushGamemode.html">TitanRushGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.TrostGamemode.html">TrostGamemode</a></div>
+      <div class="level4"><a class="xref" href="Assets.Scripts.Gamemode.WaveGamemode.html">WaveGamemode</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToPhoton">PunBehaviour.OnConnectedToPhoton()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftRoom">PunBehaviour.OnLeftRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_">PunBehaviour.OnMasterClientSwitched(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___">PunBehaviour.OnPhotonCreateRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___">PunBehaviour.OnPhotonJoinRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCreatedRoom">PunBehaviour.OnCreatedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedLobby">PunBehaviour.OnJoinedLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftLobby">PunBehaviour.OnLeftLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_">PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectionFail_DisconnectCause_">PunBehaviour.OnConnectionFail(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_">PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnReceivedRoomListUpdate">PunBehaviour.OnReceivedRoomListUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedRoom">PunBehaviour.OnJoinedRoom()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___">PunBehaviour.OnPhotonRandomJoinFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToMaster">PunBehaviour.OnConnectedToMaster()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonMaxCccuReached">PunBehaviour.OnPhotonMaxCccuReached()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_">PunBehaviour.OnPhotonCustomRoomPropertiesChanged(Hashtable)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___">PunBehaviour.OnPhotonPlayerPropertiesChanged(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnUpdatedFriendList">PunBehaviour.OnUpdatedFriendList()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_">PunBehaviour.OnCustomAuthenticationFailed(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__">PunBehaviour.OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_">PunBehaviour.OnWebRpcResponse(OperationResponse)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipRequest_System_Object___">PunBehaviour.OnOwnershipRequest(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLobbyStatisticsUpdate">PunBehaviour.OnLobbyStatisticsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_">PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipTransfered_System_Object___">PunBehaviour.OnOwnershipTransfered(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.Gamemode.html">Assets.Scripts.Gamemode</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_Gamemode_GamemodeBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class GamemodeBase : PunBehaviour, IPunCallbacks</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_Coroutines.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.Coroutines%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L51">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_Coroutines_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.Coroutines*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_Coroutines" data-uid="Assets.Scripts.Gamemode.GamemodeBase.Coroutines">Coroutines</h4>
+  <div class="markdown level1 summary"><p>A list of Coroutines that will be cleared upon restarting</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected List&lt;Coroutine&gt; Coroutines { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Coroutine</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_EntityService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.EntityService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L32">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_EntityService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.EntityService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_EntityService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.EntityService">EntityService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IEntityService EntityService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.IEntityService.html">IEntityService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_FactionService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.FactionService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L33">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_FactionService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.FactionService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_FactionService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.FactionService">FactionService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IFactionService FactionService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.IFactionService.html">IFactionService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GamemodeType.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GamemodeType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L28">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GamemodeType_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GamemodeType*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GamemodeType" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GamemodeType">GamemodeType</h4>
+  <div class="markdown level1 summary"><p>An ENUM for the current gamemode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract GamemodeType GamemodeType { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GamemodeType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_HumanScore.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.HumanScore%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L42">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_HumanScore_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.HumanScore*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_HumanScore" data-uid="Assets.Scripts.Gamemode.GamemodeBase.HumanScore">HumanScore</h4>
+  <div class="markdown level1 summary"><p>The current score of the Humanity faction</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int HumanScore { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_IsRoundOver.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.IsRoundOver%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L56">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_IsRoundOver_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.IsRoundOver*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_IsRoundOver" data-uid="Assets.Scripts.Gamemode.GamemodeBase.IsRoundOver">IsRoundOver</h4>
+  <div class="markdown level1 summary"><p>True if the round has ended</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool IsRoundOver { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_PlayerService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.PlayerService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L34">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_PlayerService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.PlayerService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_PlayerService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.PlayerService">PlayerService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IPlayerService PlayerService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.IPlayerService.html">IPlayerService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SpawnService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SpawnService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L35">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SpawnService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SpawnService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnService">SpawnService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ISpawnService SpawnService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.ISpawnService.html">ISpawnService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_TimeService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.TimeService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L36">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_TimeService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.TimeService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_TimeService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.TimeService">TimeService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ITimeService TimeService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.ITimeService.html">ITimeService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_TitanScore.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.TitanScore%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L46">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_TitanScore_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.TitanScore*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_TitanScore" data-uid="Assets.Scripts.Gamemode.GamemodeBase.TitanScore">TitanScore</h4>
+  <div class="markdown level1 summary"><p>The current score of the Titanity faction</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int TitanScore { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_UiService.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.UiService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L37">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_UiService_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.UiService*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_UiService" data-uid="Assets.Scripts.Gamemode.GamemodeBase.UiService">UiService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IUiService UiService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.IUiService.html">IUiService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetDefaultTitanType.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetDefaultTitanType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L179">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetDefaultTitanType_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetDefaultTitanType*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetDefaultTitanType" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetDefaultTitanType">GetDefaultTitanType()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected MindlessTitanType GetDefaultTitanType()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.MindlessTitanType.html">MindlessTitanType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetPlayerSpawnLocation_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetPlayerSpawnLocation(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L286">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetPlayerSpawnLocation_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetPlayerSpawnLocation*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetPlayerSpawnLocation_System_String_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetPlayerSpawnLocation(System.String)">GetPlayerSpawnLocation(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual GameObject GetPlayerSpawnLocation(string tag = &quot;playerRespawn&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tag</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetPlayerTitanConfiguration.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetPlayerTitanConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L184">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetPlayerTitanConfiguration_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetPlayerTitanConfiguration*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetPlayerTitanConfiguration" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetPlayerTitanConfiguration">GetPlayerTitanConfiguration()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual TitanConfiguration GetPlayerTitanConfiguration()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.Configuration.TitanConfiguration.html">TitanConfiguration</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetSpawnLocation.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetSpawnLocation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L242">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetSpawnLocation_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetSpawnLocation*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetSpawnLocation" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetSpawnLocation">GetSpawnLocation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<span class="xref">Vector3</span>, <span class="xref">Quaternion</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L202">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration">GetTitanConfiguration()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual TitanConfiguration GetTitanConfiguration()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.Configuration.TitanConfiguration.html">TitanConfiguration</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration_Assets_Scripts_Characters_Titan_MindlessTitanType_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration(Assets.Scripts.Characters.Titan.MindlessTitanType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L207">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetTitanConfiguration_Assets_Scripts_Characters_Titan_MindlessTitanType_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetTitanConfiguration(Assets.Scripts.Characters.Titan.MindlessTitanType)">GetTitanConfiguration(MindlessTitanType)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual TitanConfiguration GetTitanConfiguration(MindlessTitanType type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.MindlessTitanType.html">MindlessTitanType</a></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Titan.Configuration.TitanConfiguration.html">TitanConfiguration</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_GetVictoryMessage_System_Single_System_Single_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.GetVictoryMessage(System.Single%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L293">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_GetVictoryMessage_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetVictoryMessage*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_GetVictoryMessage_System_Single_System_Single_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.GetVictoryMessage(System.Single,System.Single)">GetVictoryMessage(Single, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete]
+public virtual string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0F)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">timeUntilRestart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">totalServerTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_Level_OnLevelLoaded_System_Int32_Assets_Scripts_Room_Level_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.Level_OnLevelLoaded(System.Int32%2CAssets.Scripts.Room.Level)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L58">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_Level_OnLevelLoaded_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.Level_OnLevelLoaded*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_Level_OnLevelLoaded_System_Int32_Assets_Scripts_Room_Level_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.Level_OnLevelLoaded(System.Int32,Assets.Scripts.Room.Level)">Level_OnLevelLoaded(Int32, Level)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Level_OnLevelLoaded(int scene, Level level)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">scene</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Room.Level.html">Level</a></td>
+        <td><span class="parametername">level</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnDisconnectedFromPhoton.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnDisconnectedFromPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L108">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnDisconnectedFromPhoton_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnDisconnectedFromPhoton*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnDisconnectedFromPhoton" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnDisconnectedFromPhoton">OnDisconnectedFromPhoton()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnDisconnectedFromPhoton()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnDisconnectedFromPhoton">PunBehaviour.OnDisconnectedFromPhoton()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnEntityRegistered_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnEntityRegistered(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L142">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnEntityRegistered_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnEntityRegistered*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnEntityRegistered_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnEntityRegistered(Assets.Scripts.Characters.Entity)">OnEntityRegistered(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnEntityRegistered(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnEntityUnRegistered_Assets_Scripts_Characters_Entity_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnEntityUnRegistered(Assets.Scripts.Characters.Entity)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L143">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnEntityUnRegistered_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnEntityUnRegistered*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnEntityUnRegistered_Assets_Scripts_Characters_Entity_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnEntityUnRegistered(Assets.Scripts.Characters.Entity)">OnEntityUnRegistered(Entity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnEntityUnRegistered(Entity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Entity.html">Entity</a></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnFactionDefeated_Assets_Scripts_Characters_Faction_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnFactionDefeated(Assets.Scripts.Characters.Faction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L141">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnFactionDefeated_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnFactionDefeated*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnFactionDefeated_Assets_Scripts_Characters_Faction_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnFactionDefeated(Assets.Scripts.Characters.Faction)">OnFactionDefeated(Faction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void OnFactionDefeated(Faction faction)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Faction.html">Faction</a></td>
+        <td><span class="parametername">faction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnGameEndRpc_System_String_System_Int32_System_Int32_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnGameEndRpc(System.String%2CSystem.Int32%2CSystem.Int32%2CPhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L334">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnGameEndRpc_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnGameEndRpc*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnGameEndRpc_System_String_System_Int32_System_Int32_PhotonMessageInfo_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnGameEndRpc(System.String,System.Int32,System.Int32,PhotonMessageInfo)">OnGameEndRpc(String, Int32, Int32, PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnGameEndRpc(string raw, int humanScore, int titanScore, PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">raw</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">humanScore</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">titanScore</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnRestart.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnRestart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L212">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnRestart_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnRestart*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnRestart" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnRestart">OnRestart()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnRestart()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEverySecond.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEverySecond%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L118">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEverySecond_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEverySecond*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEverySecond" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEverySecond">OnUpdateEverySecond()</h4>
+  <div class="markdown level1 summary"><p>An IEnumerator which runs every second</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual IEnumerator OnUpdateEverySecond()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEveryTenthSecond.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEveryTenthSecond%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L133">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEveryTenthSecond_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEveryTenthSecond*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_OnUpdateEveryTenthSecond" data-uid="Assets.Scripts.Gamemode.GamemodeBase.OnUpdateEveryTenthSecond">OnUpdateEveryTenthSecond()</h4>
+  <div class="markdown level1 summary"><p>An IEnumerator which runs every tenth of a second (0.1s)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual IEnumerator OnUpdateEveryTenthSecond()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SetStatusTop.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SetStatusTop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L304">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTop_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTop*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTop" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTop">SetStatusTop()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetStatusTop()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopLeft.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopLeft%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L312">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopLeft_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopLeft*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopLeft" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopLeft">SetStatusTopLeft()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetStatusTopLeft()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopRight.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopRight%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L328">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopRight_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopRight*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SetStatusTopRight" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SetStatusTopRight">SetStatusTopRight()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void SetStatusTopRight()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L232">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans(System.Int32)">SpawnTitans(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void SpawnTitans(int amount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">amount</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_System_Func_Assets_Scripts_Characters_Titan_Configuration_TitanConfiguration__.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans(System.Int32%2CSystem.Func%7BAssets.Scripts.Characters.Titan.Configuration.TitanConfiguration%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L237">View Source</a>
+  </span>
+  <a id="Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans*"></a>
+  <h4 id="Assets_Scripts_Gamemode_GamemodeBase_SpawnTitans_System_Int32_System_Func_Assets_Scripts_Characters_Titan_Configuration_TitanConfiguration__" data-uid="Assets.Scripts.Gamemode.GamemodeBase.SpawnTitans(System.Int32,System.Func{Assets.Scripts.Characters.Titan.Configuration.TitanConfiguration})">SpawnTitans(Int32, Func&lt;TitanConfiguration&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void SpawnTitans(int amount, Func&lt;TitanConfiguration&gt; titanConfiguration)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">amount</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="Assets.Scripts.Characters.Titan.Configuration.TitanConfiguration.html">TitanConfiguration</a>&gt;</td>
+        <td><span class="parametername">titanConfiguration</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_Gamemode_GamemodeBase.md&amp;value=---%0Auid%3A%20Assets.Scripts.Gamemode.GamemodeBase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/Gamemode/GamemodeBase.cs/#L23" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,3239 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class FengGameManagerMKII
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class FengGameManagerMKII
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Assets.Scripts.FengGameManagerMKII">
+  
+  
+  <h1 id="Assets_Scripts_FengGameManagerMKII" data-uid="Assets.Scripts.FengGameManagerMKII" class="text-break">Class FengGameManagerMKII
+  </h1>
+  <div class="markdown level0 summary"><p>The Original AoTTG1 god class of 17k+ lines of code! This class used to do literally everything, and still does too much.
+Do not add new code to this class, and rather refactor the logic to a service or a different component.
+This class should eventually only have 2 responsibilities:</p>
+<ol>
+<li>Initializing the Settings</li>
+<li>Loading a level and the respective gamemode</li>
+</ol>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Photon.MonoBehaviour.html">MonoBehaviour</a></div>
+    <div class="level2"><a class="xref" href="Photon.PunBehaviour.html">PunBehaviour</a></div>
+    <div class="level3"><span class="xref">FengGameManagerMKII</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IPunCallbacks</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCreateRoomFailed_System_Object___">PunBehaviour.OnPhotonCreateRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonJoinRoomFailed_System_Object___">PunBehaviour.OnPhotonJoinRoomFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedLobby">PunBehaviour.OnJoinedLobby()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnFailedToConnectToPhoton_DisconnectCause_">PunBehaviour.OnFailedToConnectToPhoton(DisconnectCause)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonInstantiate_PhotonMessageInfo_">PunBehaviour.OnPhotonInstantiate(PhotonMessageInfo)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonRandomJoinFailed_System_Object___">PunBehaviour.OnPhotonRandomJoinFailed(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonCustomRoomPropertiesChanged_ExitGames_Client_Photon_Hashtable_">PunBehaviour.OnPhotonCustomRoomPropertiesChanged(Hashtable)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnUpdatedFriendList">PunBehaviour.OnUpdatedFriendList()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationFailed_System_String_">PunBehaviour.OnCustomAuthenticationFailed(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnWebRpcResponse_ExitGames_Client_Photon_OperationResponse_">PunBehaviour.OnWebRpcResponse(OperationResponse)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipRequest_System_Object___">PunBehaviour.OnOwnershipRequest(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLobbyStatisticsUpdate">PunBehaviour.OnLobbyStatisticsUpdate()</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerActivityChanged_PhotonPlayer_">PunBehaviour.OnPhotonPlayerActivityChanged(PhotonPlayer)</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnOwnershipTransfered_System_Object___">PunBehaviour.OnOwnershipTransfered(Object[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_photonView">MonoBehaviour.photonView</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_observed">MonoBehaviour.observed</a>
+    </div>
+    <div>
+      <a class="xref" href="Photon.MonoBehaviour.html#Photon_MonoBehaviour_networkView">MonoBehaviour.networkView</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Assets.Scripts.html">Assets.Scripts</a></h6>
+  <h6><strong>Assembly</strong>: AoTTG2.Core.dll</h6>
+  <h5 id="Assets_Scripts_FengGameManagerMKII_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class FengGameManagerMKII : PunBehaviour, IPunCallbacks</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_allowedToCannon.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.allowedToCannon%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L45">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_allowedToCannon" data-uid="Assets.Scripts.FengGameManagerMKII.allowedToCannon">allowedToCannon</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Cannon specific logic. Should be moved into a dedicated Cannon manager.&quot;)]
+public Dictionary&lt;int, CannonValues&gt; allowedToCannon</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">CannonValues</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_banHash.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.banHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L48">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_banHash" data-uid="Assets.Scripts.FengGameManagerMKII.banHash">banHash</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Used in AoTTG to handle bans, however this needs to be refactored and possibly partially moved to the photon server&quot;)]
+public static Hashtable banHash</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.Hashtable</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_chatRoom.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.chatRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L51">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_chatRoom" data-uid="Assets.Scripts.FengGameManagerMKII.chatRoom">chatRoom</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;FengGameManager should not have a public InRoomChat variable. This must be made private. Use the ChatService instead to get a reference to InRoomChat.&quot;)]
+public InRoomChat chatRoom</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Room.Chat.InRoomChat.html">InRoomChat</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_checkpoint.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.checkpoint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L54">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_checkpoint" data-uid="Assets.Scripts.FengGameManagerMKII.checkpoint">checkpoint</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Only a Respawn Service or Gamemode should contain knowledge over this&quot;)]
+public GameObject checkpoint</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_currentLevel.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.currentLevel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L57">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_currentLevel" data-uid="Assets.Scripts.FengGameManagerMKII.currentLevel">currentLevel</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy RC scripts are no longer supported in AoTTG2&quot;)]
+public static string currentLevel</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_currentScript.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.currentScript%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L59">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_currentScript" data-uid="Assets.Scripts.FengGameManagerMKII.currentScript">currentScript</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy RC scripts are no longer supported in AoTTG2&quot;)]
+public static string currentScript</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_currentScriptLogic.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.currentScriptLogic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L61">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_currentScriptLogic" data-uid="Assets.Scripts.FengGameManagerMKII.currentScriptLogic">currentScriptLogic</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy RC custom logic is no longer supported in AoTTG2&quot;)]
+public static string currentScriptLogic</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_cyanKills.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.cyanKills%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L63">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_cyanKills" data-uid="Assets.Scripts.FengGameManagerMKII.cyanKills">cyanKills</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate this to a dedicated TeamService&quot;)]
+public int cyanKills</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_groundList.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.groundList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L67">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_groundList" data-uid="Assets.Scripts.FengGameManagerMKII.groundList">groundList</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method&quot;)]
+public List&lt;GameObject&gt; groundList</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">GameObject</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_heroHash.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.heroHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L69">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_heroHash" data-uid="Assets.Scripts.FengGameManagerMKII.heroHash">heroHash</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This is a hashtable which keeps track of every HERO.cs instance. Appears to do the same as 'FengGameManager.heroes' yet no logic happens to this Hashtable other than adding and deleting items.&quot;)]
+public static Hashtable heroHash</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.Hashtable</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_ignoreList.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.ignoreList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L70">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_ignoreList" data-uid="Assets.Scripts.FengGameManagerMKII.ignoreList">ignoreList</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;int&gt; ignoreList</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_imatitan.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.imatitan%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L72">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_imatitan" data-uid="Assets.Scripts.FengGameManagerMKII.imatitan">imatitan</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Hashtable only used for InfectionGamemode. Migrate code to InfectionGamemode&quot;)]
+public static Hashtable imatitan</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.Hashtable</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_InGameUI.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.InGameUI%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L136">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_InGameUI" data-uid="Assets.Scripts.FengGameManagerMKII.InGameUI">InGameUI</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A dirty way to get a reference to the InGameUI. Should use UiService instead of UI references.&quot;)]
+public InGameUi InGameUI</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.UI.InGame.InGameUi.html">InGameUi</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_instance.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.instance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L74">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_instance" data-uid="Assets.Scripts.FengGameManagerMKII.instance">instance</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A static reference to the god class is something we don't want. Avoid introducing new code which makes use of this, and refactor and introduce a new services instead.&quot;)]
+public static FengGameManagerMKII instance</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.FengGameManagerMKII.html">FengGameManagerMKII</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_isRecompiling.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.isRecompiling%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L76">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_isRecompiling" data-uid="Assets.Scripts.FengGameManagerMKII.isRecompiling">isRecompiling</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Used to automatically recompile a player list, yet again, this logic shouldn't be here...&quot;)]
+public bool isRecompiling</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_IsReconnecting.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.IsReconnecting%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L146">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_IsReconnecting" data-uid="Assets.Scripts.FengGameManagerMKII.IsReconnecting">IsReconnecting</h4>
+  <div class="markdown level1 summary"><p>A static accessor to the current Gamemode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsReconnecting</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_isRestarting.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.isRestarting%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L78">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_isRestarting" data-uid="Assets.Scripts.FengGameManagerMKII.isRestarting">isRestarting</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Only used for Cannons. Remove in Issue #75&quot;)]
+public bool isRestarting</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_isUnloading.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.isUnloading%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L80">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_isUnloading" data-uid="Assets.Scripts.FengGameManagerMKII.isUnloading">isUnloading</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Used to schedule as Resources.UnloadUnusedAssets (https://docs.unity3d.com/ScriptReference/Resources.UnloadUnusedAssets.html) after 10s. Do we even need to do this manually? Either way, logic should be moved to classes which required this. &quot;)]
+public bool isUnloading</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_levelCache.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.levelCache%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L84">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_levelCache" data-uid="Assets.Scripts.FengGameManagerMKII.levelCache">levelCache</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy method of keeping track of custom level scripts, which we no longer support&quot;)]
+public List&lt;string[]&gt; levelCache</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>[]&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_linkHash.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.linkHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L85">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_linkHash" data-uid="Assets.Scripts.FengGameManagerMKII.linkHash">linkHash</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Hashtable[] linkHash</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.Hashtable</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_logicLoaded.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.logicLoaded%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L88">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_logicLoaded" data-uid="Assets.Scripts.FengGameManagerMKII.logicLoaded">logicLoaded</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool logicLoaded</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_magentaKills.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.magentaKills%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L90">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_magentaKills" data-uid="Assets.Scripts.FengGameManagerMKII.magentaKills">magentaKills</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate this to a dedicated TeamService&quot;)]
+public int magentaKills</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_masterRC.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.masterRC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L93">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_masterRC" data-uid="Assets.Scripts.FengGameManagerMKII.masterRC">masterRC</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy method which appears to have been used to determine if a client is 'master' RC or not. This would have given special permissions, but the feature is only used within 2 locations and is obviously prone to cheating.&quot;)]
+public static bool masterRC</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_myRespawnTime.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.myRespawnTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L101">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_myRespawnTime" data-uid="Assets.Scripts.FengGameManagerMKII.myRespawnTime">myRespawnTime</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Only a Respawn Service or Gamemode should contain knowledge over this&quot;)]
+public float myRespawnTime</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_needChooseSide.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.needChooseSide%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L103">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_needChooseSide" data-uid="Assets.Scripts.FengGameManagerMKII.needChooseSide">needChooseSide</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A gamemode should decide whether or not a player has to choose between humanity, AHSS or titanity&quot;)]
+public bool needChooseSide</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_noRestart.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.noRestart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L105">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_noRestart" data-uid="Assets.Scripts.FengGameManagerMKII.noRestart">noRestart</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose&quot;)]
+public static bool noRestart</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_oldScript.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.oldScript%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L107">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_oldScript" data-uid="Assets.Scripts.FengGameManagerMKII.oldScript">oldScript</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy RC custom logic is no longer supported in AoTTG2&quot;)]
+public static string oldScript</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_oldScriptLogic.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.oldScriptLogic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L109">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_oldScriptLogic" data-uid="Assets.Scripts.FengGameManagerMKII.oldScriptLogic">oldScriptLogic</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy RC custom logic is no longer supported in AoTTG2&quot;)]
+public static string oldScriptLogic</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnPrivateServer.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnPrivateServer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L111">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnPrivateServer" data-uid="Assets.Scripts.FengGameManagerMKII.OnPrivateServer">OnPrivateServer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This value is always false&quot;)]
+public static bool OnPrivateServer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_playerList.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.playerList%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L112">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_playerList" data-uid="Assets.Scripts.FengGameManagerMKII.playerList">playerList</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string playerList</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_playerSpawnsC.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.playerSpawnsC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L114">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_playerSpawnsC" data-uid="Assets.Scripts.FengGameManagerMKII.playerSpawnsC">playerSpawnsC</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use the class PlayerSpawns instead&quot;)]
+public List&lt;Vector3&gt; playerSpawnsC</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Vector3</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_playerSpawnsM.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.playerSpawnsM%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L116">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_playerSpawnsM" data-uid="Assets.Scripts.FengGameManagerMKII.playerSpawnsM">playerSpawnsM</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use the class PlayerSpawns instead&quot;)]
+public List&lt;Vector3&gt; playerSpawnsM</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Vector3</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_playersRPC.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.playersRPC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L117">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_playersRPC" data-uid="Assets.Scripts.FengGameManagerMKII.playersRPC">playersRPC</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;PhotonPlayer&gt; playersRPC</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">PhotonPlayer</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_PreservedPlayerKDR.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.PreservedPlayerKDR%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L118">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_PreservedPlayerKDR" data-uid="Assets.Scripts.FengGameManagerMKII.PreservedPlayerKDR">PreservedPlayerKDR</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, int[]&gt; PreservedPlayerKDR</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Int32</span>[]&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_PrivateServerAuthPass.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.PrivateServerAuthPass%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L120">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_PrivateServerAuthPass" data-uid="Assets.Scripts.FengGameManagerMKII.PrivateServerAuthPass">PrivateServerAuthPass</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A value is never assigned&quot;)]
+public static string PrivateServerAuthPass</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_racingSpawnPoint.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.racingSpawnPoint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L122">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_racingSpawnPoint" data-uid="Assets.Scripts.FengGameManagerMKII.racingSpawnPoint">racingSpawnPoint</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use RacingGamemode instead&quot;)]
+public Vector3 racingSpawnPoint</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_racingSpawnPointSet.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.racingSpawnPointSet%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L124">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_racingSpawnPointSet" data-uid="Assets.Scripts.FengGameManagerMKII.racingSpawnPointSet">racingSpawnPointSet</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use RacingGamemode instead&quot;)]
+public bool racingSpawnPointSet</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_RcLegacy.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.RcLegacy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L42">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_RcLegacy" data-uid="Assets.Scripts.FengGameManagerMKII.RcLegacy">RcLegacy</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Dirty way of getting some materials. Should be deleted once its dependencies in FengGameManager are resolved&quot;)]
+public RCLegacy RcLegacy</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Legacy.CustomMap.RCLegacy.html">RCLegacy</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_restartCount.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.restartCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L126">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_restartCount" data-uid="Assets.Scripts.FengGameManagerMKII.restartCount">restartCount</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This is only used for the obsolete MasterRC field&quot;)]
+public List&lt;float&gt; restartCount</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Single</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_restartingMC.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.restartingMC%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L127">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_restartingMC" data-uid="Assets.Scripts.FengGameManagerMKII.restartingMC">restartingMC</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool restartingMC</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_s.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.s%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L129">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_s" data-uid="Assets.Scripts.FengGameManagerMKII.s">s</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Hardcoded string. Avoid using this&quot;)]
+public static string[] s</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_settings.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.settings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L131">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_settings" data-uid="Assets.Scripts.FengGameManagerMKII.settings">settings</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A god class array for settings. Move these settings to the classes where they belong&quot;)]
+public static object[] settings</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_skyMaterial.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.skyMaterial%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L132">View Source</a>
+  </span>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_skyMaterial" data-uid="Assets.Scripts.FengGameManagerMKII.skyMaterial">skyMaterial</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Material skyMaterial</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Material</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_Gamemode.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.Gamemode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L147">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_Gamemode_" data-uid="Assets.Scripts.FengGameManagerMKII.Gamemode*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_Gamemode" data-uid="Assets.Scripts.FengGameManagerMKII.Gamemode">Gamemode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static GamemodeBase Gamemode { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Gamemode.GamemodeBase.html">GamemodeBase</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_Level.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.Level%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L151">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_Level_" data-uid="Assets.Scripts.FengGameManagerMKII.Level*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_Level" data-uid="Assets.Scripts.FengGameManagerMKII.Level">Level</h4>
+  <div class="markdown level1 summary"><p>A static accessor to the current loaded Level</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Level Level { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Room.Level.html">Level</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_name.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L133">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_name_" data-uid="Assets.Scripts.FengGameManagerMKII.name*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_name" data-uid="Assets.Scripts.FengGameManagerMKII.name">name</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This is used to assign a name to the HERO, but it shouldn't be within FengGameManager&quot;)]
+public string name { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_NewRoundGamemode.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.NewRoundGamemode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L160">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_NewRoundGamemode_" data-uid="Assets.Scripts.FengGameManagerMKII.NewRoundGamemode*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_NewRoundGamemode" data-uid="Assets.Scripts.FengGameManagerMKII.NewRoundGamemode">NewRoundGamemode</h4>
+  <div class="markdown level1 summary"><p>A static accessor to the Gamemode settings that should be loaded on a new round</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static GamemodeSettings NewRoundGamemode { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Settings.Gamemodes.GamemodeSettings.html">GamemodeSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_NewRoundLevel.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.NewRoundLevel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L156">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_NewRoundLevel_" data-uid="Assets.Scripts.FengGameManagerMKII.NewRoundLevel*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_NewRoundLevel" data-uid="Assets.Scripts.FengGameManagerMKII.NewRoundLevel">NewRoundLevel</h4>
+  <div class="markdown level1 summary"><p>A static accessor to the Level that should be loaded on a new round</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Level NewRoundLevel { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Room.Level.html">Level</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_SpawnService.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.SpawnService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L38">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_SpawnService_" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnService*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_SpawnService" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnService">SpawnService</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ISpawnService SpawnService { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Services.Interface.ISpawnService.html">ISpawnService</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_addCamera_IN_GAME_MAIN_CAMERA_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.addCamera(IN_GAME_MAIN_CAMERA)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L668">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_addCamera_" data-uid="Assets.Scripts.FengGameManagerMKII.addCamera*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_addCamera_IN_GAME_MAIN_CAMERA_" data-uid="Assets.Scripts.FengGameManagerMKII.addCamera(IN_GAME_MAIN_CAMERA)">addCamera(IN_GAME_MAIN_CAMERA)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.&quot;)]
+public void addCamera(IN_GAME_MAIN_CAMERA c)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IN_GAME_MAIN_CAMERA</span></td>
+        <td><span class="parametername">c</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_Chat_System_String_System_String_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.Chat(System.String%2CSystem.String%2CPhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L695">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_Chat_" data-uid="Assets.Scripts.FengGameManagerMKII.Chat*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_Chat_System_String_System_String_PhotonMessageInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.Chat(System.String,System.String,PhotonMessageInfo)">Chat(String, String, PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This is a responsibility for the InRoomChat.&quot;)]
+public void Chat(string content, string sender, PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sender</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_ChatPM_System_String_System_String_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.ChatPM(System.String%2CSystem.String%2CPhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L707">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_ChatPM_" data-uid="Assets.Scripts.FengGameManagerMKII.ChatPM*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_ChatPM_System_String_System_String_PhotonMessageInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.ChatPM(System.String,System.String,PhotonMessageInfo)">ChatPM(String, String, PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This is a responsibility for the InRoomChat.&quot;)]
+public void ChatPM(string sender, string content, PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sender</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_DestroyAllExistingCloths.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.DestroyAllExistingCloths%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L1057">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_DestroyAllExistingCloths_" data-uid="Assets.Scripts.FengGameManagerMKII.DestroyAllExistingCloths*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_DestroyAllExistingCloths" data-uid="Assets.Scripts.FengGameManagerMKII.DestroyAllExistingCloths">DestroyAllExistingCloths()</h4>
+  <div class="markdown level1 summary"><p>Will look for all Cloth objects and try to dispose them via the <a class="xref" href="Assets.Scripts.Characters.Humans.ClothFactory.html#Assets_Scripts_Characters_Humans_ClothFactory_DisposeObject_GameObject_">DisposeObject(GameObject)</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DestroyAllExistingCloths()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_kickPlayerRC_PhotonPlayer_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.kickPlayerRC(PhotonPlayer%2CSystem.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L1192">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_kickPlayerRC_" data-uid="Assets.Scripts.FengGameManagerMKII.kickPlayerRC*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_kickPlayerRC_PhotonPlayer_System_Boolean_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.kickPlayerRC(PhotonPlayer,System.Boolean,System.String)">kickPlayerRC(PhotonPlayer, Boolean, String)</h4>
+  <div class="markdown level1 summary"><p>A way too complicated method on how to kick a player, yet this was neccesary in AoTTG1. In AoTTG2, a kick will be enforced via the Photon Server.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Kicking a player is simplified with the Photon Server&quot;)]
+public void kickPlayerRC(PhotonPlayer player, bool ban, string reason)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ban</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">reason</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_netShowDamage_System_Int32_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.netShowDamage(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2208">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_netShowDamage_" data-uid="Assets.Scripts.FengGameManagerMKII.netShowDamage*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_netShowDamage_System_Int32_" data-uid="Assets.Scripts.FengGameManagerMKII.netShowDamage(System.Int32)">netShowDamage(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A RPC which is used to display the damage that was done to an enemy, yet UI related logic shouldn't be in this class. Move to UI classes.&quot;)]
+public void netShowDamage(int damage)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">damage</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayer_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayer(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2215">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayer*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayer_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayer(System.String)">NOTSpawnPlayer(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use RespawnService instead&quot;)]
+public void NOTSpawnPlayer(string id = &quot;2&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayerRC_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayerRC(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2233">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayerRC_" data-uid="Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayerRC*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_NOTSpawnPlayerRC_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.NOTSpawnPlayerRC(System.String)">NOTSpawnPlayerRC(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use RespawnService instead&quot;)]
+public void NOTSpawnPlayerRC(string id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnConnectedToMaster.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnConnectedToMaster%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L171">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnConnectedToMaster_" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectedToMaster*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnConnectedToMaster" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectedToMaster">OnConnectedToMaster()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnConnectedToMaster()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToMaster">PunBehaviour.OnConnectedToMaster()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnConnectedToPhoton.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnConnectedToPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L176">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnConnectedToPhoton_" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectedToPhoton*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnConnectedToPhoton" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectedToPhoton">OnConnectedToPhoton()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnConnectedToPhoton()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectedToPhoton">PunBehaviour.OnConnectedToPhoton()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnConnectionFail_DisconnectCause_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnConnectionFail(DisconnectCause)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L181">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnConnectionFail_" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectionFail*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnConnectionFail_DisconnectCause_" data-uid="Assets.Scripts.FengGameManagerMKII.OnConnectionFail(DisconnectCause)">OnConnectionFail(DisconnectCause)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnConnectionFail(DisconnectCause cause)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DisconnectCause</span></td>
+        <td><span class="parametername">cause</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnConnectionFail_DisconnectCause_">PunBehaviour.OnConnectionFail(DisconnectCause)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnCreatedRoom.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnCreatedRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L193">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnCreatedRoom_" data-uid="Assets.Scripts.FengGameManagerMKII.OnCreatedRoom*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnCreatedRoom" data-uid="Assets.Scripts.FengGameManagerMKII.OnCreatedRoom">OnCreatedRoom()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnCreatedRoom()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCreatedRoom">PunBehaviour.OnCreatedRoom()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnCustomAuthenticationResponse(System.Collections.Generic.Dictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L430">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnCustomAuthenticationResponse_" data-uid="Assets.Scripts.FengGameManagerMKII.OnCustomAuthenticationResponse*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="Assets.Scripts.FengGameManagerMKII.OnCustomAuthenticationResponse(System.Collections.Generic.Dictionary{System.String,System.Object})">OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnCustomAuthenticationResponse(Dictionary&lt;string, object&gt; data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnCustomAuthenticationResponse_System_Collections_Generic_Dictionary_System_String_System_Object__">PunBehaviour.OnCustomAuthenticationResponse(Dictionary&lt;String, Object&gt;)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnDisconnectedFromPhoton.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnDisconnectedFromPhoton%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L198">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnDisconnectedFromPhoton_" data-uid="Assets.Scripts.FengGameManagerMKII.OnDisconnectedFromPhoton*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnDisconnectedFromPhoton" data-uid="Assets.Scripts.FengGameManagerMKII.OnDisconnectedFromPhoton">OnDisconnectedFromPhoton()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnDisconnectedFromPhoton()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnDisconnectedFromPhoton">PunBehaviour.OnDisconnectedFromPhoton()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnJoinedRoom.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnJoinedRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L219">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnJoinedRoom_" data-uid="Assets.Scripts.FengGameManagerMKII.OnJoinedRoom*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnJoinedRoom" data-uid="Assets.Scripts.FengGameManagerMKII.OnJoinedRoom">OnJoinedRoom()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnJoinedRoom()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnJoinedRoom">PunBehaviour.OnJoinedRoom()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnLeftLobby.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnLeftLobby%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L278">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnLeftLobby_" data-uid="Assets.Scripts.FengGameManagerMKII.OnLeftLobby*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnLeftLobby" data-uid="Assets.Scripts.FengGameManagerMKII.OnLeftLobby">OnLeftLobby()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnLeftLobby()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftLobby">PunBehaviour.OnLeftLobby()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnLeftRoom.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnLeftRoom%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L283">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnLeftRoom_" data-uid="Assets.Scripts.FengGameManagerMKII.OnLeftRoom*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnLeftRoom" data-uid="Assets.Scripts.FengGameManagerMKII.OnLeftRoom">OnLeftRoom()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnLeftRoom()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnLeftRoom">PunBehaviour.OnLeftRoom()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnMasterClientSwitched_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnMasterClientSwitched(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L288">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnMasterClientSwitched_" data-uid="Assets.Scripts.FengGameManagerMKII.OnMasterClientSwitched*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnMasterClientSwitched_PhotonPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.OnMasterClientSwitched(PhotonPlayer)">OnMasterClientSwitched(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">newMasterClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnMasterClientSwitched_PhotonPlayer_">PunBehaviour.OnMasterClientSwitched(PhotonPlayer)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnPhotonMaxCccuReached.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnPhotonMaxCccuReached%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L312">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnPhotonMaxCccuReached_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonMaxCccuReached*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnPhotonMaxCccuReached" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonMaxCccuReached">OnPhotonMaxCccuReached()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnPhotonMaxCccuReached()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonMaxCccuReached">PunBehaviour.OnPhotonMaxCccuReached()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerConnected_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerConnected(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L317">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerConnected_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerConnected*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerConnected_PhotonPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerConnected(PhotonPlayer)">OnPhotonPlayerConnected(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnPhotonPlayerConnected(PhotonPlayer player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerConnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerConnected(PhotonPlayer)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerDisconnected_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerDisconnected(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L352">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerDisconnected_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerDisconnected*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerDisconnected_PhotonPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerDisconnected(PhotonPlayer)">OnPhotonPlayerDisconnected(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnPhotonPlayerDisconnected(PhotonPlayer player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerDisconnected_PhotonPlayer_">PunBehaviour.OnPhotonPlayerDisconnected(PhotonPlayer)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerPropertiesChanged_System_Object___.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerPropertiesChanged(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L376">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerPropertiesChanged_" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerPropertiesChanged*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnPhotonPlayerPropertiesChanged_System_Object___" data-uid="Assets.Scripts.FengGameManagerMKII.OnPhotonPlayerPropertiesChanged(System.Object[])">OnPhotonPlayerPropertiesChanged(Object[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">playerAndUpdatedProps</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnPhotonPlayerPropertiesChanged_System_Object___">PunBehaviour.OnPhotonPlayerPropertiesChanged(Object[])</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnReceivedRoomListUpdate.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnReceivedRoomListUpdate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L428">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnReceivedRoomListUpdate_" data-uid="Assets.Scripts.FengGameManagerMKII.OnReceivedRoomListUpdate*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnReceivedRoomListUpdate" data-uid="Assets.Scripts.FengGameManagerMKII.OnReceivedRoomListUpdate">OnReceivedRoomListUpdate()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnReceivedRoomListUpdate()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Photon.PunBehaviour.html#Photon_PunBehaviour_OnReceivedRoomListUpdate">PunBehaviour.OnReceivedRoomListUpdate()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_OnRoomSettingsInitialized.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.OnRoomSettingsInitialized%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L617">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_OnRoomSettingsInitialized_" data-uid="Assets.Scripts.FengGameManagerMKII.OnRoomSettingsInitialized*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_OnRoomSettingsInitialized" data-uid="Assets.Scripts.FengGameManagerMKII.OnRoomSettingsInitialized">OnRoomSettingsInitialized()</h4>
+  <div class="markdown level1 summary"><p>Activates Endless Respawn when the settings where changed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;This handled the 'OnRoomSettingsChanged' event, however, Gamemode specific logic should this be moved to the gamemode classes&quot;)]
+public void OnRoomSettingsInitialized()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_playerKillInfoUpdate_PhotonPlayer_System_Int32_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.playerKillInfoUpdate(PhotonPlayer%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2251">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_playerKillInfoUpdate_" data-uid="Assets.Scripts.FengGameManagerMKII.playerKillInfoUpdate*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_playerKillInfoUpdate_PhotonPlayer_System_Int32_" data-uid="Assets.Scripts.FengGameManagerMKII.playerKillInfoUpdate(PhotonPlayer,System.Int32)">playerKillInfoUpdate(PhotonPlayer, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;AoTTG1's way of handling player stats. Whereas the concept itself is fine, this needs to be part of the HERO classes, not the GameManager.&quot;)]
+public void playerKillInfoUpdate(PhotonPlayer player, int dmg)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">dmg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_RecompilePlayerList_System_Single_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.RecompilePlayerList(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2265">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_RecompilePlayerList_" data-uid="Assets.Scripts.FengGameManagerMKII.RecompilePlayerList*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_RecompilePlayerList_System_Single_" data-uid="Assets.Scripts.FengGameManagerMKII.RecompilePlayerList(System.Single)">RecompilePlayerList(Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;UI logic should be within UI classes.&quot;)]
+public void RecompilePlayerList(float time)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">time</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_reloadSky.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.reloadSky%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2275">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_reloadSky_" data-uid="Assets.Scripts.FengGameManagerMKII.reloadSky*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_reloadSky" data-uid="Assets.Scripts.FengGameManagerMKII.reloadSky">reloadSky()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Was used to replace the skybox, but we can do something better.&quot;)]
+public IEnumerator reloadSky()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_respawnHeroInNewRound.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.respawnHeroInNewRound%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2357">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_respawnHeroInNewRound_" data-uid="Assets.Scripts.FengGameManagerMKII.respawnHeroInNewRound*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_respawnHeroInNewRound" data-uid="Assets.Scripts.FengGameManagerMKII.respawnHeroInNewRound">respawnHeroInNewRound()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Move into a RespawnService&quot;)]
+public void respawnHeroInNewRound()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_RespawnRpc_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.RespawnRpc(PhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2314">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_RespawnRpc_" data-uid="Assets.Scripts.FengGameManagerMKII.RespawnRpc*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_RespawnRpc_PhotonMessageInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.RespawnRpc(PhotonMessageInfo)">RespawnRpc(PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Move into a RespawnService&quot;)]
+public void RespawnRpc(PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_restartGame2_System_Boolean_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.restartGame2(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2368">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_restartGame2_" data-uid="Assets.Scripts.FengGameManagerMKII.restartGame2*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_restartGame2_System_Boolean_" data-uid="Assets.Scripts.FengGameManagerMKII.restartGame2(System.Boolean)">restartGame2(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;AoTTG's way of handling a game restart, not used in AoTTG2 anymore.&quot;)]
+public void restartGame2(bool masterclientSwitched = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">masterclientSwitched</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_RestartRound.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.RestartRound%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L564">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_RestartRound_" data-uid="Assets.Scripts.FengGameManagerMKII.RestartRound*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_RestartRound" data-uid="Assets.Scripts.FengGameManagerMKII.RestartRound">RestartRound()</h4>
+  <div class="markdown level1 summary"><p>Restarts the room to start a new round If a new level or gamemode was setup by the MC, additional steps will be taken to replace these settings and load the new level.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RestartRound()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_sendChatContentInfo_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.sendChatContentInfo(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2387">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_sendChatContentInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.sendChatContentInfo*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_sendChatContentInfo_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.sendChatContentInfo(System.String)">sendChatContentInfo(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Make use directly of the InRoomChat RPCs.&quot;)]
+public void sendChatContentInfo(string content)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_sendKillInfo_System_Boolean_System_String_System_Boolean_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.sendKillInfo(System.Boolean%2CSystem.String%2CSystem.Boolean%2CSystem.String%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2394">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_sendKillInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.sendKillInfo*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_sendKillInfo_System_Boolean_System_String_System_Boolean_System_String_System_Int32_" data-uid="Assets.Scripts.FengGameManagerMKII.sendKillInfo(System.Boolean,System.String,System.Boolean,System.String,System.Int32)">sendKillInfo(Boolean, String, Boolean, String, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;UI logic needs to be within UI classes&quot;)]
+public void sendKillInfo(bool t1, string killer, bool t2, string victim, int dmg = 0)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">t1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">killer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">t2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">victim</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">dmg</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_ServerCloseConnection_PhotonPlayer_System_Boolean_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.ServerCloseConnection(PhotonPlayer%2CSystem.Boolean%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2401">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_ServerCloseConnection_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerCloseConnection*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_ServerCloseConnection_PhotonPlayer_System_Boolean_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerCloseConnection(PhotonPlayer,System.Boolean,System.String)">ServerCloseConnection(PhotonPlayer, Boolean, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;AoTTG required several work around in order to actually kick users, with the authorative Photon Server this will no longer be needed.&quot;)]
+public static void ServerCloseConnection(PhotonPlayer targetPlayer, bool requestIpBan, string inGameName = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">targetPlayer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">requestIpBan</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">inGameName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_ServerRequestAuthentication_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.ServerRequestAuthentication(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2424">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_ServerRequestAuthentication_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerRequestAuthentication*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_ServerRequestAuthentication_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerRequestAuthentication(System.String)">ServerRequestAuthentication(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A custom Photon Event to pass a password to a Photon Server. I don't believe that the Photon Server currently supports this?&quot;)]
+public static void ServerRequestAuthentication(string authPassword)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">authPassword</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_ServerRequestUnban_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.ServerRequestUnban(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2435">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_ServerRequestUnban_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerRequestUnban*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_ServerRequestUnban_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.ServerRequestUnban(System.String)">ServerRequestUnban(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;AoTTG required several work around in order to actually kick users, with the authorative Photon Server this will no longer be needed.&quot;)]
+public static void ServerRequestUnban(string bannedAddress)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">bannedAddress</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_SetLevelAndGamemode.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.SetLevelAndGamemode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L477">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_SetLevelAndGamemode_" data-uid="Assets.Scripts.FengGameManagerMKII.SetLevelAndGamemode*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_SetLevelAndGamemode" data-uid="Assets.Scripts.FengGameManagerMKII.SetLevelAndGamemode">SetLevelAndGamemode()</h4>
+  <div class="markdown level1 summary"><p>Retrieves and sets the current Level and Gamemode from the <span class="xref">PhotonNetwork.room</span>. Used by new players who just joined the room</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetLevelAndGamemode()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_setTeamRPC_System_Int32_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.setTeamRPC(System.Int32%2CPhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2531">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_setTeamRPC_" data-uid="Assets.Scripts.FengGameManagerMKII.setTeamRPC*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_setTeamRPC_System_Int32_PhotonMessageInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.setTeamRPC(System.Int32,PhotonMessageInfo)">setTeamRPC(Int32, PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate to TeamService&quot;)]
+public void setTeamRPC(int setting, PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">setting</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_SpawnPlayer_System_String_System_String_Assets_Scripts_Characters_Humans_Customization_CharacterPreset_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.SpawnPlayer(System.String%2CSystem.String%2CAssets.Scripts.Characters.Humans.Customization.CharacterPreset)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2558">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_SpawnPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnPlayer*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_SpawnPlayer_System_String_System_String_Assets_Scripts_Characters_Humans_Customization_CharacterPreset_" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnPlayer(System.String,System.String,Assets.Scripts.Characters.Humans.Customization.CharacterPreset)">SpawnPlayer(String, String, CharacterPreset)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate into a SpawnService&quot;)]
+public void SpawnPlayer(string id, string tag = &quot;playerRespawn&quot;, CharacterPreset preset = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">tag</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Humans.Customization.CharacterPreset.html">CharacterPreset</a></td>
+        <td><span class="parametername">preset</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_SpawnPlayerAt2_System_String_GameObject_Assets_Scripts_Characters_Humans_Customization_CharacterPreset_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.SpawnPlayerAt2(System.String%2CGameObject%2CAssets.Scripts.Characters.Humans.Customization.CharacterPreset)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2570">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_SpawnPlayerAt2_" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnPlayerAt2*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_SpawnPlayerAt2_System_String_GameObject_Assets_Scripts_Characters_Humans_Customization_CharacterPreset_" data-uid="Assets.Scripts.FengGameManagerMKII.SpawnPlayerAt2(System.String,GameObject,Assets.Scripts.Characters.Humans.Customization.CharacterPreset)">SpawnPlayerAt2(String, GameObject, CharacterPreset)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate into a SpawnService&quot;)]
+public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td><span class="parametername">pos</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Assets.Scripts.Characters.Humans.Customization.CharacterPreset.html">CharacterPreset</a></td>
+        <td><span class="parametername">preset</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_titanGetKill_PhotonPlayer_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.titanGetKill(PhotonPlayer%2CSystem.Int32%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2644">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_titanGetKill_" data-uid="Assets.Scripts.FengGameManagerMKII.titanGetKill*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_titanGetKill_PhotonPlayer_System_Int32_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.titanGetKill(PhotonPlayer,System.Int32,System.String)">titanGetKill(PhotonPlayer, Int32, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;UI logic should be placed in UI classes&quot;)]
+public void titanGetKill(PhotonPlayer player, int Damage, string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">Damage</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_unloadAssets.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.unloadAssets%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2657">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_unloadAssets_" data-uid="Assets.Scripts.FengGameManagerMKII.unloadAssets*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_unloadAssets" data-uid="Assets.Scripts.FengGameManagerMKII.unloadAssets">unloadAssets()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Calls Resources.UnloadedUnusedAssets after 10 seconds, probably this was required due to how inefficient AoTTG is, not sure if this is still needed.&quot;)]
+public void unloadAssets()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_unloadAssetsE_System_Single_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.unloadAssetsE(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2667">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_unloadAssetsE_" data-uid="Assets.Scripts.FengGameManagerMKII.unloadAssetsE*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_unloadAssetsE_System_Single_" data-uid="Assets.Scripts.FengGameManagerMKII.unloadAssetsE(System.Single)">unloadAssetsE(Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;The enumerator for unloadAssets, but the same concept.&quot;)]
+public IEnumerator unloadAssetsE(float time)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">time</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_verifyPlayerHasLeft_System_Int32_PhotonMessageInfo_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.verifyPlayerHasLeft(System.Int32%2CPhotonMessageInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2715">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_verifyPlayerHasLeft_" data-uid="Assets.Scripts.FengGameManagerMKII.verifyPlayerHasLeft*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_verifyPlayerHasLeft_System_Int32_PhotonMessageInfo_" data-uid="Assets.Scripts.FengGameManagerMKII.verifyPlayerHasLeft(System.Int32,PhotonMessageInfo)">verifyPlayerHasLeft(Int32, PhotonMessageInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;It adds a player ID to a banHash, yet this is no longer required as for AoTTG2 we have an authorative Photon Server which can deal with bans.&quot;)]
+public void verifyPlayerHasLeft(int ID, PhotonMessageInfo info)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">ID</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">PhotonMessageInfo</span></td>
+        <td><span class="parametername">info</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_WaitAndRecompilePlayerList_System_Single_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.WaitAndRecompilePlayerList(System.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L2728">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_WaitAndRecompilePlayerList_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRecompilePlayerList*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_WaitAndRecompilePlayerList_System_Single_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRecompilePlayerList(System.Single)">WaitAndRecompilePlayerList(Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;A way too complicated, and extremely inefficient way to generate a player list. Should be moved to the respective UI class and refactored (Using StringBuilder for massive performance improvements)&quot;)]
+public IEnumerator WaitAndRecompilePlayerList(float time)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">time</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_WaitAndReloadKDR_PhotonPlayer_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.WaitAndReloadKDR(PhotonPlayer)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L3239">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_WaitAndReloadKDR_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndReloadKDR*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_WaitAndReloadKDR_PhotonPlayer_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndReloadKDR(PhotonPlayer)">WaitAndReloadKDR(PhotonPlayer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;AoTTG code on how to re-add player properties after they disconnected.&quot;)]
+public IEnumerator WaitAndReloadKDR(PhotonPlayer player)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">PhotonPlayer</span></td>
+        <td><span class="parametername">player</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_WaitAndResetRestarts.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.WaitAndResetRestarts%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L3257">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_WaitAndResetRestarts_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndResetRestarts*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_WaitAndResetRestarts" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndResetRestarts">WaitAndResetRestarts()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Legacy method for a restart&quot;)]
+public IEnumerator WaitAndResetRestarts()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_WaitAndRespawn1_System_Single_System_String_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.WaitAndRespawn1(System.Single%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L3264">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_WaitAndRespawn1_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRespawn1*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_WaitAndRespawn1_System_Single_System_String_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRespawn1(System.Single,System.String)">WaitAndRespawn1(Single, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate into a SpawnService&quot;)]
+public IEnumerator WaitAndRespawn1(float time, string str)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">time</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">str</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII_WaitAndRespawn2_System_Single_GameObject_.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII.WaitAndRespawn2(System.Single%2CGameObject)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L3271">View Source</a>
+  </span>
+  <a id="Assets_Scripts_FengGameManagerMKII_WaitAndRespawn2_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRespawn2*"></a>
+  <h4 id="Assets_Scripts_FengGameManagerMKII_WaitAndRespawn2_System_Single_GameObject_" data-uid="Assets.Scripts.FengGameManagerMKII.WaitAndRespawn2(System.Single,GameObject)">WaitAndRespawn2(Single, GameObject)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Migrate into a SpawnService&quot;)]
+public IEnumerator WaitAndRespawn2(float time, GameObject pos)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">time</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">GameObject</span></td>
+        <td><span class="parametername">pos</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IPunCallbacks</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Assets_Scripts_FengGameManagerMKII.md&amp;value=---%0Auid%3A%20Assets.Scripts.FengGameManagerMKII%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/Scripts/FengGameManagerMKII.cs/#L36" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

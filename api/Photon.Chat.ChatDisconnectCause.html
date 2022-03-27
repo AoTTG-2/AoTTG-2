@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enum ChatDisconnectCause
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enum ChatDisconnectCause
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.Chat.ChatDisconnectCause">
+  
+  
+  <h1 id="Photon_Chat_ChatDisconnectCause" data-uid="Photon.Chat.ChatDisconnectCause" class="text-break">Enum ChatDisconnectCause
+  </h1>
+  <div class="markdown level0 summary"><p>Enumeration of causes for Disconnects (used in <a class="xref" href="Photon.Chat.ChatClient.html#Photon_Chat_ChatClient_DisconnectedCause">DisconnectedCause</a>).</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.Chat.html">Photon.Chat</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="Photon_Chat_ChatDisconnectCause_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public enum ChatDisconnectCause</code></pre>
+  </div>
+  <h5 id="Photon_Chat_ChatDisconnectCause_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Read the individual descriptions to find out what to do about this type of disconnect.</p>
+</div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_CustomAuthenticationFailed">CustomAuthenticationFailed</td>
+        <td><p>OnOperationResponse: Authenticate in the Photon Cloud with invalid client values or custom authentication setup in Cloud Dashboard.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_DisconnectByServer">DisconnectByServer</td>
+        <td><p>OnStatusChanged: The server disconnected this client. Most likely the server&apos;s send buffer is full (receiving too much from other clients).</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_DisconnectByServerUserLimit">DisconnectByServerUserLimit</td>
+        <td><p>OnStatusChanged: The CCUs count of your Photon Server License is exhausted (temporarily).</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_Exception">Exception</td>
+        <td><p>OnStatusChanged: Some internal exception caused the socket code to fail. Contact Exit Games.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_ExceptionOnConnect">ExceptionOnConnect</td>
+        <td><p>OnStatusChanged: The server is not available or the address is wrong. Make sure the port is provided and the server is up.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_InvalidAuthentication">InvalidAuthentication</td>
+        <td><p>OnOperationResponse: Authenticate in the Photon Cloud with invalid AppId. Update your subscription or contact Exit Games.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_InvalidRegion">InvalidRegion</td>
+        <td><p>OnOperationResponse: Authenticate when the app&apos;s Photon Cloud subscription is locked to some (other) region(s). Update your subscription or change region.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_MaxCcuReached">MaxCcuReached</td>
+        <td><p>OnOperationResponse: Authenticate (temporarily) failed when using a Photon Cloud subscription without CCU Burst. Update your subscription.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_None">None</td>
+        <td><p>No error was tracked.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_OperationNotAllowedInCurrentState">OperationNotAllowedInCurrentState</td>
+        <td><p>OnOperationResponse: Operation that&apos;s (currently) not available for this client (not authorized usually). Only tracked for op Authenticate.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Photon_Chat_ChatDisconnectCause_TimeoutDisconnect">TimeoutDisconnect</td>
+        <td><p>OnStatusChanged: This client detected that the server&apos;s responses are not received in due time. Maybe you send / receive too much?</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Assets.Scripts.Extensions.ComparableExtensions.html#Assets_Scripts_Extensions_ComparableExtensions_Between__1___0___0___0_">ComparableExtensions.Between&lt;ChatDisconnectCause&gt;(ChatDisconnectCause, ChatDisconnectCause)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_ChatDisconnectCause.md&amp;value=---%0Auid%3A%20Photon.Chat.ChatDisconnectCause%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatDisconnectCause.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

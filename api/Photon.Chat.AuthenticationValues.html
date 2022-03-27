@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AuthenticationValues
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AuthenticationValues
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.Chat.AuthenticationValues">
+  
+  
+  <h1 id="Photon_Chat_AuthenticationValues" data-uid="Photon.Chat.AuthenticationValues" class="text-break">Class AuthenticationValues
+  </h1>
+  <div class="markdown level0 summary"><p>Container for user authentication in Photon. Set AuthValues before you connect - all else is handled.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">AuthenticationValues</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.Chat.html">Photon.Chat</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="Photon_Chat_AuthenticationValues_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AuthenticationValues</code></pre>
+  </div>
+  <h5 id="Photon_Chat_AuthenticationValues_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>On Photon, user authentication is optional but can be useful in many cases.
+If you want to FindFriends, a unique ID per user is very practical.</p>
+<p>There are basically three options for user authentification: None at all, the client sets some UserId
+or you can use some account web-service to authenticate a user (and set the UserId server-side).</p>
+<p>Custom Authentication lets you verify end-users by some kind of login or token. It sends those
+values to Photon which will verify them before granting access or disconnecting the client.</p>
+<p>The Photon Cloud Dashboard will let you enable this feature and set important server values for it.
+<a href="https://dashboard.photonengine.com">https://dashboard.photonengine.com</a></p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues__ctor.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L263">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues__ctor_" data-uid="Photon.Chat.AuthenticationValues.#ctor*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues__ctor" data-uid="Photon.Chat.AuthenticationValues.#ctor">AuthenticationValues()</h4>
+  <div class="markdown level1 summary"><p>Creates empty auth values without any info.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AuthenticationValues()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues__ctor_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L269">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues__ctor_" data-uid="Photon.Chat.AuthenticationValues.#ctor*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues__ctor_System_String_" data-uid="Photon.Chat.AuthenticationValues.#ctor(System.String)">AuthenticationValues(String)</h4>
+  <div class="markdown level1 summary"><p>Creates minimal info about the user. If this is authenticated or not, depends on the set AuthType.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AuthenticationValues(string userId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td><p>Some UserId to set in Photon.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_AuthGetParameters.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.AuthGetParameters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L249">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_AuthGetParameters_" data-uid="Photon.Chat.AuthenticationValues.AuthGetParameters*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_AuthGetParameters" data-uid="Photon.Chat.AuthenticationValues.AuthGetParameters">AuthGetParameters</h4>
+  <div class="markdown level1 summary"><p>This string must contain any (http get) parameters expected by the used authentication service. By default, username and token.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string AuthGetParameters { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_AuthenticationValues_AuthGetParameters_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Maps to operation parameter 216.
+Standard http get parameters are used here and passed on to the service that&apos;s defined in the server (Photon Cloud Dashboard).</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_AuthPostData.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.AuthPostData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L253">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_AuthPostData_" data-uid="Photon.Chat.AuthenticationValues.AuthPostData*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_AuthPostData" data-uid="Photon.Chat.AuthenticationValues.AuthPostData">AuthPostData</h4>
+  <div class="markdown level1 summary"><p>Data to be passed-on to the auth service via POST. Default: null (not sent). Either string or byte[] (see setters).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object AuthPostData { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_AuthenticationValues_AuthPostData_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Maps to operation parameter 214.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_AuthType.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.AuthType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L239">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_AuthType_" data-uid="Photon.Chat.AuthenticationValues.AuthType*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_AuthType" data-uid="Photon.Chat.AuthenticationValues.AuthType">AuthType</h4>
+  <div class="markdown level1 summary"><p>The type of custom authentication provider that should be used. Currently only &quot;Custom&quot; or &quot;None&quot; (turns this off).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CustomAuthenticationType AuthType { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.CustomAuthenticationType.html">CustomAuthenticationType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_Token.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.Token%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L256">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_Token_" data-uid="Photon.Chat.AuthenticationValues.Token*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_Token" data-uid="Photon.Chat.AuthenticationValues.Token">Token</h4>
+  <div class="markdown level1 summary"><p>After initial authentication, Photon provides a token for this client / user, which is subsequently used as (cached) validation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Token { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_UserId.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.UserId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L259">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_UserId_" data-uid="Photon.Chat.AuthenticationValues.UserId*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_UserId" data-uid="Photon.Chat.AuthenticationValues.UserId">UserId</h4>
+  <div class="markdown level1 summary"><p>The UserId should be a unique identifier per user. This is for finding friends, etc..</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string UserId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_AddAuthParameter_System_String_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.AddAuthParameter(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L292">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_AddAuthParameter_" data-uid="Photon.Chat.AuthenticationValues.AddAuthParameter*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_AddAuthParameter_System_String_System_String_" data-uid="Photon.Chat.AuthenticationValues.AddAuthParameter(System.String,System.String)">AddAuthParameter(String, String)</h4>
+  <div class="markdown level1 summary"><p>Adds a key-value pair to the get-parameters used for Custom Auth (AuthGetParameters).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void AddAuthParameter(string key, string value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">key</span></td>
+        <td><p>Key for the value to set.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>Some value relevant for Custom Authentication.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_AuthenticationValues_AddAuthParameter_System_String_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This method does uri-encoding for you.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_SetAuthPostData_System_Byte___.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.SetAuthPostData(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L283">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_SetAuthPostData_" data-uid="Photon.Chat.AuthenticationValues.SetAuthPostData*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_SetAuthPostData_System_Byte___" data-uid="Photon.Chat.AuthenticationValues.SetAuthPostData(System.Byte[])">SetAuthPostData(Byte[])</h4>
+  <div class="markdown level1 summary"><p>Sets the data to be passed-on to the auth service via POST.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void SetAuthPostData(byte[] byteData)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">byteData</span></td>
+        <td><p>Binary token / auth-data to pass on.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_SetAuthPostData_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.SetAuthPostData(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L276">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_SetAuthPostData_" data-uid="Photon.Chat.AuthenticationValues.SetAuthPostData*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_SetAuthPostData_System_String_" data-uid="Photon.Chat.AuthenticationValues.SetAuthPostData(System.String)">SetAuthPostData(String)</h4>
+  <div class="markdown level1 summary"><p>Sets the data to be passed-on to the auth service via POST.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void SetAuthPostData(string stringData)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">stringData</span></td>
+        <td><p>String data to be used in the body of the POST request. Null or empty string will set AuthPostData to null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues_ToString.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L301">View Source</a>
+  </span>
+  <a id="Photon_Chat_AuthenticationValues_ToString_" data-uid="Photon.Chat.AuthenticationValues.ToString*"></a>
+  <h4 id="Photon_Chat_AuthenticationValues_ToString" data-uid="Photon.Chat.AuthenticationValues.ToString">ToString()</h4>
+  <div class="markdown level1 summary"><p>Transform this object into string.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>string representation of this object.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_AuthenticationValues.md&amp;value=---%0Auid%3A%20Photon.Chat.AuthenticationValues%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/ChatPeer.cs/#L233" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

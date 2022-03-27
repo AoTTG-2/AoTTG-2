@@ -1,0 +1,544 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IChatClientListener
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IChatClientListener
+   ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Photon.Chat.IChatClientListener">
+  
+  
+  <h1 id="Photon_Chat_IChatClientListener" data-uid="Photon.Chat.IChatClientListener" class="text-break">Interface IChatClientListener
+  </h1>
+  <div class="markdown level0 summary"><p>Callback interface for Chat client side. Contains callback methods to notify your app about updates.
+Must be provided to new ChatClient in constructor</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Photon.Chat.html">Photon.Chat</a></h6>
+  <h6><strong>Assembly</strong>: Assembly-CSharp.dll</h6>
+  <h5 id="Photon_Chat_IChatClientListener_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IChatClientListener</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_DebugReturn_ExitGames_Client_Photon_DebugLevel_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.DebugReturn(ExitGames.Client.Photon.DebugLevel%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L24">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_DebugReturn_" data-uid="Photon.Chat.IChatClientListener.DebugReturn*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_DebugReturn_ExitGames_Client_Photon_DebugLevel_System_String_" data-uid="Photon.Chat.IChatClientListener.DebugReturn(ExitGames.Client.Photon.DebugLevel,System.String)">DebugReturn(DebugLevel, String)</h4>
+  <div class="markdown level1 summary"><p>All debug output of the library will be reported through this method. Print it or put it in a
+buffer to use it on-screen.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void DebugReturn(DebugLevel level, string message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ExitGames.Client.Photon.DebugLevel</span></td>
+        <td><span class="parametername">level</span></td>
+        <td><p>DebugLevel (severity) of the message.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Debug text. Print to System.Console or screen.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnChatStateChange_Photon_Chat_ChatState_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnChatStateChange(Photon.Chat.ChatState)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L41">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnChatStateChange_" data-uid="Photon.Chat.IChatClientListener.OnChatStateChange*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnChatStateChange_Photon_Chat_ChatState_" data-uid="Photon.Chat.IChatClientListener.OnChatStateChange(Photon.Chat.ChatState)">OnChatStateChange(ChatState)</h4>
+  <div class="markdown level1 summary"><p>The ChatClient&apos;s state changed. Usually, OnConnected and OnDisconnected are the callbacks to react to.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnChatStateChange(ChatState state)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Photon.Chat.ChatState.html">ChatState</a></td>
+        <td><span class="parametername">state</span></td>
+        <td><p>The new state.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnConnected.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnConnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L37">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnConnected_" data-uid="Photon.Chat.IChatClientListener.OnConnected*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnConnected" data-uid="Photon.Chat.IChatClientListener.OnConnected">OnConnected()</h4>
+  <div class="markdown level1 summary"><p>Client is connected now.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnConnected()</code></pre>
+  </div>
+  <h5 id="Photon_Chat_IChatClientListener_OnConnected_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Clients have to be connected before they can send their state, subscribe to channels and send any messages.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnDisconnected.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnDisconnected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L29">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnDisconnected_" data-uid="Photon.Chat.IChatClientListener.OnDisconnected*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnDisconnected" data-uid="Photon.Chat.IChatClientListener.OnDisconnected">OnDisconnected()</h4>
+  <div class="markdown level1 summary"><p>Disconnection happened.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnDisconnected()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnGetMessages_System_String_System_String___System_Object___.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnGetMessages(System.String%2CSystem.String%5B%5D%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L51">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnGetMessages_" data-uid="Photon.Chat.IChatClientListener.OnGetMessages*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnGetMessages_System_String_System_String___System_Object___" data-uid="Photon.Chat.IChatClientListener.OnGetMessages(System.String,System.String[],System.Object[])">OnGetMessages(String, String[], Object[])</h4>
+  <div class="markdown level1 summary"><p>Notifies app that client got new messages from server
+Number of senders is equal to number of messages in &apos;messages&apos;. Sender with number &apos;0&apos; corresponds to message with
+number &apos;0&apos;, sender with number &apos;1&apos; corresponds to message with number &apos;1&apos; and so on</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnGetMessages(string channelName, string[] senders, object[] messages)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>channel from where messages came</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">senders</span></td>
+        <td><p>list of users who sent messages</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">messages</span></td>
+        <td><p>list of messages it self</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnPrivateMessage_System_String_System_Object_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnPrivateMessage(System.String%2CSystem.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L59">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnPrivateMessage_" data-uid="Photon.Chat.IChatClientListener.OnPrivateMessage*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnPrivateMessage_System_String_System_Object_System_String_" data-uid="Photon.Chat.IChatClientListener.OnPrivateMessage(System.String,System.Object,System.String)">OnPrivateMessage(String, Object, String)</h4>
+  <div class="markdown level1 summary"><p>Notifies client about private message</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnPrivateMessage(string sender, object message, string channelName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sender</span></td>
+        <td><p>user who sent this message</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>message it self</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channelName</span></td>
+        <td><p>channelName for private messages (messages you sent yourself get added to a channel per target username)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnStatusUpdate_System_String_System_Int32_System_Boolean_System_Object_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnStatusUpdate(System.String%2CSystem.Int32%2CSystem.Boolean%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L87">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnStatusUpdate_" data-uid="Photon.Chat.IChatClientListener.OnStatusUpdate*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnStatusUpdate_System_String_System_Int32_System_Boolean_System_Object_" data-uid="Photon.Chat.IChatClientListener.OnStatusUpdate(System.String,System.Int32,System.Boolean,System.Object)">OnStatusUpdate(String, Int32, Boolean, Object)</h4>
+  <div class="markdown level1 summary"><p>New status of another user (you get updates for users set in your friends list).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnStatusUpdate(string user, int status, bool gotMessage, object message)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">user</span></td>
+        <td><p>Name of the user.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">status</span></td>
+        <td><p>New status of that user.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">gotMessage</span></td>
+        <td><p>True if the status contains a message you should cache locally. False: This status update does not include a message (keep any you have).</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message that user set.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnSubscribed_System_String___System_Boolean___.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnSubscribed(System.String%5B%5D%2CSystem.Boolean%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L70">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnSubscribed_" data-uid="Photon.Chat.IChatClientListener.OnSubscribed*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnSubscribed_System_String___System_Boolean___" data-uid="Photon.Chat.IChatClientListener.OnSubscribed(System.String[],System.Boolean[])">OnSubscribed(String[], Boolean[])</h4>
+  <div class="markdown level1 summary"><p>Result of Subscribe operation. Returns subscription result for every requested channel name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnSubscribed(string[] channels, bool[] results)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>Array of channel names.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span>[]</td>
+        <td><span class="parametername">results</span></td>
+        <td><p>Per channel result if subscribed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Photon_Chat_IChatClientListener_OnSubscribed_System_String___System_Boolean____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>If multiple channels sent in Subscribe operation, OnSubscribed may be called several times, each call with part of sent array or with single channel in &quot;channels&quot; parameter. 
+Calls order and order of channels in &quot;channels&quot; parameter may differ from order of channels in &quot;channels&quot; parameter of Subscribe operation.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnUnsubscribed_System_String___.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnUnsubscribed(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L78">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnUnsubscribed_" data-uid="Photon.Chat.IChatClientListener.OnUnsubscribed*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnUnsubscribed_System_String___" data-uid="Photon.Chat.IChatClientListener.OnUnsubscribed(System.String[])">OnUnsubscribed(String[])</h4>
+  <div class="markdown level1 summary"><p>Result of Unsubscribe operation. Returns for channel name if the channel is now unsubscribed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnUnsubscribed(string[] channels)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">channels</span></td>
+        <td><p>Array of channel names that are no longer subscribed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnUserSubscribed_System_String_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnUserSubscribed(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L94">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnUserSubscribed_" data-uid="Photon.Chat.IChatClientListener.OnUserSubscribed*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnUserSubscribed_System_String_System_String_" data-uid="Photon.Chat.IChatClientListener.OnUserSubscribed(System.String,System.String)">OnUserSubscribed(String, String)</h4>
+  <div class="markdown level1 summary"><p>A user has subscribed to a public chat channel</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnUserSubscribed(string channel, string user)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>Name of the chat channel</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">user</span></td>
+        <td><p>UserId of the user who subscribed</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener_OnUserUnsubscribed_System_String_System_String_.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener.OnUserUnsubscribed(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L101">View Source</a>
+  </span>
+  <a id="Photon_Chat_IChatClientListener_OnUserUnsubscribed_" data-uid="Photon.Chat.IChatClientListener.OnUserUnsubscribed*"></a>
+  <h4 id="Photon_Chat_IChatClientListener_OnUserUnsubscribed_System_String_System_String_" data-uid="Photon.Chat.IChatClientListener.OnUserUnsubscribed(System.String,System.String)">OnUserUnsubscribed(String, String)</h4>
+  <div class="markdown level1 summary"><p>A user has unsubscribed from a public chat channel</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void OnUserUnsubscribed(string channel, string user)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">channel</span></td>
+        <td><p>Name of the chat channel</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">user</span></td>
+        <td><p>UserId of the user who unsubscribed</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/new/17836d448fa1ad36d0ea01679fc9311e4b856bf3/apiSpec/new?filename=Photon_Chat_IChatClientListener.md&amp;value=---%0Auid%3A%20Photon.Chat.IChatClientListener%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/AoTTG-2/AoTTG-2/blob/17836d448fa1ad36d0ea01679fc9311e4b856bf3/Assets/PhotonChatApi/IChatClientListener.cs/#L16" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
