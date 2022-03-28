@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Room;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
+using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -10,7 +12,7 @@ namespace Assets.Scripts.Gamemode
     public class KillTitansGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Titans;
-        private KillTitansSettings Settings => GameSettings.Gamemode as KillTitansSettings;
+        private KillTitansGamemodeSetting Settings => Setting.Gamemode as KillTitansGamemodeSetting;
 
         protected override void OnFactionDefeated(Faction faction)
         {
@@ -30,18 +32,18 @@ namespace Assets.Scripts.Gamemode
             photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
-
+        
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
-            if (GameSettings.Gamemode.Name.Contains("Annie"))
+            if (Setting.Gamemode.Name.Contains("Annie")) //TODO: Make this a setting
             {
                 var ftSpawn = GameObject.Find("titanRespawn").transform;
                 SpawnService.Spawn<FemaleTitan>(ftSpawn.position, ftSpawn.rotation, new TitanConfiguration());
             }
             //TODO: 160 Experimentation
-            //else if (GameSettings.Gamemode.Name.Contains("Test") || true)
+            //else if (Setting.Gamemode.Gamemode.Name.Contains("Test") || true)
             //{
             //    var spawns = GameObject.FindGameObjectsWithTag("titanRespawn");
             //    for (var i = 0; i < 1; i++)
@@ -75,8 +77,46 @@ namespace Assets.Scripts.Gamemode
             //}
             else
             {
-                SpawnTitans(GameSettings.Titan.Start.Value);
+                SpawnTitans(Setting.Gamemode.Titan.Start.Value);
             }
         }
+
+        public override void OnRestart()
+        {
+            EndlessScore = 0;
+            base.OnRestart();
+        }
+
+        #region Endless
+        private int EndlessScore { get; set; }
+        
+        protected override void OnEntityUnRegistered(Entity entity)
+        {
+            if (!Settings.Endless)
+            {
+                base.OnEntityUnRegistered(entity);
+                return;
+            }
+
+            EndlessScore++;
+            if (entity is MindlessTitan)
+            {
+                SpawnService.Spawn<MindlessTitan>(GetTitanConfiguration());
+            }
+        }
+
+        protected override void SetStatusTop()
+        {
+            if (!Settings.Endless)
+            {
+                base.SetStatusTop();
+                return;
+            }
+            var content = $"Titans Killed: {EndlessScore} Time : {TimeService.GetRoundDisplayTime()}";
+            UiService.SetMessage(LabelPosition.Top, content);
+        }
+        #endregion
+
+
     }
 }

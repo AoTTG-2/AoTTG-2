@@ -28,7 +28,7 @@ using System.IO;
 public static class PhotonNetwork
 {
     /// <summary>Version number of PUN. Also used in GameVersion to separate client version from each other.</summary>
-    public const string versionPUN = "1.101";
+    public const string versionPUN = "1.105";
 
     /// <summary>Version string for your this build. Can be used to separate incompatible clients. Sent during connect.</summary>
     /// <remarks>This is only sent when you connect so that is also the place you set it usually (e.g. in ConnectUsingSettings).</remarks>
@@ -789,7 +789,6 @@ public static class PhotonNetwork
         set
         {
             if (value) PhotonHandler.StartFallbackSendAckThread();
-            networkingPeer.IsSendingOnlyAcks = !value;
             m_isMessageQueueRunning = value;
         }
     }
@@ -1149,7 +1148,6 @@ public static class PhotonNetwork
 
         startupStopwatch = new Stopwatch();
         startupStopwatch.Start();
-        networkingPeer.LocalMsTimestampDelegate = () => (int)startupStopwatch.ElapsedMilliseconds;
 
         // Local player
         CustomTypes.Register();
@@ -1829,6 +1827,7 @@ public static class PhotonNetwork
 
         return networkingPeer.OpJoinRoom(opParams);
     }
+
 
     /// <summary>Lets you either join a named room or create it on the fly - you don't have to know if someone created the room already.</summary>
     /// <remarks>

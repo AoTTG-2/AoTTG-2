@@ -11,7 +11,7 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Serialization;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.New;
+using Assets.Scripts.Settings.Game;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
 using Assets.Scripts.Utility;
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Characters.Humans
         private Transform forearmL { get; set; }
         private Transform forearmR { get; set; }
         private float Gravity => 20f * gravityModifier;
-        private float gravityModifier = GameSettings.Global?.Gravity ?? 1;
+        private float gravityModifier = Setting.Gamemode?.Global.Gravity.Value ?? 1.0f;
         public bool grounded;
         public bool regrounded; //Was falling down or not grounded for at least one frame
         private GameObject gunDummy { get; set; }
@@ -265,7 +265,7 @@ namespace Assets.Scripts.Characters.Humans
             upperarmR = Body.upper_arm_R;
             Equipment = gameObject.AddComponent<Equipment.Equipment>();
             Faction = Service.Faction.GetHumanity();
-            Service.Settings.OnGlobalSettingsChanged += OnGlobalSettingsChanged;
+
             Service.Entity.Register(this);
 
             CustomAnimationSpeed();
@@ -349,11 +349,12 @@ namespace Assets.Scripts.Characters.Humans
                 hasspawn = true;
                 StartCoroutine(ReloadSky());
                 bombImmune = false;
-                if (GameSettings.PvP.Bomb.Value)
-                {
-                    bombImmune = true;
-                    StartCoroutine(StopImmunity());
-                }
+                //TODO 604: Bomb PvP is its own gamemode
+                //if (Setting.Gamemode.PvP.Bomb.Value)
+                //{
+                //    bombImmune = true;
+                //    StartCoroutine(StopImmunity());
+                //}
             }
         }
         public void Update()
@@ -549,7 +550,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         GetOffHorse();
                     }
-                    if (((Animation.IsPlaying(standAnimation) || !grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!useGun || (GameSettings.PvP.AhssAirReload.Value)) || grounded))
+                    if (((Animation.IsPlaying(standAnimation) || !grounded) && InputManager.KeyDown(InputHuman.Reload)) && ((!useGun || (Setting.Gamemode.PvP.AhssAirReload.Value)) || grounded))
                     {
                         ChangeBlade();
                         return;
@@ -865,7 +866,7 @@ namespace Assets.Scripts.Characters.Humans
                             facingDirection = gunDummy.transform.rotation.eulerAngles.y;
                             targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
                         }
-                        else if (flag5 && (grounded || (GameSettings.PvP.AhssAirReload.Value)))
+                        else if (flag5 && (grounded || (Setting.Gamemode.PvP.AhssAirReload.Value)))
                         {
                             ChangeBlade();
                         }
@@ -1334,7 +1335,6 @@ namespace Assets.Scripts.Characters.Humans
                 Destroy(gunDummy);
             }
             ReleaseIfIHookSb();
-            Service.Settings.OnGlobalSettingsChanged -= OnGlobalSettingsChanged;
             Setting.Debug.NoClip.OnValueChanged -= NoClip_OnValueChanged;
         }
 
@@ -2386,7 +2386,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             //skillIDHUD = skillId.ToString();
             //skillCDDuration = skillCDLast;
-            //if (GameSettings.PvP.Bomb == true)
+            //if (Setting.Gamemode.PvP.Bomb == true)
             //{
             //    int num = (int) FengGameManagerMKII.settings[250];
             //    int num2 = (int) FengGameManagerMKII.settings[251];
@@ -2500,7 +2500,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void ChangeBlade()
         {
-            if ((!useGun || grounded) || GameSettings.PvP.AhssAirReload.Value)
+            if ((!useGun || grounded) || Setting.Gamemode.PvP.AhssAirReload.Value)
             {
                 state = HumanState.ChangeBlade;
                 throwedBlades = false;
@@ -3282,7 +3282,7 @@ namespace Assets.Scripts.Characters.Humans
         [PunRPC]
         public void NetDie(Vector3 v, bool isBite, int viewID = -1, string titanName = "", bool killByTitan = true, PhotonMessageInfo info = new PhotonMessageInfo())
         {
-            if ((photonView.isMine && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush)))
+            if ((photonView.isMine && (Setting.Gamemode.GamemodeType != GamemodeType.TitanRush)))
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
@@ -3404,7 +3404,7 @@ namespace Assets.Scripts.Characters.Humans
         public void NetDie2(int viewID = -1, string titanName = "", PhotonMessageInfo info = new PhotonMessageInfo())
         {
             GameObject obj2;
-            if ((photonView.isMine) && (GameSettings.Gamemode.GamemodeType != GamemodeType.TitanRush))
+            if ((photonView.isMine) && (Setting.Gamemode.GamemodeType  != GamemodeType.TitanRush))
             {
                 if (FengGameManagerMKII.ignoreList.Contains(info.sender.ID))
                 {
@@ -3423,7 +3423,7 @@ namespace Assets.Scripts.Characters.Humans
                         {
                             FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID} (possibly valid).".Color("FFCC00"));
                         }
-                        else if (GameSettings.PvP.Bomb.Value && (!GameSettings.PvP.Cannons.Value))
+                        else if (/*Setting.Gamemode.PvP.Bomb.Value && */(!Setting.Gamemode.PvP.Cannon.Value))
                         {
                             FengGameManagerMKII.instance.chatRoom.AddMessage($"Unusual Kill from ID {info.sender.ID}".Color("FFCC00"));
                         }
@@ -3896,7 +3896,7 @@ namespace Assets.Scripts.Characters.Humans
             {
                 object[] objArray;
                 //TODO: Sync these upon gamemode syncSettings
-                if (GameSettings.PvP.Mode == PvpMode.AhssVsBlades)
+                if (Setting.Gamemode.PvP.Mode == PvpMode.AhssVsBlades)
                 {
                     int num = 0;
                     if (photonView.owner.CustomProperties[PhotonPlayerProperty.RCteam] != null)
@@ -3909,7 +3909,7 @@ namespace Assets.Scripts.Characters.Humans
                         photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
                     }
                 }
-                else if (GameSettings.PvP.Mode == PvpMode.FreeForAll && (val != photonView.owner.ID))
+                else if (Setting.Gamemode.PvP.Mode == PvpMode.FreeForAll && (val != photonView.owner.ID))
                 {
                     objArray = new object[] { photonView.owner.ID };
                     photonView.RPC(nameof(SetMyTeam), PhotonTargets.AllBuffered, objArray);
@@ -4088,14 +4088,14 @@ namespace Assets.Scripts.Characters.Humans
         public void SetHorse()
         {
             if (!photonView.isMine) return;
-            if (GameSettings.Horse.Enabled.Value && myHorse == null)
+            if (Setting.Gamemode.Horse.Enabled.Value && myHorse == null)
             {
                 var position = transform.position + Vector3.up * 5f;
                 var rotation = transform.rotation;
                 myHorse = Horse.Create(this, position, rotation);
             }
 
-            if (!GameSettings.Horse.Enabled.Value && myHorse != null)
+            if (!Setting.Gamemode.Horse.Enabled.Value && myHorse != null)
             {
                 PhotonNetwork.Destroy(myHorse);
             }

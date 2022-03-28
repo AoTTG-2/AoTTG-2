@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034ec6219f2495b409b1f2cbc041fad3, type: 3}
+  m_Name: Utgard
+  m_EditorClassIdentifier: 
+  Name: UTGARD
+  Description: UTGARD_DESC
+  SceneName: Utgard
+  Gamemodes:
+  - {fileID: 11400000, guid: 7468bdcd9ac68714d961fcc87b62ee78, type: 2}
+  - {fileID: 11400000, guid: cbf58179b3409214cb1e7fe0ddfc453f, type: 2}
+  - {fileID: 11400000, guid: 90f0cbf7eeced0440b6f83d6ab3729dc, type: 2}
+  - {fileID: 11400000, guid: 4de80ac0d466fd94489a8dc9c52203d2, type: 2}

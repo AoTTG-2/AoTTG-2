@@ -2,10 +2,15 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
+using Assets.Scripts.UI;
 using Assets.Scripts.UI.InGame.HUD;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -13,7 +18,7 @@ namespace Assets.Scripts.Gamemode
     public class CaptureGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Capture;
-        private CaptureGamemodeSettings Settings => GameSettings.Gamemode as CaptureGamemodeSettings;
+        private CaptureGamemodeSetting Settings => Setting.Gamemode as CaptureGamemodeSetting;
 
         public int PvpTitanScore { get; set; }
         public int PvpHumanScore { get; set; }
@@ -23,15 +28,20 @@ namespace Assets.Scripts.Gamemode
 
         protected override void SetStatusTop()
         {
-            var content = "| ";
+            if (!IsValid) return;
+            var content = new StringBuilder();
             foreach (PVPcheckPoint checkpoint in PVPcheckPoint.chkPts)
             {
-                content = content + checkpoint.getStateString() + " ";
+                content.Append($" {checkpoint.getStateString()} ");
             }
-            content = $"| {Settings.PvpTitanScoreLimit - PvpTitanScore} {content} {Settings.PvpHumanScoreLimit - PvpHumanScore} \n" +
-                      $"Time : {TimeService.GetRoundDisplayTime()}";
 
-            UiService.SetMessage(LabelPosition.Top, content);
+            if (!Settings.Endless)
+            {
+                content = new StringBuilder($"{Settings.PvPHumanScoreLimit.Value - PvpTitanScore}    | {content} |   {Settings.PvPHumanScoreLimit.Value - PvpHumanScore}");
+            }
+            content.Append($"\nTime : {TimeService.GetRoundDisplayTime()}");
+
+            UiService.SetMessage(LabelPosition.Top, content.ToString());
         }
         
         public void SpawnCheckpointTitan(PVPcheckPoint target, Vector3 position, Quaternion rotation)
@@ -86,18 +96,20 @@ namespace Assets.Scripts.Gamemode
 
         private void CheckWinConditions()
         {
+            if (Settings.Endless.Value) return;
+
             if (PhotonNetwork.isMasterClient)
             {
                 photonView.RPC(nameof(RefreshCaptureScore), PhotonTargets.Others, PvpHumanScore, PvpTitanScore);
             }
 
             string winner = null;
-            if (PvpTitanScore >= Settings.PvpTitanScoreLimit)
+            if (PvpTitanScore >= Settings.PvPTitanScoreLimit)
             {
                 TitanScore++;
                 winner = "Titanity";
             }
-            else if (PvpHumanScore >= Settings.PvpHumanScoreLimit)
+            else if (PvpHumanScore >= Settings.PvPHumanScoreLimit)
             {
                 HumanScore++;
                 winner = "Humanity";
@@ -124,6 +136,7 @@ namespace Assets.Scripts.Gamemode
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
+            //TODO: NullReferenceHere on Utgard
             if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
             {
                 if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
@@ -148,6 +161,16 @@ namespace Assets.Scripts.Gamemode
                     var configuration = GetTitanConfiguration(MindlessTitanType.Crawler);
                     SpawnService.Spawn<MindlessTitan>(respawn.transform.position, respawn.transform.rotation, configuration);
                 }
+            }
+
+            var checkpoints = FindObjectsOfType<PVPcheckPoint>();
+            IsValid = checkpoints.Length >= 2;
+            if (!IsValid)
+            {
+                var message = Localization.Gamemode.Shared.GetLocalizedString("INVALID_GAMEMODE",
+                    GamemodeType.ToString());
+                Service.Message.Local(message, DebugLevel.Critical);
+                Service.Ui.SetMessage(LabelPosition.Top, message);
             }
         }
         

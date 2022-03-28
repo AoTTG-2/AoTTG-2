@@ -1,6 +1,31 @@
 PUN Classic Change Log
 
 
+v1.105 (25. October 2021)
+    Note: This is a service release to increase security in old projects. Neither start nor continue projects with PUN Classic, unless the game is released but maintained. Update to PUN 2 or use Fusion in new projects.
+    Changed: Details and checks in CustomTypes.cs. It is less prone to errors.
+    Updated: To Photon3Unity3d.dll library to 4.1.6.10.
+
+v1.104 (24. August 2021)
+    Fixed: Usage of PingHttp for WebGL exports. This fixes usage of Best Region selection in WebGL, too.
+    Added: Region Turkey (code: tr).
+    Updated: To Photon3Unity3d.dll library to 4.1.6.5. 
+    Note: The new default library is now in the Assets\Plugins\netstandard2.0 folder and requires .Net Standard or .Net 4.x API compatibility. The .Net 3.5 dll is still in Assets\Plugins.
+
+v1.103.1 (30. April 2020)
+    Fixed: String serialization issue in the Photon3Unity3d.dll (v4.1.4.0). Updated to Photon3Unity3d.dll (v4.1.4.1).
+v1.103 (29. April 2020)
+    Fixed: Remove obsolete usage of GuiText and GuiLayer Components in demos for compatibility with Unity 2019.3 onwards.
+    Note: PUN Classic gets closer to the end of the long term support period. We will not guarantee compatibility of PUN Classic with Unity 2020 and beyond. Update to PUN 2.
+    Changed: There is now a disconnect reason SendError. As this gets now reported by the lower level code, the handling was updated.
+    Note: No API changes for the PUN layer, so there is no docs update.
+    Updated: Photon3Unity3d.dll library to 4.1.4.0, rev5468.
+
+v1.102 (9. April 2020)
+    Updated: SocketWebTcp.cs which should no longer define a SerializationProtocol. This is now part of the inherited class IPhotonSocket and automates sending the used protocol.
+    Updated: Photon3Unity3d.dll to v4.1.3.0 with lots of improvements and changes. Check the respective changelogs.
+    Fixed: WebGL export which was broken in initial release of 31. March 2020). No new version number.
+
 v1.101 (12. November 2019)
     Fixed: Editor UpdateRpcList() to avoid duplicates in the additional method names found previously. It was only checking the previously stored list.
     Fixed: The selection of assemblies when looking up PUN RPC methods. This code was updated in PUN 2 before, to comply with .Net 3.5 and 4.x alike.
@@ -99,7 +124,7 @@ v1.92 (26. October 2018)
 v1.91 (6. July 2018)
     Fixed: PhotonNetwork.OnEvenCall is now an event to prevent wrong usage and registrations. PunTurnManager and InRoomRaiseEvent EventCall Registration now add themselves to the event properly.
     Fixed: Bug which prevents from enabling the Offline Mode for a second time after a room has been joined in Offline Mode and the Offline Mode has been disabled afterwards.
-    Removed: [PunRPC] attribute support no longer available, Unity 2018.2 removed this attribute entirely.
+    Removed: [RPC] attribute support no longer available, Unity 2018.2 removed this attribute entirely.
     Added: NetworkingPeer.cs: Clean up Level Async Loading process watcher if we leave the room, close connection. Also better handle loading process when already joined.
 
 v1.90 (10. April 2018)
@@ -480,14 +505,14 @@ Removed: Native socket libs from Unity 5 PUN+ package. The native libraries are 
 
 v1.57 (22. June 2015)
 Fixed: An issue with the RPC list update, which was still looking for the old RPC attribute. So when you switched over to PunRPC, the list was empty.
-Added: Automatic check if the obsolete RPC attribute is in source, to offer an automatic conversion to the new PunRPC attribute. Conversion uses search and replace for [PunRPC] to [PunRPC] and @RPC to @PunRPC.
+Added: Automatic check if the obsolete RPC attribute is in source, to offer an automatic conversion to the new PunRPC attribute. Conversion uses search and replace for [RPC] to [PunRPC] and @RPC to @PunRPC.
 Added: PhotonNetwork.ConnectToRegion(), which enables you to connect to a specific region easily. This can be useful when you do your own region selection.
 Note: Best Region selection won't work in WebGL exports currently. A fix needs updates on the server side and is in work.
 Note: Chat API won't work in WebGL exports at the moment. Delete it from a project which targets WebGL.
 Note: PUN+ does not support WebGL at the moment. It requires an update of the lower level APIs which we work on. Unity 5 can export PUN Free to all platforms, so use this as workaround.
 
 v1.56 (16. June 2015)
-Changed: The RPC attribute is now replaced by PunRPC and no longer supported. Search and replace your code for [PunRPC] and replace it with [PunRPC]. The change is necessary, because the RPC attribute is obsolete in Unity 5.1 (which causes a large amount of warnings at compile time).
+Changed: The RPC attribute is now replaced by PunRPC and no longer supported. Search and replace your code for [RPC] and replace it with [PunRPC]. The change is necessary, because the RPC attribute is obsolete in Unity 5.1 (which causes a large amount of warnings at compile time).
 
 v1.55 (12. June 2015)
 Changed: PhotonNetwork.time so that it's always positive, even on iOS 64bit exports. Note: this time value does not start at 0 and it will "wrap around" from 4294967.295 to 0! Use with care - we will implement a better soltion asap.

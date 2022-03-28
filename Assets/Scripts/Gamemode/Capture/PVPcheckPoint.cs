@@ -1,8 +1,8 @@
-using Assets.Scripts;
+﻿using Assets.Scripts;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,13 +138,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     {
         if (this.state == CheckPointState.Human)
         {
-            return $"<color=#{ColorSet.color_human}>H</color>[-]";
+            return $"<color=#{ColorSet.color_human}>H</color>";
         }
         if (this.state == CheckPointState.Titan)
         {
-            return $"<color=#{ColorSet.color_titan_player}>T</color>[-]";
+            return $"<color=#{ColorSet.color_titan_player}>T</color>";
         }
-        return $"<color=#{ColorSet.color_D}>_</color>[-]";
+        return $"<color=#{ColorSet.color_D}>_</color>";
     }
 
     private void humanGetsPoint()
@@ -157,7 +157,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             this.state = CheckPointState.Human;
             object[] parameters = new object[] { 1 };
             base.photonView.RPC(nameof(changeState), PhotonTargets.All, parameters);
-            if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().SpawnSupplyStationOnHumanCapture.Value)
+            if (Setting.Gamemode is CaptureGamemodeSetting captureSetting && captureSetting.CheckpointSupplyStation.Value)
             {
                 supply = PhotonNetwork.Instantiate("aot_supply", transform.position - (Vector3.up * (transform.position.y - getHeight(transform.position))), transform.rotation, 0);
             }
@@ -403,7 +403,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (this.spawnTitanTimer > this.titanInterval)
                 {
                     this.spawnTitanTimer = 0f;
-                    if (GameObject.FindGameObjectsWithTag("titan").Length < GameSettings.Titan.Limit)
+                    if (GameObject.FindGameObjectsWithTag("titan").Length < Setting.Gamemode.Titan.Limit.Value)
                     {
                         this.newTitan();
                     }

@@ -38,5 +38,16 @@ namespace Assets.Scripts.Services.Interface
         /// Connects to the Photon Server based on the current PhotonServerConfiguration <see cref="GetCurrentConfig"/>
         /// </summary>
         void Connect();
+
+        /// <summary>
+        /// Used by <see cref="Startup"/> to statelessly create to a room on either offlineMode or multiplayer
+        /// </summary>
+        /// <param name="isOffline"></param>
+        /// <param name="roomName"></param>
+        /// <param name="levelName"></param>
+        /// <param name="gamemodeName"></param>
+        void StatelessConnect(bool isOffline, string roomName, string levelName, string gamemodeName, PhotonServerConfig config);
+
+        bool IsStatelesslyConnected();
     }
 }

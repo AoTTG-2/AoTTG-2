@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Room;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode
@@ -9,7 +7,7 @@ namespace Assets.Scripts.Gamemode
     public class TrostGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Trost;
-        private TrostSettings Settings => GameSettings.Gamemode as TrostSettings;
+        //private TrostSettings Settings => Setting.Gamemode.Gamemode as TrostSettings;
 
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {

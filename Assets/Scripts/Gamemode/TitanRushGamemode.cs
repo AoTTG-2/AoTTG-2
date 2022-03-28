@@ -5,7 +5,6 @@ using Assets.Scripts.Extensions;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ namespace Assets.Scripts.Gamemode
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.TitanRush;
 
-        private RushSettings Settings => GameSettings.Gamemode as RushSettings;
+        //private RushSettings Settings => Setting.Gamemode.Gamemode as RushSettings;
         private GameObject[] Routes { get; set; }
         private GameObject[] Spawns { get; set; }
         private List<RushBehavior> SubscribedEvents { get; } = new List<RushBehavior>();
@@ -92,27 +91,28 @@ namespace Assets.Scripts.Gamemode
         private int nextUpdate = 1;
         public void Update()
         {
-            if (!PhotonNetwork.isMasterClient) return;
-            if (Time.time < nextUpdate) return;
-            nextUpdate = Mathf.FloorToInt(Time.time) + 1;
+            return;
+            //if (!PhotonNetwork.isMasterClient) return;
+            //if (Time.time < nextUpdate) return;
+            //nextUpdate = Mathf.FloorToInt(Time.time) + 1;
 
-            if (nextUpdate % Settings.TitanInterval.Value == 0)
-            {
-                SpawnTitan();
-            }
+            //if (nextUpdate % Settings.TitanInterval.Value == 0)
+            //{
+            //    SpawnTitan();
+            //}
 
-            if (Settings.TitanGroupInterval > 0 && Settings.TitanGroupSize > 0 && nextUpdate % Settings.TitanGroupInterval == 0)
-            {
-                for (var i = 0; i < Settings.TitanGroupSize; i++)
-                {
-                    SpawnTitan();
-                }
-            }
+            //if (Settings.TitanGroupInterval > 0 && Settings.TitanGroupSize > 0 && nextUpdate % Settings.TitanGroupInterval == 0)
+            //{
+            //    for (var i = 0; i < Settings.TitanGroupSize; i++)
+            //    {
+            //        SpawnTitan();
+            //    }
+            //}
         }
 
         private void SpawnTitan()
         {
-            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
+            if (EntityService.Count<MindlessTitan>() >= Setting.Gamemode.Titan.Limit.Value) return;
             var configuration = GetTitanConfiguration();
             var route = GetRoute();
             var behavior = new RushBehavior(route);

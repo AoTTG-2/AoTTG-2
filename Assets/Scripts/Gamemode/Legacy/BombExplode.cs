@@ -15,7 +15,7 @@ public class BombExplode : Photon.MonoBehaviour
             float num4;
             float num5;
             PhotonPlayer owner = base.photonView.owner;
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+            if (Setting.Gamemode.TeamMode != TeamMode.Disabled)
             {
                 int num = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);
                 if (num == 1)

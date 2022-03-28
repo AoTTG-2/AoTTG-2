@@ -1,4 +1,4 @@
-#if UNITY_WEBGL || WEBSOCKET || (UNITY_XBOXONE && UNITY_EDITOR)
+#if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
 
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SocketWebTcp.cs" company="Exit Games GmbH">
@@ -18,6 +18,12 @@ namespace ExitGames.Client.Photon
     using UnityEngine;
     using SupportClassPun = ExitGames.Client.Photon.SupportClass;
 
+
+    #if !(UNITY_WEBGL || NETFX_CORE)
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
+    #endif
 
     /// <summary>
     /// Yield Instruction to Wait for real seconds. Very important to keep connection working if Time.TimeScale is altered, we still want accurate network events
@@ -43,10 +49,6 @@ namespace ExitGames.Client.Photon
     /// </summary>
     public class SocketWebTcp : IPhotonSocket, IDisposable
     {
-        /// <summary>Defines the binary serialization protocol for all WebSocket connections. Defaults to "GpBinaryV18", a Photon protocol.</summary>
-        /// <remarks>This is a temporary workaround, until the serialization protocol becomes available via the PeerBase.</remarks>
-        public static string SerializationProtocol = "GpBinaryV18";
-
         private WebSocket sock;
 
         private readonly object syncer = new object();
@@ -104,12 +106,92 @@ namespace ExitGames.Client.Photon
             MonoBehaviour mb = this.websocketConnectionObject.AddComponent<MonoBehaviourExt>();
             this.websocketConnectionObject.hideFlags = HideFlags.HideInHierarchy;
             UnityEngine.Object.DontDestroyOnLoad(this.websocketConnectionObject);
-            this.sock = new WebSocket(new Uri(this.ServerAddress), SerializationProtocol);          // TODO: The protocol should be set based on current PeerBase value (but that's currently not accessible)
+
+            #if UNITY_WEBGL || NETFX_CORE
+            this.sock = new WebSocket(new Uri(this.ConnectAddress), this.SerializationProtocol);
             this.sock.Connect();
 
             mb.StartCoroutine(this.ReceiveLoop());
+            #else
+
+            mb.StartCoroutine(this.DetectIpVersionAndConnect(mb));
+
+            #endif
             return true;
         }
+
+
+        #if !(UNITY_WEBGL || NETFX_CORE)
+        private bool ipVersionDetectDone;
+        private IEnumerator DetectIpVersionAndConnect(MonoBehaviour mb)
+        {
+            Uri uri = null;
+            try
+            {
+                uri = new Uri(this.ConnectAddress);
+            }
+            catch (Exception ex)
+            {
+                if (this.ReportDebugOfLevel(DebugLevel.ERROR))
+                {
+                    this.Listener.DebugReturn(DebugLevel.ERROR, "Failed to create a URI from ConnectAddress (" + ConnectAddress + "). Exception: " + ex);
+                }
+            }
+
+            if (uri != null && uri.HostNameType == UriHostNameType.Dns)
+            {
+                ipVersionDetectDone = false;
+
+                ThreadPool.QueueUserWorkItem(this.DetectIpVersion, uri.Host);
+
+                while (!this.ipVersionDetectDone)
+                {
+                    yield return new WaitForRealSeconds(0.1f);
+                }
+            }
+
+            if (this.AddressResolvedAsIpv6)
+            {
+                this.ConnectAddress += "&IPv6";
+            }
+
+            if (this.ReportDebugOfLevel(DebugLevel.INFO))
+            {
+                this.Listener.DebugReturn(DebugLevel.INFO, "DetectIpVersionAndConnect() AddressResolvedAsIpv6: " + this.AddressResolvedAsIpv6 + " ConnectAddress: " + ConnectAddress);
+            }
+
+
+            this.sock = new WebSocket(new Uri(this.ConnectAddress), this.SerializationProtocol);
+            this.sock.Connect();
+
+            mb.StartCoroutine(this.ReceiveLoop());
+        }
+
+        // state has to be the hostname string
+        private void DetectIpVersion(object state)
+        {
+            string host = state as string;
+            IPAddress[] ipAddresses;
+            try
+            {
+                ipAddresses = Dns.GetHostAddresses(host);
+                foreach (IPAddress ipAddress in ipAddresses)
+                {
+                    if (ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
+                        this.AddressResolvedAsIpv6 = true;
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Listener.DebugReturn(DebugLevel.INFO, "DetectIpVersionAndConnect (uri: " + host + "= thread failed: " + ex);
+            }
+
+            this.ipVersionDetectDone = true;
+        }
+        #endif
 
 
         public override bool Disconnect()
@@ -207,6 +289,7 @@ namespace ExitGames.Client.Photon
                     yield return new WaitForRealSeconds(0.1f);
                 }
 
+
                 if (this.sock != null)
                 {
                     if (this.sock.Error != null)
@@ -223,6 +306,8 @@ namespace ExitGames.Client.Photon
                         }
 
                         this.State = PhotonSocketState.Connected;
+                        this.peerBase.OnConnect();
+
                         while (this.State == PhotonSocketState.Connected)
                         {
                             if (this.sock != null)

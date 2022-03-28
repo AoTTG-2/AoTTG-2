@@ -5,6 +5,9 @@ using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Room;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
+using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.Gamemode.Catch
@@ -12,20 +15,29 @@ namespace Assets.Scripts.Gamemode.Catch
     public class CatchGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Catch;
-        public int TotalBalls = 5;
-        public static float BallSpeed = 150f;
-        public static float BallSize = 25;
-        public int PointLimit = 5;
+        private CatchGamemodeSetting Settings => Setting.Gamemode as CatchGamemodeSetting;
 
         private CatchSpawner[] Spawners = { };
         private HashSet<CatchBall> CatchBalls = new HashSet<CatchBall>();
+        private int BallsCaught = 0;
 
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
+            IsValid = PhotonNetwork.offlineMode;
             base.Level_OnLevelLoaded(scene, level);
-            Spawners = GameObject.FindObjectsOfType<CatchSpawner>();
+            if (!IsValid)
+            {
+                var message = Localization.Gamemode.Shared.GetLocalizedString("INVALID_GAMEMODE_MULTIPLAYER_NOTSUPPORTED",
+                    GamemodeType.ToString());
+                Service.Message.Local(message, DebugLevel.Critical);
+                Service.Ui.SetMessage(LabelPosition.Top, message);
+                return;
+            }
 
-            for (int i = 0; i < TotalBalls; i++)
+            Spawners = GameObject.FindObjectsOfType<CatchSpawner>();
+            BallsCaught = 0;
+
+            for (var i = 0; i < Settings.TotalBalls; i++)
             {
                 SpawnBall();
             }
@@ -51,32 +63,48 @@ namespace Assets.Scripts.Gamemode.Catch
             ball.OnCaught += Ball_OnCaught;
             CatchBalls.Add(ball);
         }
-        
+
         private void Ball_OnCaught(CatchBall ball, Hero hero)
         {
+            BallsCaught++;
             CatchBalls.Remove(ball);
             ball.OnCaught -= Ball_OnCaught;
-            Destroy(ball.gameObject);
-            SpawnBall();
+            PhotonNetwork.Destroy(ball.gameObject);
+            if (Settings.Endless == true)
+            {
+                SpawnBall();
+            } else if (CatchBalls.Count == 0)
+            {
+                photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"All balls are caught!\nRestarting in {{0}}s", HumanScore, TitanScore);
+                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            }
         }
 
         protected override void SetStatusTop()
         {
-            if (PhotonNetwork.offlineMode)
-                UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.Catch.GetLocalizedString("OFFLINE_TOP"));
+            if (IsValid)
+            {
+                if (Settings.Endless == true)
+                {
+                    UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.Catch.GetLocalizedString("OFFLINE_TOP_ENDLESS", BallsCaught));
+                }
+                else
+                {
+                    UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.Catch.GetLocalizedString("OFFLINE_TOP", CatchBalls.Count));
+                }
+            }
+            else
+            {
+                UiService.SetMessage(LabelPosition.Top, Localization.Gamemode.Shared.GetLocalizedString("INVALID_GAMEMODE_MULTIPLAYER_NOTSUPPORTED", GamemodeType.ToString()));
+            }
         }
 
         protected override IEnumerator OnUpdateEverySecond()
         {
-            yield break;
-        }
-
-        protected override IEnumerator OnUpdateEveryTenthSecond()
-        {
             while (true)
             {
-                yield return new WaitForSeconds(0.1f);
-                SetStatusTopLeft();
+                yield return new WaitForSeconds(1f);
+                SetStatusTop();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Services;
+﻿using Assets.Scripts.Room;
+using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,8 +29,9 @@ namespace Assets.Scripts.UI.InGame.HUD
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
         }
 
-        private void Level_OnLevelLoaded(int scene, Room.Level level)
+        private void Level_OnLevelLoaded(int scene, Level level)
         {
+            return;
             if (isFlare)
             {
                 ParticleSystem particle = GetComponent<ParticleSystem>();

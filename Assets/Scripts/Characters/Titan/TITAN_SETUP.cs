@@ -117,7 +117,7 @@ public class TITAN_SETUP : Photon.MonoBehaviour
     {
         int num;
         object[] objArray2;
-        if ((((int) FengGameManagerMKII.settings[1]) == 1) && base.photonView.isMine)
+        if (false && base.photonView.isMine)
         {
             Color color;
             num = UnityEngine.Random.Range(0, 9);
