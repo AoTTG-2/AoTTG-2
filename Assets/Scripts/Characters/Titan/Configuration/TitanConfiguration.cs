@@ -93,13 +93,13 @@ namespace Assets.Scripts.Characters.Titan.Configuration
                     Focus = 10f;
                     break;
                 case MindlessTitanType.Abberant:
-                    AnimationWalk = "run_abnormal";
+                    AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal";
                     Focus = 8f;
                     Attacks.Add(new BodySlamAttack());
                     break;
                 case MindlessTitanType.Jumper:
-                    AnimationWalk = "run_abnormal";
+                    AnimationWalk = "run_walk";
                     AnimationRun = "run_abnormal";
                     Focus = 4f;
                     Attacks.Add(new BodySlamAttack());
