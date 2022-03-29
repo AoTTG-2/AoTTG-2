@@ -2,7 +2,7 @@ using Assets.Scripts.Characters.Humans.Data.States.Grounded;
 using Assets.Scripts.StateMachine;
 using UnityEngine;
 
-namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States
+namespace Assets.Scripts.Characters.Humans.StateMachines
 {
     /// <summary>
     /// Movement State Class.
@@ -119,12 +119,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States
         protected Vector3 GetMovementInputDirection()
         {
             return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
-        }
-        protected Vector3 GetHeroHorizontalVelocity()
-        {
-            Vector3 playerHorizontalVelocity = stateMachine.Hero.Rigidbody.velocity;
-            playerHorizontalVelocity.y = 0f;
-            return playerHorizontalVelocity;
         }
         protected Vector3 GetHeroVerticalVelocity()
         {

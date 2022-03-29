@@ -54,10 +54,10 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         private void UpdateAnimation()
         {
             if (stateMachine.Hero.Animation.IsPlaying(HeroAnim.RUN_1)) return;
-            float crossfadeTime = 0f;
-            if(stateMachine.PreviousState == stateMachine.DodgingState)
+            float crossfadeTime = 0.1f;
+            if(stateMachine.PreviousState == stateMachine.IdlingState)
             {
-                crossfadeTime = 0.1f;
+                crossfadeTime = 0f;
             }
             CrossFade(HeroAnim.RUN_1, crossfadeTime);
         }

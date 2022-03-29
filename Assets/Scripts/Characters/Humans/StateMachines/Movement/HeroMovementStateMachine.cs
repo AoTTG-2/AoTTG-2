@@ -16,6 +16,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         public HeroIdlingState IdlingState { get; }
         public HeroDodgingState DodgingState { get; }
         public HeroRunningState RunningState { get; }
+        public HeroGroundedState GroundedState { get; }
         public HeroMovementStateMachine(Hero hero)
         {
             Hero = hero;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             IdlingState = new HeroIdlingState(this);
             DodgingState = new HeroDodgingState(this);
             RunningState = new HeroRunningState(this);
+            GroundedState = new HeroGroundedState(this);
         }
     }
 }

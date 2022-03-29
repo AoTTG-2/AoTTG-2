@@ -11,9 +11,9 @@ namespace Assets.Scripts.StateMachine
 
         public void ChangeState(IState newState)
         {
-            CurrentState?.Exit();
             PreviousState = CurrentState;
             CurrentState = newState;
+            CurrentState?.Exit();
             newState.Enter();
         }
 
