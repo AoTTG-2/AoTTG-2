@@ -53,6 +53,9 @@
     <UnityVersion>2020.2.7f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\NumberHelpers.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\OneOrMore.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\PlayerInput\PlayerInput.cs" />
@@ -70,7 +73,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\Processors\NormalizeVector2Processor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Events\StateEvent.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Settings\EditorPlayerSettingHelpers.cs" />
-    <Compile Include="Assets\Plugins\WebSocket\SocketWebTcp.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\AdvancedDropdown\CallbackDataSource.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\XInput\XInputController.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Users\InputUserAccountHandle.cs" />
@@ -95,24 +97,19 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\WebGL\WebGLGamepad.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\InputControlPath.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Linux\LinuxSupport.cs" />
-    <Compile Include="Assets\Editor\Settings\BaseSettingsEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\iOS\IOSGameController.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\EnhancedTouch\EnhancedTouchSupport.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\DpadControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\Processors\InvertVector3Processor.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatParameterCode.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\EnableIMECompositionCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\InputDeviceChange.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\InputProcessor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\PropertyDrawers\InputActionPropertyDrawer.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\InputActionType.cs" />
-    <Compile Include="Assets\Editor\ObjectBrowser.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\FourCC.cs" />
-    <Compile Include="Assets\Editor\DrawerEnumNamedArray.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\IInputDeviceCommandInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\InputDeviceDescription.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\InputControlList.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatDisconnectCause.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\Interactions\MultiTapInteraction.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\AssetImporter\InputActionCodeGenerator.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\Interactions\TapInteraction.cs" />
@@ -120,15 +117,12 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\InputExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\State\InputState.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\OnScreen\OnScreenButton.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\Interactions\HoldInteraction.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\DynamicBitfield.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Haptics\DualMotorRumble.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\InputDeviceMatcher.cs" />
-    <Compile Include="Assets\Editor\HumanSelectedComponentDrawer.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\AssetEditor\InputActionAssetManager.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\EditorInputControlLayoutCache.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatState.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\InputDiagnostics.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\State\IInputStateTypeInfo.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Events\ActionEvent.cs" />
@@ -143,7 +137,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\AssetEditor\NameAndParameterListView.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryKeyboardLayoutCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\TouchPressControl.cs" />
-    <Compile Include="Assets\Editor\CustomMapToUnityConverter.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Haptics\DualMotorRumbleCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\InternedString.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\SerializedPropertyHelpers.cs" />
@@ -162,7 +155,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\ControlPicker\InputControlPathEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\ControlPicker\InputControlPicker.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Sensor.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChannelWellKnownProperties.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\ReadOnlyArray.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\UI\StandaloneInputModuleEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Debugger\InputActionDebuggerWindow.cs" />
@@ -218,7 +210,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\PlayerInput\InputValue.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\InputControlLayoutChange.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\WebGL\WebGLJoystick.cs" />
-    <Compile Include="Assets\Plugins\WebSocket\WebSocket.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryCanRunInBackground.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryEnabledStateCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\JsonParser.cs" />
@@ -232,7 +223,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\AdvancedDropdown\AdvancedDropdownGUI.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Events\InputEventPtr.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\TreeViewHelpers.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatClient.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Android\AndroidSupport.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\InputUpdateType.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Pointer.cs" />
@@ -270,7 +260,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\InputControlTreeView.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\ExceptionHelpers.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Linux\SDLDeviceBuilder.cs" />
-    <Compile Include="Assets\Editor\CreateLayerEnum.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\InputControlExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\NameAndParameters.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\Composites\ButtonWithOneModifier.cs" />
@@ -280,7 +269,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\StickControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\UI\InputSystemUIInputModuleEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\UI\PointerModel.cs" />
-    <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\QuaternionControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\AssetImporter\InputActionAssetEditor.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\DownloadableSample.cs" />
@@ -299,8 +287,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\KeyControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\DualShock\DualShockSupport.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Utilities\DelegateHelpers.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
-    <Compile Include="Assets\Editor\GameObjectToPrefabConverter.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\DiscreteButtonControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Steam\SteamController.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Controls\TouchPhaseControl.cs" />
@@ -314,7 +300,6 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\PlayerInput\PlayerNotifications.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\InputSettings.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Switch\SwitchProControllerHID.cs" />
-    <Compile Include="Assets\Editor\BuildAddressable.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryUserIdCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Steam\SteamHandle.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\XR\Haptics\GetHapticCapabilitiesCommand.cs" />
@@ -328,23 +313,18 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Events\DeviceRemoveEvent.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\XInput\IXboxOneRumble.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\XInput\XboxGamepadMacOS.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatOperationCode.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatChannel.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\ControlPicker\InputControlPickerDropdown.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Users\InputUserChange.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\UI\ExtendedPointerEventData.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Android\AndroidKeyCode.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\InputActionPhase.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Pen.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\WarpMousePositionCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\ControlPicker\InputControlPickerState.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Events\InputEventTrace.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryDimensionsCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\UI\MultiplayerEventSystem.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\XR\TrackedPoseDriver.cs" />
-    <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
-    <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Actions\Interactions\PressInteraction.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Devices\Commands\QueryEditorWindowCoordinatesCommand.cs" />
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Editor\Internal\InputActionSerializationHelpers.cs" />
@@ -370,86 +350,7 @@
     <Compile Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Plugins\Steam\IStreamControllerAPI.cs" />
   </ItemGroup>
   <ItemGroup>
-     <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
-     <None Include="Assets\Plugins\ICSharpCode.SharpZipLib.dll" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-     <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\Shaders\TiltShift.shader" />
-     <None Include="Assets\Shaders\Sky System\CGInc\GPUVoronoiNoise4D.cginc" />
-     <None Include="Assets\StreamingAssets\Custom Maps\Experimental\test map.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
-     <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Future Trax 1.txt" />
-     <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uss" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
-     <None Include="Assets\Shaders\Sky System\CustomSky.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Masked Colored.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (AlphaClip).shader" />
-     <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uxml" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope + Riblei - Machina 2 (-Checkpoint Edit).txt" />
-     <None Include="Assets\Plugins\WebSocket\websocket-sharp.dll" />
-     <None Include="Assets\Plugins\x86_64\discord_game_sdk.dll" />
-     <None Include="Assets\Resources\shaders\GUI - Text Shader (SoftClip).shader" />
-     <None Include="Assets\Shaders\Particle Alpha Blend Scale.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-     <None Include="Assets\contributors.txt" />
-     <None Include="Assets\Shaders\Projector Multiply.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
-     <None Include="Assets\Resources\shaders\Double Sided.shader" />
-     <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Eliope - Blood Of The Racers 2.txt" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\All Legacy Objects &amp; Textures.txt" />
-     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-     <None Include="Assets\Ui\Icons\FontAwesome\LICENSE.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored Overlay.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Riblei + Alex4TheWin + Sylvia - Celestial Marine (Beta).txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
-     <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-     <None Include="Assets\Plugins\changes-library.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\Shaders\TintedUIBlur.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Bug On The Rose (Basic).txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\Shaders\xft_displacement_screen.shader" />
-     <None Include="Assets\Shaders\3d text.shader" />
-     <None Include="Assets\Plugins\Photon3Unity3D.dll" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-     <None Include="Assets\InputSystem.asmref" />
-     <None Include="Assets\Plugins\Metro\Photon3Unity3D.dll" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (SoftClip).shader" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\custom_map.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (AlphaClip).shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (SoftClip).shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Don&apos;t move Map.txt" />
-     <None Include="Assets\Plugins\Photon3Unity3D.xml" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-     <None Include="Assets\StreamingAssets\Custom Maps\Experimental\peach_castle.txt" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <None Include="Assets\Shaders\Double Sided Transparent Diffuse Bump Cutout.shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
-     <None Include="Assets\Scene\scene\Custom Map Converter\AoTTG2 Map.txt" />
-     <None Include="Assets\Ui\Fonts\SIL Open Font License.txt" />
-     <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+     <None Include="Library\PackageCache\com.unity.inputsystem@1.0.2\InputSystem\Unity.InputSystem.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -677,6 +578,9 @@
     </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
@@ -1038,14 +942,16 @@
     <Reference Include="System.Xml.XPath.XDocument">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{F48FEAA8-69FC-031D-5964-6CF246A79041}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{942A0F05-622E-9EFE-5F45-448E11BDA08F}</Project>
+      <Name>UnityEngine.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

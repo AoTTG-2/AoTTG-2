@@ -40,15 +40,23 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         private void Dodge()
         {
             UpdateAnimation();
+
+            Vector3 movementVector = GetMovementInputDirection();
+            if (movementVector != Vector3.zero)
+            {
+                stateMachine.Hero.transform.rotation *= Quaternion.Euler(0, 180f, 0);
+            }
+
             Vector3 zero = (-stateMachine.Hero.transform.forward * 2.4f) * movementData.BaseSpeed;
             Vector3 currentVelocity = GetPlayerHorizontalVelocity();
             Vector3 force = zero - currentVelocity;
-            force.x = Mathf.Clamp(force.x, -maxVelocityChange, maxVelocityChange);
-            force.z = Mathf.Clamp(force.z, -maxVelocityChange, maxVelocityChange);
+            force.x = Mathf.Clamp(force.x, -maxVelocityChange * 2, maxVelocityChange * 2); //quick fix for roll distance. needs adjusting
+            force.z = Mathf.Clamp(force.z, -maxVelocityChange * 2, maxVelocityChange * 2); //quick fix for roll distance. needs adjusting
             force.y = 0f;
+
             ResetVelocity();
             stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
-            stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
+            stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);         
         }
         private void UpdateAnimation()
         {
