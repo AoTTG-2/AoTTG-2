@@ -16,7 +16,6 @@ namespace Assets.Scripts.StateMachine
             CurrentState?.Exit();
             newState.Enter();
         }
-
         public void HandleInput()
         {
             CurrentState?.HandleInput();

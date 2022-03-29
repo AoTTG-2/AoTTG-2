@@ -471,7 +471,6 @@
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchMode.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\MapConverter.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\TitanDetection.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Grounded\HeroDashData.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\TitanBehavior.cs" />
     <Compile Include="Assets\Scripts\Serialization\SerializableColor.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Skills\MarcoSkill.cs" />
@@ -550,6 +549,11 @@
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Data\States\HeroStateReusableData.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\HeroAirborneState.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\HeroAirborneData.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneMovingState.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneDashingState.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\SerializeableAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

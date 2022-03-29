@@ -343,14 +343,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Gas Burst"",
-                    ""type"": ""Button"",
-                    ""id"": ""a36c488c-1adf-4fa6-a591-035bf66c30f3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""03147d22-7901-4c5c-88d1-57fed5a2287e"",
@@ -421,6 +413,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Gas Burst Double Tap"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c74a549-3296-4c4f-b367-355ccbaa4a4e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""MultiTap(pressPoint=0.2)""
                 }
             ],
             ""bindings"": [
@@ -685,28 +685,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": ""AxisDeadzone(min=0.5)"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Reel Out"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eafea899-d274-4cdf-9555-445345174ba0"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Gas Burst"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""537a4c24-f012-41d1-be9d-fa7dbfe1937d"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Gas Burst"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1374,7 +1352,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Human_Reload = m_Human.FindAction("Reload", throwIfNotFound: true);
         m_Human_ReelIn = m_Human.FindAction("Reel In", throwIfNotFound: true);
         m_Human_ReelOut = m_Human.FindAction("Reel Out", throwIfNotFound: true);
-        m_Human_GasBurst = m_Human.FindAction("Gas Burst", throwIfNotFound: true);
         m_Human_Attack = m_Human.FindAction("Attack", throwIfNotFound: true);
         m_Human_SpecialAttack = m_Human.FindAction("Special Attack", throwIfNotFound: true);
         m_Human_HookLeft = m_Human.FindAction("Hook Left", throwIfNotFound: true);
@@ -1384,6 +1361,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Human_Item2 = m_Human.FindAction("Item 2", throwIfNotFound: true);
         m_Human_Item3 = m_Human.FindAction("Item 3", throwIfNotFound: true);
         m_Human_Focus = m_Human.FindAction("Focus", throwIfNotFound: true);
+        m_Human_GasBurstDoubleTap = m_Human.FindAction("Gas Burst Double Tap", throwIfNotFound: true);
         // Titan
         m_Titan = asset.FindActionMap("Titan", throwIfNotFound: true);
         // UI
@@ -1532,7 +1510,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Human_Reload;
     private readonly InputAction m_Human_ReelIn;
     private readonly InputAction m_Human_ReelOut;
-    private readonly InputAction m_Human_GasBurst;
     private readonly InputAction m_Human_Attack;
     private readonly InputAction m_Human_SpecialAttack;
     private readonly InputAction m_Human_HookLeft;
@@ -1542,6 +1519,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Human_Item2;
     private readonly InputAction m_Human_Item3;
     private readonly InputAction m_Human_Focus;
+    private readonly InputAction m_Human_GasBurstDoubleTap;
     public struct HumanActions
     {
         private @InputActions m_Wrapper;
@@ -1555,7 +1533,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_Human_Reload;
         public InputAction @ReelIn => m_Wrapper.m_Human_ReelIn;
         public InputAction @ReelOut => m_Wrapper.m_Human_ReelOut;
-        public InputAction @GasBurst => m_Wrapper.m_Human_GasBurst;
         public InputAction @Attack => m_Wrapper.m_Human_Attack;
         public InputAction @SpecialAttack => m_Wrapper.m_Human_SpecialAttack;
         public InputAction @HookLeft => m_Wrapper.m_Human_HookLeft;
@@ -1565,6 +1542,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Item2 => m_Wrapper.m_Human_Item2;
         public InputAction @Item3 => m_Wrapper.m_Human_Item3;
         public InputAction @Focus => m_Wrapper.m_Human_Focus;
+        public InputAction @GasBurstDoubleTap => m_Wrapper.m_Human_GasBurstDoubleTap;
         public InputActionMap Get() { return m_Wrapper.m_Human; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1601,9 +1579,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @ReelOut.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelOut;
                 @ReelOut.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelOut;
                 @ReelOut.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelOut;
-                @GasBurst.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurst;
-                @GasBurst.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurst;
-                @GasBurst.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurst;
                 @Attack.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnAttack;
@@ -1631,6 +1606,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Focus.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnFocus;
                 @Focus.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnFocus;
                 @Focus.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnFocus;
+                @GasBurstDoubleTap.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurstDoubleTap;
+                @GasBurstDoubleTap.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurstDoubleTap;
+                @GasBurstDoubleTap.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnGasBurstDoubleTap;
             }
             m_Wrapper.m_HumanActionsCallbackInterface = instance;
             if (instance != null)
@@ -1662,9 +1640,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @ReelOut.started += instance.OnReelOut;
                 @ReelOut.performed += instance.OnReelOut;
                 @ReelOut.canceled += instance.OnReelOut;
-                @GasBurst.started += instance.OnGasBurst;
-                @GasBurst.performed += instance.OnGasBurst;
-                @GasBurst.canceled += instance.OnGasBurst;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
@@ -1692,6 +1667,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Focus.started += instance.OnFocus;
                 @Focus.performed += instance.OnFocus;
                 @Focus.canceled += instance.OnFocus;
+                @GasBurstDoubleTap.started += instance.OnGasBurstDoubleTap;
+                @GasBurstDoubleTap.performed += instance.OnGasBurstDoubleTap;
+                @GasBurstDoubleTap.canceled += instance.OnGasBurstDoubleTap;
             }
         }
     }
@@ -1943,7 +1921,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnReelIn(InputAction.CallbackContext context);
         void OnReelOut(InputAction.CallbackContext context);
-        void OnGasBurst(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
         void OnHookLeft(InputAction.CallbackContext context);
@@ -1953,6 +1930,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnItem2(InputAction.CallbackContext context);
         void OnItem3(InputAction.CallbackContext context);
         void OnFocus(InputAction.CallbackContext context);
+        void OnGasBurstDoubleTap(InputAction.CallbackContext context);
     }
     public interface ITitanActions
     {

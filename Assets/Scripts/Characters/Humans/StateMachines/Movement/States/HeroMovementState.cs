@@ -1,3 +1,4 @@
+using Assets.Scripts.Characters.Humans.Data;
 using Assets.Scripts.Characters.Humans.Data.States.Grounded;
 using Assets.Scripts.StateMachine;
 using UnityEngine;
@@ -12,8 +13,8 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
     {
         protected HeroMovementStateMachine stateMachine;
         protected HeroGroundedData movementData;
+        protected HeroAirborneData airborneData;
         protected float currentSpeed;
-
         protected float facingDirection;
         protected Quaternion targetRotation;
         protected float maxVelocityChange = 10f;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         {
             stateMachine = heroMovementStateMachine;
             movementData = stateMachine.Hero.Data.GroundedData;
+            airborneData = stateMachine.Hero.Data.DashData;
             facingDirection = stateMachine.Hero.transform.rotation.eulerAngles.y;
             targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
             photonView = stateMachine.Hero.photonView;
@@ -62,15 +64,39 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
 
         public virtual void Update()
         {
+            if (!stateMachine.ReusableData.IsGrounded)
+            {
+                stateMachine.ChangeState(stateMachine.AirborneState);
+            }
         }
         #endregion
         #region Main Methods
         private void ReadMovementInput()
         {
             stateMachine.ReusableData.MovementInput = stateMachine.Hero.HumanInput.HumanActions.Move.ReadValue<Vector2>();
+            IsGrounded();
+        }
+        private void IsGrounded()
+        {
+            stateMachine.ReusableData.IsGrounded = stateMachine.Hero.IsGrounded();
         }
         #endregion
         #region Old Hero.cs Methods
+        protected void UseGas(float amount = 0)
+        {
+            if (amount == 0f)
+            {
+                amount = stateMachine.ReusableData.UseGasSpeed;
+            }
+            if (stateMachine.ReusableData.CurrentGas > 0f)
+            {
+                stateMachine.ReusableData.CurrentGas -= amount;
+                if (stateMachine.ReusableData.CurrentGas < 0f)
+                {
+                    stateMachine.ReusableData.CurrentGas = 0f;
+                }
+            }
+        }
         protected void CrossFade(string newAnimation, float fadeLength = 0.1f)
         {
             photonView = stateMachine.Hero.photonView;
@@ -102,7 +128,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             num2 = -num2 + 90f;
             return (y + num2);
         }
-        protected Vector3 GetGlobaleFacingVector3(float resultAngle)
+        protected Vector3 GetGlobalFacingVector3(float resultAngle)
         {
             float num = -resultAngle + 90f;
             float x = Mathf.Cos(num * Mathf.Deg2Rad);

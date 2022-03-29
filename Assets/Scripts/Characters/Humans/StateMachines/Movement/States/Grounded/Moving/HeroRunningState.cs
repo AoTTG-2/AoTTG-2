@@ -20,6 +20,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         public override void Update()
         {
+            base.Update();
             Move();
         }
         #endregion
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
 
             Vector3 movementVector = GetMovementInputDirection();
             float resultAngle = GetGlobalFacingDirection(movementVector.x, movementVector.z);
-            Vector3 zero = GetGlobaleFacingVector3(resultAngle);
+            Vector3 zero = GetGlobalFacingVector3(resultAngle);
             float movementMagnitudeChecker = (movementVector.magnitude <= 0.95f) ? ((movementVector.magnitude >= 0.25f) ? movementVector.magnitude : 0f) : 1f;
             zero *= movementMagnitudeChecker;
             zero *= movementData.BaseSpeed;

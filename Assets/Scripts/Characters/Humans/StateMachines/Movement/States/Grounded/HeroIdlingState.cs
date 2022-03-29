@@ -23,6 +23,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
 
         public override void Update()
         {
+            base.Update();
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
         }

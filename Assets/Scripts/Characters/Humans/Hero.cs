@@ -483,14 +483,7 @@ namespace Assets.Scripts.Characters.Humans
                 //Airborne Input
                 if (!grounded && (state != HumanState.AirDodge))
                 {
-                    if (InputManager.Settings.GasBurstDoubleTap)
-                    {
-                        CheckDashDoubleTap();
-                    }
-                    else
-                    {
-                        CheckDashRebind();
-                    }
+                    CheckDashRebind();
                     if (dashD)
                     {
                         dashD = false;
@@ -2441,87 +2434,6 @@ namespace Assets.Scripts.Characters.Humans
                 Equipment.Weapon.PlayReloadAnimation();
             }
         }
-
-        private void CheckDashDoubleTap()
-        {
-            if (uTapTime >= 0f)
-            {
-                uTapTime += Time.deltaTime;
-                if (uTapTime > 0.2f)
-                {
-                    uTapTime = -1f;
-                }
-            }
-            if (dTapTime >= 0f)
-            {
-                dTapTime += Time.deltaTime;
-                if (dTapTime > 0.2f)
-                {
-                    dTapTime = -1f;
-                }
-            }
-            if (lTapTime >= 0f)
-            {
-                lTapTime += Time.deltaTime;
-                if (lTapTime > 0.2f)
-                {
-                    lTapTime = -1f;
-                }
-            }
-            if (rTapTime >= 0f)
-            {
-                rTapTime += Time.deltaTime;
-                if (rTapTime > 0.2f)
-                {
-                    rTapTime = -1f;
-                }
-            }
-            if (InputManager.KeyDown(InputHuman.Forward))
-            {
-                if (uTapTime == -1f)
-                {
-                    uTapTime = 0f;
-                }
-                if (uTapTime != 0f)
-                {
-                    dashU = true;
-                }
-            }
-            if (InputManager.KeyDown(InputHuman.Backward))
-            {
-                if (dTapTime == -1f)
-                {
-                    dTapTime = 0f;
-                }
-                if (dTapTime != 0f)
-                {
-                    dashD = true;
-                }
-            }
-            if (InputManager.KeyDown(InputHuman.Left))
-            {
-                if (lTapTime == -1f)
-                {
-                    lTapTime = 0f;
-                }
-                if (lTapTime != 0f)
-                {
-                    dashL = true;
-                }
-            }
-            if (InputManager.KeyDown(InputHuman.Right))
-            {
-                if (rTapTime == -1f)
-                {
-                    rTapTime = 0f;
-                }
-                if (rTapTime != 0f)
-                {
-                    dashR = true;
-                }
-            }
-        }
-
         private void CheckDashRebind()
         {
             if (InputManager.Key(InputHuman.GasBurst))
@@ -3004,16 +2916,13 @@ namespace Assets.Scripts.Characters.Humans
 
             return Physics.Raycast(gameObject.transform.position + ((gameObject.transform.up * 1f)), gameObject.transform.forward, (float) 1f, mask.value);
         }
-
         public bool IsGrounded()
         {
             LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
             RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
-            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), -Vector3.up, out hit, 0.3f, mask.value);
+            bool didHit = Physics.Raycast(gameObject.transform.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.3f, mask.value);
             return didHit;
         }
-
-
         private bool IsPressDirectionTowardsHero(float h, float v)
         {
             if ((h == 0f) && (v == 0f))
