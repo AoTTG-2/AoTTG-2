@@ -39,7 +39,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         #region Main Methods
         private void Dodge()
         {
-            UpdateAnimation();
+            base.UpdateAnimation(HeroAnim.DODGE);
 
             Vector3 movementVector = GetMovementInputDirection();
             if (movementVector != Vector3.zero)
@@ -57,10 +57,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             ResetVelocity();
             stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
             stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);         
-        }
-        private void UpdateAnimation()
-        {
-            CrossFade(HeroAnim.DODGE);
         }
         #endregion
     }

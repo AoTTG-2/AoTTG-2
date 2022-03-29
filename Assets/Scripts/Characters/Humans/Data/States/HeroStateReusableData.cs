@@ -13,6 +13,8 @@ namespace Assets.Scripts.Characters.Humans.Data.States
         private Vector3 timeToReachTargetRotation;
         private Vector3 dampedTargetRotationCurrentVelocity;
         private Vector3 dampedTargetRotationPassedTime;
+
+        public string currentAnimation;
         public ref Vector3 CurrentTargetRotation
         {
             get

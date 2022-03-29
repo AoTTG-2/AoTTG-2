@@ -30,7 +30,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         #endregion
         #region Input Methods
-        private void OnDodgeStarted(InputAction.CallbackContext contenxt)
+        private void OnDodgeStarted(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.DodgingState);
         }

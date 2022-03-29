@@ -62,6 +62,19 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States
 
         public virtual void Update()
         {
+            if (stateMachine.Hero.Animation.IsPlaying(stateMachine.ReusableData.currentAnimation))
+            {
+                return;
+            }
+            else
+            {
+                CrossFade(stateMachine.ReusableData.currentAnimation);
+            }
+        }
+        public virtual void UpdateAnimation(string newAnimation)
+        {
+            stateMachine.ReusableData.currentAnimation = newAnimation;
+            CrossFade(newAnimation);
         }
         #endregion
         #region Main Methods

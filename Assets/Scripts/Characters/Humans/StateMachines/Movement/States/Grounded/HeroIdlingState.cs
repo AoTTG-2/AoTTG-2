@@ -17,21 +17,19 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         {
             base.Enter();
             ResetVelocity();
-            UpdateAnimation();
+            base.UpdateAnimation(HeroAnim.STAND);
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
         }
 
         public override void Update()
         {
+            base.Update();
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
         }
         #endregion
         #region Main Methods
-        private void UpdateAnimation()
-        {
-            CrossFade(HeroAnim.STAND, 0.1f);
-        }
+
         #endregion
     }
 }

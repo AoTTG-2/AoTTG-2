@@ -20,6 +20,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         public override void Update()
         {
+            base.Update();
             Move();
         }
         #endregion
@@ -49,18 +50,9 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
             RotateHeroToFaceDirection();
             stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
-            UpdateAnimation();
+            base.UpdateAnimation(HeroAnim.RUN_1);
         }
-        private void UpdateAnimation()
-        {
-            if (stateMachine.Hero.Animation.IsPlaying(HeroAnim.RUN_1)) return;
-            float crossfadeTime = 0f;
-            if(stateMachine.PreviousState == stateMachine.DodgingState)
-            {
-                crossfadeTime = 0.1f;
-            }
-            CrossFade(HeroAnim.RUN_1, crossfadeTime);
-        }
+
         #endregion
     }
 }
