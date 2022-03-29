@@ -50,18 +50,9 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
             RotateHeroToFaceDirection();
             stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
-            UpdateAnimation();
+            UpdateAnimation(HeroAnim.RUN_1);
         }
-        private void UpdateAnimation()
-        {
-            if (stateMachine.Hero.Animation.IsPlaying(HeroAnim.RUN_1)) return;
-            float crossfadeTime = 0.1f;
-            if(stateMachine.PreviousState == stateMachine.IdlingState)
-            {
-                crossfadeTime = 0f;
-            }
-            CrossFade(HeroAnim.RUN_1, crossfadeTime);
-        }
+
         #endregion
     }
 }

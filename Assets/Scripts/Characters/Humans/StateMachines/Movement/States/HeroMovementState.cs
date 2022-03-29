@@ -68,6 +68,20 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             {
                 stateMachine.ChangeState(stateMachine.AirborneState);
             }
+            if (stateMachine.Hero.Animation.IsPlaying(stateMachine.ReusableData.CurrentAnimation))
+            {
+                return;
+            }
+            else
+            {
+                CrossFade(stateMachine.ReusableData.CurrentAnimation);
+            }
+        }
+
+        public virtual void UpdateAnimation(string newAnimation)
+        {
+            stateMachine.ReusableData.CurrentAnimation = newAnimation;
+            CrossFade(newAnimation);
         }
         #endregion
         #region Main Methods

@@ -14,5 +14,6 @@ namespace Assets.Scripts.StateMachine
         public void OnAnimatonEnterEvent();
         public void OnAnimationExitEvent();
         public void OnAnimationTransitionEvent();
+        public void UpdateAnimation(string newAnimation);
     }
 }

@@ -17,7 +17,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         {
             base.Enter();
             ResetVelocity();
-            UpdateAnimation();
+            UpdateAnimation(HeroAnim.STAND);
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
         }
 
@@ -29,10 +29,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         #endregion
         #region Main Methods
-        private void UpdateAnimation()
-        {
-            CrossFade(HeroAnim.STAND, 0.1f);
-        }
         #endregion
     }
 }

@@ -39,7 +39,11 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         #region Main Methods
         private void Dodge()
         {
-            UpdateAnimation();
+            if (GetPlayerHorizontalVelocity() != Vector3.zero)
+            {
+                stateMachine.Hero.transform.rotation *= Quaternion.Euler(0, 180f, 0);
+            }
+            UpdateAnimation(HeroAnim.DODGE);
             Vector3 zero = (-stateMachine.Hero.transform.forward * 2.4f) * movementData.BaseSpeed;
             Vector3 currentVelocity = GetPlayerHorizontalVelocity();
             Vector3 force = zero - currentVelocity;
@@ -48,11 +52,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             force.y = 0f;
             ResetVelocity();
             stateMachine.Hero.Rigidbody.AddForce(force, ForceMode.VelocityChange);
-            stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
-        }
-        private void UpdateAnimation()
-        {
-            CrossFade(HeroAnim.DODGE);
+            //stateMachine.Hero.Rigidbody.rotation = Quaternion.Lerp(stateMachine.Hero.gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f); //Dont think this is needed
         }
         #endregion
     }

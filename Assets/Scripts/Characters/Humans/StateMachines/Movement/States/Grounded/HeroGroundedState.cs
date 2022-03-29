@@ -30,13 +30,14 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         }
         #endregion
         #region Input Methods
-        private void OnDodgeStarted(InputAction.CallbackContext contenxt)
+        private void OnDodgeStarted(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.DodgingState);
         }
 
         private void OnMovementCanceled(InputAction.CallbackContext context)
         {
+            if (stateMachine.CurrentState == stateMachine.DodgingState) return;     // This keeps the state from changing while dodging. As it was if you dodged while moving in a direction it would stop the dodge partway through if you let go of the movement key
             stateMachine.ChangeState(stateMachine.IdlingState);
         }
         #endregion
