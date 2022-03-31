@@ -292,6 +292,9 @@
  <Reference Include="websocket-sharp">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Burst.Unsafe">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/PackageCache/com.unity.burst@1.3.4/Unity.Burst.Unsafe.dll</HintPath>
+ </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/PackageCache/com.unity.render-pipelines.core@10.4.0/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
  </Reference>
@@ -721,6 +724,9 @@
  <Reference Include="Unity.Addressables.Editor">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Addressables.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Animation.Rigging.Editor">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Animation.Rigging.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
  </Reference>
@@ -742,6 +748,9 @@
  <Reference Include="Unity.TextMeshPro">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Burst.Editor">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
@@ -754,8 +763,14 @@
  <Reference Include="Unity.Postprocessing.Editor">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Animation.Rigging">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Animation.Rigging.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Mathematics">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Postprocessing.Runtime">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
@@ -766,11 +781,11 @@
  <Reference Include="UnityEngine.XR.LegacyInputHelpers">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
  </Reference>
- <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
- <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
- </Reference>
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.XR.LegacyInputHelpers">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>

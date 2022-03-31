@@ -102,8 +102,8 @@
      <Compile Include="Assets\Scripts\Characters\Humans\Skills\LeviSkill.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\Attacks\BoomAttack.cs" />
      <Compile Include="Assets\Scripts\Services\Interface\IMusicService.cs" />
-     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ThrownBlade.cs" />
      <Compile Include="Assets\Scripts\UI\Input\InputHorse.cs" />
+     <Compile Include="Assets\Scripts\Characters\Humans\Skills\ThrownBlade.cs" />
      <Compile Include="Assets\Scripts\Effects\EanAnimation.cs" />
      <Compile Include="Assets\Scripts\Settings\New\Setting.cs" />
      <Compile Include="Assets\Scripts\Characters\Titan\TitanState.cs" />
@@ -762,6 +762,9 @@
  </Reference>
  <Reference Include="websocket-sharp">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Assets/Plugins/WebSocket/websocket-sharp.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst.Unsafe">
+ <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/PackageCache/com.unity.burst@1.3.4/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>C:/Users/Bettencourt/Documents/GitHub/AoTTG-2/Library/PackageCache/com.unity.render-pipelines.core@10.4.0/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
