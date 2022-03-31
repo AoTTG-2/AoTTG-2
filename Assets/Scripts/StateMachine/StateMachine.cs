@@ -12,9 +12,9 @@ namespace Assets.Scripts.StateMachine
         public void ChangeState(IState newState)
         {
             PreviousState = CurrentState;
-            CurrentState = newState;
             CurrentState?.Exit();
             newState.Enter();
+            CurrentState = newState;
         }
         public void HandleInput()
         {

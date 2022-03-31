@@ -403,9 +403,9 @@
                 },
                 {
                     "name": "Gas Burst Double Tap",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "6c74a549-3296-4c4f-b367-355ccbaa4a4e",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "MultiTap(pressPoint=0.2)"
                 }
@@ -850,6 +850,61 @@
                     "action": "Focus",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Direction",
+                    "id": "775dae95-7369-4bd9-9f37-0817fed0cf79",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas Burst Double Tap",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "cea5fdef-8b7d-4a1a-a0c1-b3f58e4d95a9",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas Burst Double Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "51c47d29-1b8f-4d4f-a842-c4528ae69c5d",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas Burst Double Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "3fc2b502-f8e1-4c68-9d2f-8ef60d525d6b",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas Burst Double Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2c82eed8-4465-436d-b794-5f6a175686ab",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gas Burst Double Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

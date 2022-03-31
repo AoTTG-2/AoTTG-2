@@ -18,13 +18,15 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
             }
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
+            OnMove();
         }
         protected override void AddInputActionsCallbacks()
         {
             bindOnEnter = InputManager.Settings.GasBurstDoubleTap;
             if (bindOnEnter)
             {
-                stateMachine.Hero.HumanInput.HumanActions.GasBurstDoubleTap.started += OnGasBurstStarted;
+                stateMachine.Hero.HumanInput.HumanActions.GasBurstDoubleTap.performed += OnGasBurstStarted;
             }
             else
             {
@@ -35,7 +37,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
         {
             if (bindOnEnter)
             {
-                stateMachine.Hero.HumanInput.HumanActions.GasBurstDoubleTap.started -= OnGasBurstStarted;
+                stateMachine.Hero.HumanInput.HumanActions.GasBurstDoubleTap.performed -= OnGasBurstStarted;
             }
             else
             {
@@ -53,6 +55,11 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
             }
         }
         #endregion
-
+        #region Main Methods
+        private void OnMove()
+        {
+            stateMachine.ChangeState(stateMachine.AirborneMovingState);
+        }
+        #endregion
     }
 }

@@ -32,12 +32,6 @@ namespace Assets.Scripts.Characters.Humans.Airborne.Moving
             PhotonNetwork.Instantiate("FX/boost_smoke", stateMachine.Hero.transform.position, stateMachine.Hero.transform.rotation, 0);
             stateMachine.Hero.Rigidbody.AddForce((dashV * airborneData.SpeedModifier), ForceMode.VelocityChange);
             UpdateAnimation();
-
-            /*if (((dashTime <= 0f) && (currentGas > 0f)) && !isMounted && (burstCD.ElapsedMilliseconds <= BurstCDmin || burstCD.ElapsedMilliseconds >= BurstCDmax))
-            {
-                Animation[HeroAnim.DASH].time = 0.1f;
-                FalseAttack();
-            }*/
         }
 
         private void UpdateAnimation()

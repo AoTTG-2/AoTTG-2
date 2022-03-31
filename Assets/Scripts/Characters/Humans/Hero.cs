@@ -479,36 +479,6 @@ namespace Assets.Scripts.Characters.Humans
                     //If the reload animation is cancelled before the weapon has a chance to be reenabled, call this function to do that
                     Equipment.Weapon.EnableWeapons();
                 }
-
-                //Airborne Input
-                if (!grounded && (state != HumanState.AirDodge))
-                {
-                    CheckDashRebind();
-                    if (dashD)
-                    {
-                        dashD = false;
-                        Dash(0f, -1f);
-                        return;
-                    }
-                    if (dashU)
-                    {
-                        dashU = false;
-                        Dash(0f, 1f);
-                        return;
-                    }
-                    if (dashL)
-                    {
-                        dashL = false;
-                        Dash(-1f, 0f);
-                        return;
-                    }
-                    if (dashR)
-                    {
-                        dashR = false;
-                        Dash(1f, 0f);
-                        return;
-                    }
-                }
                 //Grounded Input
                 if (grounded && ((state == HumanState.Idle) || (state == HumanState.Slide)))
                 {

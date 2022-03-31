@@ -20,7 +20,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
             UpdateAnimation(HeroAnim.STAND);
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
         }
-
         public override void Update()
         {
             base.Update();

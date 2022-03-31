@@ -21,6 +21,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         public HeroGroundedState GroundedState { get; }
         public HeroAirborneState AirborneState { get; }
         public HeroAirborneDashingState DashingState { get; }
+        public HeroAirborneMovingState AirborneMovingState { get; }
         public HeroMovementStateMachine(Hero hero)
         {
             Hero = hero;
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             GroundedState = new HeroGroundedState(this);
             AirborneState = new HeroAirborneState(this);
             DashingState = new HeroAirborneDashingState(this);
+            AirborneMovingState = new HeroAirborneMovingState(this);
         }
     }
 }
