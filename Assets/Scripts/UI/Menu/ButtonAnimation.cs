@@ -24,6 +24,7 @@ namespace Assets.Scripts.UI.Menu
         private Text button_text;
         private bool hovered = false;
         private Coroutine backGroundFader;
+        public Image ImageBtn;
 
         protected void Awake()
         {
@@ -74,6 +75,10 @@ namespace Assets.Scripts.UI.Menu
             color.a = 0;
             this.button_bg.color = color;
             this.button_text.color = this.baseTextColor;
+            if (ImageBtn != null)
+            {
+                ImageBtn.color = this.baseTextColor;
+            }
         }
 
         public IEnumerator bgFader()
@@ -98,6 +103,10 @@ namespace Assets.Scripts.UI.Menu
                 color.a = alpha;
                 this.button_bg.color = color;
                 this.button_text.color = Color.Lerp(this.baseTextColor, this.hoveredTextColor, alpha);
+                if (ImageBtn != null) 
+                {
+                ImageBtn.color = Color.Lerp(this.baseTextColor, this.hoveredTextColor, alpha);
+                }
 
                 yield return null;
             }

@@ -20,6 +20,18 @@ namespace Assets.Scripts.UI.InGame
 		{
 			int sValue = (int) qualitySwitcher.Slider.value;
 			QualitySettings.SetQualityLevel(sValue, true);
+            if (sValue <= 1)
+            {
+                Label.color = Color.red;
+            }
+            else if (sValue <= 2)
+            {
+                Label.color = Color.yellow;
+            }
+            else if (sValue>2)
+            {
+                Label.color = Color.green;
+            }
             Debug.Log($"QualityLevel set to {QualitySettings.GetQualityLevel()}");
             qualitySwitcher.Label.text = QualitySettings.names[QualitySettings.GetQualityLevel()];
 			FindObjectOfType<GeneralGraphics>().UpdateUi();
