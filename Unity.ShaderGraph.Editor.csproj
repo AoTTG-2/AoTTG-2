@@ -122,9 +122,9 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\Vector4ShaderProperty.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Interfaces\IMayRequireScreenPosition.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\MinimalGraphData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Utility\Logic\IsInfiniteNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Input\Scene\FogNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Inspector\InspectorView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Utility\Logic\IsInfiniteNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\StickyNoteData.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Trigonometry\CosineNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Inspector\PropertyDrawers\CubemapPropertyDrawer.cs" />
@@ -174,8 +174,8 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Manipulators\Draggable.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\VirtualTextureMaterialSlot.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Input\Geometry\UVNode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Views\IdentifierField.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Interfaces\IMayRequireVertexColor.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Views\IdentifierField.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Enumerations\IncludeLocation.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Extensions\StencilExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Artistic\Adjustment\HueNode.cs" />
@@ -286,8 +286,8 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\PreviewMode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Inspector\PropertyDrawers\ColorPropertyDrawer.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\IMaterialGraphAsset.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Interfaces\IMayRequireDepthTexture.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\GroupData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Interfaces\IMayRequireDepthTexture.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Input\Texture\ProceduralVirtualTextureNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Interfaces\IResizable.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\UV\SpherizeNode.cs" />
@@ -346,11 +346,11 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\Vector3ShaderProperty.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Advanced\AbsoluteNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Artistic\Adjustment\ReplaceColorNode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Data\ConditionalField.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Basic\DivideNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Vector\SphereMaskNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Controls\CubemapControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Inspector\PropertyDrawers\GraphDataPropertyDrawer.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Data\ConditionalField.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Interfaces\Graph\INode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Legacy\ShaderInput0.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\SerializableVirtualTexture.cs" />
@@ -432,9 +432,9 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\UV\RadialShearNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Controls\GradientControl.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\GraphDataUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Contexts\TargetFieldContext.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Vector\DistanceNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Inspector\PropertyDrawers\Vector2PropertyDrawer.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Contexts\TargetFieldContext.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Derivative\DDXYNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Drawing\Views\PropertySheet.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Input\Matrix\Matrix4Node.cs" />
@@ -553,9 +553,9 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Interpolation\LerpNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\ContextData.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Math\Round\RoundNode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Artistic\Normal\NormalFromTextureNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Graphs\VirtualTextureInputMaterialSlot.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Processors\GenerationUtils.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Artistic\Normal\NormalFromTextureNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Input\Texture\Texture2DAssetNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Data\Nodes\Artistic\Adjustment\ChannelMixerNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@10.4.0\Editor\Generation\Descriptors\StructDescriptor.cs" />
@@ -940,6 +940,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.7f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Photon3Unity3D">
       <HintPath>Assets\Plugins\Photon3Unity3D.dll</HintPath>
     </Reference>
@@ -954,9 +957,6 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>

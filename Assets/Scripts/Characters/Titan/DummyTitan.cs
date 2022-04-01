@@ -199,7 +199,7 @@ namespace Assets.Scripts.Characters.Titan
             photonView.RPC(nameof(PlayAudio), PhotonTargets.All, AudioState.StandingUp);
             photonView.RPC(nameof(ChangeState), PhotonTargets.MasterClient, TitanState.Recovering);
             SetStateAnimation(TitanState.Recovering);
-            Invoke(nameof(ResetDummy), 3.125f);
+            Invoke(nameof(ResetDummy), 4.286f);
         }
 
         // Resets the Dummy to have his normal health and State while enabling the nape collider (keep from insta killing during recovering)
