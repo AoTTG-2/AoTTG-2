@@ -63,13 +63,13 @@ namespace Assets.Scripts.UI.InGame
             QualitySettings.shadows = (ShadowQuality) dropdown.value;
             Debug.Log($"Shadows set to {QualitySettings.shadows}");
         }
-        private void ChangeTextureQuality(Dropdown dropdown)
+        public void ChangeTextureQuality(Dropdown dropdown)
         {
             QualitySettings.masterTextureLimit = dropdown.value;
             Debug.Log($"Textures set to {QualitySettings.masterTextureLimit}");
         }
 
-        private void ChangeAntiAliasing(Dropdown dropdown)
+        public void ChangeAntiAliasing(Dropdown dropdown)
         {
             QualitySettings.antiAliasing = dropdown.value switch
             {
@@ -81,7 +81,7 @@ namespace Assets.Scripts.UI.InGame
             Debug.Log($"AntiAliasing set to {QualitySettings.antiAliasing}");
         }
 
-        private void ChangeShadowResolution(Dropdown dropdown)
+        public void ChangeShadowResolution(Dropdown dropdown)
         {
             QualitySettings.shadowResolution = (ShadowResolution) dropdown.value;
             Debug.Log($"ShadowResolution set to {QualitySettings.shadowResolution}");
@@ -93,7 +93,7 @@ namespace Assets.Scripts.UI.InGame
             Debug.Log($"SoftParticles set to {QualitySettings.softParticles}");
         }
 
-        private void ChangeVSync(Toggle toggle)
+        public void ChangeVSync(Toggle toggle)
         {
             //Vsync overrides Application.targetFramerate
             QualitySettings.vSyncCount = toggle.isOn ? 1 : 0;
@@ -117,12 +117,12 @@ namespace Assets.Scripts.UI.InGame
             //hardcoded false are due to some settings not being decoupled from the set QualityLevel
             //https://forum.unity.com/threads/change-shadow-resolution-from-script.784793/page-2
             QualitySwitcher.Slider.interactable = true;
-            TextureQuality.interactable = value;
-            AntiAliasing.interactable = false;
-            ShadowRes.interactable = false;
-            Shadows.interactable = false;
-            VSync.interactable = value;
-            SoftParticles.interactable = false;
+            TextureQuality.interactable = true;
+            AntiAliasing.interactable = true;
+            ShadowRes.interactable = true;
+            Shadows.interactable = true;
+            VSync.interactable = true;
+            SoftParticles.interactable = true;
         }
 
         public void UpdateGraphicSettings()

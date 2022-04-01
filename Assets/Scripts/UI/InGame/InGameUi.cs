@@ -4,6 +4,7 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.UI.InGame.Controls;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI.Input;
+using UnityEngine;
 
 namespace Assets.Scripts.UI.InGame
 {
@@ -16,6 +17,7 @@ namespace Assets.Scripts.UI.InGame
         public GraphicSettingMenu GraphicSettingMenu;
         public ControlsMenu ControlsMenu;
         public PauseIndicator PauseIndicator;
+        public GameObject MenuFirstPage;
         public ChangeHudHandler ChangeHudMenu;
         private static IPauseService PauseService => Service.Pause;
 
@@ -27,11 +29,13 @@ namespace Assets.Scripts.UI.InGame
                 if (PhotonNetwork.offlineMode)
                 {
                     PauseService.Pause(false, true);
+                    MenuFirstPage.SetActive(false);
                 }
             }
             else if (!Menu.IsVisible() && GetNumVisibleChildMenus() == 0)
             {
                 Menu.Show();
+                MenuFirstPage.SetActive(true);
                 if (PhotonNetwork.offlineMode)
                 {
                     PauseService.Pause(true, true);
