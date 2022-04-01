@@ -1,3 +1,4 @@
+using System;
 using Assets.Scripts.Characters.Titan;
 using System.Collections;
 using UnityEngine;
@@ -63,7 +64,7 @@ namespace Assets.Scripts.Characters.Humans
         {
             this.phase = 2;
             this.killTime = 0f;
-            object[] parameters = { 2 };
+            object[] parameters = {2};
             base.photonView.RPC(nameof(setPhase), PhotonTargets.Others, parameters);
         }
 
@@ -214,75 +215,46 @@ namespace Assets.Scripts.Characters.Humans
             UnityEngine.Object.Destroy(this.rope);
             UnityEngine.Object.Destroy(base.gameObject);
         }
-
-        public void launch(Vector3 v, Vector3 v2, string launcher_ref, bool isLeft, GameObject hero, bool leviMode = false)
+        
+        public void Launch(HookSource source, GameObject hookRef, Vector3 v, Vector3 v2, Hero hero, bool leviMode = false)
         {
-            if (this.phase != 2)
+            if (phase == 2) return;
+            
+            master = hero.gameObject;
+            velocity = v;
+            var f = Mathf.Acos(Vector3.Dot(v.normalized, v2.normalized)) * Mathf.Rad2Deg;
+            velocity2 = Mathf.Abs(f) > 90f ? Vector3.zero : Vector3.Project(v2, v);
+
+            myRef = hookRef;
+
+            nodes = new ArrayList {myRef.transform.position};
+            phase = 0;
+            this.leviMode = leviMode;
+            left = IsLeft(source);
+            if (photonView.isMine)
             {
-                this.master = hero;
-                this.velocity = v;
-                float f = Mathf.Acos(Vector3.Dot(v.normalized, v2.normalized)) * Mathf.Rad2Deg;
-                if (Mathf.Abs(f) > 90f)
-                {
-                    this.velocity2 = Vector3.zero;
-                }
-                else
-                {
-                    this.velocity2 = Vector3.Project(v2, v);
-                }
-                if (launcher_ref == "hookRefL1")
-                {
-                    this.myRef = hero.GetComponent<Hero>().hookRefL1;
-                }
-                if (launcher_ref == "hookRefL2")
-                {
-                    this.myRef = hero.GetComponent<Hero>().hookRefL2;
-                }
-                if (launcher_ref == "hookRefR1")
-                {
-                    this.myRef = hero.GetComponent<Hero>().hookRefR1;
-                }
-                if (launcher_ref == "hookRefR2")
-                {
-                    this.myRef = hero.GetComponent<Hero>().hookRefR2;
-                }
-                this.nodes = new ArrayList();
-                this.nodes.Add(this.myRef.transform.position);
-                this.phase = 0;
-                this.leviMode = leviMode;
-                this.left = isLeft;
-                if (base.photonView.isMine)
-                {
-                    object[] parameters = new object[] { hero.GetComponent<Hero>().photonView.viewID, launcher_ref };
-                    base.photonView.RPC(nameof(myMasterIs), PhotonTargets.Others, parameters);
-                    object[] objArray2 = new object[] { v, this.velocity2, this.left };
-                    base.photonView.RPC(nameof(setVelocityAndLeft), PhotonTargets.Others, objArray2);
-                }
-                base.transform.position = this.myRef.transform.position;
-                base.transform.rotation = Quaternion.LookRotation(v.normalized);
+                var parameters = new object[] {hero.photonView.viewID, source};
+                photonView.RPC(nameof(myMasterIs), PhotonTargets.Others, parameters);
+                var objArray2 = new object[] {v, velocity2, left};
+                photonView.RPC(nameof(setVelocityAndLeft), PhotonTargets.Others, objArray2);
             }
+
+            transform.SetPositionAndRotation(myRef.transform.position, Quaternion.LookRotation(v.normalized));
         }
 
         [PunRPC]
-        private void myMasterIs(int id, string launcherRef)
+        private void myMasterIs(int id, HookSource source)
         {
-            this.master = PhotonView.Find(id).gameObject;
-            if (launcherRef == "hookRefL1")
+            master = PhotonView.Find(id).gameObject;
+            var hero = master.GetComponent<Hero>();
+            myRef = source switch
             {
-                this.myRef = this.master.GetComponent<Hero>().hookRefL1;
-            }
-            if (launcherRef == "hookRefL2")
-            {
-                this.myRef = this.master.GetComponent<Hero>().hookRefL2;
-            }
-            if (launcherRef == "hookRefR1")
-            {
-                this.myRef = this.master.GetComponent<Hero>().hookRefR1;
-            }
-            if (launcherRef == "hookRefR2")
-            {
-                this.myRef = this.master.GetComponent<Hero>().hookRefR2;
-            }
+                HookSource.BeltLeft => hero.hookRefL1,
+                HookSource.BeltRight => hero.hookRefR1,
+                HookSource.GunLeft => hero.hookRefL2,
+                HookSource.GunRight => hero.hookRefR2,
+                _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            };
         }
 
         [PunRPC]
@@ -416,6 +388,7 @@ namespace Assets.Scripts.Characters.Humans
                         base.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     }
                 }
+
                 if (this.phase == 0)
                 {
                     this.setLinePhase0();
@@ -470,7 +443,9 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 Vector3 position = ((Vector3) this.spiralNodes[i]) + vector4;
                                 float num11 = (this.spiralNodes.Count - 1) - (this.spiralcount * 0.5f);
-                                position = new Vector3(position.x, (position.y * ((num11 - i) / num11)) + (base.gameObject.transform.position.y * (i / num11)), position.z);
+                                position = new Vector3(position.x,
+                                    (position.y * ((num11 - i) / num11)) +
+                                    (base.gameObject.transform.position.y * (i / num11)), position.z);
                                 this.lineRenderer.SetPosition(i, position);
                             }
                             else
@@ -504,6 +479,23 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
         }
+
+        public static bool IsLeft(HookSource source) =>
+            source switch
+            {
+                HookSource.BeltLeft => true,
+                HookSource.GunLeft => true,
+                HookSource.BeltRight => false,
+                HookSource.GunRight => false,
+                _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            };
+
+        public enum HookSource
+        {
+            BeltLeft,
+            BeltRight,
+            GunLeft,
+            GunRight
+        }
     }
 }
-
