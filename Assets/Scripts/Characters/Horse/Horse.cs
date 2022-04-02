@@ -1,32 +1,32 @@
 using Assets.Scripts.Characters.Humans;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// The horse is a vehicle that can be controller by a <see cref="Human"/> once mounted. Current implementation is broken as its an incomplete version of #116
 /// </summary>
 public sealed class Horse : PhotonView
 {
-    private new Animation animation;
-
-    private State currentState;
+    [SerializeField] private float gravityFactor = -20f;
+    [SerializeField] private float walkSpeedModifier = 27f;
+    [SerializeField] private float runSpeedModifier = 45f;
 
     [SerializeField]
     private ParticleSystem dustParticles;
 
+    private new Animation animation;
+
+    private State currentState;
+
     private FollowState followState;
     private MountState mountState;
     private IdleState idleState;
-
-    [SerializeField]
-    private float gravityFactor = -20f;
 
     private LayerMask groundMask;
     private Hero hero;
     private Transform heroTransform;
     private LayerMask isGroundedMask;
     private new Rigidbody rigidbody;
-
-    private float speed = 45f;
 
     public static Horse Create(Hero hero, Vector3 position, Quaternion rotation)
     {
@@ -95,7 +95,7 @@ public sealed class Horse : PhotonView
         }
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (!hero && photonView.isMine)
         {
@@ -104,6 +104,11 @@ public sealed class Horse : PhotonView
         }
 
         currentState.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdate();
 
         rigidbody.AddForce(new Vector3(0f, gravityFactor * rigidbody.mass, 0f));
     }
@@ -225,9 +230,9 @@ public sealed class Horse : PhotonView
         private void GetNewTarget()
         {
             var randomOffset = new Vector3(
-                            Random.Range(-6, 6),
-                            5f,
-                            Random.Range(-6, 6));
+                Random.Range(-6, 6),
+                5f,
+                Random.Range(-6, 6));
             var point = Horse.heroTransform.position + randomOffset;
             point.y = GetHeight(point);
             target = point;
@@ -267,15 +272,15 @@ public sealed class Horse : PhotonView
 
             if (Vector3.Distance(target, Horse.transform.position) < 20f)
             {
-                Horse.rigidbody.AddForce((Horse.transform.forward * Horse.speed) * 0.7f, ForceMode.Acceleration);
-                if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
-                    Horse.rigidbody.AddForce((-Horse.speed * 0.7f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+                Horse.rigidbody.AddForce((Horse.transform.forward * Horse.runSpeedModifier) * 0.7f, ForceMode.Acceleration);
+                if (Horse.rigidbody.velocity.magnitude >= Horse.runSpeedModifier)
+                    Horse.rigidbody.AddForce((-Horse.runSpeedModifier * 0.7f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
             }
             else
             {
-                Horse.rigidbody.AddForce(Horse.transform.forward * Horse.speed, ForceMode.Acceleration);
-                if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
-                    Horse.rigidbody.AddForce(-Horse.speed * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+                Horse.rigidbody.AddForce(Horse.transform.forward * Horse.runSpeedModifier, ForceMode.Acceleration);
+                if (Horse.rigidbody.velocity.magnitude >= Horse.runSpeedModifier)
+                    Horse.rigidbody.AddForce(-Horse.runSpeedModifier * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
             }
 
             timeElapsed += Time.deltaTime;
@@ -298,9 +303,9 @@ public sealed class Horse : PhotonView
                 var start = Horse.transform.position + Vector3.up;
                 var end = Horse.heroTransform.position + Vector3.up;
                 if (Physics.Linecast(
-                    start,
-                    end,
-                    Horse.groundMask))
+                        start,
+                        end,
+                        Horse.groundMask))
                     Horse.transform.position = new Vector3(
                         Horse.heroTransform.position.x,
                         GetHeight(Horse.heroTransform.position + Vector3.up * 5f),
@@ -325,11 +330,6 @@ public sealed class Horse : PhotonView
         {
         }
 
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
         public override void Update()
         {
             Horse.ToIdleAnimation();
@@ -341,41 +341,32 @@ public sealed class Horse : PhotonView
 
     private sealed class MountState : State
     {
+        private const float RunSpeed = 8f;
+
         private readonly HorseController controller;
 
         public MountState(Horse horse, HorseController controller)
-            : base(horse)
-        {
+            : base(horse) =>
             this.controller = controller;
-        }
 
         public Animation HeroAnimation { get; set; }
 
         public Rigidbody HeroRigidbody { get; set; }
 
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        // -874f is used by the HorseController to indicate no directional input
+        private bool HasMovementInput => controller.TargetDirection != -874f;
+
         private bool IsGrounded =>
             Physics.Raycast(
-                Horse.gameObject.transform.position + Vector3.up * 0.1f,
+                Horse.rigidbody.position + Vector3.up * 0.1f,
                 -Vector3.up,
                 0.3f,
                 Horse.isGroundedMask.value);
 
-        public override void Enter()
-        {
-            controller.enabled = true;
-        }
-
-        public override void Exit()
-        {
-            controller.enabled = false;
-        }
+        public override void Enter() => controller.enabled = true;
 
         public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        public override void Update()
         {
             if (!Horse.hero)
             {
@@ -383,65 +374,75 @@ public sealed class Horse : PhotonView
                 return;
             }
 
-            var playerOffset = Vector3.up * 1.68f;
-            Horse.heroTransform.position = Horse.transform.position + playerOffset;
-            Horse.heroTransform.rotation = Horse.transform.rotation;
-            HeroRigidbody.velocity = Horse.rigidbody.velocity;
+            var horsePosition = Horse.rigidbody.position;
+            var horseRotation = Horse.rigidbody.rotation;
+            var horseVelocity = Horse.rigidbody.velocity;
 
-            if (controller.TargetDirection != -874f)
-            {
-                Horse.gameObject.transform.rotation = Quaternion.Lerp(
-                    Horse.gameObject.transform.rotation,
-                    Quaternion.Euler(0f, controller.TargetDirection, 0f),
-                    (100f * Time.deltaTime) / (Horse.rigidbody.velocity.magnitude + 20f));
-                if (controller.ShouldWalk)
-                {
-                    Horse.rigidbody.AddForce((Horse.transform.forward * Horse.speed) * 0.6f, ForceMode.Acceleration);
-                    if (Horse.rigidbody.velocity.magnitude >= (Horse.speed * 0.6f))
-                        Horse.rigidbody.AddForce((-Horse.speed * 0.6f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
-                }
-                else
-                {
-                    Horse.rigidbody.AddForce(Horse.transform.forward * Horse.speed, ForceMode.Acceleration);
-                    if (Horse.rigidbody.velocity.magnitude >= Horse.speed)
-                        Horse.rigidbody.AddForce(-Horse.speed * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
-                }
-
-                if (Horse.rigidbody.velocity.magnitude > 8f)
-                {
-                    if (!Horse.animation.IsPlaying("horse_Run"))
-                        Horse.CrossFade("horse_Run", 0.1f);
-
-                    if (!HeroAnimation.IsPlaying("horse_Run"))
-                        Horse.hero.CrossFade("horse_run", 0.1f);
-
-                    Horse.EnableDust();
-                }
-                else
-                {
-                    if (!Horse.animation.IsPlaying("horse_WALK"))
-                        Horse.CrossFade("horse_WALK", 0.1f);
-
-                    if (!HeroAnimation.IsPlaying("horse_idle"))
-                        Horse.hero.CrossFade("horse_idle", 0.1f);
-
-                    Horse.DisableDust();
-                }
-            }
-            else
-            {
-                Horse.ToIdleAnimation();
-                if (Horse.rigidbody.velocity.magnitude > 15f)
-                {
-                    if (!HeroAnimation.IsPlaying("horse_Run"))
-                        Horse.hero.CrossFade("horse_run", 0.1f);
-                }
-                else if (!HeroAnimation.IsPlaying("horse_idle"))
-                    Horse.hero.CrossFade("horse_idle", 0.1f);
-            }
+            if (HasMovementInput) Accelerate(ref horseVelocity, ref horseRotation);
+            else Decelerate(horseVelocity);
 
             if (controller.ShouldJump && IsGrounded)
-                Horse.rigidbody.AddForce(Vector3.up * 25f, ForceMode.VelocityChange);
+                horseVelocity += Vector3.up * 25f;
+
+            Horse.rigidbody.MoveRotation(horseRotation);
+            Horse.rigidbody.velocity = horseVelocity;
+
+            var playerOffset = Vector3.up * 1.68f;
+            HeroRigidbody.MovePosition(horsePosition + playerOffset);
+            HeroRigidbody.MoveRotation(horseRotation);
+            HeroRigidbody.velocity = horseVelocity;
+        }
+                
+        public override void Exit() => controller.enabled = false;
+        
+        private void Accelerate(ref Vector3 horseVelocity, ref Quaternion horseRotation)
+        {
+            var targetRotation = Quaternion.Euler(0f, controller.TargetDirection, 0f);
+            var lerpStep = 2f / (horseVelocity.magnitude + 20f);
+            horseRotation = Quaternion.Lerp(horseRotation, targetRotation, lerpStep);
+            var horseHeading = horseRotation * Vector3.forward;
+
+            var speedModifier = controller.ShouldWalk ? Horse.walkSpeedModifier : Horse.runSpeedModifier;
+            horseVelocity += horseHeading * speedModifier * Time.deltaTime;
+            if (horseVelocity.magnitude >= speedModifier)
+                horseVelocity += -speedModifier * horseVelocity.normalized * Time.deltaTime;
+
+            if (horseVelocity.magnitude > RunSpeed) PlayRunAnimation();
+            else PlayWalkAnimation();
+        }
+
+        private void Decelerate(in Vector3 horseVelocity)
+        {
+            Horse.ToIdleAnimation();
+            if (horseVelocity.magnitude > 15f)
+            {
+                if (!HeroAnimation.IsPlaying("horse_Run"))
+                    Horse.hero.CrossFade("horse_run", 0.1f);
+            }
+            else if (!HeroAnimation.IsPlaying("horse_idle"))
+                Horse.hero.CrossFade("horse_idle", 0.1f);
+        }
+
+        private void PlayWalkAnimation()
+        {
+            if (!Horse.animation.IsPlaying("horse_WALK"))
+                Horse.CrossFade("horse_WALK", 0.1f);
+
+            if (!HeroAnimation.IsPlaying("horse_idle"))
+                Horse.hero.CrossFade("horse_idle", 0.1f);
+
+            Horse.DisableDust();
+        }
+
+        private void PlayRunAnimation()
+        {
+            if (!Horse.animation.IsPlaying("horse_Run"))
+                Horse.CrossFade("horse_Run", 0.1f);
+
+            if (!HeroAnimation.IsPlaying("horse_Run"))
+                Horse.hero.CrossFade("horse_run", 0.1f);
+
+            Horse.EnableDust();
         }
     }
 
@@ -449,16 +450,13 @@ public sealed class Horse : PhotonView
     {
         protected readonly Horse Horse;
 
-        public State(Horse horse)
-        {
-            Horse = horse;
-        }
+        protected State(Horse horse) => Horse = horse;
 
         public virtual void Enter()
         {
         }
 
-        public virtual void Exit()
+        public virtual void Update()
         {
         }
 
@@ -466,7 +464,7 @@ public sealed class Horse : PhotonView
         {
         }
 
-        public virtual void Update()
+        public virtual void Exit()
         {
         }
     }
