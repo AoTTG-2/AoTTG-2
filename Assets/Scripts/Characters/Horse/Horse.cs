@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 public sealed class Horse : PhotonView
 {
-    [SerializeField] private float gravityFactor = -20f;
+    [SerializeField] private float gravityFactor = -200f;
     [SerializeField] private float walkSpeedModifier = 27f;
     [SerializeField] private float runSpeedModifier = 45f;
 
@@ -110,7 +110,7 @@ public sealed class Horse : PhotonView
     {
         currentState.FixedUpdate();
 
-        rigidbody.AddForce(new Vector3(0f, gravityFactor * rigidbody.mass, 0f));
+        rigidbody.AddForce(new Vector3(0f, gravityFactor, 0f));
     }
 
     [PunRPC]
