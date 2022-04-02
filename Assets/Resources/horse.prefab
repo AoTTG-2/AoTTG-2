@@ -6687,8 +6687,14 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+  gravityFactor: -200
+  walkSpeedModifier: 27
+  runSpeedModifier: 45
+  slowRadius: 20
+  stopRadius: 5
+  slowModifier: 0.7
+  teleportCountdown: 6
   dustParticles: {fileID: 198199218511497426}
-  gravityFactor: -20
 --- !u!114 &114563645587361564
 MonoBehaviour:
   m_ObjectHideFlags: 0
