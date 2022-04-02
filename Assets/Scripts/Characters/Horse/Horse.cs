@@ -10,7 +10,13 @@ public sealed class Horse : PhotonView
     [SerializeField] private float gravityFactor = -200f;
     [SerializeField] private float walkSpeedModifier = 27f;
     [SerializeField] private float runSpeedModifier = 45f;
-
+    
+    [SerializeField] private float slowRadius = 20f;
+    [SerializeField] private float stopRadius = 5f;
+    [SerializeField] private float slowModifier = 0.7f;
+    
+    [SerializeField] private float teleportCountdown = 6f;
+    
     [SerializeField]
     private ParticleSystem dustParticles;
 
@@ -270,11 +276,11 @@ public sealed class Horse : PhotonView
                 Quaternion.Euler(0f, Horse.gameObject.transform.rotation.eulerAngles.y + num, 0f),
                 (200f * Time.deltaTime) / (Horse.rigidbody.velocity.magnitude + 20f));
 
-            if (Vector3.Distance(target, Horse.transform.position) < 20f)
+            if (Vector3.Distance(target, Horse.transform.position) < Horse.slowRadius)
             {
-                Horse.rigidbody.AddForce((Horse.transform.forward * Horse.runSpeedModifier) * 0.7f, ForceMode.Acceleration);
+                Horse.rigidbody.AddForce(Horse.transform.forward * Horse.runSpeedModifier * Horse.slowModifier, ForceMode.Acceleration);
                 if (Horse.rigidbody.velocity.magnitude >= Horse.runSpeedModifier)
-                    Horse.rigidbody.AddForce((-Horse.runSpeedModifier * 0.7f) * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
+                    Horse.rigidbody.AddForce(-Horse.runSpeedModifier * Horse.slowModifier * Horse.rigidbody.velocity.normalized, ForceMode.Acceleration);
             }
             else
             {
@@ -287,17 +293,17 @@ public sealed class Horse : PhotonView
             if (timeElapsed > 0.6f)
             {
                 timeElapsed = 0f;
-                if (Vector3.Distance(Horse.heroTransform.position, target) > 20f)
+                if (Vector3.Distance(Horse.heroTransform.position, target) > Horse.slowRadius)
                     GetNewTarget();
             }
 
-            if (Vector3.Distance(Horse.heroTransform.position, Horse.transform.position) < 5f)
+            if (Vector3.Distance(Horse.heroTransform.position, Horse.transform.position) < Horse.stopRadius)
                 Horse.TransitionToState(Horse.idleState);
-            else if (Vector3.Distance(target, Horse.transform.position) < 5f)
+            else if (Vector3.Distance(target, Horse.transform.position) < Horse.stopRadius)
                 Horse.TransitionToState(Horse.idleState);
 
             awayTimer += Time.deltaTime;
-            if (awayTimer > 6f)
+            if (awayTimer > Horse.teleportCountdown)
             {
                 awayTimer = 0f;
                 var start = Horse.transform.position + Vector3.up;
@@ -334,16 +340,18 @@ public sealed class Horse : PhotonView
         {
             Horse.ToIdleAnimation();
             var heroDistance = Vector3.Distance(Horse.heroTransform.position, Horse.transform.position);
-            if (Horse.hero && heroDistance > 20f)
+            if (Horse.hero && heroDistance > Horse.slowRadius)
                 Horse.TransitionToState(Horse.followState);
         }
     }
 
     private sealed class MountState : State
     {
-        private const float RunSpeed = 8f;
-
         private readonly HorseController controller;
+        
+        private Vector3 horsePosition;
+        private Quaternion horseRotation;
+        private Vector3 horseVelocity;
 
         public MountState(Horse horse, HorseController controller)
             : base(horse) =>
@@ -360,7 +368,7 @@ public sealed class Horse : PhotonView
         private bool IsGrounded =>
             Physics.Raycast(
                 Horse.rigidbody.position + Vector3.up * 0.1f,
-                -Vector3.up,
+                Vector3.down,
                 0.3f,
                 Horse.isGroundedMask.value);
 
@@ -374,12 +382,12 @@ public sealed class Horse : PhotonView
                 return;
             }
 
-            var horsePosition = Horse.rigidbody.position;
-            var horseRotation = Horse.rigidbody.rotation;
-            var horseVelocity = Horse.rigidbody.velocity;
+            horsePosition = Horse.rigidbody.position;
+            horseRotation = Horse.rigidbody.rotation;
+            horseVelocity = Horse.rigidbody.velocity;
 
-            if (HasMovementInput) Accelerate(ref horseVelocity, ref horseRotation);
-            else Decelerate(horseVelocity);
+            if (HasMovementInput) Accelerate();
+            else Decelerate();
 
             if (controller.ShouldJump && IsGrounded)
                 horseVelocity += Vector3.up * 25f;
@@ -395,7 +403,7 @@ public sealed class Horse : PhotonView
                 
         public override void Exit() => controller.enabled = false;
         
-        private void Accelerate(ref Vector3 horseVelocity, ref Quaternion horseRotation)
+        private void Accelerate()
         {
             var targetRotation = Quaternion.Euler(0f, controller.TargetDirection, 0f);
             var lerpStep = 2f / (horseVelocity.magnitude + 20f);
@@ -407,11 +415,11 @@ public sealed class Horse : PhotonView
             if (horseVelocity.magnitude >= speedModifier)
                 horseVelocity += -speedModifier * horseVelocity.normalized * Time.deltaTime;
 
-            if (horseVelocity.magnitude > RunSpeed) PlayRunAnimation();
+            if (horseVelocity.magnitude > 8f) PlayRunAnimation();
             else PlayWalkAnimation();
         }
 
-        private void Decelerate(in Vector3 horseVelocity)
+        private void Decelerate()
         {
             Horse.ToIdleAnimation();
             if (horseVelocity.magnitude > 15f)
