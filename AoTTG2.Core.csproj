@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanGlassesComponent.cs" />
     <Compile Include="Assets\Scripts\Settings\Gamemodes\WaveGamemodeSettings.cs" />
     <Compile Include="Assets\Scripts\Settings\SettingCategory.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\HeroAirborneData.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeadgearComponent.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\HUD\Weapon\AHSS.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HeroStats.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Assets\Scripts\Room\Minimap\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\ChatUtility.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\IPauseService.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneDashingState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioController.cs" />
     <Compile Include="Assets\Scripts\Interactable\PlayerInteractable.cs" />
@@ -321,6 +323,7 @@
     <Compile Include="Assets\Scripts\Characters\Titan\Body\BodyPart.cs" />
     <Compile Include="Assets\Scripts\StateMachine\IState.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Behavior\RandomAttackBehavior.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneMovingState.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ISpawnService.cs" />
     <Compile Include="Assets\Scripts\Legacy\CustomMap\RCLegacy.cs" />
     <Compile Include="Assets\Scripts\Settings\GameSettings.cs" />
@@ -404,6 +407,7 @@
     <Compile Include="Assets\Scripts\Settings\GlobalSettings.cs" />
     <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Grounded\HeroGroundedData.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\HeroAirborneState.cs" />
     <Compile Include="Assets\Scripts\Events\Args\TitanDamagedEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Elements\UiToggleButton.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\ServerSelector.cs" />
@@ -529,6 +533,7 @@
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
     <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\SerializeableAttribute.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
@@ -549,11 +554,6 @@
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Data\States\HeroStateReusableData.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\HeroAirborneState.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\HeroAirborneData.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneMovingState.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\Airborne\Moving\HeroAirborneDashingState.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\SerializeableAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

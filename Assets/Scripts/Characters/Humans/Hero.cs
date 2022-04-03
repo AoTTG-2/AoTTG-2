@@ -1155,15 +1155,6 @@ namespace Assets.Scripts.Characters.Humans
                         state = HumanState.Idle;
                     }
                 }
-                if (InputManager.Key(InputHuman.HookLeft))
-                {
-                    isLeftHookPressed = true;
-                }
-                else
-                {
-                    isLeftHookPressed = false;
-                }
-
                 //TODO: Properly refactor these if statements
 
                 // Attack 3_1 = Mikasa part 1
@@ -1174,27 +1165,19 @@ namespace Assets.Scripts.Characters.Humans
                 // If leftHookPressed
                 // (Using HeroAnim.ATTACK3_1 OR Attack5 OR Petra OR Grabbed) AND NOT IDLE
                 // 
-
+                if (InputManager.Key(InputHuman.HookLeft))
+                {
+                    isLeftHookPressed = true;
+                }
+                else
+                {
+                    isLeftHookPressed = false;
+                }
                 if (!(isLeftHookPressed ? (((Animation.IsPlaying(HeroAnim.ATTACK3_1) || Animation.IsPlaying(HeroAnim.ATTACK5)) || (Animation.IsPlaying(HeroAnim.SPECIAL_PETRA) || (state == HumanState.Grab))) ? (state != HumanState.Idle) : false) : true))
-
                 {
                     if (hookLeft != null)
                     {
                         QHold = true;
-                    }
-                    else
-                    {
-                        RaycastHit hit4;
-                        Ray ray4 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-
-                        if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask.value))
-                            LaunchLeftRope(hit4.distance, hit4.point, true);
-                        else
-                            LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
-                        
-                        if (currentGas > 0) rope.Play();
-                        else if (InputManager.KeyDown(InputHuman.HookLeft)) ropeNoGas.Play();
                     }
                 }
                 else
@@ -1215,22 +1198,6 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         EHold = true;
                     }
-                    else
-                    {
-                        RaycastHit hit5;
-                        Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-
-                        var didHit = Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask.value);
-                        var (distance, point) = didHit
-                            ? (hit5.distance, hit5.point)
-                            : (HookRaycastDistance, ray5.GetPoint(HookRaycastDistance));
-                        
-                        LaunchRightRope(distance, point, true);
-                        
-                        if (currentGas > 0) rope.Play();
-                        else if (InputManager.KeyDown(InputHuman.HookRight)) ropeNoGas.Play();
-                    }
                 }
                 else
                 {
@@ -1248,22 +1215,6 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     QHold = true;
                     EHold = true;
-                    if ((hookLeft == null) && (hookRight == null))
-                    {
-                        RaycastHit hit6;
-                        Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-
-                        var (distance, point) = Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask.value)
-                            ? (hit6.distance, hit6.point)
-                            : (HookRaycastDistance, ray6.GetPoint(HookRaycastDistance));
-                        
-                        LaunchLeftRope(distance, point, false);
-                        LaunchRightRope(distance, point, false);
-                        
-                        if (currentGas > 0) rope.Play();
-                        else if (InputManager.KeyDown(InputHuman.HookBoth)) ropeNoGas.Play();
-                    }
                 }
                 if (!IN_GAME_MAIN_CAMERA.isPausing)
                 {
@@ -1516,7 +1467,7 @@ namespace Assets.Scripts.Characters.Humans
                     bool canReelOffRightHook = false;
                     isLeftHandHooked = false;
                     isRightHandHooked = false;
-
+                    //While Hooked Logic
                     if (isLaunchLeft)
                     {
                         if ((hookLeft != null) && hookLeft.isHooked())
@@ -1524,10 +1475,10 @@ namespace Assets.Scripts.Characters.Humans
                             isLeftHandHooked = true;
                             Vector3 dirToLeftHook = hookLeft.transform.position - transform.position;
                             dirToLeftHook.Normalize();
-                            dirToLeftHook = (dirToLeftHook * 10f);
+                            dirToLeftHook *= 10f;
                             if (!isLaunchRight)
                             {
-                                dirToLeftHook = (dirToLeftHook * 2f);
+                                dirToLeftHook *= 2f;
                             }
 
                             if ((Vector3.Angle(Rigidbody.velocity, dirToLeftHook) > 90f) && InputManager.Key(InputHuman.Jump))

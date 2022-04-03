@@ -1,7 +1,10 @@
 using Assets.Scripts.Characters.Humans.Data;
 using Assets.Scripts.Characters.Humans.Data.States.Grounded;
+using Assets.Scripts.Constants;
 using Assets.Scripts.StateMachine;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines
 {
@@ -19,7 +22,13 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         protected Quaternion targetRotation;
         protected float maxVelocityChange = 10f;
         protected PhotonView photonView;
-
+        private enum HookType
+        {
+            left,
+            right,
+            both,
+            none
+        }
         public HeroMovementState(HeroMovementStateMachine heroMovementStateMachine)
         {
             stateMachine = heroMovementStateMachine;
@@ -88,11 +97,83 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         private void ReadMovementInput()
         {
             stateMachine.ReusableData.MovementInput = stateMachine.Hero.HumanInput.HumanActions.Move.ReadValue<Vector2>();
-            IsGrounded();
+            CheckGrounded();
         }
-        private void IsGrounded()
+        private void CheckGrounded()
         {
-            stateMachine.ReusableData.IsGrounded = stateMachine.Hero.IsGrounded();
+            stateMachine.ReusableData.IsGrounded = IsGrounded();
+        }
+        private bool IsGrounded()
+        {
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
+            bool didHit = Physics.Raycast(stateMachine.Hero.gameObject.transform.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.3f, mask.value);
+            return didHit;
+        }
+        private void OnHookUsed(InputAction.CallbackContext context)
+        {
+            switch (context.action.name)
+            {
+                case "Hook Left":
+                    LaunchHook(HookType.left);
+                    break;
+                case "Hook Right":
+                    LaunchHook(HookType.right);
+                    break;
+                case "Hook Both":
+                    LaunchHook(HookType.both);
+                    break;
+                default:
+                    Debug.LogError("Unknown Input");
+                    LaunchHook(HookType.none);
+                    return;
+            }
+        }
+        private void LaunchHook(HookType hookType)
+        {
+            RaycastHit rightHookRayCastHit;
+            Ray rightHookRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            LayerMask groundAndEnemyLayers = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+
+            var didHit = Physics.Raycast(rightHookRay,
+                                         out rightHookRayCastHit,
+                                         stateMachine.ReusableData.HookRayCastDistance,
+                                         groundAndEnemyLayers.value);
+            var (distance, point) = didHit
+                ? (rightHookRayCastHit.distance, rightHookRayCastHit.point)
+                : (stateMachine.ReusableData.HookRayCastDistance, rightHookRay.GetPoint(stateMachine.ReusableData.HookRayCastDistance));
+
+            switch (hookType)
+            {
+                case HookType.left:
+                    if (stateMachine.Hero.hookLeft == null)
+                        LaunchLeftRope(distance, point, true);
+                    break;
+                case HookType.right:
+                    if (stateMachine.Hero.hookRight == null)
+                        LaunchRightRope(distance, point, true);
+                    break;
+                case HookType.both:
+                    if (stateMachine.Hero.hookLeft == null)
+                        LaunchLeftRope(distance, point, false);
+                    if (stateMachine.Hero.hookRight == null)
+                        LaunchRightRope(distance, point, false);
+                    break;
+                default:
+                    break;
+            }
+            if (stateMachine.ReusableData.CurrentGas > 0) stateMachine.Hero.rope.Play();
+            else stateMachine.Hero.ropeNoGas.Play();
+        }
+        public void LaunchRightRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = stateMachine.Hero.useGun ? Bullet.HookSource.GunRight : Bullet.HookSource.BeltRight;
+            stateMachine.Hero.LaunchRope(source, distance, point, single, leviMode);
+        }
+        public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = stateMachine.Hero.useGun ? Bullet.HookSource.GunLeft : Bullet.HookSource.BeltLeft;
+            stateMachine.Hero.LaunchRope(source, distance, point, single, leviMode);
         }
         #endregion
         #region Old Hero.cs Methods
@@ -174,9 +255,15 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         }
         protected virtual void AddInputActionsCallbacks()
         {
+            stateMachine.Hero.HumanInput.HumanActions.HookLeft.started += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookRight.started += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookBoth.started += OnHookUsed;
         }
         protected virtual void RemoveInputActionsCallbacks()
         {
+            stateMachine.Hero.HumanInput.HumanActions.HookLeft.started -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookRight.started -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookBoth.started -= OnHookUsed;
         }
         protected void SnapToFaceDirection()
         {

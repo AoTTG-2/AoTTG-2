@@ -12,6 +12,7 @@ namespace Assets.Scripts.Characters.Humans.Data.States
         public float UseGasSpeed { get; set; } = 0.2f;
         public float CurrentGas { get; set; } = 100f;
         public float MovementSpeedModifier { get; set; } = 1f;
+        public float HookRayCastDistance { get; private set; } = 1000f;
 
         private Vector3 currentTargetRotation;
         private Vector3 timeToReachTargetRotation;

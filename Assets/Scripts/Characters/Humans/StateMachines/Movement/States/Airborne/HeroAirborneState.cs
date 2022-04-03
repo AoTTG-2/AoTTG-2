@@ -16,13 +16,16 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
         {
             if (stateMachine.ReusableData.IsGrounded)
             {
-                stateMachine.ChangeState(stateMachine.IdlingState);
+                if (stateMachine.ReusableData.MovementInput == Vector2.zero) stateMachine.ChangeState(stateMachine.IdlingState);
+                else stateMachine.ChangeState(stateMachine.RunningState);
+                return;
             }
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
         }
         protected override void AddInputActionsCallbacks()
         {
+            base.AddInputActionsCallbacks();
             bindOnEnter = InputManager.Settings.GasBurstDoubleTap;
             if (bindOnEnter)
             {
@@ -35,6 +38,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
         }
         protected override void RemoveInputActionsCallbacks()
         {
+            base.RemoveInputActionsCallbacks();
             if (bindOnEnter)
             {
                 stateMachine.Hero.HumanInput.HumanActions.GasBurstDoubleTap.performed -= OnGasBurstStarted;

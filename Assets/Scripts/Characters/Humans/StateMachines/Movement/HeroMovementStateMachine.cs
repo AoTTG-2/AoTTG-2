@@ -12,7 +12,6 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
     /// </summary>
     public class HeroMovementStateMachine : StateMachine.StateMachine
     {
-        //TO DO: Add Airborne, Dashing state
         public Hero Hero { get; }
         public HeroStateReusableData ReusableData { get; }
         public HeroIdlingState IdlingState { get; }
