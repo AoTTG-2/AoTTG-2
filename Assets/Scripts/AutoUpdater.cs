@@ -10,32 +10,70 @@ using System.ComponentModel;
 using TMPro;
 using System.Security.Cryptography;
 
+enum EPlatform
+{
+    Windows = 0,
+    Mac = 1,
+    Linux = 2
+}
+
 public class AutoUpdater : MonoBehaviour
 {
     [SerializeField]
-    string url;
-    [SerializeField]
     GameObject updatePanel, updateCheckPanel, warningPanel;
+
     [SerializeField]
     TMP_Text versionText, downloadingText;
-    GithubResponse response;
+
     [SerializeField]
     string version = "v1.8", hashCode = "";
+
+#if DEVELOPMENT_BUILD
+    string url = "https://api.github.com/repos/AoTTG-2/AoTTG-2/releases/61795699";
+#else
+    string url = "https://api.github.com/repos/AoTTG-2/AoTTG-2/releases/latest";
+#endif
+
+    GithubResponse response;
+
+    EPlatform platform;
 
     void Start()
     {
         updatePanel.SetActive(false);
         StartCoroutine(GetGithubResponse(url));
+
+        // will disable all of this since there is only windows version avalible
+           
+        // if (Application.platform == RuntimePlatform.WindowsPlayer)
+        // {
+        //     platform = EPlatform.Windows;
+        // }
+        // else if (Application.platform == RuntimePlatform.OSXPlayer)
+        // {
+        //     platform = EPlatform.Mac;
+        // }
+        // else if (Application.platform == RuntimePlatform.LinuxPlayer)
+        // {
+        //     platform = EPlatform.Linux;
+        // }
+           
+        // instead of all this I will set it to windows
+
+        platform = EPlatform.Windows;
+
     }
 
     IEnumerator GetGithubResponse(string url)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
+
         if (request.result == UnityWebRequest.Result.ConnectionError)
         {
             Debug.LogError(request.error);
         }
+
         else if (request.result == UnityWebRequest.Result.Success)
         {
             var str = request.downloadHandler.text;
@@ -55,9 +93,52 @@ public class AutoUpdater : MonoBehaviour
         }
     }
 
+    void OnDownloadingNewVersionFinished()
+    {
+        downloadingText.text = "Checking...";
+        using (var md = MD5.Create())
+        {
+            using (var file = File.OpenRead(Application.dataPath + "/../../NewVersion.zip"))
+            {
+                var hash = BitConverter.ToString(md.ComputeHash(file));
+                if (hash == hashCode)
+                {
+                    downloadingText.text = "Complete!";
+                    System.Diagnostics.Process.Start(Application.dataPath + "/../../NewVersion.zip");
+                    Application.Quit();
+                }
+                else
+                {
+                    //Debug.Log(hash);
+                }
+            }
+        }
+    }
+
+    void OnDownloadProgressCanged(object obj, DownloadProgressChangedEventArgs args)
+    {
+        downloadingText.text = "downloiading...        " + args.BytesReceived + "/" + response.Assets[(int)platform].Size + "  (" + args.ProgressPercentage + "%)";
+    }
+
+    void DownloadFile(string Url, string name, string savePath, Action onComplete, DownloadProgressChangedEventHandler progressChangeEvent)
+    {
+        WebClient client = new WebClient();
+        void OnDownloadComplete(object obj, AsyncCompletedEventArgs a)
+        {
+            if (File.Exists(Application.dataPath + "/../" + name))
+            {
+                File.Move(Application.dataPath + "/../" + name, savePath + name);
+            }
+            onComplete();
+        }
+        client.DownloadFileCompleted += OnDownloadComplete;
+        client.DownloadFileTaskAsync(Url, name);
+        client.DownloadProgressChanged += progressChangeEvent;
+    }
+
     public void OnUpdateButtonClicked()
     {
-        DownloadFile(response.Assets[0].BrowserDownloadUrl,
+        DownloadFile(response.Assets[(int)platform].BrowserDownloadUrl,
             "NewVersion.zip", Application.dataPath + "/../../",
             OnDownloadingNewVersionFinished, OnDownloadProgressCanged);
 
@@ -82,51 +163,9 @@ public class AutoUpdater : MonoBehaviour
         Destroy(updatePanel);
     }
 
-    void OnDownloadingNewVersionFinished()
-    {
-        //Debug.Log("Download finished");
-        downloadingText.text = "Checking...";
-        using (var md = MD5.Create())
-        {
-            using (var file = File.OpenRead(Application.dataPath + "/../../NewVersion.zip"))
-            {
-                var hash = BitConverter.ToString(md.ComputeHash(file));
-                if (hash == hashCode)
-                {
-                    downloadingText.text = "Complete!";
-                    System.Diagnostics.Process.Start(Application.dataPath + "/../../NewVersion.zip");
-                    //File.Delete(Application.dataPath + "/../../NewVersion.zip");
-                    Application.Quit();
-                }
-                else
-                {
-                    //Debug.Log(hash);
-                }
-            }
-        }
-    }
-
-    void OnDownloadProgressCanged(object obj, DownloadProgressChangedEventArgs args)
-    {
-        downloadingText.text = "downloiading...        " + args.BytesReceived + "/" + response.Assets[0].Size + "  (" + args.ProgressPercentage + "%)";
-    }
-
-    void DownloadFile(string Url, string name, string savePath, Action onComplete, DownloadProgressChangedEventHandler progressChangeEvent)
-    {
-        WebClient client = new WebClient();
-        void OnDownloadComplete(object obj, AsyncCompletedEventArgs a)
-        {
-            if (File.Exists(Application.dataPath + "/../" + name))
-            {
-                File.Move(Application.dataPath + "/../" + name, savePath + name);
-            }
-            onComplete();
-        }
-        client.DownloadFileCompleted += OnDownloadComplete;
-        client.DownloadFileTaskAsync(Url, name);
-        client.DownloadProgressChanged += progressChangeEvent;
-    }
 }
+
+#region Github Response classes
 
 public class Author
 {
@@ -340,3 +379,5 @@ public class GithubResponse
     [JsonProperty("body")]
     public string Body { get; set; }
 }
+
+#endregion
