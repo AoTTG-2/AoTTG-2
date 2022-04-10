@@ -828,7 +828,7 @@ namespace Assets.Scripts.Characters.Titan
                     Turn(between);
                     Stuck = false;
                 }
-                else
+                else if (!Stuck)
                 {
                     SmallTurn(between);
                 }
@@ -1011,7 +1011,7 @@ namespace Assets.Scripts.Characters.Titan
                         CurrentAnimation = AnimationIdle;
                         if (!Animation.IsPlaying(CurrentAnimation))
                         {
-                            CrossFade(CurrentAnimation, 0.5f);
+                            CrossFade(CurrentAnimation, 0.3f);
                         }
                     }
                     Stuck = true;
