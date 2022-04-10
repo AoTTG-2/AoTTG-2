@@ -26,6 +26,8 @@ namespace Assets.Scripts.Characters.Titan
 
         public MinimapIcon minimapIcon;
 
+        public TitanState PreviousState;
+        public TitanState NextState;
         public MindlessTitanType MindlessType;
 
         private float turnDeg;
@@ -33,16 +35,6 @@ namespace Assets.Scripts.Characters.Titan
         private int nextUpdate = 1;
         private float attackCooldown;
         private float staminaLimit;
-
-        [Header("Titan Chase Variables")]
-        [SerializeField] private float titanLookAtRange = 100f;      //Range at which titans start looking at the player
-
-        [Header("Head Rotation Variables")]
-        [SerializeField] private float minHeadRotVertical = 9.5f;     //Max values to which the head can turn during HeadMovement()
-        [SerializeField] private float maxHeadRotVertical = 5f;
-        [SerializeField] private float minHeadRotHorizontal = 10f;
-        [SerializeField] private float maxHeadRotHorizontal = 10f;
-        [SerializeField] public float interpolation_velocity = 10f;     //Value by which head movement is Lerped over time
 
         private float FocusTimer { get; set; }
         private bool isHooked;
@@ -91,7 +83,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private bool asClientLookTarget;
         private Quaternion oldHeadRotation;
-        private Quaternion targetHeadRotation;      //SonarCloud will bitch about this line. Do not give into the machine. Fight it, it must not win.
+        private Quaternion targetHeadRotation;
         private Vector3 headscale;
 
         protected override void Awake()
@@ -102,7 +94,7 @@ namespace Assets.Scripts.Characters.Titan
             this.grabTF = new GameObject();
             this.grabTF.name = "titansTmpGrabTF";
             grabTF.transform.SetParent(transform);
-            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection" && x.name != "Sound")
+            Colliders = GetComponentsInChildren<Collider>().Where(x => x.name != "AABB" && x.name != "Detection")
                 .ToArray();
             CheckColliders();
 
@@ -298,57 +290,86 @@ namespace Assets.Scripts.Characters.Titan
             }
         }
 
-        private void calculateHeadRotation()
-        {
-            var relative_position = Target.transform.position - transform.position;                                    //Create a vector to the target
-            var global_horizontal_angle = -Mathf.Atan2(relative_position.z, relative_position.x) * Mathf.Rad2Deg;      //Find angle of that vector from the horizontal
-            float relative_horizontal_angle = -Mathf.DeltaAngle(global_horizontal_angle, transform.rotation.eulerAngles.y - 90f);
-            relative_horizontal_angle = Mathf.Clamp(relative_horizontal_angle, -maxHeadRotHorizontal, minHeadRotHorizontal);  //Clamp angle to prevent eldritch horrors
-
-            float relative_y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
-            float vertical_angle = Mathf.Atan2(relative_y, TargetDistance) * Mathf.Rad2Deg;                              //Find angle vertically
-            vertical_angle = Mathf.Clamp(vertical_angle, -maxHeadRotVertical, minHeadRotVertical);                 //Clamp dat boi
-
-            this.targetHeadRotation = Quaternion.Euler(                                                                     //Assemble angle needed to look at target
-                 Body.Head.rotation.eulerAngles.x + vertical_angle,
-                 Body.Head.rotation.eulerAngles.y + relative_horizontal_angle,
-                 Body.Head.rotation.eulerAngles.z
-                 );
-        }
-
         private void HeadMovement()
         {
             if (State != TitanState.Dead)
             {
-                interpolation_velocity = 10f;
-                this.targetHeadRotation = Body.Head.rotation;
-
                 if (base.photonView.isMine)
                 {
                     if (PhotonNetwork.isMasterClient && Setting.Debug.TitanAttacks == true) return;
-                    bool haveToUpdateHead = TargetDistance < titanLookAtRange && Target;
-                    if (haveToUpdateHead)
-                        this.calculateHeadRotation();
-
-                    //whenever haveToUpdateHead and asClientLookTarget are different it updates the target for clients
-                    if (haveToUpdateHead ^ this.asClientLookTarget)
+                    targetHeadRotation = Body.Head.rotation;
+                    bool flag2 = false;
+                    if (State == TitanState.Chase && TargetDistance < 100f && Target != null)
                     {
-                        this.asClientLookTarget = haveToUpdateHead;
-                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, this.asClientLookTarget);
+                        var vector = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector.z, vector.x) * Mathf.Rad2Deg;
+                        float num = -Mathf.DeltaAngle(angle, base.transform.rotation.eulerAngles.y - 90f);
+                        num = Mathf.Clamp(num, -40f, 40f);
+                        float y = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num3 = Mathf.Atan2(y, TargetDistance) * Mathf.Rad2Deg;
+                        num3 = Mathf.Clamp(num3, -40f, 30f);
+                        targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num3,
+                            Body.Head.rotation.eulerAngles.y + num, Body.Head.rotation.eulerAngles.z);
+                        if (!this.asClientLookTarget)
+                        {
+                            this.asClientLookTarget = true;
+                            object[] parameters = new object[] { true };
+                            base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, parameters);
+                        }
+
+                        flag2 = true;
+                    }
+
+                    if (!(flag2 || !this.asClientLookTarget))
+                    {
+                        this.asClientLookTarget = false;
+                        object[] objArray3 = new object[] { false };
+                        base.photonView.RPC(nameof(setIfLookTarget), PhotonTargets.Others, objArray3);
                     }
 
                     if (State == TitanState.Attacking)
-                        interpolation_velocity = 20f;
+                    {
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 20f);
+                    }
+                    else
+                    {
+                        oldHeadRotation = Quaternion.Lerp(oldHeadRotation, targetHeadRotation, Time.deltaTime * 10f);
+                    }
                 }
                 else
                 {
-                    TargetDistance = this.GetTargetDistance();
-                    if (this.asClientLookTarget && TargetDistance < 100f)
-                        this.calculateHeadRotation();
+                    var hasTarget = Target != null;
+                    if (hasTarget)
+                    {
+                        TargetDistance = Mathf.Sqrt(
+                            ((Target.transform.position.x - transform.position.x) *
+                             (Target.transform.position.x - transform.position.x)) +
+                            ((Target.transform.position.z - transform.position.z) *
+                             (Target.transform.position.z - transform.position.z)));
+                    }
+                    else
+                    {
+                        TargetDistance = float.MaxValue;
+                    }
+
+                    this.targetHeadRotation = Body.Head.rotation;
+                    if ((this.asClientLookTarget && hasTarget) && (TargetDistance < 100f))
+                    {
+                        var vector2 = Target.transform.position - transform.position;
+                        var angle = -Mathf.Atan2(vector2.z, vector2.x) * Mathf.Rad2Deg;
+                        float num4 = -Mathf.DeltaAngle(angle, transform.rotation.eulerAngles.y - 90f);
+                        num4 = Mathf.Clamp(num4, -40f, 40f);
+                        float num5 = (Body.Neck.position.y + (Size * 2f)) - Target.transform.position.y;
+                        float num6 = Mathf.Atan2(num5, TargetDistance) * Mathf.Rad2Deg;
+                        num6 = Mathf.Clamp(num6, -40f, 30f);
+                        this.targetHeadRotation = Quaternion.Euler(Body.Head.rotation.eulerAngles.x + num6,
+                            Body.Head.rotation.eulerAngles.y + num4, Body.Head.rotation.eulerAngles.z);
+                    }
+
+                    this.oldHeadRotation = Quaternion.Slerp(this.oldHeadRotation, this.targetHeadRotation,
+                        Time.deltaTime * 10f);
                 }
 
-                this.oldHeadRotation = Quaternion.Lerp(this.oldHeadRotation, this.targetHeadRotation, //Lerp towards the new head angle by interpolation velocity amount
-                    Time.deltaTime * interpolation_velocity);
                 Body.Head.rotation = this.oldHeadRotation;
             }
             if (!base.GetComponent<Animation>().IsPlaying("die_headOff"))
@@ -521,11 +542,19 @@ namespace Assets.Scripts.Characters.Titan
 
         private void Turn(float degrees)
         {
-            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true) return;
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement.Value) return;
             SetState(TitanState.Turning);
             CurrentAnimation = degrees > 0f ? AnimationTurnLeft : AnimationTurnRight;
             CrossFade(CurrentAnimation, 0.0f);
             this.turnDeg = degrees;
+            this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
+        }
+
+        private void SmallTurn(float degrees)
+        {
+            if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement.Value) return;
+            this.turnDeg = (degrees > 0f ? 15 : -15) * Time.deltaTime;
+            gameObject.transform.Rotate(0, this.turnDeg, 0);
             this.desDeg = base.gameObject.transform.rotation.eulerAngles.y + this.turnDeg;
         }
 
@@ -534,7 +563,7 @@ namespace Assets.Scripts.Characters.Titan
             return value > min && value < max;
         }
 
-        public bool IsStuck()
+        public new bool IsStuck()
         {
             var velocity = Rigidbody.velocity;
             return Between(velocity.z, -Speed / 4, Speed / 4)
@@ -657,6 +686,11 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            if (Target != null)
+            {
+                GetNavigator().Navigate(Target.transform.position);
+            }
+
             switch (State)
             {
                 case TitanState.Disabled:
@@ -707,11 +741,7 @@ namespace Assets.Scripts.Characters.Titan
 
         private void LateUpdate()
         {
-            if (Target)
-            {
-                this.HeadMovement();
-            }
-            else if (State != TitanState.Attacking && State != TitanState.Eat)
+            if (Target == null && State == TitanState.Attacking)
             {
                 SetState(TitanState.Wandering);
             }
@@ -731,9 +761,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
             CurrentAttack.Execute();
-            if (Target is Hero hero) hero.CombatTimer?.AddTime();
         }
 
+        private bool Stuck = false;
         protected override void OnChasing()
         {
             if (Target == null || ViewDistance < TargetDistance)
@@ -742,9 +772,15 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
-            if (CanRun())
+            //TODO: Enable when add bend down animation
+            // if (CurrentAnimation != AnimationBendDown)
+            // {
+            if (IsStuck() || Stuck)
             {
-                if (Target is Hero hero) hero.CombatTimer?.AddTime();
+                CurrentAnimation = AnimationIdle;
+            }
+            else if (CanRun())
+            {
                 CurrentAnimation = AnimationRun;
                 Stamina -= Time.deltaTime * 2;
             }
@@ -752,6 +788,7 @@ namespace Assets.Scripts.Characters.Titan
             {
                 CurrentAnimation = AnimationWalk;
             }
+            // }
 
             if (PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true)
                 CurrentAnimation = AnimationIdle;
@@ -778,13 +815,22 @@ namespace Assets.Scripts.Characters.Titan
             }
             else
             {
-                Vector3 vector18 = Target.transform.position - transform.position;
-                var angle = -Mathf.Atan2(vector18.z, vector18.x) * Mathf.Rad2Deg;
+                Vector3 movingDirection = Target.transform.position - transform.position;
+                Vector3 navDir = GetNavigator().GetNavDir();
+                if (new Vector2(navDir.x, navDir.z).magnitude > 0)
+                {
+                    movingDirection = navDir;
+                }
+                var angle = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg;
                 var between = -Mathf.DeltaAngle(angle, gameObject.transform.rotation.eulerAngles.y - 90f);
                 if (Mathf.Abs(between) > 45f && Vector3.Distance(Target.transform.position, transform.position) < 50f * Size)
                 {
                     Turn(between);
-                    interpolation_velocity = 40f;
+                    Stuck = false;
+                }
+                else if (!Stuck)
+                {
+                    SmallTurn(between);
                 }
             }
         }
@@ -922,12 +968,6 @@ namespace Assets.Scripts.Characters.Titan
             if (Setting.Debug.TitanMovement == true && PhotonNetwork.isMasterClient) return;
             if (State == TitanState.Wandering)
             {
-                if (IsStuck())
-                {
-                    Turn(Random.Range(-270, 270));
-                    return;
-                }
-
                 var runModifier = 1f;
                 var vector12 = transform.forward * Speed * runModifier;
                 var vector14 = vector12 - Rigidbody.velocity;
@@ -940,23 +980,94 @@ namespace Assets.Scripts.Characters.Titan
 
             if (State == TitanState.Chase)
             {
+                //TODO: Enable when add bend down animation
+                // Disabled for now (Use this code make the titan bend down when they should)
+                /*
+                if (CanBendDown())
+                {
+                    if (CurrentAnimation != AnimationBendDown)
+                    {
+                        CurrentAnimation = AnimationBendDown;
+                        if (!Animation.IsPlaying(CurrentAnimation))
+                        {
+                            CrossFade(CurrentAnimation, 0.5f);
+                        }
+                    }
+                }
+                else if (CurrentAnimation == AnimationBendDown)
+                {
+                    CurrentAnimation = PhotonNetwork.isMasterClient && Setting.Debug.TitanMovement == true ? AnimationIdle : AnimationWalk;
+                    if (!Animation.IsPlaying(CurrentAnimation))
+                    {
+                        CrossFade(CurrentAnimation, 0.5f);
+                    }
+                }
+                */
+
+                if (IsStuck())
+                {
+                    if (CurrentAnimation != AnimationIdle)
+                    {
+                        CurrentAnimation = AnimationIdle;
+                        if (!Animation.IsPlaying(CurrentAnimation))
+                        {
+                            CrossFade(CurrentAnimation, 0.3f);
+                        }
+                    }
+                    Stuck = true;
+                }
+
                 if (Target == null) return;
                 var speed = CanRun()
                     ? SpeedRun
                     : Speed;
 
-                var vector12 = transform.forward * speed;
-                var vector14 = vector12 - Rigidbody.velocity;
-                vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
-                vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
-                vector14.y = 0f;
-                Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
+                if (!Stuck)
+                {
+                    var vector12 = transform.forward * speed;
+                    var vector14 = vector12 - Rigidbody.velocity;
+                    vector14.x = Mathf.Clamp(vector14.x, -10f, 10f);
+                    vector14.z = Mathf.Clamp(vector14.z, -10f, 10f);
+                    vector14.y = 0f;
+                    Rigidbody.AddForce(vector14, ForceMode.VelocityChange);
 
-                var vector17 = Target.transform.position - transform.position;
-                var current = -Mathf.Atan2(vector17.z, vector17.x) * Mathf.Rad2Deg + RotationModifier;
-                float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
+                    var movingDirection = Target.transform.position - transform.position;
+                    Vector3 navDir = GetNavigator().GetNavDir();
+                    if (new Vector2(navDir.x, navDir.z).magnitude > 0)
+                    {
+                        movingDirection = navDir;
+                    }
+                    var current = -Mathf.Atan2(movingDirection.z, movingDirection.x) * Mathf.Rad2Deg + RotationModifier;
+                    float num4 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0f, transform.rotation.eulerAngles.y + num4, 0f), ((Speed * 0.5f) * Time.fixedDeltaTime) / Size);
+                }
             }
         }
+
+        private FlatNavigator GetNavigator()
+        {
+            return gameObject.GetComponentInChildren<FlatNavigator>();
+        }
+
+        //TODO: Enable when add bend down animation
+        // Disabled for now (Use this to check if the titan should bend down.)
+        /*
+        private bool CanBendDown()
+        {
+            BoxCollider canDetector = transform.root.Find("Navigator").Find("CanBendDownDetector").GetComponent<BoxCollider>();
+            LayerMask mask = Layers.Ground.ToLayer();
+            Vector3 extending = canDetector.size / 2;
+            extending.Scale(canDetector.gameObject.transform.lossyScale);
+            if (Physics.CheckBox(canDetector.transform.position, extending, canDetector.transform.rotation, mask))
+            {
+                BoxCollider cannotDetector = transform.root.Find("Navigator").Find("CannotBendDownDetector").GetComponent<BoxCollider>();
+                extending = cannotDetector.size / 2;
+                extending.Scale(cannotDetector.gameObject.transform.lossyScale);
+                return !Physics.CheckBox(cannotDetector.transform.position, extending, cannotDetector.transform.rotation, mask);
+            }
+            return false;
+        }
+        */
+
     }
 }

@@ -314,8 +314,12 @@ namespace Assets.Scripts.Room
                 {
                     new KillTitansSettings
                     {
-                        Name = "Test",
+                        Name = "30 Titan Test",
                         Description = "Classic map where you fight the Female Titan",
+                        Titan = new SettingsTitan()
+                        {
+                            Start = 30
+                        },
                         Time = new TimeSettings
                         {
                             CurrentTime = 12,
