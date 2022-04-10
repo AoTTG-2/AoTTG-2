@@ -28,6 +28,7 @@ public class AutoUpdater : MonoBehaviour
     [SerializeField]
     string version = "v1.8", hashCode = "";
 
+    public bool disableUpdater = false;
 
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
     bool usePreRelease = true;
@@ -43,6 +44,11 @@ public class AutoUpdater : MonoBehaviour
 
     void Start()
     {
+        if (disableUpdater)
+        {
+            Destroy(updatePanel);
+            return;
+        }
         updatePanel.SetActive(false);
         if (!usePreRelease)
         {
