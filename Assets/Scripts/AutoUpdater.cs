@@ -28,9 +28,12 @@ public class AutoUpdater : MonoBehaviour
     [SerializeField]
     string version = "v1.8", hashCode = "";
 
-#if DEVELOPMENT_BUILD
+
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+    bool usePreRelease = true;
     string url = "https://api.github.com/repos/AoTTG-2/AoTTG-2/releases/61795699";
 #else
+    bool usePreRelease = false;
     string url = "https://api.github.com/repos/AoTTG-2/AoTTG-2/releases/latest";
 #endif
 
@@ -41,27 +44,16 @@ public class AutoUpdater : MonoBehaviour
     void Start()
     {
         updatePanel.SetActive(false);
+        if (!usePreRelease)
+        {
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
+                platform = EPlatform.Windows;
+            else if (Application.platform == RuntimePlatform.OSXPlayer)
+                platform = EPlatform.Mac;
+            else if (Application.platform == RuntimePlatform.LinuxPlayer)
+                platform = EPlatform.Linux;
+        }
         StartCoroutine(GetGithubResponse(url));
-
-        // will disable all of this since there is only windows version avalible
-           
-        // if (Application.platform == RuntimePlatform.WindowsPlayer)
-        // {
-        //     platform = EPlatform.Windows;
-        // }
-        // else if (Application.platform == RuntimePlatform.OSXPlayer)
-        // {
-        //     platform = EPlatform.Mac;
-        // }
-        // else if (Application.platform == RuntimePlatform.LinuxPlayer)
-        // {
-        //     platform = EPlatform.Linux;
-        // }
-           
-        // instead of all this I will set it to windows
-
-        platform = EPlatform.Windows;
-
     }
 
     IEnumerator GetGithubResponse(string url)
@@ -77,6 +69,7 @@ public class AutoUpdater : MonoBehaviour
         else if (request.result == UnityWebRequest.Result.Success)
         {
             var str = request.downloadHandler.text;
+
             response = JsonConvert.DeserializeObject<GithubResponse>(str);
             if (response.TagName != version)
             {
