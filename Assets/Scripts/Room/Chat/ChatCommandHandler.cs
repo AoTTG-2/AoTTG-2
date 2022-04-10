@@ -12,6 +12,9 @@ using Assets.Scripts;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
+using Assets.Scripts.Utility;
+using Assets.Scripts.Events.Args;
+using System.Globalization;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -261,10 +264,9 @@ public static class ChatCommandHandler
 
     private static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.Toggle();
+        SpectatorMode.UpdateSpecMode();
+        string message = SpectatorMode.IsEnable() ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 
@@ -395,7 +397,7 @@ public static class ChatCommandHandler
         if (PhotonNetwork.offlineMode)
         {
             instance.InGameUI.TogglePauseMenu();
-        } 
+        }
         else
         {
             Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);
@@ -553,8 +555,8 @@ public static class ChatCommandHandler
             return;
         }
 
-        if (float.TryParse(parameters[1], out var x) 
-            && float.TryParse(parameters[2], out var y) 
+        if (float.TryParse(parameters[1], out var x)
+            && float.TryParse(parameters[2], out var y)
             && float.TryParse(parameters[3], out var z))
         {
             player.transform.position = new Vector3(x, y, z);
@@ -589,6 +591,9 @@ public static class ChatCommandHandler
         string message;
         switch (command)
         {
+            case ChatCommand.MusicVolume:
+                SetMusicVolume(parameter);
+                break;
             case ChatCommand.Cloth:
                 message = ClothFactory.GetDebugInfo();
                 instance.chatRoom.AddMessage(message);
@@ -671,5 +676,13 @@ public static class ChatCommandHandler
             default:
                 break;
         }
+    }
+
+    private static void SetMusicVolume(string parameter)
+    {
+        if (float.TryParse(parameter, NumberStyles.Float, CultureInfo.InvariantCulture, out var volume))
+        {
+            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
+        }     
     }
 }

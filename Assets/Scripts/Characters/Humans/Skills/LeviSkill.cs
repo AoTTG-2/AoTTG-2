@@ -32,7 +32,7 @@ namespace Assets.Scripts.Characters.Humans.Skills
                     Hero.ReleaseIfIHookSb();
                 }
                 Hero.dashDirection = hit.point - Hero.transform.position;
-                Hero.LaunchRightRope(hit.distance, hit.point, true, 1);
+                Hero.LaunchRightRope(hit.distance, hit.point, true, true);
                 Hero.rope.Play();
             }
             Hero.facingDirection = Mathf.Atan2(Hero.dashDirection.x, Hero.dashDirection.z) * Mathf.Rad2Deg;

@@ -305,9 +305,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1114370160899894
 GameObject:
   m_ObjectHideFlags: 0
@@ -2182,6 +2182,7 @@ GameObject:
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
   - component: {fileID: -6264185045053856331}
+  - component: {fileID: 8256805048288674642}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2336,9 +2337,16 @@ MonoBehaviour:
   Body: {fileID: 114021182772690314}
   SetupScript: {fileID: 114986312314889836}
   minimapIcon: {fileID: 4261993353365951143}
-  PreviousState: 0
-  NextState: 0
+  PreviousState: 4
+  NextState: 4
+  CurrentState: 4
   MindlessType: 0
+  titanLookAtRange: 100
+  minHeadRotVertical: 9.5
+  maxHeadRotVertical: 20
+  minHeadRotHorizontal: 10
+  maxHeadRotHorizontal: 10
+  interpolation_velocity: 10
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
@@ -2526,6 +2534,33 @@ MonoBehaviour:
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
+--- !u!182 &8256805048288674642
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_Mode: 1
+  m_Radius: 35
+  m_WindMain: 200
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
+--- !u!135 &3856856293107963466
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0
@@ -3081,6 +3116,7 @@ Transform:
   m_Children:
   - {fileID: 4894845333533370}
   - {fileID: 4714948085647608}
+  - {fileID: 7223289373240758668}
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -44.99994, z: 0}
@@ -3341,9 +3377,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1928165841424312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3541,7 +3577,7 @@ Transform:
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1272608805287056057
+--- !u!1 &7843790699741893817
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3549,42 +3585,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4874161196100230989}
-  - component: {fileID: 5802654547577092298}
-  m_Layer: 22
-  m_Name: CannotBendDownDetector
-  m_TagString: Untagged
+  - component: {fileID: 7223289373240758668}
+  - component: {fileID: 8894479486509344335}
+  m_Layer: 11
+  m_Name: Sound
+  m_TagString: SoundTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4874161196100230989
+--- !u!4 &7223289373240758668
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272608805287056057}
+  m_GameObject: {fileID: 7843790699741893817}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.76, z: 0.6}
+  m_LocalPosition: {x: -2.7, y: 3.97, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 880832986672825941}
-  m_RootOrder: 1
+  m_Father: {fileID: 4562939801880540}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5802654547577092298
-BoxCollider:
+--- !u!135 &8894479486509344335
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272608805287056057}
+  m_GameObject: {fileID: 7843790699741893817}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.4, y: 6, z: 5.8}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 27.675692
+  m_Center: {x: 2.2773798, y: 4.071457, z: 0.33887106}
 --- !u!1 &6779960266952345826
 GameObject:
   m_ObjectHideFlags: 0
