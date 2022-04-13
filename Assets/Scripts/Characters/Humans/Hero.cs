@@ -1209,13 +1209,10 @@ namespace Assets.Scripts.Characters.Humans
                         LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
 
                         if (Physics.Raycast(ray4, out hit4, HookRaycastDistance, mask.value))
-                        {
                             LaunchLeftRope(hit4.distance, hit4.point, true);
-                        }
                         else
-                        {
                             LaunchLeftRope(HookRaycastDistance, ray4.GetPoint(HookRaycastDistance), true);
-                        }
+                        
                         if (currentGas > 0) rope.Play();
                         else if (InputManager.KeyDown(InputHuman.HookLeft)) ropeNoGas.Play();
                     }
@@ -1244,14 +1241,13 @@ namespace Assets.Scripts.Characters.Humans
                         Ray ray5 = Camera.main.ScreenPointToRay(Input.mousePosition);
                         LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
 
-                        if (Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask.value))
-                        {
-                            LaunchRightRope(hit5.distance, hit5.point, true);
-                        }
-                        else
-                        {
-                            LaunchRightRope(HookRaycastDistance, ray5.GetPoint(HookRaycastDistance), true);
-                        }
+                        var didHit = Physics.Raycast(ray5, out hit5, HookRaycastDistance, mask.value);
+                        var (distance, point) = didHit
+                            ? (hit5.distance, hit5.point)
+                            : (HookRaycastDistance, ray5.GetPoint(HookRaycastDistance));
+                        
+                        LaunchRightRope(distance, point, true);
+                        
                         if (currentGas > 0) rope.Play();
                         else if (InputManager.KeyDown(InputHuman.HookRight)) ropeNoGas.Play();
                     }
@@ -1278,16 +1274,13 @@ namespace Assets.Scripts.Characters.Humans
                         Ray ray6 = Camera.main.ScreenPointToRay(Input.mousePosition);
                         LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
 
-                        if (Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask.value))
-                        {
-                            LaunchLeftRope(hit6.distance, hit6.point, false);
-                            LaunchRightRope(hit6.distance, hit6.point, false);
-                        }
-                        else
-                        {
-                            LaunchLeftRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
-                            LaunchRightRope(HookRaycastDistance, ray6.GetPoint(HookRaycastDistance), false);
-                        }
+                        var (distance, point) = Physics.Raycast(ray6, out hit6, HookRaycastDistance, mask.value)
+                            ? (hit6.distance, hit6.point)
+                            : (HookRaycastDistance, ray6.GetPoint(HookRaycastDistance));
+                        
+                        LaunchLeftRope(distance, point, false);
+                        LaunchRightRope(distance, point, false);
+                        
                         if (currentGas > 0) rope.Play();
                         else if (InputManager.KeyDown(InputHuman.HookBoth)) ropeNoGas.Play();
                     }
@@ -3207,54 +3200,56 @@ namespace Assets.Scripts.Characters.Humans
             sparks_em.enabled = false;
         }
 
-        public void LaunchLeftRope(float distance, Vector3 point, bool single, int mode = 0)
+        public void LaunchRope(Bullet.HookSource source, float distance, Vector3 point, bool single, bool leviMode = false)
         {
-            if (currentGas != 0f)
-            {
-                UseGas(0f);
-                hookLeft = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();              
+            if (currentGas <= 0f) return;
+            UseGas();
 
-                GameObject obj2 = !useGun ? hookRefL1 : hookRefL2;
-                string str = !useGun ? "hookRefL1" : "hookRefL2";
-                hookLeft.transform.position = obj2.transform.position;
-                float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
-                Vector3 vector = (point - ((transform.right * num))) - hookLeft.transform.position;
-                vector.Normalize();
-                if (mode == 1)
-                {
-                    hookLeft.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, true);
-                }
-                else
-                {
-                    hookLeft.launch((vector * 3f), Rigidbody.velocity, str, true, gameObject, false);
-                }
+            var hookRef = source switch
+            {
+                Bullet.HookSource.BeltLeft => hookRefL1,
+                Bullet.HookSource.BeltRight => hookRefR1,
+                Bullet.HookSource.GunLeft => hookRefL2,
+                Bullet.HookSource.GunRight => hookRefR2,
+                _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            };
+
+            var startPos = transform.position;
+            var startRot = transform.rotation;
+            var hook = PhotonNetwork.Instantiate("hook", startPos, startRot, 0).GetComponent<Bullet>();
+
+            var multiOffset = transform.right * (distance <= 50f ? distance * 0.05f : distance * 0.3f);
+            if (Bullet.IsLeft(source))
+            {
+                hookLeft = hook;
+                LaunchHook(hook, !single ? -multiOffset : Vector3.zero);
                 launchPointLeft = Vector3.zero;
             }
-        }
-
-        public void LaunchRightRope(float distance, Vector3 point, bool single, int mode = 0)
-        {
-            if (currentGas != 0f)
+            else
             {
-                UseGas(0f);
-                hookRight = PhotonNetwork.Instantiate("hook", transform.position, transform.rotation, 0).GetComponent<Bullet>();
-
-                GameObject obj2 = !useGun ? hookRefR1 : hookRefR2;
-                string str = !useGun ? "hookRefR1" : "hookRefR2";
-                hookRight.transform.position = obj2.transform.position;
-                float num = !single ? ((distance <= 50f) ? (distance * 0.05f) : (distance * 0.3f)) : 0f;
-                Vector3 vector = (point + ((transform.right * num))) - hookRight.transform.position;
-                vector.Normalize();
-                if (mode == 1)
-                {
-                    hookRight.launch((vector * 5f), Rigidbody.velocity, str, false, gameObject, true);
-                }
-                else
-                {
-                    hookRight.launch((vector * 3f), Rigidbody.velocity, str, false, gameObject, false);
-                }
+                hookRight = hook;
+                LaunchHook(hook, !single ? multiOffset : Vector3.zero);
                 launchPointRight = Vector3.zero;
             }
+
+            void LaunchHook(Bullet hook, Vector3 offset)
+            {
+                var hookPos = hook.transform.position = hookRef.transform.position;
+                var vector = Vector3.Normalize(point - hookPos + offset) * 3f;
+                hook.Launch(source, hookRef, vector, Rigidbody.velocity, this, leviMode);
+            }
+        }
+        
+        public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = useGun ? Bullet.HookSource.GunLeft : Bullet.HookSource.BeltLeft;
+            LaunchRope(source, distance, point, single, leviMode);
+        }
+
+        public void LaunchRightRope(float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            var source = useGun ? Bullet.HookSource.GunRight : Bullet.HookSource.BeltRight;
+            LaunchRope(source, distance, point, single, leviMode);
         }
 
         private void LeftArmAimTo(Vector3 target)
