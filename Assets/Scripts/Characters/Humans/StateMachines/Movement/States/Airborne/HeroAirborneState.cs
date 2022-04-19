@@ -20,6 +20,11 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
                 else stateMachine.ChangeState(stateMachine.RunningState);
                 return;
             }
+            if (stateMachine.ReusableData.IsHooked)
+            {
+                stateMachine.ChangeState(stateMachine.HookedState);
+                return;
+            }
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
         }

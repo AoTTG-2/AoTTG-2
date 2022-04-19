@@ -1,6 +1,7 @@
 using Assets.Scripts.Characters.Humans.Airborne.Moving;
 using Assets.Scripts.Characters.Humans.Data.States;
 using Assets.Scripts.Characters.Humans.StateMachines.Airborne;
+using Assets.Scripts.Characters.Humans.StateMachines.Movement;
 using Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded;
 using Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded.Moving;
 
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         public HeroAirborneState AirborneState { get; }
         public HeroAirborneDashingState DashingState { get; }
         public HeroAirborneMovingState AirborneMovingState { get; }
+        public HeroHookedState HookedState { get; }
         public HeroMovementStateMachine(Hero hero)
         {
             Hero = hero;
@@ -32,6 +34,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             AirborneState = new HeroAirborneState(this);
             DashingState = new HeroAirborneDashingState(this);
             AirborneMovingState = new HeroAirborneMovingState(this);
+            HookedState = new HeroHookedState(this);
         }
     }
 }

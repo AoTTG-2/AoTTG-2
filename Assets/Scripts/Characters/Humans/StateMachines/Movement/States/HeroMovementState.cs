@@ -73,9 +73,15 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
 
         public virtual void Update()
         {
-            if (!stateMachine.ReusableData.IsGrounded)
+            if (stateMachine.ReusableData.IsHooked)
+            {
+                stateMachine.ChangeState(stateMachine.HookedState);
+                return;
+            }
+            if (!stateMachine.ReusableData.IsGrounded && !stateMachine.ReusableData.IsHooked)
             {
                 stateMachine.ChangeState(stateMachine.AirborneState);
+                return;
             }
             if (stateMachine.Hero.Animation.IsPlaying(stateMachine.ReusableData.CurrentAnimation))
             {
@@ -115,18 +121,53 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             switch (context.action.name)
             {
                 case "Hook Left":
-                    LaunchHook(HookType.left);
+                    if (!stateMachine.ReusableData.LeftHook)
+                    {
+                        LaunchHook(HookType.left);
+                        stateMachine.ReusableData.LeftHookHeld = true;
+                    }
                     break;
                 case "Hook Right":
-                    LaunchHook(HookType.right);
+                    if (!stateMachine.ReusableData.RightHook)
+                    {
+                        LaunchHook(HookType.right);
+                        stateMachine.ReusableData.RightHookHeld = true;
+                    }
                     break;
                 case "Hook Both":
+                    if (stateMachine.ReusableData.RightHook || stateMachine.ReusableData.LeftHook) break;
                     LaunchHook(HookType.both);
+                    stateMachine.ReusableData.LeftHookHeld = true;
+                    stateMachine.ReusableData.RightHookHeld = true;
                     break;
                 default:
                     Debug.LogError("Unknown Input");
                     LaunchHook(HookType.none);
                     return;
+            }
+            if (context.canceled)
+            {
+                switch (context.action.name)
+                {
+                    case "Hook Left":
+                        stateMachine.ReusableData.LeftHookHeld = false;
+                        Debug.Log(stateMachine.ReusableData.LeftHookHeld);
+                        break;
+                    case "Hook Right":
+                        stateMachine.ReusableData.RightHookHeld = false;
+                        Debug.Log(stateMachine.ReusableData.RightHookHeld);
+                        break;
+                    case "Hook Both":
+                        stateMachine.ReusableData.LeftHookHeld = false;
+                        stateMachine.ReusableData.RightHookHeld = false;
+                        Debug.Log(stateMachine.ReusableData.RightHookHeld);
+                        Debug.Log(stateMachine.ReusableData.LeftHookHeld);
+                        break;
+                    default:
+                        Debug.LogError("Unknown Input");
+                        LaunchHook(HookType.none);
+                        return;
+                }
             }
         }
         private void LaunchHook(HookType hookType)
@@ -168,12 +209,51 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         public void LaunchRightRope(float distance, Vector3 point, bool single, bool leviMode = false)
         {
             var source = stateMachine.Hero.useGun ? Bullet.HookSource.GunRight : Bullet.HookSource.BeltRight;
-            stateMachine.Hero.LaunchRope(source, distance, point, single, leviMode);
+            LaunchRope(source, distance, point, single, leviMode);
         }
         public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false)
         {
             var source = stateMachine.Hero.useGun ? Bullet.HookSource.GunLeft : Bullet.HookSource.BeltLeft;
-            stateMachine.Hero.LaunchRope(source, distance, point, single, leviMode);
+            LaunchRope(source, distance, point, single, leviMode);
+        }
+        public void LaunchRope(Bullet.HookSource source, float distance, Vector3 point, bool single, bool leviMode = false)
+        {
+            if (stateMachine.ReusableData.CurrentGas <= 0f) return;
+            UseGas();
+
+            var hookRef = source switch
+            {
+                Bullet.HookSource.BeltLeft => stateMachine.Hero.hookRefL1,
+                Bullet.HookSource.BeltRight => stateMachine.Hero.hookRefR1,
+                Bullet.HookSource.GunLeft => stateMachine.Hero.hookRefL2,
+                Bullet.HookSource.GunRight => stateMachine.Hero.hookRefR2,
+                _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            };
+
+            var startPos = stateMachine.Hero.transform.position;
+            var startRot = stateMachine.Hero.transform.rotation;
+            var hook = PhotonNetwork.Instantiate("hook", startPos, startRot, 0).GetComponent<Bullet>();
+
+            var multiOffset = stateMachine.Hero.transform.right * (distance <= 50f ? distance * 0.05f : distance * 0.3f);
+            if (Bullet.IsLeft(source))
+            {
+                stateMachine.ReusableData.LeftHook = hook;
+                LaunchHook(hook, !single ? -multiOffset : Vector3.zero);
+                stateMachine.Hero.launchPointLeft = Vector3.zero;
+            }
+            else
+            {
+                stateMachine.ReusableData.RightHook = hook;
+                LaunchHook(hook, !single ? multiOffset : Vector3.zero);
+                stateMachine.Hero.launchPointRight = Vector3.zero;
+            }
+
+            void LaunchHook(Bullet hook, Vector3 offset)
+            {
+                var hookPos = hook.transform.position = hookRef.transform.position;
+                var vector = Vector3.Normalize(point - hookPos + offset) * 3f;
+                hook.Launch(source, hookRef, vector, stateMachine.Hero.Rigidbody.velocity, stateMachine.Hero, leviMode);
+            }
         }
         #endregion
         #region Old Hero.cs Methods
@@ -258,12 +338,18 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             stateMachine.Hero.HumanInput.HumanActions.HookLeft.started += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookRight.started += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookBoth.started += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookLeft.canceled += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookRight.canceled += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookBoth.canceled += OnHookUsed;
         }
         protected virtual void RemoveInputActionsCallbacks()
         {
             stateMachine.Hero.HumanInput.HumanActions.HookLeft.started -= OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookRight.started -= OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookBoth.started -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookLeft.canceled -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookRight.canceled -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookBoth.canceled -= OnHookUsed;
         }
         protected void SnapToFaceDirection()
         {

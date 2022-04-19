@@ -146,8 +146,8 @@ namespace Assets.Scripts.Characters.Humans
         private float launchElapsedTimeL { get; set; }
         private float launchElapsedTimeR { get; set; }
         private Vector3 launchForce { get; set; }
-        public Vector3 launchPointLeft { get; private set; }
-        public Vector3 launchPointRight { get; private set; }
+        public Vector3 launchPointLeft { get; set; }
+        public Vector3 launchPointRight { get; set; }
         private bool leanLeft { get; set; }
         private bool leftArmAim { get; set; }
 

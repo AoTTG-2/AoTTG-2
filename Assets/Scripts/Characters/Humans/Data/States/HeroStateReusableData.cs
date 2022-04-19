@@ -13,6 +13,13 @@ namespace Assets.Scripts.Characters.Humans.Data.States
         public float CurrentGas { get; set; } = 100f;
         public float MovementSpeedModifier { get; set; } = 1f;
         public float HookRayCastDistance { get; private set; } = 1000f;
+        public Bullet LeftHook { get; set; }
+        public Bullet RightHook { get; set; }
+        public bool LeftHookHeld { get; set; }
+        public bool RightHookHeld { get; set; }
+        public bool IsHooked => LeftHook?.isHooked() ?? RightHook?.isHooked() ?? false;
+        public bool BothHooked => LeftHook && RightHook;
+        public float TimeUntilHookDespawn { get; private set; } = 0.3f;
 
         private Vector3 currentTargetRotation;
         private Vector3 timeToReachTargetRotation;
