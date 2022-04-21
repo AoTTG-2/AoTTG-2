@@ -102,22 +102,22 @@ Material:
     - _EdgeBlending: 0.2
     - _Float5: 0.121
     - _FoamCutoff: 0.112
-    - _FoamDistance: 0
-    - _FoamSoftness: 0.143
-    - _FoamSpeed: 0.02
+    - _FoamDistance: 1
+    - _FoamSoftness: 0.5
+    - _FoamSpeed: 0.03
     - _FoamTilling: 10
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LargeWaveDirection: 0
+    - _LargeWaveDirection: 2
     - _LargeWaveSpeed: 2
-    - _LargeWavesFlow: 1
-    - _LargeWavesHeight: 0
+    - _LargeWavesFlow: 0
+    - _LargeWavesHeight: 1
     - _LifeDensity: 16
-    - _LifeDepth: 0.24
-    - _MediumWaveDirection: 0
-    - _MediumWaveSpeed: 1
-    - _MediumWavesFlow: 1
+    - _LifeDepth: 0
+    - _MediumWaveDirection: 1.5
+    - _MediumWaveSpeed: 10
+    - _MediumWavesFlow: 0.2
     - _MediumWavesHeight: 2
     - _MediumWavesTilling: 44.64
     - _Metallic: 0
@@ -125,10 +125,10 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SSSbrightness: 0.113
-    - _ScatteringScale: 3
-    - _Scatteringbrightness: 0.16
+    - _ScatteringScale: 1
+    - _Scatteringbrightness: 0.5
     - _Scatteringpower: 20.52
-    - _SmallWaveDirection: 0
+    - _SmallWaveDirection: 1
     - _SmallWaveSpeed: 0.15
     - _SmallWavesFlow: 1
     - _SmallWavesHeight: 0
@@ -138,9 +138,9 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _WaterDensity: 0.076
-    - _WaterDepth: 1
-    - _WaterSmoothness: 0.59
-    - _WaveFoam: 0
+    - _WaterDepth: 0.5
+    - _WaterSmoothness: 0.8
+    - _WaveFoam: 1
     - _ZWrite: 1
     - __dirty: 0
     - _largeWavesTilling: 342
