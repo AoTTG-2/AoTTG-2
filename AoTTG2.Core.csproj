@@ -438,6 +438,7 @@
     <Compile Include="Assets\Scripts\Gamemode\Racing\RacingObjective.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\Graphics\ResolutionSwitcher.cs" />
     <Compile Include="Assets\Scripts\Services\Interface\ILevelService.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\HeroHookedState.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
     <Compile Include="Assets\Scripts\Effects\EMITTYPE.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
@@ -533,7 +534,6 @@
     <Compile Include="Assets\Scripts\Legacy\RCextensions.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMode.cs" />
     <Compile Include="Assets\Scripts\Extensions\StringExtensions.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\Data\States\Airborne\SerializeableAttribute.cs" />
     <Compile Include="Assets\Scripts\Constants\Layer.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\Components\HumanHeadComponent.cs" />
     <Compile Include="Assets\Scripts\Characters\PlayerInfoPHOTON.cs" />
@@ -554,7 +554,6 @@
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Data\States\HeroStateReusableData.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\StateMachines\Movement\States\HeroHookedState.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

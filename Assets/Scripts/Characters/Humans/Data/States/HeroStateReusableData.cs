@@ -6,8 +6,10 @@ namespace Assets.Scripts.Characters.Humans.Data.States
 {
     public class HeroStateReusableData
     {
+        public float Acceleration { get; set; } = 150f;
         public string CurrentAnimation { get; set; }
         public Vector2 MovementInput { get; set; }
+        public bool JumpHeld { get; set; }
         public bool IsGrounded { get; set; }
         public float UseGasSpeed { get; set; } = 0.2f;
         public float CurrentGas { get; set; } = 100f;

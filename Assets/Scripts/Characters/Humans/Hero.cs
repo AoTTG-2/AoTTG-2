@@ -1094,26 +1094,12 @@ namespace Assets.Scripts.Characters.Humans
                         Idle();
                     }
                 }
-                else if (state == HumanState.GroundDodge)
-                {
-                    if (Animation.IsPlaying(HeroAnim.DODGE))
-                    {
-                        if (!(grounded || (Animation[HeroAnim.DODGE].normalizedTime <= 0.6f)))
-                        {
-                            Idle();
-                        }
-                        if (Animation[HeroAnim.DODGE].normalizedTime >= 1f)
-                        {
-                            Idle();
-                        }
-                    }
-                }
                 else if (state == HumanState.Land)
                 {
-                    if (Animation.IsPlaying(HeroAnim.DASH_LAND) && (Animation[HeroAnim.DASH_LAND].normalizedTime >= 1f))
+                    /*if (Animation.IsPlaying(HeroAnim.DASH_LAND) && (Animation[HeroAnim.DASH_LAND].normalizedTime >= 1f))
                     {
                         Idle();
-                    }
+                    }*/
                 }
                 else if (state == HumanState.FillGas)
                 {
@@ -1465,100 +1451,6 @@ namespace Assets.Scripts.Characters.Humans
                     bool canUseGas = false;
                     bool canReelOffLeftHook = false;
                     bool canReelOffRightHook = false;
-                    isLeftHandHooked = false;
-                    isRightHandHooked = false;
-                    //While Hooked Logic
-                    if (isLaunchLeft)
-                    {
-                        if ((hookLeft != null) && hookLeft.isHooked())
-                        {
-                            isLeftHandHooked = true;
-                            Vector3 dirToLeftHook = hookLeft.transform.position - transform.position;
-                            dirToLeftHook.Normalize();
-                            dirToLeftHook *= 10f;
-                            if (!isLaunchRight)
-                            {
-                                dirToLeftHook *= 2f;
-                            }
-
-                            if ((Vector3.Angle(Rigidbody.velocity, dirToLeftHook) > 90f) && InputManager.Key(InputHuman.Jump))
-                            {
-                                canReelOffLeftHook = true;
-                                canUseGas = true;
-                            }
-
-                            if (!canReelOffLeftHook)
-                            {
-                                Rigidbody.AddForce(dirToLeftHook);
-                                if (Vector3.Angle(Rigidbody.velocity, dirToLeftHook) > 90f)
-                                {
-                                    Rigidbody.AddForce((-Rigidbody.velocity * 2f), ForceMode.Acceleration);
-                                }
-                            }
-                        }
-                        launchElapsedTimeL += Time.deltaTime;
-                        if (QHold && (currentGas > 0f))
-                        {
-                            UseGas(useGasSpeed * Time.deltaTime);
-                        }
-                        else if (launchElapsedTimeL > 0.3f)
-                        {
-                            isLaunchLeft = false;
-                            if (hookLeft != null)
-                            {
-                                hookLeft.disable();
-                                ReleaseIfIHookSb();
-                                hookLeft = null;
-                                canReelOffLeftHook = false;
-                            }
-                        }
-                    }
-
-                    if (isLaunchRight)
-                    {
-                        if ((hookRight != null) && hookRight.isHooked())
-                        {
-                            isRightHandHooked = true;
-                            Vector3 dirToRightHook = hookRight.transform.position - transform.position;
-                            dirToRightHook.Normalize();
-                            dirToRightHook = (dirToRightHook * 10f);
-                            if (!isLaunchLeft)
-                            {
-                                dirToRightHook = (dirToRightHook * 2f);
-                            }
-
-                            if ((Vector3.Angle(Rigidbody.velocity, dirToRightHook) > 90f) && InputManager.Key(InputHuman.Jump))
-                            {
-                                canReelOffRightHook = true;
-                                canUseGas = true;
-                            }
-
-                            if (!canReelOffRightHook)
-                            {
-                                Rigidbody.AddForce(dirToRightHook);
-                                if (Vector3.Angle(Rigidbody.velocity, dirToRightHook) > 90f)
-                                {
-                                    Rigidbody.AddForce((-Rigidbody.velocity * 2f), ForceMode.Acceleration);
-                                }
-                            }
-                        }
-                        launchElapsedTimeR += Time.deltaTime;
-                        if (EHold && (currentGas > 0f))
-                        {
-                            UseGas(useGasSpeed * Time.deltaTime);
-                        }
-                        else if (launchElapsedTimeR > 0.3f)
-                        {
-                            isLaunchRight = false;
-                            if (hookRight != null)
-                            {
-                                hookRight.disable();
-                                ReleaseIfIHookSb();
-                                hookRight = null;
-                                canReelOffRightHook = false;
-                            }
-                        }
-                    }
                     if (grounded)
                     {
                         Vector3 vector7;
@@ -1590,23 +1482,16 @@ namespace Assets.Scripts.Characters.Humans
                             //TODO: attackAnimation conditions appear to be useless
                             if ((state != HumanState.Attack) || (((attackAnimation != HeroAnim.ATTACK3_1) && (attackAnimation != HeroAnim.ATTACK5)) && (attackAnimation != HeroAnim.SPECIAL_PETRA)))
                             {
-                                if ((((state != HumanState.Attack) && (VerticalInput == 0f)) && ((HorizontalInput == 0f) && (hookLeft == null))) && ((hookRight == null) && (state != HumanState.FillGas)))
+                                buttonAttackRelease = true;
+                                if (((state != HumanState.Attack) && (((Rigidbody.velocity.x * Rigidbody.velocity.x) + (Rigidbody.velocity.z * Rigidbody.velocity.z)) > ((speed * speed) * 1.5f))) && (state != HumanState.FillGas))
                                 {
-                                    state = HumanState.Land;
-                                    CrossFade(HeroAnim.DASH_LAND, 0.01f);
+                                    state = HumanState.Slide;
+                                    CrossFade(HeroAnim.SLIDE, 0.05f);
+                                    facingDirection = Mathf.Atan2(Rigidbody.velocity.x, Rigidbody.velocity.z) * Mathf.Rad2Deg;
+                                    targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
+                                    sparks_em.enabled = true;
                                 }
-                                else
-                                {
-                                    buttonAttackRelease = true;
-                                    if (((state != HumanState.Attack) && (((Rigidbody.velocity.x * Rigidbody.velocity.x) + (Rigidbody.velocity.z * Rigidbody.velocity.z)) > ((speed * speed) * 1.5f))) && (state != HumanState.FillGas))
-                                    {
-                                        state = HumanState.Slide;
-                                        CrossFade(HeroAnim.SLIDE, 0.05f);
-                                        facingDirection = Mathf.Atan2(Rigidbody.velocity.x, Rigidbody.velocity.z) * Mathf.Rad2Deg;
-                                        targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-                                        sparks_em.enabled = true;
-                                    }
-                                }
+
                             }
                             justGrounded = false;
                             zero = Rigidbody.velocity;
@@ -1793,43 +1678,6 @@ namespace Assets.Scripts.Characters.Humans
                                 CrossFade(HeroAnim.AIR_FALL, 0.1f);
                             }
                         }
-                        // If we are using these skills, then we cannot use gas force
-                        else if ((!Animation.IsPlaying(HeroAnim.ATTACK5) && !Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)) && (!Animation.IsPlaying(HeroAnim.DASH) && !Animation.IsPlaying(HeroAnim.JUMP)))
-                        {
-                            Vector3 vector11 = new Vector3(VerticalInput, 0f, HorizontalInput);
-                            float num12 = GetGlobalFacingDirection(VerticalInput, HorizontalInput);
-                            Vector3 vector12 = GetGlobaleFacingVector3(num12);
-                            float num13 = (vector11.magnitude <= 0.95f) ? ((vector11.magnitude >= 0.25f) ? vector11.magnitude : 0f) : 1f;
-                            vector12 = (vector12 * num13);
-                            vector12 = (vector12 * ((acl / 10f) * 2f));
-                            if ((VerticalInput == 0f) && (HorizontalInput == 0f))
-                            {
-                                if (state == HumanState.Attack)
-                                {
-                                    vector12 = (vector12 * 0f);
-                                }
-                                num12 = -874f;
-                            }
-                            if (num12 != -874f)
-                            {
-                                facingDirection = num12;
-                                targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
-                            }
-
-                            if (((!canReelOffLeftHook && !canReelOffRightHook) && (!isMounted && InputManager.Key(InputHuman.Jump))) && (currentGas > 0f))
-                            {
-                                if ((VerticalInput != 0f) || (HorizontalInput != 0f))
-                                {
-                                    Rigidbody.AddForce(vector12, ForceMode.Acceleration);
-                                }
-                                else
-                                {
-                                    Rigidbody.AddForce((transform.forward * vector12.magnitude), ForceMode.Acceleration);
-                                }
-                                canUseGas = true;
-
-                            }
-                        }
                         if ((Animation.IsPlaying(HeroAnim.AIR_FALL) && (currentSpeed < 0.2f)) && IsFrontGrounded())
                         {
                             CrossFade(HeroAnim.ON_WALL, 0.3f);
@@ -1907,26 +1755,28 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         currentCamera.fieldOfView = Mathf.Lerp(currentCamera.fieldOfView, 50f, 0.1f);
                     }
-                    if (canUseGas)
-                    {
-                        UseGas(useGasSpeed * Time.deltaTime);
-                        if (!smoke_3dmg_em.enabled && photonView.isMine)
-                        {
-                            object[] parameters = new object[] { true };
-                            photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
-                        }
-                        smoke_3dmg_em.enabled = true;
-                    }
-                    else
-                    {
-                        if (smoke_3dmg_em.enabled && photonView.isMine)
-                        {
-                            object[] objArray3 = new object[] { false };
-                            photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray3);
-                        }
-                        smoke_3dmg_em.enabled = false;
-                    }
                 }
+            }
+        }
+        public void EmitSmoke(bool emit)
+        {
+            if (emit)
+            {
+                if (!smoke_3dmg_em.enabled && photonView.isMine)
+                {
+                    object[] parameters = new object[] { true };
+                    photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, parameters);
+                }
+                smoke_3dmg_em.enabled = true;
+            }
+            else
+            {
+                if (smoke_3dmg_em.enabled && photonView.isMine)
+                {
+                    object[] objArray3 = new object[] { false };
+                    photonView.RPC(nameof(Net3DMGSMOKE), PhotonTargets.Others, objArray3);
+                }
+                smoke_3dmg_em.enabled = false;
             }
         }
         #endregion
@@ -3010,7 +2860,7 @@ namespace Assets.Scripts.Characters.Humans
                 hook.Launch(source, hookRef, vector, Rigidbody.velocity, this, leviMode);
             }
         }
-        
+
         public void LaunchLeftRope(float distance, Vector3 point, bool single, bool leviMode = false)
         {
             var source = useGun ? Bullet.HookSource.GunLeft : Bullet.HookSource.BeltLeft;

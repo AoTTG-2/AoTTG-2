@@ -1,4 +1,5 @@
 using Assets.Scripts.Characters.Humans.Constants;
+using Assets.Scripts.Characters.Humans.StateMachines.Airborne;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounded
@@ -23,8 +24,15 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement.States.Grounde
         public override void Update()
         {
             base.Update();
-            if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
-            OnMove();
+            if (stateMachine.ReusableData.MovementInput != Vector2.zero)
+            {
+                OnMove();
+                return;
+            }
+            if(stateMachine.PreviousState is HeroAirborneState)
+            {
+                UpdateAnimation(HeroAnim.DASH_LAND);
+            }
         }
         #endregion
         #region Main Methods

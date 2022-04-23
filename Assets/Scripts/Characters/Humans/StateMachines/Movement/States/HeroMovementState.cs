@@ -99,23 +99,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             CrossFade(newAnimation);
         }
         #endregion
-        #region Main Methods
-        private void ReadMovementInput()
-        {
-            stateMachine.ReusableData.MovementInput = stateMachine.Hero.HumanInput.HumanActions.Move.ReadValue<Vector2>();
-            CheckGrounded();
-        }
-        private void CheckGrounded()
-        {
-            stateMachine.ReusableData.IsGrounded = IsGrounded();
-        }
-        private bool IsGrounded()
-        {
-            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
-            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
-            bool didHit = Physics.Raycast(stateMachine.Hero.gameObject.transform.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.3f, mask.value);
-            return didHit;
-        }
+        #region Input Methods
         private void OnHookUsed(InputAction.CallbackContext context)
         {
             switch (context.action.name)
@@ -151,17 +135,13 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
                 {
                     case "Hook Left":
                         stateMachine.ReusableData.LeftHookHeld = false;
-                        Debug.Log(stateMachine.ReusableData.LeftHookHeld);
                         break;
                     case "Hook Right":
                         stateMachine.ReusableData.RightHookHeld = false;
-                        Debug.Log(stateMachine.ReusableData.RightHookHeld);
                         break;
                     case "Hook Both":
                         stateMachine.ReusableData.LeftHookHeld = false;
                         stateMachine.ReusableData.RightHookHeld = false;
-                        Debug.Log(stateMachine.ReusableData.RightHookHeld);
-                        Debug.Log(stateMachine.ReusableData.LeftHookHeld);
                         break;
                     default:
                         Debug.LogError("Unknown Input");
@@ -169,6 +149,35 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
                         return;
                 }
             }
+        }
+        private void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                stateMachine.ReusableData.JumpHeld = true;
+            }
+            if (context.canceled)
+            {
+                stateMachine.ReusableData.JumpHeld = false;
+            }
+        }
+        #endregion
+        #region Main Methods
+        private void ReadMovementInput()
+        {
+            stateMachine.ReusableData.MovementInput = stateMachine.Hero.HumanInput.HumanActions.Move.ReadValue<Vector2>();
+            CheckGrounded();
+        }
+        private void CheckGrounded()
+        {
+            stateMachine.ReusableData.IsGrounded = IsGrounded();
+        }
+        private bool IsGrounded()
+        {
+            LayerMask mask = Layers.Ground.ToLayer() | Layers.EnemyBox.ToLayer();
+            RaycastHit hit; //DONT DELETE THE OUT HIT FROM RAYCAST. IT BREAKS UTGARD CASTLE AND OTHER CONCAVE MESH COLLIDERS
+            bool didHit = Physics.Raycast(stateMachine.Hero.gameObject.transform.position + (Vector3.up * 0.1f), Vector3.down, out hit, 0.3f, mask.value);
+            return didHit;
         }
         private void LaunchHook(HookType hookType)
         {
@@ -341,6 +350,8 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             stateMachine.Hero.HumanInput.HumanActions.HookLeft.canceled += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookRight.canceled += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookBoth.canceled += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.Jump.started += OnJump;
+            stateMachine.Hero.HumanInput.HumanActions.Jump.canceled += OnJump;
         }
         protected virtual void RemoveInputActionsCallbacks()
         {
@@ -350,6 +361,8 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
             stateMachine.Hero.HumanInput.HumanActions.HookLeft.canceled -= OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookRight.canceled -= OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookBoth.canceled -= OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.Jump.started += OnJump;
+            stateMachine.Hero.HumanInput.HumanActions.Jump.canceled += OnJump;
         }
         protected void SnapToFaceDirection()
         {

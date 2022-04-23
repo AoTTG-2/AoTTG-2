@@ -12,6 +12,11 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
         {
         }
         #region IState Methods
+        public override void Exit()
+        {
+            base.Exit();
+            stateMachine.Hero.EmitSmoke(false);
+        }
         public override void Update()
         {
             if (stateMachine.ReusableData.IsGrounded)
@@ -24,6 +29,15 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
             {
                 stateMachine.ChangeState(stateMachine.HookedState);
                 return;
+            }
+            if (stateMachine.ReusableData.JumpHeld && stateMachine.ReusableData.CurrentGas > 0)
+            {
+                UseGas(stateMachine.ReusableData.UseGasSpeed * Time.deltaTime);
+                stateMachine.Hero.EmitSmoke(true);
+            }
+            else if(!stateMachine.ReusableData.JumpHeld || stateMachine.ReusableData.CurrentGas <= 0)
+            {
+                stateMachine.Hero.EmitSmoke(false);
             }
             if (stateMachine.ReusableData.MovementInput == Vector2.zero) return;
             OnMove();
@@ -55,7 +69,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Airborne
         }
         #endregion
         #region Input Actions
-        private void OnGasBurstStarted(InputAction.CallbackContext obj)
+        private void OnGasBurstStarted(InputAction.CallbackContext context)
         {
             if (Time.time - airborneData.LastPerformedDash >= airborneData.DashCooldown)
             {
