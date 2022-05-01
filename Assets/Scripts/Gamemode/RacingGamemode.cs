@@ -185,7 +185,7 @@ namespace Assets.Scripts.Gamemode
             {
                 OfflineResults.Add(result);
                 racingResult =
-                    $"Finished!\n {result.Name}   {result.Time}s ({result.AverageSpeed}us / {result.Deaths})";
+                    $"Finished!\n {result.Name}   {result.Time:F2}s ({result.AverageSpeed:F2}us / {result.Deaths})";
             }
             else
             {
@@ -197,7 +197,7 @@ namespace Assets.Scripts.Gamemode
                     object[] objArray2 = { racingResult, "Rank ", i + 1, " : " };
                     racingResult = string.Concat(objArray2);
                     racingResult += RacingResults[i].Name;
-                    racingResult += "   " + ((int) (RacingResults[i].Time * 100f) * 0.01f).ToString(CultureInfo.InvariantCulture) + "s";
+                    racingResult += "   " + ((int) (RacingResults[i].Time * 100f) * 0.01f).ToString("F2",CultureInfo.InvariantCulture) + "s";
                     racingResult += "\n";
                 }
             }
