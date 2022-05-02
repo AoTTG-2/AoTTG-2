@@ -31,7 +31,7 @@ namespace Assets.Scripts.Services
 
         public float GetUnPausedRoundTime()
         {
-            return (float) (GetRoundTime() - GetTotalPausedTime());
+            return GetRoundTime() - GetTotalPausedTime();
         }
 
         public int GetUnPausedRoundDisplayTime()
@@ -43,21 +43,15 @@ namespace Assets.Scripts.Services
             CreationTime = DateTime.UtcNow;
         }
 
-        private void OnLevelWasLoaded()
-        {
-            RoundTime = DateTime.UtcNow;
-            ResetTotalPausedTime();
-        }
-
-        public void ResetTotalPausedTime()
-        {
-            PausedStartTime = DateTime.MinValue;
-            TotalPausedTime = TimeSpan.Zero;
-        }
-
         public float GetTotalPausedTime()
         {
             return (float) TotalPausedTime.TotalSeconds;
+        }
+
+        private void ResetTotalPausedTime()
+        {
+            PausedStartTime = DateTime.MinValue;
+            TotalPausedTime = TimeSpan.Zero;
         }
 
         /// <summary>
@@ -69,7 +63,7 @@ namespace Assets.Scripts.Services
         }
 
         /// <summary>
-        /// Occurs on OnUnPaused
+        /// Occurs on OnUnPaused. Calculates the time paused and adds it to the total.
         /// </summary>
         private void SetTotalPausedTime(object sender, EventArgs e)
         {
@@ -80,6 +74,11 @@ namespace Assets.Scripts.Services
             //Subscribes to OnPaused and OnUnPaused events
             Service.Pause.OnPaused += SetPausedStartTime;
             Service.Pause.OnUnPaused += SetTotalPausedTime;
+        }
+        private void OnLevelWasLoaded()
+        {
+            RoundTime = DateTime.UtcNow;
+            ResetTotalPausedTime();
         }
     }
 }
