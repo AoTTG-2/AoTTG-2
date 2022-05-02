@@ -41,7 +41,7 @@ namespace Assets.Scripts.Gamemode
         private void Update()
         {
             if (!isValid) return;
-            if (HasStarted)
+            if (HasStarted && !Service.Pause.IsPaused())
             {
                 //TODO Refactor the average speed to be more performance friendly
                 var currentSpeed = Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().main_object?.GetComponent<Rigidbody>().velocity.magnitude ?? 0f;
@@ -49,13 +49,13 @@ namespace Assets.Scripts.Gamemode
                 TotalFrames++;
 
                 UiService.SetMessage(LabelPosition.Top,
-                    $"{Localization.Common.GetLocalizedString("TIME")} : {TimeService.GetRoundTime() - CountDownTimerLimit:F1} | " +
+                    $"{Localization.Common.GetLocalizedString("TIME")} : {TimeService.GetUnPausedRoundTime() - CountDownTimerLimit:F1} | " +
                     $"{Localization.Gamemode.Racing.GetLocalizedString("AVERAGE_SPEED")} : {AverageSpeed:F1}");
             }
-            else
+            else if (!HasStarted && !Service.Pause.IsPaused())
             {
-                UiService.SetMessage(LabelPosition.Center, Localization.Gamemode.Racing.GetLocalizedString("START", $"{CountDownTimerLimit - TimeService.GetRoundTime():F1}"));
-                if (CountDownTimerLimit - TimeService.GetRoundTime() <= 0f)
+                UiService.SetMessage(LabelPosition.Center, Localization.Gamemode.Racing.GetLocalizedString("START", $"{CountDownTimerLimit - TimeService.GetUnPausedRoundTime():F1}"));
+                if (CountDownTimerLimit - TimeService.GetUnPausedRoundTime() <= 0f)
                 {
                     UiService.ResetMessage(LabelPosition.Center);
                     if (!PhotonNetwork.offlineMode) RacingResults.Clear();
@@ -185,7 +185,7 @@ namespace Assets.Scripts.Gamemode
             {
                 OfflineResults.Add(result);
                 racingResult =
-                    $"Finished!\n {result.Name}   {result.Time}s ({result.AverageSpeed}us / {result.Deaths})";
+                    $"Finished!\n {result.Name}   {result.Time:F2}s ({result.AverageSpeed:F2}us / {result.Deaths})";
             }
             else
             {
@@ -197,7 +197,7 @@ namespace Assets.Scripts.Gamemode
                     object[] objArray2 = { racingResult, "Rank ", i + 1, " : " };
                     racingResult = string.Concat(objArray2);
                     racingResult += RacingResults[i].Name;
-                    racingResult += "   " + ((int) (RacingResults[i].Time * 100f) * 0.01f).ToString(CultureInfo.InvariantCulture) + "s";
+                    racingResult += "   " + ((int) (RacingResults[i].Time * 100f) * 0.01f).ToString("F2", CultureInfo.InvariantCulture) + "s";
                     racingResult += "\n";
                 }
             }
@@ -215,7 +215,7 @@ namespace Assets.Scripts.Gamemode
 
         public void OnRacingFinished()
         {
-            var finishTime = TimeService.GetRoundTime() - CountDownTimerLimit;
+            var finishTime = TimeService.GetUnPausedRoundTime() - CountDownTimerLimit;
             photonView.RPC(nameof(RacingFinishRpc), PhotonTargets.MasterClient, LoginFengKAI.player.name, finishTime, AverageSpeed, 0);
         }
 
