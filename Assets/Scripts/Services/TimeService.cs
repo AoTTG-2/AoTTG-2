@@ -63,7 +63,7 @@ namespace Assets.Scripts.Services
         }
 
         /// <summary>
-        /// Occurs on OnUnPaused. Calculates the time paused and adds it to the total.
+        /// Occurs on OnFinishedUnPaused. Calculates the time paused and adds it to the total.
         /// </summary>
         private void SetTotalPausedTime(object sender, EventArgs e)
         {
@@ -71,9 +71,8 @@ namespace Assets.Scripts.Services
         }
         private void Awake()
         {
-            //Subscribes to OnPaused and OnUnPaused events
             Service.Pause.OnPaused += SetPausedStartTime;
-            Service.Pause.OnUnPaused += SetTotalPausedTime;
+            Service.Pause.OnFinishedUnPaused += SetTotalPausedTime;
         }
         private void OnLevelWasLoaded()
         {
