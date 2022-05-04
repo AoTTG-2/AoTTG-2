@@ -19,6 +19,7 @@ namespace Assets.Scripts.Services
 
         public event EventHandler OnPaused;
         public event EventHandler OnUnPaused;
+        public event EventHandler OnFinishedUnPaused;
 
         public void Pause(bool shouldPause, bool immediate = false)
         {
@@ -82,6 +83,7 @@ namespace Assets.Scripts.Services
                     Time.timeScale = 1f;
                     isUnpausing = false;
                     isPaused = false;
+                    OnFinishedUnPaused?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

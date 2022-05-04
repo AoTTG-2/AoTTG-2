@@ -31,5 +31,9 @@ namespace Assets.Scripts.Services.Interface
         /// Invoked when the game is unpaused
         /// </summary>
         event EventHandler OnUnPaused;
+        /// <summary>
+        /// Invoked when the game finishes unpausing (when the multiplayer unpause countdown goes to 0)
+        /// </summary>
+        event EventHandler OnFinishedUnPaused;
     }
 }
