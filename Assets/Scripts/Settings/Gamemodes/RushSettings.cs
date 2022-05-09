@@ -8,12 +8,12 @@ namespace Assets.Scripts.Settings.Gamemodes
 {
     public class RushSettings : GamemodeSettings
     {
-        [UiElement("Titan frequency", "1 titan will spawn per Interval", SettingCategory.Advanced)]
+        [UiElement("Titan frequency", "1 titan will spawn per Interval")]
         public int? TitanInterval { get; set; }
 
-        [UiElement("Titan Group Internval", "X titans will spawn per Interval", SettingCategory.Advanced)]
+        [UiElement("Titan Group Internval", "X titans will spawn per Interval")]
         public int? TitanGroupInterval { get; set; }
-        [UiElement("Titan Group Size", "X titans will spawn per Interval", SettingCategory.Advanced)]
+        [UiElement("Titan Group Size", "X titans will spawn per Interval")]
         public int? TitanGroupSize { get; set; }
 
         public RushSettings()

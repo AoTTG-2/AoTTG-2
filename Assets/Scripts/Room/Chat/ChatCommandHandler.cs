@@ -12,6 +12,9 @@ using Assets.Scripts;
 using static Assets.Scripts.FengGameManagerMKII;
 using static Assets.Scripts.Room.Chat.ChatUtility;
 using static PhotonNetwork;
+using Assets.Scripts.Utility;
+using Assets.Scripts.Events.Args;
+using System.Globalization;
 
 /// <summary>
 /// Handles logic for server chat commands
@@ -261,10 +264,9 @@ public static class ChatCommandHandler
 
     private static void ToggleSpecMode()
     {
-        settings[0xf5] = (int) settings[0xf5] == 1 ? 0 : 1;
-        bool specMode = (int) settings[0xf5] == 1;
-        instance.EnterSpecMode(specMode);
-        string message = specMode ? "You have entered spectator mode." : "You have exited spectator mode.";
+        SpectatorMode.Toggle();
+        SpectatorMode.UpdateSpecMode();
+        string message = SpectatorMode.IsEnable() ? "You have entered spectator mode." : "You have exited spectator mode.";
         instance.chatRoom.OutputSystemMessage(message);
     }
 
@@ -278,7 +280,7 @@ public static class ChatCommandHandler
 
         var chatMessage = new object[] { FormatSystemMessage("MasterClient has restarted the game!"), string.Empty };
         instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, chatMessage);
-        instance.restartRC();
+        instance.RestartRound();
     }
 
     private static void SendPrivateMessage(string[] parameters)
@@ -395,7 +397,7 @@ public static class ChatCommandHandler
         if (PhotonNetwork.offlineMode)
         {
             instance.InGameUI.TogglePauseMenu();
-        } 
+        }
         else
         {
             Service.Pause.photonView.RPC(nameof(IPauseService.PauseRpc), PhotonTargets.All, !Service.Pause.IsPaused(), false);
@@ -529,6 +531,43 @@ public static class ChatCommandHandler
     }
 
     /// <summary>
+    /// Teleports the player. MC only
+    /// </summary>
+    /// <param name="cords"></param>
+    private static void Teleport(string[] parameters)
+    {
+        if (!PhotonNetwork.isMasterClient)
+        {
+            instance.chatRoom.UpdateChat("Only the MasterClient can teleport themselves");
+            return;
+        }
+
+        if (parameters.Length != 4)
+        {
+            instance.chatRoom.UpdateChat("Invalid syntax. Correct syntax: /teleport X Y Z");
+            return;
+        }
+
+        var player = Service.Player.Self;
+        if (Service.Player.Self == null)
+        {
+            instance.chatRoom.UpdateChat("Cannot use teleport if the player hasn't spawned yet!");
+            return;
+        }
+
+        if (float.TryParse(parameters[1], out var x)
+            && float.TryParse(parameters[2], out var y)
+            && float.TryParse(parameters[3], out var z))
+        {
+            player.transform.position = new Vector3(x, y, z);
+        }
+        else
+        {
+            instance.chatRoom.UpdateChat("Invalid parameters. Assure that all parameters are valid numbers!");
+        }
+    }
+
+    /// <summary>
     /// Handle commands in chat
     /// </summary>
     /// <param name="chatCommand"></param>
@@ -552,6 +591,9 @@ public static class ChatCommandHandler
         string message;
         switch (command)
         {
+            case ChatCommand.MusicVolume:
+                SetMusicVolume(parameter);
+                break;
             case ChatCommand.Cloth:
                 message = ClothFactory.GetDebugInfo();
                 instance.chatRoom.AddMessage(message);
@@ -628,8 +670,19 @@ public static class ChatCommandHandler
             case ChatCommand.ClearAll:
                 ClearChatAll();
                 break;
+            case ChatCommand.Teleport:
+                Teleport(commands);
+                break;
             default:
                 break;
         }
+    }
+
+    private static void SetMusicVolume(string parameter)
+    {
+        if (float.TryParse(parameter, NumberStyles.Float, CultureInfo.InvariantCulture, out var volume))
+        {
+            Service.Music.SetMusicVolume(new MusicVolumeChangedEvent(volume));
+        }     
     }
 }

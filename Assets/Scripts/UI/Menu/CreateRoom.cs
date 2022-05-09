@@ -13,6 +13,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.Menu
 {
+    /// <summary>
+    /// UI Class for the "Create Room" functionality
+    /// </summary>
     public class CreateRoom : UiNavigationElement
     {
         public Dropdown LevelDropdown;
@@ -87,6 +90,9 @@ namespace Assets.Scripts.UI.Menu
             Account.isOn = false;
         }
 
+        /// <summary>
+        /// Creates a new multiplayer room with the configured settings.
+        /// </summary>
         public void Create()
         {
             if (DifficultyDropdown.captionText.text.StartsWith(CustomDifficultyPrefix))
@@ -114,6 +120,7 @@ namespace Assets.Scripts.UI.Menu
                 IsVisible = true,
                 IsOpen = true,
                 MaxPlayers = 10,
+                PlayerTtl = 120000,
                 CustomRoomProperties = new Hashtable
                 {
                     { "name", roomName },
@@ -141,6 +148,8 @@ namespace Assets.Scripts.UI.Menu
                 lobbyOptions.Add("account");
                 roomOptions.CustomRoomPropertiesForLobby = lobbyOptions.ToArray();
             }
+
+            
 
             PhotonNetwork.PhotonServerSettings.JoinLobby = true;
             PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);

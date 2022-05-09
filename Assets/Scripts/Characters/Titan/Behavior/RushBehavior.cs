@@ -1,10 +1,13 @@
-﻿using Assets.Scripts.Gamemode;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Gamemode;
 using System.Collections;
-using Assets.Scripts.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// Overrides the titans state behavior for the <see cref="TitanRushGamemode"/>
+    /// </summary>
     public class RushBehavior : TitanBehavior
     {
         public RushBehavior(ArrayList route)
@@ -25,7 +28,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
 
             if (checkPoints.Count > 1)
             {
-                if (Vector3.Distance((Vector3)checkPoints[0], Titan.transform.position) > activeRad)
+                if (Vector3.Distance((Vector3) checkPoints[0], Titan.transform.position) > activeRad)
                 {
                     TargetLocation = (Vector3) checkPoints[0];
                     IsGoingToCheckpoint = true;
@@ -44,7 +47,7 @@ namespace Assets.Scripts.Characters.Titan.Behavior
                     }
                     else
                     {
-                        TargetLocation = (Vector3)checkPoints[0];
+                        TargetLocation = (Vector3) checkPoints[0];
                     }
                 }
             }

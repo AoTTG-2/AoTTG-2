@@ -1,8 +1,12 @@
 using Assets.Scripts.Characters.Humans;
+using Assets.Scripts.Gamemode;
 using UnityEngine;
 
 namespace Assets.Scripts.Room
 {
+    /// <summary>
+    /// Used only in the racing gamemode. If this is triggered, the player has finished the race.
+    /// </summary>
     public class LevelTriggerRacingEnd : MonoBehaviour
     {
         private bool disable;
@@ -11,9 +15,9 @@ namespace Assets.Scripts.Room
         {
             if (!this.disable && (other.gameObject.tag == "Player"))
             {
-                if (other.gameObject.GetComponent<Hero>().photonView.isMine)
+                if (other.gameObject.GetComponent<Hero>().photonView.isMine && FengGameManagerMKII.Gamemode is RacingGamemode racingGamemode)
                 {
-                    FengGameManagerMKII.instance.multiplayerRacingFinsih();
+                    racingGamemode.OnRacingFinished();
                     this.disable = true;
                 }
             }

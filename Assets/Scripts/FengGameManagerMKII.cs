@@ -15,34 +15,39 @@ using Assets.Scripts.UI;
 using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.Utility;
 using Photon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-//[Obsolete]
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// The Original AoTTG1 god class of 17k+ lines of code! This class used to do literally everything, and still does too much.
+    /// Do not add new code to this class, and rather refactor the logic to a service or a different component.
+    /// This class should eventually only have 2 responsibilities:
+    /// 1. Initializing the Settings
+    /// 2. Loading a level and the respective gamemode
+    /// </summary>
     public class FengGameManagerMKII : PunBehaviour
     {
         protected ISpawnService SpawnService => Service.Spawn;
-        protected IEntityService EntityService => Service.Entity;
 
-        [SerializeField]
-        private VersionManager versionManager;
-
+        #region Obsolete Properties
+        [Obsolete("Dirty way of getting some materials. Should be deleted once its dependencies in FengGameManager are resolved")]
         public RCLegacy RcLegacy;
 
         [Obsolete("Cannon specific logic. Should be moved into a dedicated Cannon manager.")]
         public Dictionary<int, CannonValues> allowedToCannon;
 
+        [Obsolete("Used in AoTTG to handle bans, however this needs to be refactored and possibly partially moved to the photon server")]
         public static ExitGames.Client.Photon.Hashtable banHash;
 
-        [Obsolete("FengGameManager should not have a public InRoomChat variable. This must be made private. Use DependencyInjection instead to get a reference to InRoomChat.")]
+        [Obsolete("FengGameManager should not have a public InRoomChat variable. This must be made private. Use the ChatService instead to get a reference to InRoomChat.")]
         public InRoomChat chatRoom;
 
         [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
@@ -56,7 +61,7 @@ namespace Assets.Scripts
         public static string currentScriptLogic;
         [Obsolete("Migrate this to a dedicated TeamService")]
         public int cyanKills;
-        public bool gameStart;
+        [Obsolete("AoTTG used to have a limit on for how long a room could be hosted, this has been removed in AoTTG2 so this bool serves no purpose.")]
         private bool gameTimesUp;
         [Obsolete("This list is only used to replace the CUBE_001 TEXTURE when CUSTOM MAP is loaded. For AoTTG2 we no longer require this method")]
         public List<GameObject> groundList;
@@ -67,10 +72,13 @@ namespace Assets.Scripts
         public static ExitGames.Client.Photon.Hashtable imatitan;
         [Obsolete("A static reference to the god class is something we don't want. Avoid introducing new code which makes use of this, and refactor and introduce a new services instead.")]
         public static FengGameManagerMKII instance;
+        [Obsolete("Used to automatically recompile a player list, yet again, this logic shouldn't be here...")]
         public bool isRecompiling;
         [Obsolete("Only used for Cannons. Remove in Issue #75")]
         public bool isRestarting;
+        [Obsolete("Used to schedule as Resources.UnloadUnusedAssets (https://docs.unity3d.com/ScriptReference/Resources.UnloadUnusedAssets.html) after 10s. Do we even need to do this manually? Either way, logic should be moved to classes which required this. ")]
         public bool isUnloading;
+        [Obsolete("Used to keep track over how many KillInfo objects exist. UI related logic to prevent more than 5 kill info objects being loaded at once, should be moved to some UI class. ")]
         private readonly List<GameObject> killInfoGO = new List<GameObject>();
         [Obsolete("Legacy method of keeping track of custom level scripts, which we no longer support")]
         public List<string[]> levelCache;
@@ -111,8 +119,6 @@ namespace Assets.Scripts
         [Obsolete("A value is never assigned")]
         public static string PrivateServerAuthPass;
         [Obsolete("Use RacingGamemode instead")]
-        private ArrayList racingResult;
-        [Obsolete("Use RacingGamemode instead")]
         public Vector3 racingSpawnPoint;
         [Obsolete("Use RacingGamemode instead")]
         public bool racingSpawnPointSet;
@@ -124,18 +130,34 @@ namespace Assets.Scripts
         [Obsolete("A god class array for settings. Move these settings to the classes where they belong")]
         public static object[] settings;
         public static Material skyMaterial;
-
-        public InGameUi InGameUI;
-
         [Obsolete("This is used to assign a name to the HERO, but it shouldn't be within FengGameManager")]
         public new string name { get; set; }
+        [Obsolete("A dirty way to get a reference to the InGameUI. Should use UiService instead of UI references.")]
+        public InGameUi InGameUI;
+        #endregion
+
+        [SerializeField]
+        private VersionManager versionManager;
+
+        /// <summary>
+        /// A static accessor to the current Gamemode
+        /// </summary>
+
+        public bool IsReconnecting = false;
         public static GamemodeBase Gamemode { get; set; }
+        /// <summary>
+        /// A static accessor to the current loaded Level
+        /// </summary>
         public static Level Level { get; set; }
 
+        /// <summary>
+        /// A static accessor to the Level that should be loaded on a new round
+        /// </summary>
         public static Level NewRoundLevel { get; set; }
+        /// <summary>
+        /// A static accessor to the Gamemode settings that should be loaded on a new round
+        /// </summary>
         public static GamemodeSettings NewRoundGamemode { get; set; }
-
-        private float pingTimeLast = 0; // This is used to ensure ping is only retrieved once a second. 
 
         /// <summary>
         /// We store this in a variable to make sure the Coroutine is killed if the game 
@@ -145,12 +167,313 @@ namespace Assets.Scripts
         /// </summary>
         private Coroutine respawnCoroutine;
 
-        [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
-        public void addCamera(IN_GAME_MAIN_CAMERA c)
+        #region PUN Events
+        public override void OnConnectedToMaster()
         {
-            this.mainCamera = c;
+            Debug.Log("OnConnectedToMaster");
         }
 
+        public override void OnConnectedToPhoton()
+        {
+            Debug.Log("OnConnectedToPhoton");
+        }
+
+        public override void OnConnectionFail(DisconnectCause cause)
+        {
+            Debug.Log("OnConnectionFail : " + cause.ToString());
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+
+            if (cause is DisconnectCause.DisconnectByClientTimeout)
+            {
+                IsReconnecting = true;
+            }
+
+        }
+
+        public override void OnCreatedRoom()
+        {
+            Debug.Log("OnCreatedRoom");
+        }
+
+        public override void OnDisconnectedFromPhoton()
+        {
+            Debug.Log("OnDisconnectedFromPhoton");
+            if (Application.loadedLevel != 0)
+            {
+                Time.timeScale = 1f;
+                this.resetSettings(true);
+                this.loadconfig();
+                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
+                this.DestroyAllExistingCloths();
+                Application.LoadLevel(0);
+                if (IsReconnecting)
+                {
+                    IsReconnecting = false;
+                    PhotonNetwork.ReconnectAndRejoin();
+                }
+
+            }
+        }
+
+        //TODO: CustomMapService.OnLevelWasLoaded is called before OnJoinedRoom
+        public override void OnJoinedRoom()
+        {
+            Service.Settings.SetRoomPropertySettings();
+            SetLevelAndGamemode();
+
+            this.playerList = string.Empty;
+            char[] separator = new char[] { "`"[0] };
+            //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
+            this.gameTimesUp = false;
+            char[] chArray3 = new char[] { "`"[0] };
+            string[] strArray = PhotonNetwork.room.name.Split(chArray3);
+            //if (strArray[4] == "day")
+            //{
+            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Day;
+            //}
+            //else if (strArray[4] == "dawn")
+            //{
+            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Dawn;
+            //}
+            //else if (strArray[4] == "night")
+            //{
+            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
+            //}
+            if (PhotonNetwork.isMasterClient)
+            {
+                Level.LoadLevel();
+            }
+            GameCursor.CursorMode = CursorMode.Loading;
+            var hashtable = new Hashtable
+            {
+                {PhotonPlayerProperty.name, LoginFengKAI.player.name},
+                {PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname},
+                {PhotonPlayerProperty.kills, 0},
+                {PhotonPlayerProperty.max_dmg, 0},
+                {PhotonPlayerProperty.total_dmg, 0},
+                {PhotonPlayerProperty.deaths, 0},
+                {PhotonPlayerProperty.dead, true},
+                {PhotonPlayerProperty.isTitan, 0},
+                {PhotonPlayerProperty.RCteam, 0},
+                {PhotonPlayerProperty.currentLevel, string.Empty}
+            };
+            var propertiesToSet = hashtable;
+            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+            this.needChooseSide = true;
+            this.ClearKillInfo();
+            this.name = LoginFengKAI.player.name;
+            var hashtable3 = new ExitGames.Client.Photon.Hashtable
+            {
+                {PhotonPlayerProperty.name, this.name}
+            };
+            PhotonNetwork.player.SetCustomProperties(hashtable3);
+            if (OnPrivateServer)
+            {
+                ServerRequestAuthentication(PrivateServerAuthPass);
+            }
+
+            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
+        }
+
+        public override void OnLeftLobby()
+        {
+            Debug.Log("OnLeftLobby");
+        }
+
+        public override void OnLeftRoom()
+        {
+            Debug.Log("OnLeftRoom");
+        }
+
+        public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
+        {
+            if (!noRestart)
+            {
+                if (PhotonNetwork.isMasterClient)
+                {
+                    this.restartingMC = true;
+                }
+                this.resetSettings(false);
+                if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
+                {
+                    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
+                    propertiesToSet.Add(PhotonPlayerProperty.isTitan, 1);
+                    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                }
+                if (!(this.gameTimesUp || !PhotonNetwork.isMasterClient))
+                {
+                    this.restartGame2(true);
+                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
+                }
+            }
+            noRestart = false;
+        }
+
+        public override void OnPhotonMaxCccuReached()
+        {
+            Debug.Log("OnPhotonMaxCccuReached");
+        }
+
+        public override void OnPhotonPlayerConnected(PhotonPlayer player)
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                PhotonView photonView = base.photonView;
+                if (banHash.ContainsValue(RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name])))
+                {
+                    this.kickPlayerRC(player, false, "banned.");
+                }
+                else
+                {
+                    int num = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statACL]);
+                    int num2 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statBLA]);
+                    int num3 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statGAS]);
+                    int num4 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statSPD]);
+                    if ((((num > 150) || (num2 > 125)) || (num3 > 150)) || (num4 > 140))
+                    {
+                        this.kickPlayerRC(player, true, "excessive stats.");
+                        return;
+                    }
+                    if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
+                    {
+                        base.StartCoroutine(this.WaitAndReloadKDR(player));
+                    }
+                    ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+                    if ((ignoreList != null) && (ignoreList.Count > 0))
+                    {
+                        photonView.RPC(nameof(ignorePlayerArray), player, new object[] { ignoreList.ToArray() });
+                    }
+                    photonView.RPC(nameof(setMasterRC), player, new object[0]);
+                }
+            }
+            this.RecompilePlayerList(0.1f);
+        }
+
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
+        {
+            if (ignoreList.Contains(player.ID))
+            {
+                ignoreList.Remove(player.ID);
+            }
+            InstantiateTracker.instance.TryRemovePlayer(player.ID);
+            if (PhotonNetwork.isMasterClient)
+            {
+                base.photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, new object[] { player.ID });
+            }
+            if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
+            {
+                string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
+                if (this.PreservedPlayerKDR.ContainsKey(key))
+                {
+                    this.PreservedPlayerKDR.Remove(key);
+                }
+                int[] numArray2 = new int[] { RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]) };
+                this.PreservedPlayerKDR.Add(key, numArray2);
+            }
+            this.RecompilePlayerList(0.1f);
+        }
+
+        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+        {
+            this.RecompilePlayerList(0.1f);
+            if (((playerAndUpdatedProps != null) && (playerAndUpdatedProps.Length >= 2)) && (((PhotonPlayer) playerAndUpdatedProps[0]) == PhotonNetwork.player))
+            {
+                ExitGames.Client.Photon.Hashtable hashtable2;
+                ExitGames.Client.Photon.Hashtable hashtable = (ExitGames.Client.Photon.Hashtable) playerAndUpdatedProps[1];
+                if (hashtable.ContainsKey("name") && (RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) != this.name))
+                {
+                    hashtable2 = new ExitGames.Client.Photon.Hashtable();
+                    hashtable2.Add(PhotonPlayerProperty.name, this.name);
+                    PhotonNetwork.player.SetCustomProperties(hashtable2);
+                }
+                if (((hashtable.ContainsKey("statACL") || hashtable.ContainsKey("statBLA")) || hashtable.ContainsKey("statGAS")) || hashtable.ContainsKey("statSPD"))
+                {
+                    PhotonPlayer player = PhotonNetwork.player;
+                    int num = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statACL]);
+                    int num2 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statBLA]);
+                    int num3 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statGAS]);
+                    int num4 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statSPD]);
+                    if (num > 150)
+                    {
+                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
+                        hashtable2.Add(PhotonPlayerProperty.statACL, 100);
+                        PhotonNetwork.player.SetCustomProperties(hashtable2);
+                        num = 100;
+                    }
+                    if (num2 > 0x7d)
+                    {
+                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
+                        hashtable2.Add(PhotonPlayerProperty.statBLA, 100);
+                        PhotonNetwork.player.SetCustomProperties(hashtable2);
+                        num2 = 100;
+                    }
+                    if (num3 > 150)
+                    {
+                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
+                        hashtable2.Add(PhotonPlayerProperty.statGAS, 100);
+                        PhotonNetwork.player.SetCustomProperties(hashtable2);
+                        num3 = 100;
+                    }
+                    if (num4 > 140)
+                    {
+                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
+                        hashtable2.Add(PhotonPlayerProperty.statSPD, 100);
+                        PhotonNetwork.player.SetCustomProperties(hashtable2);
+                        num4 = 100;
+                    }
+                }
+            }
+        }
+
+        public override void OnReceivedRoomListUpdate() { }
+
+        public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
+        {
+            Debug.LogError(data);
+        }
+
+        #endregion
+
+        private void Start()
+        {
+            Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
+            PhotonNetwork.automaticallySyncScene = true;
+            Debug.Log($"Version: {versionManager.Version}");
+            instance = this;
+            base.gameObject.name = "MultiplayerManager";
+            CostumeHair.init();
+            CharacterMaterials.init();
+            UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
+            this.name = string.Empty;
+            banHash = new ExitGames.Client.Photon.Hashtable();
+            imatitan = new ExitGames.Client.Photon.Hashtable();
+            oldScript = string.Empty;
+            currentLevel = string.Empty;
+            if (currentScript == null)
+            {
+                currentScript = string.Empty;
+            }
+            this.playerSpawnsC = new List<Vector3>();
+            this.playerSpawnsM = new List<Vector3>();
+            this.playersRPC = new List<PhotonPlayer>();
+            this.levelCache = new List<string[]>();
+            this.restartCount = new List<float>();
+            ignoreList = new List<int>();
+            this.groundList = new List<GameObject>();
+            noRestart = false;
+            masterRC = false;
+            heroHash = new ExitGames.Client.Photon.Hashtable();
+            logicLoaded = false;
+            oldScriptLogic = string.Empty;
+            currentScriptLogic = string.Empty;
+            this.playerList = string.Empty;
+            this.loadconfig();
+            ChangeQuality.setCurrentQuality();
+        }
+
+        /// <summary>
+        /// Retrieves and sets the current Level and Gamemode from the <see cref="PhotonNetwork.room"/>. Used by new players who just joined the room
+        /// </summary>
         public void SetLevelAndGamemode()
         {
             Level = PhotonNetwork.room.GetLevel();
@@ -158,6 +481,196 @@ namespace Assets.Scripts
             SetGamemode(gamemodeSettings);
         }
 
+        /// <summary>
+        /// Removes an existing <see cref="GamemodeBase"/> component from the GameObject, and adds a new <see cref="GamemodeBase"/> based on <paramref name="settings"/>
+        /// </summary>
+        /// <param name="settings">The settings on which a new <see cref="GamemodeBase"/> will be initialized</param>
+        private void SetGamemode(GamemodeSettings settings)
+        {
+            if (Gamemode == null)
+            {
+                Service.Settings.Get().ChangeSettings(settings);
+                var gamemodeObject = GameObject.Find("Gamemode");
+                Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
+            }
+            else
+            {
+                foreach (var comp in Gamemode.gameObject.GetComponents<Component>())
+                {
+                    if (!(comp is Transform || comp is PhotonView))
+                    {
+                        Destroy(comp);
+                    }
+                }
+                Gamemode = null;
+                SetGamemode(settings);
+            }
+        }
+
+        /// <summary>
+        /// This method handles the "OnLevelLoaded" event from the <see cref="ILevelService"/>. The regular OnLevelWasLoaded or SceneManager.sceneLoaded cannot be used, as this event also takes the loading of custom maps in consideration.
+        /// </summary>
+        /// <param name="scene">Index of the scene that was loaded</param>
+        /// <param name="level">The level that was loaded</param>
+        private void Level_OnLevelLoaded(int scene, Level level)
+        {
+            // Scene 0 = Menu Scene
+            if (scene == 0) return;
+            var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
+            ui.ShowInGameUi();
+            ChangeQuality.setCurrentQuality();
+            foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
+            {
+                if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
+                {
+                    UnityEngine.Object.Destroy(obj2);
+                }
+            }
+            GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
+            UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
+            obj3.name = "MainCamera";
+            this.cache();
+            this.loadskin();
+            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
+            PVPcheckPoint.chkPts = new ArrayList();
+            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
+            Camera.main.GetComponent<CameraShake>().enabled = false;
+            if (this.needChooseSide)
+            {
+                //TODO: Show ChooseSide Message
+                //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
+            }
+            else if (SpectatorMode.IsDisable())
+            {
+                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
+                {
+                    SpawnService.Spawn<PlayerTitan>();
+                }
+                else
+                {
+                    this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
+                }
+            }
+
+            if (SpectatorMode.IsEnable())
+            {
+                SpectatorMode.UpdateSpecMode();
+            }
+        }
+
+        /// <summary>
+        /// Restarts the room to start a new round If a new level or gamemode was setup by the MC, additional steps will be taken to replace these settings and load the new level.
+        /// </summary>
+        public void RestartRound()
+        {
+            if (respawnCoroutine != null)
+                StopCoroutine(respawnCoroutine);
+
+            if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
+            {
+                Level = NewRoundLevel;
+                SetGamemode(NewRoundGamemode);
+                var hash = new ExitGames.Client.Photon.Hashtable
+                {
+                    {"level", Level.Name},
+                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+                };
+                PhotonNetwork.room.SetCustomProperties(hash);
+            }
+            else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
+            {
+                SetGamemode(NewRoundGamemode);
+                var hash = new ExitGames.Client.Photon.Hashtable
+                {
+                    {"level", Level.Name},
+                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
+                };
+                PhotonNetwork.room.SetCustomProperties(hash);
+            }
+
+            Service.Entity.OnRestart();
+            EventManager.OnRestart.Invoke();
+        }
+
+        /// <summary>
+        /// Mostly contains obsolete logic, yet this is currently used to setup the right Level and Gamemode Settings for a non-MC.
+        /// </summary>
+        /// <param name="info"></param>
+        [PunRPC]
+        private void RPCLoadLevel(PhotonMessageInfo info)
+        {
+            if (info.sender.isMasterClient)
+            {
+                this.DestroyAllExistingCloths();
+                SetLevelAndGamemode();
+                if (PhotonNetwork.isMasterClient) Level.LoadLevel();
+            }
+            else if (PhotonNetwork.isMasterClient)
+            {
+                this.kickPlayerRC(info.sender, true, "false restart.");
+            }
+        }
+
+        /// <summary>
+        /// Activates Endless Respawn when the settings where changed
+        /// </summary>
+        [Obsolete("This handled the 'OnRoomSettingsChanged' event, however, Gamemode specific logic should this be moved to the gamemode classes")]
+        public void OnRoomSettingsInitialized()
+        {
+            if (mainCamera?.main_object != null)
+            {
+                mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
+            }
+            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
+            {
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+                StartCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+            }
+            else
+            {
+                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
+            }
+
+            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
+            {
+                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
+                {
+                    this.setTeam(3);
+                }
+            }
+            else
+            {
+                this.setTeam(0);
+            }
+
+
+            if (GameSettings.Gamemode.GamemodeType == GamemodeType.Infection)
+            {
+                var gamemodeInfection = GameSettings.DerivedGamemode<InfectionGamemodeSettings>();
+                if (gamemodeInfection.Infected > 0)
+                {
+                    var hashtable = new ExitGames.Client.Photon.Hashtable();
+                    hashtable.Add(PhotonPlayerProperty.RCteam, 0);
+                    PhotonNetwork.player.SetCustomProperties(hashtable);
+                    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
+                }
+                else
+                {
+                    var hashtable = new ExitGames.Client.Photon.Hashtable();
+                    hashtable.Add(PhotonPlayerProperty.isTitan, 1);
+                    PhotonNetwork.player.SetCustomProperties(hashtable);
+                    this.chatRoom.AddMessage("<color=#FFCC00>Infection Mode disabled.</color>");
+                }
+            }
+        }
+
+        #region Obsolete Methods
+        [Obsolete("FengGameManager doesn't require the usage of IN_GAME_MAIN_CAMERA.")]
+        public void addCamera(IN_GAME_MAIN_CAMERA c)
+        {
+            this.mainCamera = c;
+        }
+        [Obsolete("GameManager will 'cache' various properties, yet all of these are obsolete, and so is this method.")]
         private void cache()
         {
             ClothFactory.ClearClothCache();
@@ -207,6 +720,7 @@ namespace Assets.Scripts
             chatRoom.ClearMessages();
         }
 
+        [Obsolete("The AoTTG way of disposing dynamically downloaded textures.")]
         [PunRPC]
         private void clearlevel(string[] link, PhotonMessageInfo info)
         {
@@ -219,6 +733,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("This IEnumerator of clearLevel(string[] link, PhotonMessageInfo info)")]
         private IEnumerator clearlevelE(string[] skybox)
         {
             string key = skybox[6];
@@ -352,7 +867,13 @@ namespace Assets.Scripts
             }
         }
 
-        //[Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
+        /// <summary>
+        /// This is used to ensure ping is only retrieved once a second. 
+        /// </summary>
+        [Obsolete("UI logic should be within the UI classes")]
+        private float pingTimeLast = 0;
+
+        [Obsolete("Cycolmatic complexity too high. Move into different classes and private methods")]
         private void LateUpdate()
         {
             if (((int) settings[0x40]) >= 100)
@@ -387,7 +908,7 @@ namespace Assets.Scripts
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
                     if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
                          (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
-                        (((int) settings[0xf5]) == 0))
+                        SpectatorMode.IsDisable())
                     {
                         if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
                             !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
@@ -432,7 +953,7 @@ namespace Assets.Scripts
                 if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
                 {
                     if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                        !mainCamera.IsSpecmode)
+                        SpectatorMode.IsDisable())
                     {
                         this.myRespawnTime += Time.deltaTime;
                         if (this.myRespawnTime > 1.5f)
@@ -497,7 +1018,6 @@ namespace Assets.Scripts
                 //{
                 //    string str11;
                 //    IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-                //    this.gameStart = false;
                 //    string str6 = string.Empty;
                 //    string str7 = string.Empty;
                 //    string str8 = string.Empty;
@@ -522,6 +1042,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("I think this was used to Reload the playerlist of the game was paused? This method is called on LateUpdate whereas the ReloadPlayerList is quite complex.")]
         private void coreadd()
         {
             if (Time.timeScale <= 0.1f)
@@ -530,6 +1051,9 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Will look for all Cloth objects and try to dispose them via the <see cref="ClothFactory.DisposeObject"/>
+        /// </summary>
         public void DestroyAllExistingCloths()
         {
             Cloth[] clothArray = UnityEngine.Object.FindObjectsOfType<Cloth>();
@@ -542,55 +1066,11 @@ namespace Assets.Scripts
             }
         }
 
-        public void EnterSpecMode(bool enter)
-        {
-            if (enter)
-            {
-                if (Service.Player.Self != null && Service.Player.Self.photonView.isMine)
-                {
-                    PhotonNetwork.Destroy(Service.Player.Self.photonView);
-                }
-                instance.needChooseSide = false;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-                GameObject obj4 = GameObject.FindGameObjectWithTag("Player");
-                if ((obj4 != null) && (obj4.GetComponent<Hero>() != null))
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(obj4, true, false);
-                }
-                else
-                {
-                    Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                }
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-                base.StartCoroutine(this.reloadSky());
-            }
-            else
-            {
-                if (GameObject.Find("cross1") != null)
-                {
-                    GameObject.Find("cross1").transform.localPosition = (Vector3) (Vector3.up * 5000f);
-                }
-                instance.needChooseSide = true;
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-            }
-        }
-
-        [Obsolete("Move into RacingGamemode")]
-        [PunRPC]
-        private void getRacingResult(string player, float time)
-        {
-            RacingResult result = new RacingResult
-            {
-                name = player,
-                time = time
-            };
-            this.racingResult.Add(result);
-            this.refreshRacingResult2();
-        }
-
+        /// <summary>
+        /// The master client will send a RPC to another players, telling them to ignore a specific player. Do we even need this in AoTTG2? Think this was needed in AoTTG as there wasn't a reliable way to kick a player
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="info"></param>
         [PunRPC]
         private void ignorePlayer(int ID, PhotonMessageInfo info)
         {
@@ -616,6 +1096,11 @@ namespace Assets.Scripts
             this.RecompilePlayerList(0.1f);
         }
 
+        /// <summary>
+        /// Same as <see cref="ignorePlayer"/> but then <paramref name="IDS"/> is an array.
+        /// </summary>
+        /// <param name="IDS"></param>
+        /// <param name="info"></param>
         [PunRPC]
         private void ignorePlayerArray(int[] IDS, PhotonMessageInfo info)
         {
@@ -645,6 +1130,9 @@ namespace Assets.Scripts
             this.RecompilePlayerList(0.1f);
         }
 
+        /// <summary>
+        /// AoTTG1's way of reloading a player list which often is called every frame. Far from efficient. 
+        /// </summary>
         [Obsolete("Highly inefficient and expensive method to create a player list. Refactor by using StringBuilder")]
         private void ReloadPlayerlist()
         {
@@ -695,6 +1183,13 @@ namespace Assets.Scripts
             this.playerList = playerList;
         }
 
+        /// <summary>
+        /// A way too complicated method on how to kick a player, yet this was neccesary in AoTTG1. In AoTTG2, a kick will be enforced via the Photon Server.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="ban"></param>
+        /// <param name="reason"></param>
+        [Obsolete("Kicking a player is simplified with the Photon Server")]
         public void kickPlayerRC(PhotonPlayer player, bool ban, string reason)
         {
             string str;
@@ -763,7 +1258,7 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("Refactor to use a JSON instead.")]
+        [Obsolete("Replaced by the GameSettings classes.")]
         private void loadconfig()
         {
             int num;
@@ -1011,7 +1506,7 @@ namespace Assets.Scripts
             objArray[0xf2] = PlayerPrefs.GetString("hjump", "Q");
             objArray[0xf3] = PlayerPrefs.GetString("hmount", "LeftControl");
             objArray[0xf4] = PlayerPrefs.GetInt("chatfeed", 0);
-            objArray[0xf5] = 0;
+            SpectatorMode.Initialize();
             objArray[0xf6] = PlayerPrefs.GetFloat("bombR", 1f);
             objArray[0xf7] = PlayerPrefs.GetFloat("bombG", 1f);
             objArray[0xf8] = PlayerPrefs.GetFloat("bombB", 1f);
@@ -1076,7 +1571,7 @@ namespace Assets.Scripts
                         UnityEngine.Object.Destroy(obj3);
                     }
                 }
-                Camera.main.GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 Camera.main.GetComponent<Assets.Scripts.UI.Camera.MouseLook>().disable = true;
             }
             else
@@ -1311,6 +1806,15 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Legacy IEnumerator for <see cref="loadskin"/>. It was used in AoTTG to replace the skybox, and certain textures from the City and Forest maps. No longer used thus obsolete.
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="url"></param>
+        /// <param name="url2"></param>
+        /// <param name="skybox"></param>
+        /// <returns></returns>
+        [Obsolete("Legacy method to replace certain level skins.")]
         private IEnumerator loadskinE(string n, string url, string url2, string[] skybox)
         {
             bool mipmap = true;
@@ -1692,6 +2196,7 @@ namespace Assets.Scripts
         }
 
         [PunRPC]
+        [Obsolete("The RPC for the obsolete loadskin and loadSkinE methods")]
         private void loadskinRPC(string n, string url, string url2, string[] skybox, PhotonMessageInfo info)
         {
             if ((((int) settings[2]) == 1) && info.sender.isMasterClient)
@@ -1700,29 +2205,8 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("Migrate to RacingGamemode")]
-        public void multiplayerRacingFinsih()
-        {
-            float time = Service.Time.GetRoundTime() - 20f;
-            if (PhotonNetwork.isMasterClient)
-            {
-                this.getRacingResult(LoginFengKAI.player.name, time);
-            }
-            else
-            {
-                object[] parameters = new object[] { LoginFengKAI.player.name, time };
-                base.photonView.RPC(nameof(getRacingResult), PhotonTargets.MasterClient, parameters);
-            }
-        }
-
-        [Obsolete("Migrate to RacingGamemode")]
         [PunRPC]
-        private void netRefreshRacingResult(string tmp)
-        {
-            this.localRacingResult = tmp;
-        }
-
-        [PunRPC]
+        [Obsolete("A RPC which is used to display the damage that was done to an enemy, yet UI related logic shouldn't be in this class. Move to UI classes.")]
         public void netShowDamage(int damage)
         {
             InGameUI.HUD.SetDamage(damage);
@@ -1764,345 +2248,7 @@ namespace Assets.Scripts
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("OnConnectedToMaster");
-        }
-
-        public override void OnConnectedToPhoton()
-        {
-            Debug.Log("OnConnectedToPhoton");
-        }
-
-        public override void OnConnectionFail(DisconnectCause cause)
-        {
-            Debug.Log("OnConnectionFail : " + cause.ToString());
-            IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-            this.gameStart = false;
-        }
-
-        public override void OnCreatedRoom()
-        {
-            this.racingResult = new ArrayList();
-            Debug.Log("OnCreatedRoom");
-        }
-
-        public override void OnDisconnectedFromPhoton()
-        {
-            Debug.Log("OnDisconnectedFromPhoton");
-            if (Application.loadedLevel != 0)
-            {
-                Time.timeScale = 1f;
-                this.resetSettings(true);
-                this.loadconfig();
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-                this.gameStart = false;
-                this.DestroyAllExistingCloths();
-                Application.LoadLevel(0);
-            }
-        }
-
-        private void SetGamemode(GamemodeSettings settings)
-        {
-            if (Gamemode == null)
-            {
-                Service.Settings.Get().ChangeSettings(settings);
-                var gamemodeObject = GameObject.Find("Gamemode");
-                Gamemode = (GamemodeBase) gamemodeObject.AddComponent(settings.GetGamemodeFromSettings());
-            }
-            else
-            {
-                foreach (var comp in Gamemode.gameObject.GetComponents<Component>())
-                {
-                    if (!(comp is Transform || comp is PhotonView))
-                    {
-                        Destroy(comp);
-                    }
-                }
-                Gamemode = null;
-                SetGamemode(settings);
-            }
-        }
-
-        public override void OnJoinedRoom()
-        {
-            Service.Settings.SetRoomPropertySettings();
-            SetLevelAndGamemode();
-            
-            this.playerList = string.Empty;
-            char[] separator = new char[] { "`"[0] };
-            //UnityEngine.MonoBehaviour.print("OnJoinedRoom " + PhotonNetwork.room.name + "    >>>>   " + LevelInfo.getInfo(PhotonNetwork.room.name.Split(separator)[1]).mapName);
-            this.gameTimesUp = false;
-            char[] chArray3 = new char[] { "`"[0] };
-            string[] strArray = PhotonNetwork.room.name.Split(chArray3);
-            //if (strArray[4] == "day")
-            //{
-            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Day;
-            //}
-            //else if (strArray[4] == "dawn")
-            //{
-            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Dawn;
-            //}
-            //else if (strArray[4] == "night")
-            //{
-            //    IN_GAME_MAIN_CAMERA.dayLight = DayLight.Night;
-            //}
-            if (PhotonNetwork.isMasterClient)
-                LevelHelper.Load(Level);
-            GameCursor.CursorMode = CursorMode.Loading;
-            var hashtable = new Hashtable
-            {
-                {PhotonPlayerProperty.name, LoginFengKAI.player.name},
-                {PhotonPlayerProperty.guildName, LoginFengKAI.player.guildname},
-                {PhotonPlayerProperty.kills, 0},
-                {PhotonPlayerProperty.max_dmg, 0},
-                {PhotonPlayerProperty.total_dmg, 0},
-                {PhotonPlayerProperty.deaths, 0},
-                {PhotonPlayerProperty.dead, true},
-                {PhotonPlayerProperty.isTitan, 0},
-                {PhotonPlayerProperty.RCteam, 0},
-                {PhotonPlayerProperty.currentLevel, string.Empty}
-            };
-            var propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            this.needChooseSide = true;
-            this.ClearKillInfo();
-            this.name = LoginFengKAI.player.name;
-            var hashtable3 = new ExitGames.Client.Photon.Hashtable
-            {
-                {PhotonPlayerProperty.name, this.name}
-            };
-            PhotonNetwork.player.SetCustomProperties(hashtable3);
-            if (OnPrivateServer)
-            {
-                ServerRequestAuthentication(PrivateServerAuthPass);
-            }
-            
-            Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
-        }
-
-        public override void OnLeftLobby()
-        {
-            Debug.Log("OnLeftLobby");
-        }
-
-        public override void OnLeftRoom()
-        {
-            Debug.Log("OnLeftRoom");
-        }
-
-        private async void OnLevelWasLoaded(int level)
-        {
-            if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
-            {
-                while (Service.Settings.Get() == null)
-                {
-                    await Task.Delay(500);
-                }
-                
-                var ui = GameObject.Find("Canvas").GetComponent<UiHandler>();
-                ui.ShowInGameUi();
-                ChangeQuality.setCurrentQuality();
-                foreach (GameObject obj2 in GameObject.FindGameObjectsWithTag("titan"))
-                {
-                    if (!((obj2.GetPhotonView() != null) && obj2.GetPhotonView().owner.isMasterClient))
-                    {
-                        UnityEngine.Object.Destroy(obj2);
-                    }
-                }
-                this.gameStart = true;
-                GameObject obj3 = (GameObject) UnityEngine.Object.Instantiate(Resources.Load("MainCamera_mono"), GameObject.Find("cameraDefaultPosition").transform.position, GameObject.Find("cameraDefaultPosition").transform.rotation);
-                UnityEngine.Object.Destroy(GameObject.Find("cameraDefaultPosition"));
-                obj3.name = "MainCamera";
-                this.cache();
-                this.loadskin();
-                IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Playing;
-                PVPcheckPoint.chkPts = new ArrayList();
-                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
-                Camera.main.GetComponent<CameraShake>().enabled = false;
-                if (this.needChooseSide)
-                {
-                    //TODO: Show ChooseSide Message
-                    //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-                }
-                else if (((int) settings[0xf5]) == 0)
-                {
-                    if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                    {
-                        SpawnService.Spawn<PlayerTitan>();
-                    }
-                    else
-                    {
-                        this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-                    }
-                }
-
-                if (((int) settings[0xf5]) == 1)
-                {
-                    this.EnterSpecMode(true);
-                }
-            }
-        }
-
-        public override void OnMasterClientSwitched(PhotonPlayer newMasterClient)
-        {
-            if (!noRestart)
-            {
-                if (PhotonNetwork.isMasterClient)
-                {
-                    this.restartingMC = true;
-                }
-                this.resetSettings(false);
-                if (!GameSettings.Gamemode.IsPlayerTitanEnabled.Value)
-                {
-                    ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
-                    propertiesToSet.Add(PhotonPlayerProperty.isTitan, 1);
-                    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-                }
-                if (!(this.gameTimesUp || !PhotonNetwork.isMasterClient))
-                {
-                    this.restartGame2(true);
-                    base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
-                }
-            }
-            noRestart = false;
-        }
-
-        public void OnPhotonCustomRoomPropertiesChanged()
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
-                if (!PhotonNetwork.room.IsOpen)
-                {
-                    PhotonNetwork.room.IsOpen = true;
-                }
-                if (!PhotonNetwork.room.IsVisible)
-                {
-                    PhotonNetwork.room.IsVisible = true;
-                }
-            }
-        }
-
-        public override void OnPhotonMaxCccuReached()
-        {
-            Debug.Log("OnPhotonMaxCccuReached");
-        }
-
-        public override void OnPhotonPlayerConnected(PhotonPlayer player)
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
-                PhotonView photonView = base.photonView;
-                if (banHash.ContainsValue(RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name])))
-                {
-                    this.kickPlayerRC(player, false, "banned.");
-                }
-                else
-                {
-                    int num = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statACL]);
-                    int num2 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statBLA]);
-                    int num3 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statGAS]);
-                    int num4 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statSPD]);
-                    if ((((num > 150) || (num2 > 125)) || (num3 > 150)) || (num4 > 140))
-                    {
-                        this.kickPlayerRC(player, true, "excessive stats.");
-                        return;
-                    }
-                    if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
-                    {
-                        base.StartCoroutine(this.WaitAndReloadKDR(player));
-                    }
-                    ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-                    if ((ignoreList != null) && (ignoreList.Count > 0))
-                    {
-                        photonView.RPC(nameof(ignorePlayerArray), player, new object[] { ignoreList.ToArray() });
-                    }
-                    photonView.RPC(nameof(setMasterRC), player, new object[0]);
-                }
-            }
-            this.RecompilePlayerList(0.1f);
-        }
-
-        public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
-        {
-            if (ignoreList.Contains(player.ID))
-            {
-                ignoreList.Remove(player.ID);
-            }
-            InstantiateTracker.instance.TryRemovePlayer(player.ID);
-            if (PhotonNetwork.isMasterClient)
-            {
-                base.photonView.RPC(nameof(verifyPlayerHasLeft), PhotonTargets.All, new object[] { player.ID });
-            }
-            if (GameSettings.Gamemode.SaveKDROnDisconnect.Value)
-            {
-                string key = RCextensions.returnStringFromObject(player.CustomProperties[PhotonPlayerProperty.name]);
-                if (this.PreservedPlayerKDR.ContainsKey(key))
-                {
-                    this.PreservedPlayerKDR.Remove(key);
-                }
-                int[] numArray2 = new int[] { RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.kills]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.deaths]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.max_dmg]), RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.total_dmg]) };
-                this.PreservedPlayerKDR.Add(key, numArray2);
-            }
-            this.RecompilePlayerList(0.1f);
-        }
-
-        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
-        {
-            this.RecompilePlayerList(0.1f);
-            if (((playerAndUpdatedProps != null) && (playerAndUpdatedProps.Length >= 2)) && (((PhotonPlayer) playerAndUpdatedProps[0]) == PhotonNetwork.player))
-            {
-                ExitGames.Client.Photon.Hashtable hashtable2;
-                ExitGames.Client.Photon.Hashtable hashtable = (ExitGames.Client.Photon.Hashtable) playerAndUpdatedProps[1];
-                if (hashtable.ContainsKey("name") && (RCextensions.returnStringFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.name]) != this.name))
-                {
-                    hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                    hashtable2.Add(PhotonPlayerProperty.name, this.name);
-                    PhotonNetwork.player.SetCustomProperties(hashtable2);
-                }
-                if (((hashtable.ContainsKey("statACL") || hashtable.ContainsKey("statBLA")) || hashtable.ContainsKey("statGAS")) || hashtable.ContainsKey("statSPD"))
-                {
-                    PhotonPlayer player = PhotonNetwork.player;
-                    int num = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statACL]);
-                    int num2 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statBLA]);
-                    int num3 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statGAS]);
-                    int num4 = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.statSPD]);
-                    if (num > 150)
-                    {
-                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                        hashtable2.Add(PhotonPlayerProperty.statACL, 100);
-                        PhotonNetwork.player.SetCustomProperties(hashtable2);
-                        num = 100;
-                    }
-                    if (num2 > 0x7d)
-                    {
-                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                        hashtable2.Add(PhotonPlayerProperty.statBLA, 100);
-                        PhotonNetwork.player.SetCustomProperties(hashtable2);
-                        num2 = 100;
-                    }
-                    if (num3 > 150)
-                    {
-                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                        hashtable2.Add(PhotonPlayerProperty.statGAS, 100);
-                        PhotonNetwork.player.SetCustomProperties(hashtable2);
-                        num3 = 100;
-                    }
-                    if (num4 > 140)
-                    {
-                        hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                        hashtable2.Add(PhotonPlayerProperty.statSPD, 100);
-                        PhotonNetwork.player.SetCustomProperties(hashtable2);
-                        num4 = 100;
-                    }
-                }
-            }
-        }
-
-        public override void OnReceivedRoomListUpdate()
-        {
-        }
-
+        [Obsolete("AoTTG1's way of handling player stats. Whereas the concept itself is fine, this needs to be part of the HERO classes, not the GameManager.")]
         public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
         {
             ExitGames.Client.Photon.Hashtable propertiesToSet = new ExitGames.Client.Photon.Hashtable();
@@ -2116,9 +2262,9 @@ namespace Assets.Scripts
             player.SetCustomProperties(propertiesToSet);
         }
 
+        [Obsolete("UI logic should be within UI classes.")]
         public void RecompilePlayerList(float time)
         {
-            Debug.Log("This shouldn't happen");
             if (!this.isRecompiling)
             {
                 this.isRecompiling = true;
@@ -2126,26 +2272,7 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("Migrate into RacingGamemode")]
-        private void refreshRacingResult2()
-        {
-            this.localRacingResult = "Result\n";
-            IComparer comparer = new IComparerRacingResult();
-            this.racingResult.Sort(comparer);
-            int num = Mathf.Min(this.racingResult.Count, 10);
-            for (int i = 0; i < num; i++)
-            {
-                string localRacingResult = this.localRacingResult;
-                object[] objArray2 = new object[] { localRacingResult, "Rank ", i + 1, " : " };
-                this.localRacingResult = string.Concat(objArray2);
-                this.localRacingResult = this.localRacingResult + (this.racingResult[i] as RacingResult).name;
-                this.localRacingResult = this.localRacingResult + "   " + ((((int) ((this.racingResult[i] as RacingResult).time * 100f)) * 0.01f)).ToString() + "s";
-                this.localRacingResult = this.localRacingResult + "\n";
-            }
-            object[] parameters = new object[] { this.localRacingResult };
-            base.photonView.RPC(nameof(netRefreshRacingResult), PhotonTargets.All, parameters);
-        }
-
+        [Obsolete("Was used to replace the skybox, but we can do something better.")]
         public IEnumerator reloadSky()
         {
             yield return new WaitForSeconds(0.5f);
@@ -2153,6 +2280,7 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<Skybox>().material = skyMaterial;
         }
 
+        [Obsolete("Legacy way of handling AoTTG1 settings. Most settings inside this method are no longer used.")]
         private void resetSettings(bool isLeave)
         {
             this.name = LoginFengKAI.player.name;
@@ -2237,6 +2365,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("AoTTG's way of handling a game restart, not used in AoTTG2 anymore.")]
         public void restartGame2(bool masterclientSwitched = false)
         {
             if (!this.gameTimesUp)
@@ -2244,7 +2373,6 @@ namespace Assets.Scripts
                 this.checkpoint = null;
                 this.myRespawnTime = 0f;
                 this.ClearKillInfo();
-                this.racingResult = new ArrayList();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
                 PhotonNetwork.DestroyAll();
@@ -2256,52 +2384,6 @@ namespace Assets.Scripts
             }
         }
 
-        public void restartRC()
-        {
-            if (respawnCoroutine != null) 
-                StopCoroutine(respawnCoroutine);
-
-            if (NewRoundLevel != null && Level.Name != NewRoundLevel.Name && PhotonNetwork.isMasterClient)
-            {
-                Level = NewRoundLevel;
-                SetGamemode(NewRoundGamemode);
-                var hash = new ExitGames.Client.Photon.Hashtable
-                {
-                    {"level", Level.Name},
-                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
-                };
-                PhotonNetwork.room.SetCustomProperties(hash);
-            }
-            else if (NewRoundGamemode != null && GameSettings.Gamemode.GamemodeType != NewRoundGamemode.GamemodeType && PhotonNetwork.isMasterClient)
-            {
-                SetGamemode(NewRoundGamemode);
-                var hash = new ExitGames.Client.Photon.Hashtable
-                {
-                    {"level", Level.Name},
-                    {"gamemode", GameSettings.Gamemode.GamemodeType.ToString()}
-                };
-                PhotonNetwork.room.SetCustomProperties(hash);
-            }
-
-            Service.Entity.OnRestart();
-            EventManager.OnRestart.Invoke();
-        }
-
-        [PunRPC]
-        private void RPCLoadLevel(PhotonMessageInfo info)
-        {
-            if (info.sender.isMasterClient)
-            {
-                this.DestroyAllExistingCloths();
-                SetLevelAndGamemode();
-                if (PhotonNetwork.isMasterClient) LevelHelper.Load(Level);
-            }
-            else if (PhotonNetwork.isMasterClient)
-            {
-                this.kickPlayerRC(info.sender, true, "false restart.");
-            }
-        }
-
         [Obsolete("Make use directly of the InRoomChat RPCs.")]
         public void sendChatContentInfo(string content)
         {
@@ -2309,12 +2391,14 @@ namespace Assets.Scripts
             base.photonView.RPC(nameof(Chat), PhotonTargets.All, parameters);
         }
 
+        [Obsolete("UI logic needs to be within UI classes")]
         public void sendKillInfo(bool t1, string killer, bool t2, string victim, int dmg = 0)
         {
             object[] parameters = new object[] { t1, killer, t2, victim, dmg };
             base.photonView.RPC(nameof(updateKillInfo), PhotonTargets.All, parameters);
         }
 
+        [Obsolete("AoTTG required several work around in order to actually kick users, with the authorative Photon Server this will no longer be needed.")]
         public static void ServerCloseConnection(PhotonPlayer targetPlayer, bool requestIpBan, string inGameName = null)
         {
             RaiseEventOptions options = new RaiseEventOptions
@@ -2337,6 +2421,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("A custom Photon Event to pass a password to a Photon Server. I don't believe that the Photon Server currently supports this?")]
         public static void ServerRequestAuthentication(string authPassword)
         {
             if (!string.IsNullOrEmpty(authPassword))
@@ -2347,6 +2432,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("AoTTG required several work around in order to actually kick users, with the authorative Photon Server this will no longer be needed.")]
         public static void ServerRequestUnban(string bannedAddress)
         {
             if (!string.IsNullOrEmpty(bannedAddress))
@@ -2357,6 +2443,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("A RPC for the 'MasterRC' concept, its basically the same as the 'sub MC' system that was proposed, where a NonMC can be given some extra privileges. Mainly something that needs to be handled on the Photon Server and this MasterRC was never implemented.")]
         [PunRPC]
         private void setMasterRC(PhotonMessageInfo info)
         {
@@ -2451,55 +2538,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnRoomSettingsInitialized()
-        {
-            if (mainCamera?.main_object != null)
-            {
-                mainCamera.main_object.GetComponent<Hero>()?.SetHorse();
-            }
-            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
-            {
-                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
-                StartCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
-            }
-            else
-            {
-                StopCoroutine(respawnE(GameSettings.Respawn.ReviveTime.Value));
-            }
-
-            if (GameSettings.Gamemode.TeamMode != TeamMode.Disabled)
-            {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
-                {
-                    this.setTeam(3);
-                }
-            }
-            else
-            {
-                this.setTeam(0);
-            }
-
-
-            if (GameSettings.Gamemode.GamemodeType == GamemodeType.Infection)
-            {
-                var gamemodeInfection = GameSettings.DerivedGamemode<InfectionGamemodeSettings>();
-                if (gamemodeInfection.Infected > 0)
-                {
-                    var hashtable = new ExitGames.Client.Photon.Hashtable();
-                    hashtable.Add(PhotonPlayerProperty.RCteam, 0);
-                    PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.AddMessage($"<color=#FFCC00>Infection mode ({gamemodeInfection.Infected}) enabled. Make sure your first character is human.</color>");
-                }
-                else
-                {
-                    var hashtable = new ExitGames.Client.Photon.Hashtable();
-                    hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-                    PhotonNetwork.player.SetCustomProperties(hashtable);
-                    this.chatRoom.AddMessage("<color=#FFCC00>Infection Mode disabled.</color>");
-                }
-            }
-        }
-
+        [Obsolete("Legacy code which was used to display the final results when a room ended, however, this functionality no longer exists in AoTTG2.")]
         [PunRPC]
         private void showResult(string text0, string text1, string text2, string text3, string text4, string text6, PhotonMessageInfo t)
         {
@@ -2508,7 +2547,6 @@ namespace Assets.Scripts
                 this.gameTimesUp = true;
                 GameObject obj2 = GameObject.Find("UI_IN_GAME");
                 IN_GAME_MAIN_CAMERA.gametype = GAMETYPE.Stop;
-                this.gameStart = false;
             }
             else if (!(t.sender.isMasterClient || !PhotonNetwork.player.isMasterClient))
             {
@@ -2529,11 +2567,6 @@ namespace Assets.Scripts
             SpawnPlayerAt2(id, location, preset);
         }
 
-        public override void OnCustomAuthenticationResponse(Dictionary<string, object> data)
-        {
-            Debug.LogError(data);
-        }
-
         [Obsolete("Migrate into a SpawnService")]
         public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
@@ -2545,7 +2578,7 @@ namespace Assets.Scripts
             }
             else
             {
-                Vector3 position = pos.transform.position;
+                Vector3 position = pos?.transform.position ?? new Vector3(0f, 5f, 0f);
                 if (this.racingSpawnPointSet)
                 {
                     position = this.racingSpawnPoint;
@@ -2556,7 +2589,7 @@ namespace Assets.Scripts
                     {
                         if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
                         {
-                            position = SpawnService.GetRandom<HumanSpawner>().gameObject.transform.position;
+                            position = SpawnService.GetRandom<HumanSpawner>()?.gameObject.transform.position ?? new Vector3();
                         }
                         else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
                         {
@@ -2582,12 +2615,12 @@ namespace Assets.Scripts
                 this.myLastHero = id.ToUpper();
                 if (myLastHero == "ErenTitan")
                 {
-                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos.transform.rotation, 0),
+                    component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos?.transform.rotation ?? new Quaternion(), 0),
                         true, false);
                 }
                 else
                 {
-                    var hero = SpawnService.Spawn<Hero>(position, pos.transform.rotation, preset);
+                    var hero = SpawnService.Spawn<Hero>(position + new Vector3(0, 5f, 0), pos?.transform.rotation ?? new Quaternion(), preset);
                     component.SetMainObject(hero.transform.gameObject, true, false);
                     ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
                     hashtable.Add("dead", false);
@@ -2600,63 +2633,28 @@ namespace Assets.Scripts
                 }
 
                 component.enabled = true;
-                GameObject.Find("MainCamera").GetComponent<SpectatorMovement>().disable = true;
+                SpectatorMode.Disable();
                 GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
                 component.gameOver = false;
                 Service.Player.Self = component.main_object.GetComponent<Entity>();
             }
         }
 
-        private void Start()
-        {
-            Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
-            PhotonNetwork.automaticallySyncScene = true;
-            Debug.Log($"Version: {versionManager.Version}");
-            instance = this;
-            base.gameObject.name = "MultiplayerManager";
-            CostumeHair.init();
-            CharacterMaterials.init();
-            UnityEngine.Object.DontDestroyOnLoad(base.gameObject);
-            this.name = string.Empty;
-            banHash = new ExitGames.Client.Photon.Hashtable();
-            imatitan = new ExitGames.Client.Photon.Hashtable();
-            oldScript = string.Empty;
-            currentLevel = string.Empty;
-            if (currentScript == null)
-            {
-                currentScript = string.Empty;
-            }
-            this.playerSpawnsC = new List<Vector3>();
-            this.playerSpawnsM = new List<Vector3>();
-            this.playersRPC = new List<PhotonPlayer>();
-            this.levelCache = new List<string[]>();
-            this.restartCount = new List<float>();
-            ignoreList = new List<int>();
-            this.groundList = new List<GameObject>();
-            noRestart = false;
-            masterRC = false;
-            heroHash = new ExitGames.Client.Photon.Hashtable();
-            logicLoaded = false;
-            oldScriptLogic = string.Empty;
-            currentScriptLogic = string.Empty;
-            this.playerList = string.Empty;
-            this.loadconfig();
-            ChangeQuality.setCurrentQuality();
-        }
-        
+        [Obsolete("UI logic should be placed in UI classes")]
         [PunRPC]
         public void titanGetKill(PhotonPlayer player, int Damage, string name)
         {
             Damage = Mathf.Max(10, Damage);
             object[] parameters = new object[] { Damage };
             base.photonView.RPC(nameof(netShowDamage), player, parameters);
-            
+
             this.sendKillInfo(false, (string) player.CustomProperties[PhotonPlayerProperty.name], true, name, Damage);
-            
+
             this.playerKillInfoUpdate(player, Damage);
         }
 
+        [Obsolete("Calls Resources.UnloadedUnusedAssets after 10 seconds, probably this was required due to how inefficient AoTTG is, not sure if this is still needed.")]
         public void unloadAssets()
         {
             if (!this.isUnloading)
@@ -2666,6 +2664,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("The enumerator for unloadAssets, but the same concept.")]
         public IEnumerator unloadAssetsE(float time)
         {
             yield return new WaitForSeconds(time);
@@ -2673,6 +2672,7 @@ namespace Assets.Scripts
             this.isUnloading = false;
         }
 
+        [Obsolete("UI logic should be within UI classes.")]
         [PunRPC]
         private void updateKillInfo(bool killerIsTitan, string killer, bool victimIsTitan, string victim, int dmg)
         {
@@ -2702,6 +2702,7 @@ namespace Assets.Scripts
             killInfoGO.Add(newKillInfo);
         }
 
+        [Obsolete("UI logic should be within UI classes.")]
         private void ClearKillInfo()
         {
             foreach (var killInfo in killInfoGO)
@@ -2711,6 +2712,7 @@ namespace Assets.Scripts
             killInfoGO.Clear();
         }
 
+        [Obsolete("It adds a player ID to a banHash, yet this is no longer required as for AoTTG2 we have an authorative Photon Server which can deal with bans.")]
         [PunRPC]
         public void verifyPlayerHasLeft(int ID, PhotonMessageInfo info)
         {
@@ -2723,7 +2725,7 @@ namespace Assets.Scripts
             }
         }
 
-        [Obsolete("Too high complexity. Refactor")]
+        [Obsolete("A way too complicated, and extremely inefficient way to generate a player list. Should be moved to the respective UI class and refactored (Using StringBuilder for massive performance improvements)")]
         public IEnumerator WaitAndRecompilePlayerList(float time)
         {
             int num16;
@@ -3234,6 +3236,7 @@ namespace Assets.Scripts
             this.isRecompiling = false;
         }
 
+        [Obsolete("AoTTG code on how to re-add player properties after they disconnected.")]
         public IEnumerator WaitAndReloadKDR(PhotonPlayer player)
         {
             yield return new WaitForSeconds(5f);
@@ -3251,6 +3254,7 @@ namespace Assets.Scripts
             }
         }
 
+        [Obsolete("Legacy method for a restart")]
         public IEnumerator WaitAndResetRestarts()
         {
             yield return new WaitForSeconds(10f);
@@ -3270,5 +3274,7 @@ namespace Assets.Scripts
             yield return new WaitForSeconds(time);
             this.SpawnPlayerAt2(this.myLastHero, pos);
         }
+        #endregion
+
     }
 }

@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Achievements
 {
+    //TODO: Should be moved to the Services folder, as it behaves the same as a service does.
+    /// <summary>
+    /// A service which manages Achievements.
+    /// </summary>
     public class AchievementManager : MonoBehaviour
     {
         private readonly IPlayerService playerService = Service.Player;

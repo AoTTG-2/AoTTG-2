@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
 using Newtonsoft.Json.Linq;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Serialization
 {
+    /// <summary>
+    /// Converts a Color to a <see cref="SerializableColor"/>
+    /// </summary>
     public class ColorJsonConverter : JsonConverter<Color>
     {
         public override void WriteJson(JsonWriter writer, Color value, JsonSerializer serializer)
@@ -30,7 +33,7 @@ namespace Assets.Scripts.Serialization
                 Debug.LogError(e);
                 return Color.clear;
             }
-            
+
         }
     }
 }

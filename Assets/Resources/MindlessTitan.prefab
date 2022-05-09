@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 4615471509580868}
   - component: {fileID: 136642128080536904}
   - component: {fileID: 114468590170453910}
+  - component: {fileID: 3325469888458770508}
   m_Layer: 19
   m_Name: neck
   m_TagString: titanneck
@@ -201,6 +202,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPosition: {x: 0, y: 0, z: 0}
   multiple: 1
+--- !u!114 &3325469888458770508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036460088749244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.5529412, g: 0, b: 0, a: 0}
+  Material: {fileID: 0}
 --- !u!1 &1088890115238890
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,9 +305,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1114370160899894
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,6 +2115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4086958985851326}
   - component: {fileID: 65623193127420152}
+  - component: {fileID: 7493223833625656907}
   m_Layer: 19
   m_Name: eye
   m_TagString: titaneye
@@ -2134,6 +2150,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.2, z: 0.09}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7493223833625656907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629150347453076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.83137256, g: 0.03529412, b: 0.05490196, a: 0}
+  Material: {fileID: 0}
 --- !u!1 &1638316428728248
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,6 +2182,7 @@ GameObject:
   - component: {fileID: 114021182772690314}
   - component: {fileID: 6694120659276232339}
   - component: {fileID: -6264185045053856331}
+  - component: {fileID: 8256805048288674642}
   m_Layer: 0
   m_Name: MindlessTitan
   m_TagString: titan
@@ -2305,9 +2336,16 @@ MonoBehaviour:
   Body: {fileID: 114021182772690314}
   SetupScript: {fileID: 114986312314889836}
   minimapIcon: {fileID: 4261993353365951143}
-  PreviousState: 0
-  NextState: 0
+  PreviousState: 4
+  NextState: 4
+  CurrentState: 4
   MindlessType: 0
+  titanLookAtRange: 100
+  minHeadRotVertical: 9.5
+  maxHeadRotVertical: 20
+  minHeadRotHorizontal: 10
+  maxHeadRotHorizontal: 10
+  interpolation_velocity: 10
   IdleTimer: 0
 --- !u!54 &54197300092460074
 Rigidbody:
@@ -2495,6 +2533,33 @@ MonoBehaviour:
   image: {fileID: 0}
   position: {x: 0, y: 0}
   markerID: 
+--- !u!182 &8256805048288674642
+WindZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Enabled: 1
+  m_Mode: 1
+  m_Radius: 35
+  m_WindMain: 200
+  m_WindTurbulence: 1
+  m_WindPulseMagnitude: 0.5
+  m_WindPulseFrequency: 0.01
+--- !u!135 &3856856293107963466
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638316428728248}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1683691584382426
 GameObject:
   m_ObjectHideFlags: 0
@@ -2702,6 +2767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4085750842634870}
   - component: {fileID: 65556201142500510}
+  - component: {fileID: 4288960027155849754}
   m_Layer: 19
   m_Name: eye
   m_TagString: titaneye
@@ -2736,6 +2802,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.2, z: 0.09}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4288960027155849754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714709655250558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df50f69b2415dc54a94477c053450d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Color: {r: 0.8301887, g: 0.035243843, b: 0.05642416, a: 0}
+  Material: {fileID: 0}
 --- !u!1 &1720312451767134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,6 +3115,7 @@ Transform:
   m_Children:
   - {fileID: 4894845333533370}
   - {fileID: 4714948085647608}
+  - {fileID: 7223289373240758668}
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -44.99994, z: 0}
@@ -3295,9 +3376,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   m_Radius: 0.25
-  m_Height: 1.4
+  m_Height: 0.6969134
   m_Direction: 0
-  m_Center: {x: -0.25, y: 0, z: 0}
+  m_Center: {x: -0.48155117, y: 0.0000005855481, z: 0.000000015336342}
 --- !u!1 &1928165841424312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,3 +3576,47 @@ Transform:
   m_Father: {fileID: 4970633147100212}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7843790699741893817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7223289373240758668}
+  - component: {fileID: 8894479486509344335}
+  m_Layer: 11
+  m_Name: Sound
+  m_TagString: SoundTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7223289373240758668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843790699741893817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7, y: 3.97, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4562939801880540}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8894479486509344335
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843790699741893817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 27.675692
+  m_Center: {x: 2.2773798, y: 4.071457, z: 0.33887106}

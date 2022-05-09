@@ -1,3 +1,4 @@
+using Assets.Scripts.Graphics;
 using Assets.Scripts.UI.InGame;
 using System;
 using System.Linq;
@@ -44,7 +45,11 @@ namespace Assets.Scripts.UI
 
         public void ShowInGameUi()
         {
+            FramerateController.UnlockFramerate();
             InGameUi.gameObject.SetActive(true);
+            MenuUi.Singleplayer.gameObject.SetActive(false);
+            MenuUi.CreateRoom.gameObject.SetActive(false);
+            MenuUi.Lobby.gameObject.SetActive(false);
             MenuUi.gameObject.SetActive(false);
         }
 

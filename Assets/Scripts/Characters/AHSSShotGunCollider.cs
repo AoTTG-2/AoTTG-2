@@ -5,6 +5,9 @@ using Assets.Scripts.Settings;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// AHSS Collider logic
+/// </summary>
 public class AHSSShotGunCollider : MonoBehaviour
 {
     public bool active_me;

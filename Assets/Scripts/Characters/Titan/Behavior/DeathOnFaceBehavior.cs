@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan.Behavior
 {
+    /// <summary>
+    /// Used for Crawlers. If the Mouth of the titan is hit, the player will die.
+    /// </summary>
     public class DeathOnFaceBehavior : TitanBehavior
     {
         protected override bool OnChase()

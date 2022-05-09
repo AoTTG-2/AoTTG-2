@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// AoTTG1 used the iTween package http://www.pixelplacement.com/itween/index.php. Still the Unity4 version.
+/// </summary>
 public class iTween : MonoBehaviour
 {
     public string _name;

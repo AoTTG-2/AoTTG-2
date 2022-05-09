@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Characters.Titan
 {
+    /// <summary>
+    /// The colossal titan. This class needs to be refactored.
+    /// </summary>
     public class ColossalTitan : TitanBase
     {
         private string actionName;
