@@ -8740,7 +8740,7 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.8
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8791,7 +8791,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     minVertexDistance: 30
-    textureMode: 3
+    textureMode: 0
     ribbonCount: 3
     shadowBias: 0.5
     worldSpace: 0
@@ -9577,7 +9577,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
-  - {fileID: 2100000, guid: aa08ce5122700554f92867f07a0ddc6e, type: 2}
+  - {fileID: 2100000, guid: 50713097ffe369243a060ade05d3a563, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
