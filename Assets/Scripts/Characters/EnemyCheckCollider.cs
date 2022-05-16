@@ -2,6 +2,9 @@ using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using UnityEngine;
 
+/// <summary>
+/// Used by Titan attacks to determine if it killed a <see cref="Human"/> or not
+/// </summary>
 public class EnemyCheckCollider : Photon.MonoBehaviour
 {
     public bool active_me;

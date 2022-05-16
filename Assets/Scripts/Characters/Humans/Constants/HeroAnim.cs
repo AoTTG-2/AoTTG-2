@@ -1,5 +1,8 @@
 namespace Assets.Scripts.Characters.Humans.Constants
 {
+    /// <summary>
+    /// A collection of constants which should be used instead of using the string directly
+    /// </summary>
     public static class HeroAnim
     {
         public const string ATTACK1         = "attack1";
@@ -18,7 +21,6 @@ namespace Assets.Scripts.Characters.Humans.Constants
         public const string SPECIAL_MARCO_1 = "special_marco_1";
         public const string SPECIAL_PETRA   = "special_petra";
         public const string SPECIAL_SASHA   = "special_sasha";
-
 
         public const string SALUTE = "salute";
         public const string DODGE = "dodge";

@@ -373,6 +373,10 @@ healthchecksdb
 /[Aa]ssets/AddressableAssetsData/OSX.meta
 /[Aa]ssets/AddressableAssetsData/Linux.meta
 
+# Map Bank Custom Maps
+/[Aa]ssets/StreamingAssets/Legacy Map Bank/*
+/[Aa]ssets/Custom Maps/Map Bank/*
+
 # Visual Studio cache directory
 .vs/
 
@@ -384,6 +388,10 @@ ExportedObj/
 .consulo/
 *.tmp
 *.user
+*.csproj
+*.unityproj
+*.sln
+*.suo
 *.userprefs
 *.pidb
 *.booproj

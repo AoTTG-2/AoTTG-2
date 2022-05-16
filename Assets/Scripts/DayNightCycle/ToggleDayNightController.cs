@@ -1,15 +1,15 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.DayNightCycle
 {
-        /// <summary>
-        /// The ToggleDayNightController class handles the play/pause control of the DayAndNightControl script via a ToggleDayNight
-        /// UI component
-        /// </summary>
+    /// <summary>
+    /// The ToggleDayNightController class handles the play/pause control of the DayAndNightControl script via a ToggleDayNight
+    /// UI component
+    /// </summary>
     public class ToggleDayNightController : MonoBehaviour
     {
         public Toggle ToggleDayNight;
@@ -21,7 +21,8 @@ namespace Assets.Scripts.DayNightCycle
         void Start()
         {
             ToggleDayNight.isOn = false;
-            ToggleDayNight.onValueChanged.AddListener(delegate {
+            ToggleDayNight.onValueChanged.AddListener(delegate
+            {
                 ToggleValueChanged(ToggleDayNight);
             });
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -41,11 +42,11 @@ namespace Assets.Scripts.DayNightCycle
         {
             dayNightCycle = GameObject.Find("Day and Night Controller").GetComponent<DayAndNightControl>();
         }
-        
+
         //on scene change, reset the toggle 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            ToggleDayNight.isOn = false; 
+            ToggleDayNight.isOn = false;
         }
 
         void OnApplicationQuit()

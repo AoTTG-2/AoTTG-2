@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI.Input
 {
+    /// <summary>
+    /// The InputManager, manages logic related to Input. It also loads / saves rebind settings.
+    /// </summary>
     public class InputManager : MonoBehaviour
     {
         private static KeyCode[] _cannonKeys;
@@ -34,7 +37,6 @@ namespace Assets.Scripts.UI.Input
             Menu = KeyCode.Escape;
 #endif
         }
-
 
         public static ControlSettings Settings;
 

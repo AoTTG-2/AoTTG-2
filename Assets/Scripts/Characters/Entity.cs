@@ -4,6 +4,9 @@ using Photon;
 
 namespace Assets.Scripts.Characters
 {
+    /// <summary>
+    /// An Entity is either a Human, Titan or Horse. It are living things which roam around the world
+    /// </summary>
     public abstract class Entity : MonoBehaviour
     {
         protected readonly IEntityService EntityService = Service.Entity;

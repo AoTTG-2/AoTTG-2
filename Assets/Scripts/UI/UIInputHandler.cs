@@ -4,11 +4,15 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// A component attached to the Canvas GameObject, which controls the Radial Menu
+    /// </summary>
     public class UIInputHandler : MonoBehaviour
     {
         private GameObject interactionWheel;
 
         public GameObject RadialMenu;
+        public GameObject DebugMenu;
 
         private void Start()
         {
@@ -17,6 +21,11 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
+            {
+                DebugMenu.SetActive(!DebugMenu.activeSelf);
+            }
+            
             if (InputManager.KeyDown(InputUi.InteractionWheel))
             {
                 if (!RadialMenu.activeSelf)

@@ -6,10 +6,10 @@ namespace Assets.Scripts.Settings.Titans
 {
     public class FemaleTitanSettings : TitanSettings
     {
-        [UiElement("Female Titan Despawn Time", "How long (in seconds), will the FT be on the map after dying?", SettingCategory.Advanced)]
+        [UiElement("Female Titan Despawn Time", "How long (in seconds), will the FT be on the map after dying?")]
         public float? DespawnTimer { get; set; }
 
-        [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?", SettingCategory.Advanced)]
+        [UiElement("Spawn Titans on FT Defeat", "Should titans spawn when the Female Titan is killed?")]
         public bool? SpawnTitansOnDefeat { get; set; }
 
         public FemaleTitanSettings() { }
