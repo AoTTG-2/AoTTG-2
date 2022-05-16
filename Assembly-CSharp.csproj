@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <CscToolPath>D:\unity\2020.2.5f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
-    <CscToolExe>unity_csc.bat</CscToolExe>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -69,26 +67,6 @@
     <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\UIButton_ShowNext.cs" />
-     <Compile Include="Assets\Resources\Standoff\Standoff\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatParameterCode.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatDisconnectCause.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatState.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChannelWellKnownProperties.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatClient.cs" />
-     <Compile Include="Assets\Resources\Standoff\Standoff\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
-     <Compile Include="Assets\Resources\Standoff\Standoff\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\FreeCam.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\SuperCamera.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatOperationCode.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatChannel.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
-     <Compile Include="Assets\Venetian Water System\Script\VenetianWaterSystem.cs" />
-     <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\FreeCamera.cs" />
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Resources\shaders\Unlit - Depth.shader" />
@@ -100,7 +78,6 @@
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\Resources\RC Resources\RC Shaders\No Render.shader" />
-     <None Include="Assets\Resources\Standoff\Assets\Ciconia Studio\Shaders\Standard Shaders\BuiltIn\CS_Standard (Specular setup) Opaque.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Future Trax 1.txt" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (AlphaClip).shader" />
@@ -116,7 +93,6 @@
      <None Include="Assets\contributors.txt" />
      <None Include="Assets\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Dynamic Font.shader" />
-     <None Include="Assets\Resources_moved\Standoff\Assets\water\Water.shader" />
      <None Include="Assets\Resources\shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Resources\shaders\Double Sided.shader" />
      <None Include="Assets\Resources\shaders\GUI - Text Shader (AlphaClip).shader" />
@@ -134,7 +110,6 @@
      <None Include="Assets\Resources\RC Resources\RC Shaders\Vertex Colored.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\Resources\Standoff\Assets\Ciconia Studio\Shaders\Standard Shaders\BuiltIn\CS_Standard (Specular setup) Transparent.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\Shaders\TintedUIBlur.shader" />
      <None Include="Assets\StreamingAssets\Legacy Map Bank\Cowcowtony - Bug On The Rose (Basic).txt" />
@@ -153,11 +128,9 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\StreamingAssets\Custom Maps\Experimental\peach_castle.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\Venetian Water System\README.txt" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\Shaders\Double Sided Transparent Diffuse Bump Cutout.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\Resources\Standoff\Assets\Ciconia Studio\Shaders\Standard Shaders\BuiltIn\CS_Standard (Specular setup) Cutout.shader" />
      <None Include="Assets\Resources\shaders\dynamicfonts\Unlit - Transparent Colored (DynamicFont) (HardClip).shader" />
      <None Include="Assets\Resources\shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
      <None Include="Assets\Scene\scene\Custom Map Converter\AoTTG2 Map.txt" />
@@ -883,7 +856,6 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{52B85106-4402-77E3-45B7-F4F0FF81598D}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="AoTTG2.Core.csproj">
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
@@ -911,6 +883,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

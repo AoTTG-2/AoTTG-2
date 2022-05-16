@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <CscToolPath>D:\unity\2020.2.5f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
-    <CscToolExe>unity_csc.bat</CscToolExe>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -66,19 +64,6 @@
     <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\ObjectBrowser.cs" />
-     <Compile Include="Assets\Editor\DrawerEnumNamedArray.cs" />
-     <Compile Include="Assets\Editor\HumanSelectedComponentDrawer.cs" />
-     <Compile Include="Assets\Editor\CustomMapToUnityConverter.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Tools\TerrainRotator\Editor\TerrainRotator.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Plugins\GitHub\Editor\ExtensionLoader.cs" />
-     <Compile Include="Assets\Resources\Standoff\Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs" />
-     <Compile Include="Assets\Editor\CreateLayerEnum.cs" />
-     <Compile Include="Assets\Editor\GameObjectToPrefabConverter.cs" />
-     <Compile Include="Assets\Editor\BuildAddressable.cs" />
-     <Compile Include="Assets\Editor\SceneToAssetBundle.cs" />
-     <None Include="Assets\Resources\Standoff\Assets\Plugins\GitHub\Editor\credits.txt" />
-     <None Include="Assets\Resources\Standoff\Assets\Plugins\GitHub\Editor\eula.txt" />
      <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uss" />
      <None Include="Assets\Editor\CustomObjectBrowser\Resources\objectbrowser.uxml" />
     <Reference Include="UnityEngine">
@@ -824,12 +809,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{52B85106-4402-77E3-45B7-F4F0FF81598D}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{52D2F37C-0CD0-14C2-FFEB-9C57B7B31CA0}</Project>
       <Name>Assembly-CSharp</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="AoTTG2.Core.csproj">
       <Project>{58A71158-A078-3D3B-55A7-E8093DDFD643}</Project>
@@ -857,6 +840,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
