@@ -136,6 +136,15 @@ namespace Assets.Scripts.Services
             LastUsedPreset = preset;
             return human;
         }
+        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset, Faction faction)
+        {
+            preset ??= LastUsedPreset;
+            var human = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<Hero>();
+            human.Initialize(preset);
+            LastUsedPreset = preset;
+            human.Faction = faction;
+            return human;
+        }
 
         private TitanBase SpawnTitan(string prefab, TitanConfiguration configuration)
         {

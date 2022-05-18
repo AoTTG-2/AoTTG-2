@@ -108,7 +108,8 @@ namespace Assets.Scripts.Settings.Gamemodes
                 new RushSettings(difficulty),
                 new TrostSettings(difficulty),
                 new WaveGamemodeSettings(difficulty),
-                new CatchGamemodeSettings(difficulty)
+                new CatchGamemodeSettings(difficulty),
+                new StandoffSettings(difficulty)
             };
         }
 
@@ -136,6 +137,8 @@ namespace Assets.Scripts.Settings.Gamemodes
                     return typeof(InfectionGamemode);
                 case GamemodeType.Catch:
                     return typeof(CatchGamemode);
+                case GamemodeType.Standoff:
+                    return typeof(StandoffGamemode);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

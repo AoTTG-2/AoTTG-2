@@ -473,6 +473,17 @@ namespace Assets.Scripts.Room
                             Pause = true,
                         },
                     },
+                    new StandoffSettings
+                    {
+                        Name = "Standoff",
+                        Description = "Compete against other players by killing titans",
+                        Time = new TimeSettings
+                        {
+                            CurrentTime = 12,
+                            DayLength = 300,
+                            Pause = true,
+                        }
+                    }
                 }
             });
         }

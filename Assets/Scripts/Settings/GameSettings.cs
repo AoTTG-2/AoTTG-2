@@ -211,6 +211,9 @@ namespace Assets.Scripts.Settings
                 case GamemodeType.Infection:
                     Gamemode = CreateFromObjects(playerGamemodeSettings as InfectionGamemodeSettings, levelGamemode as InfectionGamemodeSettings);
                     break;
+                case GamemodeType.Standoff:
+                    Gamemode = CreateFromObjects(playerGamemodeSettings as StandoffSettings, levelGamemode as StandoffSettings);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(levelGamemode.GetType().ToString());
             }
