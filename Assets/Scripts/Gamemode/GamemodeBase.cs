@@ -236,7 +236,12 @@ namespace Assets.Scripts.Gamemode
 
         protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration)));
+            Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration, "titanRespawn", FactionService.GetTitanity())));
+        }
+
+        protected void SpawnTitans(int amount, Func<TitanConfiguration> titanConfiguration, string respawnTag, Faction faction)
+        {
+            Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration, respawnTag, faction)));
         }
 
         protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()
@@ -252,9 +257,9 @@ namespace Assets.Scripts.Gamemode
             return spawns.Any() ? spawns[Random.Range(0, spawns.Count)] : Service.Spawn.GetRandomSpawnPosition();
         }
 
-        private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
+        private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration, string respawnTag, Faction faction)
         {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+            var spawns = GameObject.FindGameObjectsWithTag(respawnTag).Select(x => (x.transform.position, x.transform.rotation)).ToList();
             if (!spawns.Any())
             {
                 spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
@@ -267,7 +272,8 @@ namespace Assets.Scripts.Gamemode
                 {
                     if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
                     var randomSpawn = spawns[Random.Range(0, spawns.Count)];
-                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    var newTitan = SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    newTitan.Faction = faction;
                     yield return new WaitForEndOfFrame();
                 }
             }

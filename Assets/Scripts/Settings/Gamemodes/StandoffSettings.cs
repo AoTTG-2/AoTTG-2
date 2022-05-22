@@ -12,7 +12,7 @@ namespace Assets.Scripts.Settings.Gamemodes
         public StandoffSettings(Difficulty difficulty) : base(difficulty)
         {
             GamemodeType = GamemodeType.Standoff;
-            Titan.Start = 12;
+            Titan.Start = 5;
             Respawn.Mode = RespawnMode.NewRound;
 
         }

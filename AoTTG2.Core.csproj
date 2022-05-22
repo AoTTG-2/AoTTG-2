@@ -428,6 +428,7 @@
     <Compile Include="Assets\Scripts\UI\Menu\Credits.cs" />
     <Compile Include="Assets\Scripts\Effects\EMITTYPE.cs" />
     <Compile Include="Assets\Scripts\Room\Chat\InRoomChat.cs" />
+    <Compile Include="Assets\Scripts\Settings\Gamemodes\StandoffSettings.cs" />
     <Compile Include="Assets\Scripts\UI\CommandLine\Command.cs" />
     <Compile Include="Assets\Scripts\Characters\Humans\Customization\CharacterList.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\DebugWindow\TabPanel.cs" />
@@ -536,7 +537,7 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Settings\Gamemodes\StandoffSettings.cs" />
+    <Compile Include="Assets\Scripts\Characters\Titan\Behavior\StandoffBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

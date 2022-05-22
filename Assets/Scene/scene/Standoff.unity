@@ -15,14 +15,14 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.5411765, g: 0.6313726, b: 0.7058824, a: 0.15910448}
+  m_FogColor: {r: 0.5411765, g: 0.6313726, b: 0.7058824, a: 0.15686378}
   m_FogMode: 3
-  m_FogDensity: 0.00047731344
+  m_FogDensity: 0.00047059133
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.22792023, g: 0.3250179, b: 0.4941146, a: 1}
-  m_AmbientEquatorColor: {r: 0.7049408, g: 0.76345056, b: 0.78148913, a: 1}
-  m_AmbientGroundColor: {r: 0.2958423, g: 0.27137133, b: 0.24595883, a: 1}
+  m_AmbientSkyColor: {r: 0.23137099, g: 0.32940978, b: 0.50195724, a: 1}
+  m_AmbientEquatorColor: {r: 0.70588195, g: 0.76470536, b: 0.7843125, a: 1}
+  m_AmbientGroundColor: {r: 0.2980382, g: 0.2745084, b: 0.2509781, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 462523962}
+  m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.17433667, g: 0.21802671, b: 0.3002511, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -15320,26 +15320,20 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 242.66812
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 39.150597
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 402.53998
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
---- !u!108 &462523962 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 10851780, guid: 3e7496b60d927ab42ae88bede3e35b7c,
-    type: 3}
-  m_PrefabInstance: {fileID: 462523961}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &464410597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23878,7 +23872,7 @@ GameObject:
   - component: {fileID: 740631443}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30824,7 +30818,7 @@ GameObject:
   - component: {fileID: 923661894}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38657,7 +38651,7 @@ GameObject:
   - component: {fileID: 1226552685}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: playerRespawn
+  m_TagString: playerRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41947,7 +41941,7 @@ GameObject:
   - component: {fileID: 1313063311}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45591,7 +45585,7 @@ GameObject:
   - component: {fileID: 1457618549}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49515,7 +49509,7 @@ GameObject:
   - component: {fileID: 1562319204}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55017,7 +55011,7 @@ GameObject:
   - component: {fileID: 1698370443}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61116,7 +61110,7 @@ GameObject:
   - component: {fileID: 1894288921}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: titanRespawn
+  m_TagString: titanRespawn2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
