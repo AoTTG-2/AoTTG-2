@@ -102,8 +102,8 @@ Material:
     - _EdgeBlending: 0
     - _Float5: 0.121
     - _FoamCutoff: 0.112
-    - _FoamDistance: 0
-    - _FoamSoftness: 0.5
+    - _FoamDistance: 10
+    - _FoamSoftness: 0.64
     - _FoamSpeed: 0.03
     - _FoamTilling: 10
     - _GlossMapScale: 1
@@ -112,9 +112,9 @@ Material:
     - _LargeWaveDirection: 2
     - _LargeWaveSpeed: 2
     - _LargeWavesFlow: 0
-    - _LargeWavesHeight: 1
-    - _LifeDensity: 14
-    - _LifeDepth: 0
+    - _LargeWavesHeight: 0
+    - _LifeDensity: 38
+    - _LifeDepth: 0.08
     - _MediumWaveDirection: 1.5
     - _MediumWaveSpeed: 10
     - _MediumWavesFlow: 0.2
@@ -131,24 +131,24 @@ Material:
     - _SmallWaveDirection: 1
     - _SmallWaveSpeed: 0.15
     - _SmallWavesFlow: 1
-    - _SmallWavesHeight: 0
+    - _SmallWavesHeight: 0.28
     - _SmallWavesTilling: 9.26
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterDensity: 22
-    - _WaterDepth: 0.13
-    - _WaterSmoothness: 0.84
-    - _WaveFoam: 1
+    - _WaterDensity: 8
+    - _WaterDepth: 0.08
+    - _WaterSmoothness: 0.45
+    - _WaveFoam: 0
     - _ZWrite: 1
     - __dirty: 0
     - _largeWavesTilling: 342
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 0}
-    - _LifeColor: {r: 0.8901961, g: 0, b: 0.81686294, a: 1}
-    - _WaterAbsorbedColor: {r: 1, g: 0.9838477, b: 0.9764151, a: 1}
+    - _FoamColor: {r: 0.36133856, g: 0.5283019, b: 0.38375953, a: 0}
+    - _LifeColor: {r: 0.8867924, g: 0, b: 0.8125673, a: 1}
+    - _WaterAbsorbedColor: {r: 1, g: 0.9661608, b: 0.9481132, a: 1}
     - _WaterColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
