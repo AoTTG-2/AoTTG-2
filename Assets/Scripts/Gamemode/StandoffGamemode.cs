@@ -21,140 +21,109 @@ namespace Assets.Scripts.Gamemode
         public override GamemodeType GamemodeType { get; } = GamemodeType.Standoff;
         private StandoffSettings Settings => GameSettings.Gamemode as StandoffSettings;
 
-        public Faction Side1Players;
-        public Faction Side2Players;
-        public Faction Side1Titans;
-        public Faction Side2Titans;
-        private int Team1Score;
-        private int Team2Score;
+        public Faction Team1Players;
+        public Faction Team2Players;
+        public Faction Team2Titans;
+        public Faction Team1Titans;
+        private int team1Score = 0;
+        private int team2Score = 0;
 
-        protected override void Level_OnLevelLoaded(int scene, Level level)
+        protected override void Awake()
         {
-            base.Level_OnLevelLoaded(scene, level);
-            if (!PhotonNetwork.isMasterClient) return;
-            #region Factions
-            Side1Players = new Faction
+            base.Awake();
+            #region Faction initialization
+            Team1Players = new Faction
             {
-                Name = "Side1Players",
+                Name = "Team1Players",
                 Prefix = "1P",
                 Color = Color.red
             };
 
-            Side1Titans = new Faction
+            Team2Titans = new Faction
             {
-                Name = "Side1Titans",
+                Name = "Team2Titans",
                 Prefix = "1T",
                 Color = Color.red
             };
-            
 
-            Side2Players = new Faction
+
+            Team2Players = new Faction
             {
-                Name = "Side2Players",
+                Name = "Team2Players",
                 Prefix = "2P",
                 Color = Color.blue
             };
-            
 
-            Side2Titans = new Faction
+
+            Team1Titans = new Faction
             {
-                Name = "Side2Titans",
+                Name = "Team1Titans",
                 Prefix = "2T",
                 Color = Color.blue
             };
 
-            Side1Players.Allies.Add(Side2Titans);
-            Side2Titans.Allies.Add(Side1Players);
+            Team1Players.Allies.Add(Team1Titans);
+            Team1Titans.Allies.Add(Team1Players);
 
-            Side2Players.Allies.Add(Side1Titans);
-            Side1Titans.Allies.Add(Side2Players);
+            Team2Players.Allies.Add(Team2Titans);
+            Team2Titans.Allies.Add(Team2Players);
 
-            Side1Titans.Allies.Add(Side2Titans);
-            Side2Titans.Allies.Add(Side1Titans);
+            Team2Titans.Allies.Add(Team1Titans);
+            Team1Titans.Allies.Add(Team2Titans);
 
-            FactionService.Add(Side1Players);
-            FactionService.Add(Side1Titans);
-            FactionService.Add(Side2Players);
-            FactionService.Add(Side2Titans);
+            FactionService.Add(Team1Players);
+            FactionService.Add(Team2Titans);
+            FactionService.Add(Team2Players);
+            FactionService.Add(Team1Titans);
             #endregion
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            FactionService.Remove(Team1Players);
+            FactionService.Remove(Team2Players);
+            FactionService.Remove(Team2Titans);
+            FactionService.Remove(Team1Titans);
+        }
+        protected override void Level_OnLevelLoaded(int scene, Level level)
+        {
+            base.Level_OnLevelLoaded(scene, level);
+            if (!PhotonNetwork.isMasterClient) return;
+            Debug.Log("StandoffGamemode.cs Level_OnLevelLoaded");
+            SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans);
+            SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn2", Team1Titans);
 
-            SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn", Side1Titans);
-            SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn2", Side2Titans);
+            //The UI text doesn't initially show for the first round. Restarting on load fixes this problem.
+            //TODO none of the other gamemodes have this issue, so investigate how to fix.
         }
 
-
         /// <summary>
-        /// Modifies TitanBehaviour to make titans always chase players.
+        /// Modifies TitanBehaviour to make titans always chase players. Currently is the same behaviour as the wave gamemode.
         /// </summary>
         /// <returns></returns>
         private TitanConfiguration GetStandoffTitanConfiguration()
         {
             var configuration = GetTitanConfiguration();
-
-            //uses the same behaviour as the wave gamemode. If wave behaviour changes standoff may need a unique behaviour.
             configuration.Behaviors.Add(new WaveBehavior());
             configuration.ViewDistance = 999999f;
             return configuration;
         }
 
-
-        //public override GameObject GetPlayerSpawnLocation(string tag)
-        //{
-        //    var objArray = GameObject.FindGameObjectsWithTag(tag);
-        //    if (objArray.Length == 0) return null;
-        //    return objArray[Random.Range(0, objArray.Length)];
-        //}
-
-        /// <summary>
-        /// Respawns a titan on the opposite team/side of the faction given.
-        /// </summary>
-        /// <param name="faction"></param>
-        //private void SpawnTitanOnOtherSide (Faction faction)
-        //{
-        /*Transform titanSpawnLocation;
-        if (faction == Side1Titans)
-        { titanSpawnLocation = GetPlayerSpawnLocation("titanRespawn1").transform; }
-
-        else if (faction == Side2Titans)
-        { titanSpawnLocation = GetPlayerSpawnLocation("titanRespawn").transform; }
-
-        else
-        {
-            Debug.LogError("Error: StandoffGamemode.cs Titan is not a part of a standoff gamemode faction. Titan was spawned at default titan respawn point");
-            titanSpawnLocation = GetPlayerSpawnLocation("titanRespawn").transform;
-        }
-
-        var newTitan = SpawnService.Spawn<MindlessTitan>(titanSpawnLocation.position, titanSpawnLocation.rotation, GetTitanConfiguration());
-        */
-        /*SpawnTitans(1, GetTitanConfiguration, "titanRespawn1", Side2Titans);
-        var newTitanFaction =
-        if (faction == Side1Titans)
-        { newTitan.Faction = Side2Titans; }
-
-        else if (faction == Side2Titans)
-        { newTitan.Faction = Side1Titans; }
-
-        else
-        {
-            Debug.LogError("Error: StandoffGamemode.cs Killed titan was not part of a standoff gamemode faction.");
-            newTitan.Faction = Side1Titans;
-        }
-    }*/
         protected override void OnEntityRegistered(Entity entity)
         {
 
-            
             if (entity is Hero)
             {
+                Debug.Log("New hero registered");
                 var hero = entity as Hero;
                 Transform spawnLocation;
 
                 //TODO Remove this when a UI for selecting a team is added.
-                entity.Faction = Side1Players;
+                entity.Faction = Team2Players;
 
-                if (entity.Faction == Side1Players)
+                if (entity.Faction == Team1Players)
                 { spawnLocation = GetPlayerSpawnLocation("playerRespawn").transform; }
-                else if (entity.Faction == Side2Players)
+                else if (entity.Faction == Team2Players)
                 { spawnLocation = GetPlayerSpawnLocation("playerRespawn2").transform; }
 
                 //TODO use actual in-game debug log.
@@ -171,40 +140,72 @@ namespace Assets.Scripts.Gamemode
 
         protected override void OnEntityUnRegistered(Entity entity)
         {
-            if (entity.GetType().IsSubclassOf(typeof(TitanBase)))
+            if (entity.GetType().IsSubclassOf(typeof(TitanBase)) && !IsRoundOver)
             {
-                Debug.Log("Titan was killed");
-                if (entity.Faction == Side1Titans)
-                { SpawnTitans(1, GetStandoffTitanConfiguration, "titanRespawn2", Side2Titans); Debug.Log("Spawned titan on side 2"); }
+                //Respawns a titan on the other side.
+                if (entity.Faction == Team2Titans)
+                { SpawnTitans(1, GetStandoffTitanConfiguration, "titanRespawn2", Team1Titans); }
 
-                else if (entity.Faction == Side2Titans)
-                { SpawnTitans(1, GetStandoffTitanConfiguration, "titanRespawn", Side1Titans); Debug.Log("Spawned titan on side 1");  }
+                else if (entity.Faction == Team1Titans)
+                { SpawnTitans(1, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans); }
             }
         }
+
         protected override void OnFactionDefeated(Faction faction)
         {
             string winner = "";
-            if (faction == Side1Titans || faction == Side2Players)
-            { winner = Localization.Gamemode.Shared.GetLocalizedString("TEAM", "1"); }
-            else if (faction == Side2Titans || faction == Side1Players)
-            { winner = Localization.Gamemode.Shared.GetLocalizedString("TEAM", "2"); }
-            else { Debug.LogError("StandoffGamemode.cs Not valid faction defeated"); }
+            if (faction == Team2Titans || faction == Team2Players)
+            {
+                winner = Localization.Gamemode.Shared.GetLocalizedString("TEAM", "1");
+                team1Score++;
+            }
+            else if (faction == Team1Titans || faction == Team1Players)
+            {
+                winner = Localization.Gamemode.Shared.GetLocalizedString("TEAM", "2");
+                team2Score++;
+            }
+            else { Debug.LogError($"StandoffGamemode.cs Invalid faction defeated ({faction.Name.ToString()})"); }
+
             photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", 0, 0);
         }
 
         protected override void SetStatusTopRight()
         {
-            var context = string.Concat($"{Localization.Gamemode.Shared.GetLocalizedString("TEAM")} ", Team1Score, $" : {Localization.Gamemode.Shared.GetLocalizedString("TEAM")} ", Team2Score, " ");
+            var context = string.Concat($"{Localization.Gamemode.Shared.GetLocalizedString("TEAM", "1:")} ", team1Score, $" : {Localization.Gamemode.Shared.GetLocalizedString("TEAM", "2:")} ", team2Score, " ");
             UiService.SetMessage(LabelPosition.TopRight, context);
         }
-        //protected override void SetStatusTop()
-        //{
-        //    var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
-        //                  $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
-        //                  $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
-        //    UiService.SetMessage(LabelPosition.Top, content);
-        //}
 
 
+        protected override void SetStatusTop()
+        {
+            int friendlyHumans=0, friendlyTitans=0, enemyHumans=0, enemyTitans=0;
+
+            if (Service.Player.Self.Faction == Team1Players || Service.Player.Self.Faction == Team2Titans)
+            {
+                friendlyHumans = FactionService.CountMembers(Team1Players);
+                friendlyTitans = FactionService.CountMembers(Team1Titans);
+                enemyHumans = FactionService.CountMembers(Team2Players);
+                enemyTitans = FactionService.CountMembers(Team2Titans);
+            }
+            else if (Service.Player.Self.Faction == Team2Players || Service.Player.Self.Faction == Team1Titans)
+            {
+                friendlyHumans = FactionService.CountMembers(Team2Players);
+                friendlyTitans = FactionService.CountMembers(Team2Titans);
+                enemyHumans = FactionService.CountMembers(Team1Players);
+                enemyTitans = FactionService.CountMembers(Team1Titans);
+            }
+
+            var content = $"Friendly humans: {friendlyHumans,-2} Enemy humans: {enemyHumans,-2}\n" +
+                          $"Friendly titans: {friendlyTitans,-2} Enemy titans: {enemyTitans,-2}";
+            /* TODO Use localized strings
+            var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", Service.Player.Self.Faction } | " +
+                          $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
+                          $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
+            */
+            //var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
+            //              $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
+            //              $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
+            UiService.SetMessage(LabelPosition.Top, content);
+        }
     }
 }
