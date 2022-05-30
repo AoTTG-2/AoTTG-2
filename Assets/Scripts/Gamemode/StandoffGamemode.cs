@@ -12,6 +12,7 @@ using UnityEngine;
 using System;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.UI.InGame.HUD;
+using Assets.Scripts.UI;
 using Assets.Scripts.Characters.Titan.Behavior;
 
 namespace Assets.Scripts.Gamemode
@@ -92,9 +93,6 @@ namespace Assets.Scripts.Gamemode
             Debug.Log("StandoffGamemode.cs Level_OnLevelLoaded");
             SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans);
             SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn2", Team1Titans);
-
-            //The UI text doesn't initially show for the first round. Restarting on load fixes this problem.
-            //TODO none of the other gamemodes have this issue, so investigate how to fix.
         }
 
         /// <summary>
@@ -169,25 +167,21 @@ namespace Assets.Scripts.Gamemode
             photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", 0, 0);
         }
 
-        protected override void SetStatusTopRight()
-        {
-            var context = string.Concat($"{Localization.Gamemode.Shared.GetLocalizedString("TEAM", "1:")} ", team1Score, $" : {Localization.Gamemode.Shared.GetLocalizedString("TEAM", "2:")} ", team2Score, " ");
-            UiService.SetMessage(LabelPosition.TopRight, context);
-        }
-
-
         protected override void SetStatusTop()
         {
             int friendlyHumans=0, friendlyTitans=0, enemyHumans=0, enemyTitans=0;
+            
+            //The OnUpdateEverySecond() coroutine will stop running if it gets a Null Reference Exception error. So checking this is necessary.
+            if (Service.Player.Self == null) return;
 
-            if (Service.Player.Self.Faction == Team1Players || Service.Player.Self.Faction == Team2Titans)
+            else if (Service.Player.Self.Faction.Equals(Team1Players) || Service.Player.Self.Faction.Equals(Team2Titans))
             {
                 friendlyHumans = FactionService.CountMembers(Team1Players);
                 friendlyTitans = FactionService.CountMembers(Team1Titans);
                 enemyHumans = FactionService.CountMembers(Team2Players);
                 enemyTitans = FactionService.CountMembers(Team2Titans);
             }
-            else if (Service.Player.Self.Faction == Team2Players || Service.Player.Self.Faction == Team1Titans)
+            else if (Service.Player.Self.Faction.Equals(Team2Players) || Service.Player.Self.Faction.Equals(Team1Titans))
             {
                 friendlyHumans = FactionService.CountMembers(Team2Players);
                 friendlyTitans = FactionService.CountMembers(Team2Titans);
@@ -202,10 +196,18 @@ namespace Assets.Scripts.Gamemode
                           $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
                           $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
             */
-            //var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
-            //              $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
-            //              $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.Top, content);
+        }
+
+        //protected override void SetStatusTopLeft()
+        //{
+        //    base.SetStatusTopLeft();
+        //}
+
+        protected override void SetStatusTopRight()
+        {
+            var context = string.Concat($"{Localization.Gamemode.Shared.GetLocalizedString("TEAM", "1:")} ", team1Score, $" : {Localization.Gamemode.Shared.GetLocalizedString("TEAM", "2:")} ", team2Score, " ");
+            UiService.SetMessage(LabelPosition.TopRight, context);
         }
     }
 }
