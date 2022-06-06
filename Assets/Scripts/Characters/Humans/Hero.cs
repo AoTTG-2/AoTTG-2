@@ -2115,14 +2115,8 @@ namespace Assets.Scripts.Characters.Humans
                 photonView.RPC(nameof(InitializeRpc), PhotonTargets.OthersBuffered, config);
             }
 
-            /*int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
-            acl = preset.CharacterBuild[index].Stats.Acceleration;*/                //<-once correct character presets are implemented, uncomment this value assignation
-            acl = 150f;                                                             //<-and delete this one, but leave the formula below intact
-            Rigidbody.mass = 0.5f - (acl - 100f) * 0.001f;      
-            /*I was asked by antigasp to use 0.45 (corresponding to ACL 150) as a placeholder because most testers are used to playing as Levi and it'd be
-            easier for them to spot if something is wrong. Obviously this is going to have to be reworked once character-speficic stats are implemented,
-            but for now it would probably make life easier for the testers.*/
-
+            int index = EquipmentType == EquipmentType.Ahss ? 1 : 0;              
+            acl = preset.CharacterBuild[index].Stats.Acceleration;                
             EntityService.Register(this);
         }
 
