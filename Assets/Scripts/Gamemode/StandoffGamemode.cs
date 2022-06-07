@@ -10,6 +10,7 @@ using Assets.Scripts.Room;
 using Assets.Scripts.Services;
 using UnityEngine;
 using System;
+using System.Linq;
 using Assets.Scripts.Extensions;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI;
@@ -35,14 +36,14 @@ namespace Assets.Scripts.Gamemode
             #region Faction initialization
             Team1Players = new Faction
             {
-                Name = "Team1Players",
+                Name = "Team1 Humans",
                 Prefix = "1P",
                 Color = Color.red
             };
 
             Team2Titans = new Faction
             {
-                Name = "Team2Titans",
+                Name = "Team2 Titans",
                 Prefix = "1T",
                 Color = Color.red
             };
@@ -50,7 +51,7 @@ namespace Assets.Scripts.Gamemode
 
             Team2Players = new Faction
             {
-                Name = "Team2Players",
+                Name = "Team2 Humans",
                 Prefix = "2P",
                 Color = Color.blue
             };
@@ -58,7 +59,7 @@ namespace Assets.Scripts.Gamemode
 
             Team1Titans = new Faction
             {
-                Name = "Team1Titans",
+                Name = "Team1 Titans",
                 Prefix = "2T",
                 Color = Color.blue
             };
@@ -77,6 +78,9 @@ namespace Assets.Scripts.Gamemode
             FactionService.Add(Team2Players);
             FactionService.Add(Team1Titans);
             #endregion
+
+            //TODO Add player titans
+            Service.Ui.GetUiHandler().InGameUi.SpawnMenu.SetFactionOptions(new List<Faction> { Team1Players, Team2Players/*, Team1Titans, Team2Titans */});
         }
         protected override void OnDestroy()
         {
@@ -90,7 +94,6 @@ namespace Assets.Scripts.Gamemode
         {
             base.Level_OnLevelLoaded(scene, level);
             if (!PhotonNetwork.isMasterClient) return;
-            Debug.Log("StandoffGamemode.cs Level_OnLevelLoaded");
             SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans);
             SpawnTitans(Settings.Titan.Start.Value, GetStandoffTitanConfiguration, "titanRespawn2", Team1Titans);
         }
@@ -107,32 +110,60 @@ namespace Assets.Scripts.Gamemode
             return configuration;
         }
 
-        protected override void OnEntityRegistered(Entity entity)
+        protected override void OnPlayerSpawn(Entity entity)
         {
-
+            //Since the gamemode is destroyed and re-created on restart, if a player selected a StandoffGamemode faction last round, that faction no longer exists after a restart.
+            //This checks if the player's faction does not exist in FactionService and then assigns the player to a new faction based on the name of their old faction.
+            if (!FactionService.GetAll().Any(x => x.Equals(entity.Faction)))
+            {
+                var newFaction = FactionService.GetAll().Select(x => x).Where(x => x.Name == entity.Faction.Name).ToList();
+                if (newFaction.Count() == 1)
+                { entity.Faction = newFaction[0];}
+                else
+                { Debug.LogError("Spawned player does not have a valid faction."); }
+            }
+            //Debug.Log($"In OnEntityRegistered: Faction is {entity.Faction.Name}");
             if (entity is Hero)
             {
-                Debug.Log("New hero registered");
                 var hero = entity as Hero;
                 Transform spawnLocation;
-
-                //TODO Remove this when a UI for selecting a team is added.
-                entity.Faction = Team2Players;
-
-                if (entity.Faction == Team1Players)
+                
+                if (entity.Faction.Equals(Team1Players))
                 { spawnLocation = GetPlayerSpawnLocation("playerRespawn").transform; }
-                else if (entity.Faction == Team2Players)
+                else if (entity.Faction.Equals(Team2Players))
                 { spawnLocation = GetPlayerSpawnLocation("playerRespawn2").transform; }
-
-                //TODO use actual in-game debug log.
                 else
                 {
-                    Debug.LogError("Error: StandoffGamemode.cs Hero is not a part of team1 or team2. Hero was spawned at default player respawn point.");
+                    Debug.LogError("Hero is not a part of StandoffGamemode team1 or team2. Hero was spawned at default player respawn point.");
                     spawnLocation = GetPlayerSpawnLocation("playerRespawn").transform;
                 }
 
-                //TODO This is a workaround for now. SpawnService needs to be changed.
+                /*if (entity.Faction.Name == Team1Players.Name)
+                { spawnLocation = GetPlayerSpawnLocation("playerRespawn").transform; }
+                else if (entity.Faction.Name == Team2Players.Name)
+                { spawnLocation = GetPlayerSpawnLocation("playerRespawn2").transform; }
+                else
+                {
+                    Debug.LogError("StandoffGamemode: Hero is not a part of team1 or team 2. Hero was spawned at the default human respawn point.");
+                    spawnLocation = GetPlayerSpawnLocation("playerRespawn").transform;
+                }*/
+
                 hero.transform.SetPositionAndRotation(spawnLocation.position, spawnLocation.rotation);
+            }
+            else if (entity is PlayerTitan)
+            {
+                var titan = entity as PlayerTitan;
+                Transform spawnLocation;
+                if (entity.Faction.Equals(Team1Titans))
+                { spawnLocation = GetPlayerSpawnLocation("titanRespawn2").transform; }
+                else if (entity.Faction.Equals(Team2Titans))
+                { spawnLocation = GetPlayerSpawnLocation("titanRespawn").transform; }
+                else
+                {
+                    Debug.LogError("PlayerTitan is not a part of StandoffGamemode team1 or team2. Titan was spawned at default titan respawn point.");
+                    spawnLocation = GetPlayerSpawnLocation("titanRespawn").transform;
+                }
+                titan.transform.SetPositionAndRotation(spawnLocation.position, spawnLocation.rotation);
             }
         }
 

@@ -4,11 +4,15 @@ using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Room;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Assets.Scripts.Events;
 namespace Assets.Scripts.Services.Interface
 {
     public interface ISpawnService : IService
     {
+        /// <summary>
+        /// Occurs after the SpawnService has done everthing needed to spawn the player.
+        /// </summary>
+        event OnPlayerSpawn<Entity> OnPlayerSpawn;
         /// <summary>
         /// Adds a new spawner
         /// </summary>
@@ -79,6 +83,16 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="rotation"></param>
         /// <param name="preset"></param>
         /// <returns></returns>
-        T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human;
+        T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset, Faction faction = null) where T : Human;
+
+        /// <summary>
+        /// Slightly modified from FengGameManagerMKII. TODO refactor
+        /// </summary>
+        void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null, Faction faction = null);
+
+        /// <summary>
+        /// Slightly modified from FengGameManagerMKII. TODO refactor
+        /// </summary>
+        void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null, Faction faction = null);
     }
 }

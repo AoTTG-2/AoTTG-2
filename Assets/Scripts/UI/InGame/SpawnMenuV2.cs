@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Characters.Humans;
+﻿using Assets.Scripts.Characters;
+using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Services;
@@ -31,6 +32,8 @@ namespace Assets.Scripts.UI.InGame
         public TMP_Dropdown CharacterDropdown;
         public TMP_Dropdown OutfitDropdown;
         public TMP_Dropdown BuildDropdown;
+        public TMP_Dropdown FactionDropdown;
+        public List<Faction> FactionList;
 
         /// <summary>
         /// The Area in the UI where the character model will be loaded. Currently this is unused
@@ -82,9 +85,13 @@ namespace Assets.Scripts.UI.InGame
             var selectedPreset = CharacterList.Characters[CharacterDropdown.value];
             selectedPreset.CurrentOutfit = selectedPreset.CharacterOutfit[OutfitDropdown.value];
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
+            var faction = FactionList[FactionDropdown.value] ?? null;
 
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
+            //GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
+            Service.Spawn.SpawnPlayer(selection, "playerRespawn", selectedPreset, faction);
+
+
             if ((((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
             {
                 GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
@@ -168,6 +175,14 @@ namespace Assets.Scripts.UI.InGame
                 text = x.Name
             });
             BuildDropdown.AddOptions(options.ToList());
+        }
+
+        public void SetFactionOptions(List<Faction> factions)
+        {
+            FactionList = new List<Faction>();
+            FactionList.AddRange(factions);
+            FactionDropdown.ClearOptions();
+            FactionDropdown.AddOptions(FactionList.Select(x => x.Name).ToList()/*factions.Select(x => x.Name).ToList()*/);
         }
 
         private void Update()

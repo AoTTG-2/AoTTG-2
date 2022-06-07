@@ -53,7 +53,6 @@
     <UnityVersion>2020.2.7f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\UIButton_ShowNext.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatParameterCode.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatDisconnectCause.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatUserStatus.cs" />
@@ -62,14 +61,15 @@
     <Compile Include="Assets\PhotonChatApi\ChatClient.cs" />
     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatEventCode.cs" />
-    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\FreeCam.cs" />
-    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\SuperCamera.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatOperationCode.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatChannel.cs" />
     <Compile Include="Assets\PhotonChatApi\ChannelCreationOptions.cs" />
-    <Compile Include="Assets\Venetian Water System\Script\VenetianWaterSystem.cs" />
     <Compile Include="Assets\PhotonChatApi\ChatPeer.cs" />
     <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\FreeCamera.cs" />
+    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\FreeCam.cs" />
+    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\UIButton_ShowNext.cs" />
+    <Compile Include="Assets\Resources\Standoff\Assets\Ciconia Studio\_Shared Files\Scripts\Demo\SuperCamera.cs" />
+    <Compile Include="Assets\Venetian Water System\Script\VenetianWaterSystem.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\shaders\Unlit - Depth Cutout.shader" />

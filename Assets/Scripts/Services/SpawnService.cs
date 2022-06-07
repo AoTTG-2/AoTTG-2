@@ -10,6 +10,9 @@ using System.Linq;
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Customization;
 using UnityEngine;
+using Assets.Scripts.UI.Camera;
+using Assets.Scripts.Utility;
+using Assets.Scripts.Events;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
@@ -21,6 +24,7 @@ namespace Assets.Scripts.Services
         private readonly List<Spawner> spawners = new List<Spawner>();
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
         
+        public event OnPlayerSpawn<Entity> OnPlayerSpawn;
         public void Add(Spawner spawner)
         {
             spawners.Add(spawner);
@@ -116,33 +120,29 @@ namespace Assets.Scripts.Services
             throw new ArgumentException($"{type} is not implemented");
         }
 
-        public T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human
+        public T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset, Faction faction = null) where T : Human
         {
             var type = typeof(T);
             if (type == typeof(Hero))
             {
-                return SpawnHero("Hero", position, rotation, preset) as T;
+                return SpawnHero("Hero", position, rotation, preset, faction) as T;
             }
 
             throw new ArgumentException($"{type} is not implemented");
         }
 
         private CharacterPreset LastUsedPreset { get; set; }
-        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset)
+        private Faction LastUsedFaction { get; set; }
+        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset, Faction faction = null)
         {
             preset ??= LastUsedPreset;
+            faction ??= LastUsedFaction;
             var human = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<Hero>();
+            if (faction != null)
+            { human.Faction = faction; }
             human.Initialize(preset);
             LastUsedPreset = preset;
-            return human;
-        }
-        private Hero SpawnHero(string prefab, Vector3 position, Quaternion rotation, CharacterPreset preset, Faction faction)
-        {
-            preset ??= LastUsedPreset;
-            var human = PhotonNetwork.Instantiate(prefab, position, rotation, 0).GetComponent<Hero>();
-            human.Initialize(preset);
-            LastUsedPreset = preset;
-            human.Faction = faction;
+            LastUsedFaction = faction;
             return human;
         }
 
@@ -184,7 +184,99 @@ namespace Assets.Scripts.Services
             return playerTitan;
         }
 
+        /// <summary>
+        /// Slightly modified from FengGameManagerMKII. TODO refactor
+        /// </summary>
+        public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null, Faction faction = null)
+        {
+            if (id == null)
+            {
+                id = "1";
+            }
+            //myLastRespawnTag = tag;
+            var location = Gamemode.GetPlayerSpawnLocation(/*tag*/);
 
+            this.SpawnPlayerAt2(id, location, preset, faction);
+        }
+
+        /// <summary>
+        /// Slightly modified from FengGameManagerMKII. TODO refactor
+        /// </summary>
+        public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null, Faction faction = null)
+        {
+            //if (faction != null) { Debug.Log($"SpawnPlayerAt2 called with argument Faction = {faction.Name}"); }
+            // HACK
+            //if (false)
+            //if (!logicLoaded || !customLevelLoaded)
+            //{
+            //    this.NOTSpawnPlayerRC(id);
+            //}
+            //else
+            //{
+                Vector3 position = pos?.transform.position ?? new Vector3(0f, 5f, 0f);
+                /*if (this.racingSpawnPointSet)
+                {
+                    position = this.racingSpawnPoint;
+                }
+                else*/
+                {
+                    if (FengGameManagerMKII.Level.IsCustom)
+                    {
+                        if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 0)
+                        {
+                            position = Service.Spawn.GetRandom<HumanSpawner>()?.gameObject.transform.position ?? new Vector3();
+                        }
+                        else if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 1)
+                        {
+                            var cyanSpawners = Service.Spawn.GetByType(PlayerSpawnType.Cyan);
+                            if (cyanSpawners.Count > 0)
+                            {
+                                position = cyanSpawners[UnityEngine.Random.Range(0, cyanSpawners.Count)].gameObject.transform
+                                    .position;
+                            }
+                        }
+                        else if ((RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]) == 2))
+                        {
+                            var magentaSpawners = Service.Spawn.GetByType(PlayerSpawnType.Magenta);
+                            if (magentaSpawners.Count > 0)
+                            {
+                                position = magentaSpawners[UnityEngine.Random.Range(0, magentaSpawners.Count)].gameObject.transform
+                                    .position;
+                            }
+                        }
+                    }
+                }
+                IN_GAME_MAIN_CAMERA component = GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>();
+            //this.myLastHero = id.ToUpper();
+            /*if (myLastHero == "ErenTitan")
+            {
+                component.SetMainObject(PhotonNetwork.Instantiate("ErenTitan", position, pos?.transform.rotation ?? new Quaternion(), 0),
+                    true, false);
+            }
+            else
+            {*/
+            var hero = Spawn<Hero>(position + new Vector3(0, 5f, 0), pos?.transform.rotation ?? new Quaternion(), preset, faction);
+                    component.SetMainObject(hero.transform.gameObject, true, false);
+                    ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
+                    hashtable.Add("dead", false);
+                    ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
+                    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                    hashtable = new ExitGames.Client.Photon.Hashtable();
+                    hashtable.Add(PhotonPlayerProperty.isTitan, 1);
+                    propertiesToSet = hashtable;
+                    PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+                //}
+
+                component.enabled = true;
+                SpectatorMode.Disable();
+                GameObject.Find("MainCamera").GetComponent<MouseLook>().disable = true;
+                component.gameOver = false;
+                Service.Player.Self = component.main_object.GetComponent<Entity>();
+
+            component.SetMainObject(hero.transform.gameObject, true, false);
+            //}
+            OnPlayerSpawn?.Invoke(hero);
+        }
 
         private void LateUpdate()
         {

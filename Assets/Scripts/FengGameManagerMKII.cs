@@ -548,7 +548,7 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
+                    Service.Spawn.SpawnPlayer(this.myLastHero);
                 }
             }
 
@@ -2360,7 +2360,7 @@ namespace Assets.Scripts
         {
             if (!this.needChooseSide && GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
             {
-                this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
+                Service.Spawn.SpawnPlayer(this.myLastHero);
                 GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
             }
         }
@@ -2555,20 +2555,22 @@ namespace Assets.Scripts
         }
 
         //TODO: 184 - This gets called upon MapLoaded
-        [Obsolete("Migrate into a SpawnService")]
+        [Obsolete("Use SpawnPlayer in Service.Spawn instead")]
         public void SpawnPlayer(string id, string tag = "playerRespawn", CharacterPreset preset = null)
         {
-            if (id == null)
+            Service.Spawn.SpawnPlayer(id, tag, preset);
+            /*if (id == null)
             {
                 id = "1";
             }
             myLastRespawnTag = tag;
             var location = Gamemode.GetPlayerSpawnLocation(tag);
-            SpawnPlayerAt2(id, location, preset);
+            Service.Spawn.SpawnPlayerAt2(id, location, preset);*/
         }
 
-        [Obsolete("Migrate into a SpawnService")]
-        public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
+        //[Obsolete("Migrate into a SpawnService")]
+        //Migrated into spawn service. This is kept as reference until spawning related bugs are sorted out. TODO Delete.
+        /*public void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null)
         {
             // HACK
             if (false)
@@ -2638,7 +2640,7 @@ namespace Assets.Scripts
                 component.gameOver = false;
                 Service.Player.Self = component.main_object.GetComponent<Entity>();
             }
-        }
+        }*/
 
 
         [Obsolete("UI logic should be placed in UI classes")]
@@ -3265,14 +3267,14 @@ namespace Assets.Scripts
         public IEnumerator WaitAndRespawn1(float time, string str)
         {
             yield return new WaitForSeconds(time);
-            this.SpawnPlayer(this.myLastHero, str);
+            Service.Spawn.SpawnPlayer(this.myLastHero, str);
         }
 
         [Obsolete("Migrate into a SpawnService")]
         public IEnumerator WaitAndRespawn2(float time, GameObject pos)
         {
             yield return new WaitForSeconds(time);
-            this.SpawnPlayerAt2(this.myLastHero, pos);
+            Service.Spawn.SpawnPlayerAt2(this.myLastHero, pos);
         }
         #endregion
 
