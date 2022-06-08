@@ -86,16 +86,10 @@ namespace Assets.Scripts.Gamemode
             FactionService.OnFactionDefeated += OnFactionDefeated;
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
-        }
 
-        //private void Start()
-        //{
-        //    EntityService.OnRegister += OnEntityRegistered;
-        //    EntityService.OnUnRegister += OnEntityUnRegistered;
-        //    FactionService.OnFactionDefeated += OnFactionDefeated;
-        //    StartCoroutine(OnUpdateEverySecond());
-        //    StartCoroutine(OnUpdateEveryTenthSecond());
-        //}
+            //Sets which factions are playable/selectable by the player.
+            Service.Ui.GetUiHandler().InGameUi.SpawnMenu.SetFactionOptions(new List<Faction> { FactionService.GetHumanity() });
+        }
 
         protected virtual void OnDestroy()
         {
