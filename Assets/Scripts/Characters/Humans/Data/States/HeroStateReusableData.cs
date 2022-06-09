@@ -19,8 +19,10 @@ namespace Assets.Scripts.Characters.Humans.Data.States
         public Bullet RightHook { get; set; }
         public bool LeftHookHeld { get; set; }
         public bool RightHookHeld { get; set; }
-        public bool IsHooked => LeftHook?.isHooked() ?? RightHook?.isHooked() ?? false;
-        public bool BothHooked => LeftHook && RightHook;
+        public bool LeftHookHooked => LeftHook?.isHooked() ?? false;
+        public bool RightHookHooked => RightHook?.isHooked() ?? false;
+        public bool IsHooked => LeftHookHooked || RightHookHooked;
+        public bool BothHooked => LeftHookHooked && RightHookHooked;
         public float TimeUntilHookDespawn { get; private set; } = 0.3f;
 
         private Vector3 currentTargetRotation;

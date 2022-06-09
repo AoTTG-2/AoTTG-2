@@ -1546,83 +1546,6 @@ namespace Assets.Scripts.Characters.Humans
                             CrossFade(HeroAnim.HORSE_IDLE, 0.1f);
                             myHorse.Mount();
                         }
-                        if (!((((((state != HumanState.Idle) || Animation.IsPlaying(HeroAnim.DASH)) ||
-                            (Animation.IsPlaying(HeroAnim.WALL_RUN) || Animation.IsPlaying(HeroAnim.TO_ROOF))) ||
-                            ((Animation.IsPlaying(HeroAnim.HORSE_GET_ON) || Animation.IsPlaying(HeroAnim.HORSE_GET_OFF)) || (Animation.IsPlaying(HeroAnim.AIR_RELEASE) || isMounted))) ||
-                            ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L_JUST) && (Animation[HeroAnim.AIR_HOOK_L_JUST].normalizedTime < 1f)) ||
-                            (Animation.IsPlaying(HeroAnim.AIR_HOOK_R_JUST) && (Animation[HeroAnim.AIR_HOOK_R_JUST].normalizedTime < 1f)))) ? (Animation[HeroAnim.DASH].normalizedTime < 0.99f) : false))
-                        {
-                            if (((!isLeftHandHooked && !isRightHandHooked) && ((Animation.IsPlaying(HeroAnim.AIR_HOOK_L) || Animation.IsPlaying(HeroAnim.AIR_HOOK_R)) || Animation.IsPlaying(HeroAnim.AIR_HOOK))) && (Rigidbody.velocity.y > 20f))
-                            {
-                                Animation.CrossFade(HeroAnim.AIR_RELEASE);
-                            }
-                            else
-                            {
-                                bool flag5 = (Mathf.Abs(Rigidbody.velocity.x) + Mathf.Abs(Rigidbody.velocity.z)) > 25f;
-                                bool flag6 = Rigidbody.velocity.y < 0f;
-                                if (!flag5)
-                                {
-                                    if (flag6)
-                                    {
-                                        if (!Animation.IsPlaying(HeroAnim.AIR_FALL))
-                                        {
-                                            CrossFade(HeroAnim.AIR_FALL, 0.2f);
-                                        }
-                                    }
-                                    else if (!Animation.IsPlaying(HeroAnim.AIR_RISE))
-                                    {
-                                        CrossFade(HeroAnim.AIR_RISE, 0.2f);
-                                    }
-                                }
-                                else if (!isLeftHandHooked && !isRightHandHooked)
-                                {
-                                    float current = -Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg;
-                                    float num11 = -Mathf.DeltaAngle(current, transform.rotation.eulerAngles.y - 90f);
-                                    if (Mathf.Abs(num11) < 45f)
-                                    {
-                                        if (!Animation.IsPlaying(HeroAnim.AIR2))
-                                        {
-                                            CrossFade(HeroAnim.AIR2, 0.2f);
-                                        }
-                                    }
-                                    else if ((num11 < 135f) && (num11 > 0f))
-                                    {
-                                        if (!Animation.IsPlaying(HeroAnim.AIR2_RIGHT))
-                                        {
-                                            CrossFade(HeroAnim.AIR2_RIGHT, 0.2f);
-                                        }
-                                    }
-                                    else if ((num11 > -135f) && (num11 < 0f))
-                                    {
-                                        if (!Animation.IsPlaying(HeroAnim.AIR2_LEFT))
-                                        {
-                                            CrossFade(HeroAnim.AIR2_LEFT, 0.2f);
-                                        }
-                                    }
-                                    else if (!Animation.IsPlaying(HeroAnim.AIR2_BACKWARD))
-                                    {
-                                        CrossFade(HeroAnim.AIR2_BACKWARD, 0.2f);
-                                    }
-                                }
-
-                                else if (!isRightHandHooked)
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForwardLeft, 0.1f);
-                                }
-                                else if (!isLeftHandHooked)
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForwardRight, 0.1f);
-                                }
-                                else if (!Animation.IsPlaying(Equipment.Weapon.HookForward))
-                                {
-                                    TryCrossFade(Equipment.Weapon.HookForward, 0.1f);
-                                }
-                            }
-                        }
-                        if (((state == HumanState.Idle) && Animation.IsPlaying(HeroAnim.AIR_RELEASE)) && (Animation[HeroAnim.AIR_RELEASE].normalizedTime >= 1f))
-                        {
-                            CrossFade(HeroAnim.AIR_RISE, 0.2f);
-                        }
                         if (Animation.IsPlaying(HeroAnim.HORSE_GET_OFF) && (Animation[HeroAnim.HORSE_GET_OFF].normalizedTime >= 1f))
                         {
                             CrossFade(HeroAnim.AIR_RISE, 0.2f);
@@ -1648,6 +1571,7 @@ namespace Assets.Scripts.Characters.Humans
                                 PlayAnimation(HeroAnim.AIR_RISE);
                             }
                         }
+                        // Left off here
                         else if (!(((((state != HumanState.Idle) || !IsPressDirectionTowardsHero(VerticalInput, HorizontalInput)) ||
                                      (InputManager.Key(InputHuman.Jump) ||
                                       InputManager.Key(InputHuman.HookLeft))) ||

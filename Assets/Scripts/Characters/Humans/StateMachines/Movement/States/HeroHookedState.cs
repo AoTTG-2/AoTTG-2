@@ -34,7 +34,14 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
             }
             if (!stateMachine.ReusableData.IsGrounded && !stateMachine.ReusableData.IsHooked)
             {
-                stateMachine.ChangeState(stateMachine.AirborneState);
+                if (stateMachine.ReusableData.MovementInput == Vector2.zero)
+                {
+                    stateMachine.ChangeState(stateMachine.AirborneState);
+                }
+                else
+                {
+                    stateMachine.ChangeState(stateMachine.AirborneMovingState);
+                }
                 return;
             }
             else if(stateMachine.ReusableData.IsGrounded && !stateMachine.ReusableData.IsHooked)

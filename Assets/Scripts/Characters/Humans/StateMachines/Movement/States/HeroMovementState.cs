@@ -62,15 +62,12 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         public virtual void OnAnimationTransitionEvent()
         {
         }
-
         public virtual void OnAnimatonEnterEvent()
         {
         }
-
         public virtual void PhysicsUpdate()
         {
         }
-
         public virtual void Update()
         {
             if (stateMachine.ReusableData.IsHooked)
@@ -92,11 +89,10 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
                 CrossFade(stateMachine.ReusableData.CurrentAnimation);
             }
         }
-
-        public virtual void UpdateAnimation(string newAnimation)
+        public virtual void UpdateAnimation(string newAnimation, float fadeTime = .1f)
         {
             stateMachine.ReusableData.CurrentAnimation = newAnimation;
-            CrossFade(newAnimation);
+            CrossFade(newAnimation, fadeTime);
         }
         #endregion
         #region Input Methods
@@ -320,6 +316,10 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         }
         #endregion
         #region Resuable Methods
+        protected float GetPlayerVerticalVelocity()
+        {
+            return stateMachine.Hero.Rigidbody.velocity.y;
+        }
         protected Vector3 GetPlayerHorizontalVelocity()
         {
             Vector3 playerHorizontalVelocity = stateMachine.Hero.Rigidbody.velocity;
@@ -344,13 +344,13 @@ namespace Assets.Scripts.Characters.Humans.StateMachines
         }
         protected virtual void AddInputActionsCallbacks()
         {
-            stateMachine.Hero.HumanInput.HumanActions.HookLeft.started += OnHookUsed;
-            stateMachine.Hero.HumanInput.HumanActions.HookRight.started += OnHookUsed;
-            stateMachine.Hero.HumanInput.HumanActions.HookBoth.started += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookLeft.performed += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookRight.performed += OnHookUsed;
+            stateMachine.Hero.HumanInput.HumanActions.HookBoth.performed += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookLeft.canceled += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookRight.canceled += OnHookUsed;
             stateMachine.Hero.HumanInput.HumanActions.HookBoth.canceled += OnHookUsed;
-            stateMachine.Hero.HumanInput.HumanActions.Jump.started += OnJump;
+            stateMachine.Hero.HumanInput.HumanActions.Jump.performed += OnJump;
             stateMachine.Hero.HumanInput.HumanActions.Jump.canceled += OnJump;
         }
         protected virtual void RemoveInputActionsCallbacks()
