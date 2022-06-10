@@ -14,6 +14,10 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         event OnPlayerSpawn<Entity> OnPlayerSpawn;
         /// <summary>
+        /// Invoked when a titan is killed by a hit to the nape.
+        /// </summary>
+        event OnTitanKilled<Entity, Entity> OnTitanKilled;
+        /// <summary>
         /// Adds a new spawner
         /// </summary>
         /// <param name="spawner"></param>
@@ -94,5 +98,13 @@ namespace Assets.Scripts.Services.Interface
         /// Slightly modified from FengGameManagerMKII. TODO refactor
         /// </summary>
         void SpawnPlayerAt2(string id, GameObject pos, CharacterPreset preset = null, Faction faction = null);
+
+        /// <summary>
+        /// Invokes OnTitanKilled event.
+        /// </summary>
+        /// <param name="human"></param>
+        /// <param name="killedTitan"></param>
+        /// <param name="damage"></param>
+        void InvokeOnTitanKilled(Entity human, Entity killedTitan, int damage);
     }
 }

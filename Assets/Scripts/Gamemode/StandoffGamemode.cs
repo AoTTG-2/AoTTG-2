@@ -15,6 +15,7 @@ using Assets.Scripts.Extensions;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.UI;
 using Assets.Scripts.Characters.Titan.Behavior;
+using Assets.Scripts.Events;
 
 namespace Assets.Scripts.Gamemode
 {
@@ -81,6 +82,8 @@ namespace Assets.Scripts.Gamemode
 
             //TODO Add player titans
             Service.Ui.GetUiHandler().InGameUi.SpawnMenu.SetFactionOptions(new List<Faction> { Team1Players, Team2Players/*, Team1Titans, Team2Titans */});
+
+            Service.Spawn.OnTitanKilled += OnTitanKilled;
         }
         protected override void OnDestroy()
         {
@@ -167,7 +170,27 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        protected override void OnEntityUnRegistered(Entity entity)
+        private void OnTitanKilled(Entity human, Entity deadTitan, int damage)
+        {
+            if (deadTitan.GetType().IsSubclassOf(typeof(TitanBase)) && !IsRoundOver)
+            {
+                //TODO make damage threshold customizable after #604 is done.
+                //TODO change 500 to 1000. I set it to 500 for testing purposes because I suck.
+                int numTitansToSpawn = 0;
+                if (damage < 500)
+                { numTitansToSpawn = 1; }
+                else if (damage >= 500)
+                { numTitansToSpawn = 2; }
+
+                //Respawns a titan on the other side.
+                if (deadTitan.Faction == Team2Titans)
+                { SpawnTitans(numTitansToSpawn, GetStandoffTitanConfiguration, "titanRespawn2", Team1Titans); }
+
+                else if (deadTitan.Faction == Team1Titans)
+                { SpawnTitans(numTitansToSpawn, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans); }
+            }
+        }
+        /*protected override void OnEntityUnRegistered(Entity entity)
         {
             if (entity.GetType().IsSubclassOf(typeof(TitanBase)) && !IsRoundOver)
             {
@@ -178,7 +201,7 @@ namespace Assets.Scripts.Gamemode
                 else if (entity.Faction == Team1Titans)
                 { SpawnTitans(1, GetStandoffTitanConfiguration, "titanRespawn", Team2Titans); }
             }
-        }
+        }*/
 
         protected override void OnFactionDefeated(Faction faction)
         {

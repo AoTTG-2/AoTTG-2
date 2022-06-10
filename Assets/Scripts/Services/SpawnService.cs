@@ -25,6 +25,8 @@ namespace Assets.Scripts.Services
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
         
         public event OnPlayerSpawn<Entity> OnPlayerSpawn;
+        public event OnTitanKilled<Entity, Entity> OnTitanKilled;
+
         public void Add(Spawner spawner)
         {
             spawners.Add(spawner);
@@ -276,6 +278,11 @@ namespace Assets.Scripts.Services
             component.SetMainObject(hero.transform.gameObject, true, false);
             //}
             OnPlayerSpawn?.Invoke(hero);
+        }
+
+        public void InvokeOnTitanKilled(Entity human, Entity killedTitan, int damage)
+        {
+            OnTitanKilled?.Invoke(human, killedTitan, damage);
         }
 
         private void LateUpdate()

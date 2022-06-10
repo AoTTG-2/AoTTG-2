@@ -11,6 +11,7 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using UnityEngine;
 using UnityEngine.AI;
+using Assets.Scripts.Events;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Characters.Titan
@@ -453,6 +454,7 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            Service.Spawn.InvokeOnTitanKilled(view.GetComponent<Hero>(), this, damage);
             OnDeath();
             SetState(TitanState.Dead);
             FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
