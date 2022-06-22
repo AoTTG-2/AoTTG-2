@@ -179,7 +179,10 @@ public static class ChatCommandHandler
         {
             if ((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
             {
-                instance.photonView.RPC(nameof(FengGameManagerMKII.respawnHeroInNewRound), player, new object[0]);
+                PhotonView photonView = Service.Photon.GetPhotonView();
+                if (photonView == null)
+                { Debug.LogError("null photon view"); }
+                photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
             }
         }
 
@@ -202,7 +205,7 @@ public static class ChatCommandHandler
             {
                 var message = $"Player {playerId} has been revived.";
                 instance.chatRoom.OutputSystemMessage(message);
-                instance.photonView.RPC(nameof(FengGameManagerMKII.RespawnRpc), player);
+                instance.photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
             }
         }
         else

@@ -1324,6 +1324,11 @@ namespace Assets.Scripts.Characters.Humans
 
         protected override void OnDestroy()
         {
+            if (this == Service.Player.Self)
+            {
+                Debug.Log("Human player killed");
+                Service.Spawn.InvokeOnPlayerDespawn(this);
+            }
             base.OnDestroy();
             if (myNetWorkName != null)
             {

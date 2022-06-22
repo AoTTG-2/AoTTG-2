@@ -6,4 +6,7 @@ namespace Assets.Scripts.Events
 
     public delegate void OnRegister<in T>(T entity) where T : Entity;
     public delegate void OnUnRegister<in T>(T entity) where T : Entity;
+
+    public delegate void OnPlayerSpawn<in T>(T entity) where T : Entity;
+    public delegate void OnPlayerDespawn<in T>(T entity) where T : Entity;
 }

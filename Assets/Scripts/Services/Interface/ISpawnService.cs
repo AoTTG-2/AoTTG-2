@@ -2,13 +2,23 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Room;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Events;
 
 namespace Assets.Scripts.Services.Interface
 {
     public interface ISpawnService : IService
     {
+        /// <summary>
+        /// Occurs when SpawnPlayer is called.
+        /// </summary>
+        event OnPlayerSpawn<Entity> OnPlayerSpawn;
+        /// <summary>
+        /// Occurs when a hero or player titan entity matching Service.Player.Self is killed.
+        /// </summary>
+        event OnPlayerDespawn<Entity> OnPlayerDespawn;
         /// <summary>
         /// Adds a new spawner
         /// </summary>
@@ -80,5 +90,24 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="preset"></param>
         /// <returns></returns>
         T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human;
+
+        /// <summary>
+        /// Handles everything needed to spawn a player. Null is a valid argument for both of the parameters.
+        /// If a null Spawner is given then the last used spawner will be used if it exists. If not, a random human spawner will be selected.
+        /// Similarly a null CharacterPreset will use the last used preset if it exists. If not, the first character preset in the CharacterPreset list will be selected.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="preset"></param>
+        /// <returns></returns>
+        Hero SpawnPlayer(GameObject gameObject, CharacterPreset preset);
+
+        void InvokeOnPlayerDespawn(Entity entity);
+
+        void RespawnRpc(PhotonMessageInfo info);
+        IEnumerator WaitAndRespawn(float time);
+
+        IEnumerator WaitAndRespawnAt(float time, Spawner spawner);
+
+        void NOTSpawnPlayer(string id = "2");
     }
 }

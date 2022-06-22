@@ -80,5 +80,10 @@ namespace Assets.Scripts.Services
                 Connect();
             }
         }
+
+        public PhotonView GetPhotonView()
+        {
+            return photonView;
+        }
     }
 }

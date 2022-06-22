@@ -9,6 +9,7 @@ namespace Assets.Scripts.Services.Interface
     public interface IPlayerService : IService
     {
         Entity Self { get; set; }
+        Faction Faction { get; set; }
 
         event OnTitanDamaged OnTitanDamaged;
         event OnTitanHit OnTitanHit;

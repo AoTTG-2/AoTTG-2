@@ -16,7 +16,7 @@ using Random = UnityEngine.Random;
 
 public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 {
-    private IEntityService EntityService => Service.Entity;
+    private ISpawnService SpawnService => Service.Spawn;
 
     /// <summary>
     /// The maximum distance to the closest titan to allow locking.
@@ -86,7 +86,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
     public GameObject HUD;
     private void Awake()
     {
-        EntityService.OnRegister += EntityService_OnRegistered;
+        SpawnService.OnPlayerSpawn += SpawnService_OnPlayerSpawn;
 
         isTyping = false;
         isPausing = false;
@@ -110,17 +110,17 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
         startingTime = Time.time;
     }
-
-    private void EntityService_OnRegistered(Entity entity)
+    private void SpawnService_OnPlayerSpawn(Entity entity)
     {
-        if (entity is PlayerTitan pt)
-        {
-            SetMainObjectAsTitan(pt.gameObject);
-            enabled = true;
-            SpectatorMode.Disable();
-            GetComponent<MouseLook>().disable = true;
-            gameOver = false;
-        }
+        if (entity is Hero human)
+        { SetMainObject(human.gameObject); }
+        else if (entity is PlayerTitan pt)
+        { SetMainObjectAsTitan(pt.gameObject); }
+        
+        enabled = true;
+        SpectatorMode.Disable();
+        GetComponent<MouseLook>().disable = true;
+        gameOver = false;
     }
 
     public void CameraMovementLive(Hero hero)
@@ -900,7 +900,7 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     private void OnDestroy()
     {
-        EntityService.OnRegister -= EntityService_OnRegistered;
+        SpawnService.OnPlayerSpawn -= SpawnService_OnPlayerSpawn;
         GameObject.Find("Compass").GetComponent<CompassController>().compassMode = false;
     }
 }

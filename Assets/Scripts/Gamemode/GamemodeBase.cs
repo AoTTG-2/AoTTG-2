@@ -83,6 +83,7 @@ namespace Assets.Scripts.Gamemode
             EntityService.OnRegister += OnEntityRegistered;
             EntityService.OnUnRegister += OnEntityUnRegistered;
             FactionService.OnFactionDefeated += OnFactionDefeated;
+            Service.Spawn.OnPlayerDespawn += Spawn_OnPlayerDespawn;
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
@@ -102,6 +103,7 @@ namespace Assets.Scripts.Gamemode
             EntityService.OnUnRegister -= OnEntityUnRegistered;
             FactionService.OnFactionDefeated -= OnFactionDefeated;
             Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
+            Service.Spawn.OnPlayerDespawn -= Spawn_OnPlayerDespawn;
             StopAllCoroutines();
         }
 
@@ -141,6 +143,14 @@ namespace Assets.Scripts.Gamemode
         protected virtual void OnFactionDefeated(Faction faction) { }
         protected virtual void OnEntityRegistered(Entity entity) { }
         protected virtual void OnEntityUnRegistered(Entity entity) { }
+
+        protected virtual void Spawn_OnPlayerDespawn(Entity entity)
+        {
+            if (Settings.Respawn.Mode.Equals(RespawnMode.Endless))
+            {
+                Coroutines.Add(StartCoroutine(Service.Spawn.WaitAndRespawn(Settings.Respawn.ReviveTime.Value)));
+            }
+        }
         #endregion
 
         private MindlessTitanType GetTitanType()

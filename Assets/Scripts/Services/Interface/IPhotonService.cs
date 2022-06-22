@@ -38,5 +38,7 @@ namespace Assets.Scripts.Services.Interface
         /// Connects to the Photon Server based on the current PhotonServerConfiguration <see cref="GetCurrentConfig"/>
         /// </summary>
         void Connect();
+
+        PhotonView GetPhotonView();
     }
 }
