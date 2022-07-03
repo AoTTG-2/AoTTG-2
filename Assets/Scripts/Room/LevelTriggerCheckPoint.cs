@@ -25,6 +25,7 @@ namespace Assets.Scripts.Room
         {
             gameObject.AddComponent<HumanSpawner>();
             spawner = GetComponent<HumanSpawner>();
+            Service.Spawn.Remove(spawner);
         }
     }
 }

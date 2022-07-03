@@ -306,6 +306,7 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
+        //Obselete, you should use Service.Spawn.GetAll<HumanSpawner>() or Service.Spawn.GetRandom<HumanSpawner>() instead.
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
