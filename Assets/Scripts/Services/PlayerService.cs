@@ -3,6 +3,7 @@ using Assets.Scripts.Events;
 using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services.Interface;
 using UnityEngine;
+using System;
 namespace Assets.Scripts.Services
 {
     /// <inheritdoc/>
@@ -46,17 +47,38 @@ namespace Assets.Scripts.Services
         }
 
         public Entity Self { get; set; }
-        public Faction Faction
+        public Faction Faction { get; private set; }
+        public void SetFaction(Faction faction)
         {
-            get { return Faction; }
-            set
-            {
-                Faction = value;
-                if (Self != null)
-                { Self.Faction = value; }
-            }
+            Faction = faction;
+            if (Self != null)
+            { Self.Faction = faction; }
         }
 
+        public void OnJoinedRoom()
+        {
+            SetFaction(null);
+        }
+        /*private void PlayerService_OnConnectedToPhoton(object sender, EventArgs e)
+        {
+            Debug.Log("PlayerService_OnConnectedToPhoton");
+            SetFaction(null);
+        }
+        private void PlayerService_OnDisconnectedFromPhoton(object sender, EventArgs e)
+        {
+            Debug.Log("PlayerService_OnDisconnectedFromPhoton");
+            SetFaction(null);
+        }
+        private void Awake()
+        {
+            Service.Photon.PhotonService_OnDisconnectedFromPhoton += PlayerService_OnDisconnectedFromPhoton;
+            Service.Photon.PhotonService_OnConnectedToPhoton += PlayerService_OnConnectedToPhoton;
+        }
+        private void OnDestroy()
+        {
+            Service.Photon.PhotonService_OnDisconnectedFromPhoton -= PlayerService_OnDisconnectedFromPhoton;
+            Service.Photon.PhotonService_OnConnectedToPhoton -= PlayerService_OnConnectedToPhoton;
+        }*/
         
     }
 }

@@ -11,6 +11,9 @@ namespace Assets.Scripts.Services
     public class PhotonService : PunBehaviour, IPhotonService
     {
         public VersionManager VersionManager;
+        public event EventHandler PhotonService_OnDisconnectedFromPhoton;
+        public event EventHandler PhotonService_OnConnectedToPhoton;
+
         [SerializeField] private List<PhotonServerConfig> photonServerConfiguration;
         private PhotonServerConfig currentServerConfig;
 
@@ -30,6 +33,7 @@ namespace Assets.Scripts.Services
         public override void OnConnectedToPhoton()
         {
             isRegionChanging = false;
+            PhotonService_OnConnectedToPhoton?.Invoke(this, null);
         }
 
         public override void OnDisconnectedFromPhoton()
@@ -39,6 +43,7 @@ namespace Assets.Scripts.Services
                 PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
                 isRegionChanging = false;
             }
+            PhotonService_OnDisconnectedFromPhoton?.Invoke(this, null);
         }
         #endregion
 

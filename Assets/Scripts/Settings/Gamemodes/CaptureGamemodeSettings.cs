@@ -19,6 +19,9 @@ namespace Assets.Scripts.Settings.Gamemodes
             PvpTitanScoreLimit = 300;
             PvpHumanScoreLimit = 300;
             SpawnSupplyStationOnHumanCapture = true;
+            Respawn.Mode = RespawnMode.Endless;
+            Respawn.ReviveTime = 10;
+           
         }
 
         [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]

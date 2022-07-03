@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Assets.Scripts.Services;
+using Assets.Scripts.Room;
 
 public class PVPcheckPoint : Photon.MonoBehaviour
 {
@@ -37,9 +39,22 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
+    HumanSpawner humanSpawner;
+    TitanSpawner titanSpawner;
     private CaptureGamemode gamemode { get; set; }
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
+    public void Awake()
+    {
+        gameObject.AddComponent<HumanSpawner>();
+        gameObject.AddComponent<TitanSpawner>();
+        humanSpawner = gameObject.GetComponent<HumanSpawner>();
+        titanSpawner = gameObject.GetComponent<TitanSpawner>();
+
+        //Spawners automatically register themselves with spawn service when they are created, but we only want a spawner to be active if it is captured.
+        Service.Spawn.Remove(humanSpawner);
+        Service.Spawn.Remove(titanSpawner);
+    }
     [PunRPC]
     private void changeHumanPt(float pt)
     {
@@ -70,12 +85,14 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if (Vector3.Distance(objArray[num].transform.position, base.transform.position) < this.hitTestR)
             {
                 this.playerOn = true;
-                if ((this.state == CheckPointState.Human) && objArray[num].GetPhotonView().isMine)
+                if ((this.state == CheckPointState.Human))
                 {
-                    if (gameManager.checkpoint != gameObject)
+                    Debug.Log("Standing in a human capture point");
+                    if (Service.Spawn.RespawnSpawner != humanSpawner)
                     {
-                        gameManager.checkpoint = gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        Debug.Log("Set this capture point as the respawn");
+                        Service.Spawn.RespawnSpawner = humanSpawner;
+                        Service.Message.Local("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>", Assets.Scripts.UI.DebugLevel.Info);
                     }
                     break;
                 }
@@ -86,12 +103,12 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if ((Vector3.Distance(objArray2[num].transform.position, base.transform.position) < (this.hitTestR + 5f)) && ((objArray2[num].GetComponent<MindlessTitan>() == null) || objArray2[num].GetComponent<MindlessTitan>().IsAlive))
             {
                 this.titanOn = true;
-                if (((this.state == CheckPointState.Titan) && objArray2[num].GetPhotonView().isMine) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
+                if (((this.state == CheckPointState.Titan)) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
                 {
-                    if (gameManager.checkpoint != base.gameObject)
+                    if (Service.Spawn.RespawnSpawner != titanSpawner)
                     {
-                        gameManager.checkpoint = base.gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        Service.Spawn.RespawnSpawner = titanSpawner;
+                        Service.Message.Local("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>", Assets.Scripts.UI.DebugLevel.Info);
                     }
                     break;
                 }
@@ -191,6 +208,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     base.photonView.RPC(nameof(changeState), PhotonTargets.Others, parameters);
                 }
             }
+        }
+        if (Service.Spawn.RespawnSpawner == humanSpawner)
+        {
+            Service.Spawn.RespawnSpawner = null;
         }
     }
 
@@ -320,6 +341,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     base.photonView.RPC(nameof(changeState), PhotonTargets.All, parameters);
                 }
             }
+        }
+        if (Service.Spawn.RespawnSpawner == titanSpawner)
+        {
+            Service.Spawn.RespawnSpawner = null;
         }
     }
 

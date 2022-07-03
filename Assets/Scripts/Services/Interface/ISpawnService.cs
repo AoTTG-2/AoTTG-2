@@ -30,6 +30,10 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="spawner"></param>
         void Remove(Spawner spawner);
         /// <summary>
+        /// Removes all spawners.
+        /// </summary>
+        void RemoveAllSpawners();
+        /// <summary>
         /// Returns all spawners
         /// </summary>
         /// <typeparam name="T">The type of the spawner</typeparam>
@@ -92,17 +96,28 @@ namespace Assets.Scripts.Services.Interface
         T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human;
 
         /// <summary>
-        /// Handles everything needed to spawn a player. Null is a valid argument for both of the parameters.
-        /// If a null Spawner is given then the last used spawner will be used if it exists. If not, a random human spawner will be selected.
-        /// Similarly a null CharacterPreset will use the last used preset if it exists. If not, the first character preset in the CharacterPreset list will be selected.
+        /// Handles everything needed to spawn a player.
+        /// A null spawner will use the last used spawner if it exists. If not, a random human spawner will be selected.
+        /// A null CharacterPreset will use the last used preset if it exists. If not, the first character preset in the CharacterPreset list will be selected.
+        /// A null faction will default to humanity.
+        /// This method will still work for maps with tag respawns (playerRespawn)
         /// </summary>
-        /// <param name="gameObject"></param>
-        /// <param name="preset"></param>
         /// <returns></returns>
-        Hero SpawnPlayer(GameObject gameObject, CharacterPreset preset);
+        Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null);
 
         void InvokeOnPlayerDespawn(Entity entity);
 
+        /// <summary>
+        /// This is the spawner that the player will respawn at.
+        /// Unless otherwise set, this will be the last used spawn point by the player.
+        /// </summary>
+        Spawner RespawnSpawner { get; set; }
+
+        /// <summary>
+        /// Will remove the previous player character (if applicable) and respawn the player using the last used configuration (spawner, preset, etc).
+        /// </summary>
+        /// <param name="player"></param>
+        void Respawn(PhotonPlayer player);
         void RespawnRpc(PhotonMessageInfo info);
         IEnumerator WaitAndRespawn(float time);
 

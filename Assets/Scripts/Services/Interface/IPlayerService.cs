@@ -9,7 +9,18 @@ namespace Assets.Scripts.Services.Interface
     public interface IPlayerService : IService
     {
         Entity Self { get; set; }
-        Faction Faction { get; set; }
+
+        /// <summary>
+        /// The team/faction this player is on. If this is null you can assume that the player has not selected a team yet.
+        /// Replaces FengGameManager.needChooseSide
+        /// </summary>
+        Faction Faction { get; }
+
+        /// <summary>
+        /// Sets the faction of this player and also sets the faction of the entity Self.
+        /// </summary>
+        /// <param name="faction"></param>
+        void SetFaction(Faction faction);
 
         event OnTitanDamaged OnTitanDamaged;
         event OnTitanHit OnTitanHit;
@@ -39,5 +50,7 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         /// <param name="heroKillEvent"></param>
         void HeroKill(HeroKillEvent heroKillEvent);
+
+        void OnJoinedRoom();
     }
 }

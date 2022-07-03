@@ -75,6 +75,17 @@ namespace Assets.Scripts.Gamemode
                 supplyStation.transform.position = lavaSupplyStation.transform.position;
                 supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
             }
+
+            if (Service.Player.Faction != null)
+            {
+                Debug.Log("Faction != null, so respawn is called");
+                Service.Spawn.SpawnPlayer();
+            }
+            else
+            {
+                Debug.Log("Faction == null, so ShowSpawnMenu() is called.");
+                Service.Ui.ShowSpawnMenu();
+            }
         }
 
         private void Awake()
@@ -146,9 +157,11 @@ namespace Assets.Scripts.Gamemode
 
         protected virtual void Spawn_OnPlayerDespawn(Entity entity)
         {
-            if (Settings.Respawn.Mode.Equals(RespawnMode.Endless))
+            if (Settings.Respawn.Mode == RespawnMode.Endless)
             {
+                Debug.Log("Player despawned");
                 Coroutines.Add(StartCoroutine(Service.Spawn.WaitAndRespawn(Settings.Respawn.ReviveTime.Value)));
+                Coroutines.Add(StartCoroutine(RespawnCountdown()));
             }
         }
         #endregion
@@ -366,6 +379,18 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.RestartRound();
             }
+        }
+
+        private IEnumerator RespawnCountdown()
+        {
+            var respawnCountdown = Settings.Respawn.ReviveTime.Value;
+            while (respawnCountdown  >= 0)
+            {
+                yield return new WaitForSeconds(1f);
+                respawnCountdown--;
+                UiService.SetMessage(LabelPosition.Center, $"Respawn in: {respawnCountdown} s");
+            }
+            UiService.ResetMessage(LabelPosition.Center);
         }
     }
 }

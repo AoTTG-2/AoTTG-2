@@ -22,7 +22,7 @@ namespace Assets.Scripts.Services
         private IEntityService EntityService => Service.Entity;
         private IMessageService MessageService => Service.Message;
 
-        private readonly List<Spawner> spawners = new List<Spawner>();
+        private List<Spawner> spawners = new List<Spawner>();
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
         public event OnPlayerSpawn<Entity> OnPlayerSpawn;
         public event OnPlayerDespawn<Entity> OnPlayerDespawn;
@@ -34,6 +34,15 @@ namespace Assets.Scripts.Services
         public void Remove(Spawner spawner)
         {
             spawners.Remove(spawner);
+        }
+
+        public void RemoveAllSpawners()
+        {
+            foreach (Spawner spawner in spawners)
+            {
+                spawners.Remove(spawner);
+                Destroy(spawner);
+            }
         }
 
         public List<T> GetAll<T>() where T : Spawner
@@ -165,22 +174,62 @@ namespace Assets.Scripts.Services
             return titan;
         }
 
-        private Spawner RespawnSpawner { get; set; }
-        public Hero SpawnPlayer(/*HumanSpawner spawner*/GameObject obj, CharacterPreset preset)
+        public Spawner RespawnSpawner { get; set; }
+        public Faction LastUsedFaction { get; set; }
+        public Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null)
         {
-            Transform spawnLocation;
-            if (obj == null)
+            if (faction == null)
             {
-                //Checks if a RespawnSpawner has been set (previous spawn location)
-                if (RespawnSpawner != null)
-                { spawnLocation = RespawnSpawner.transform; }
-                //Selects a random spawner if no previous spawner exists.
-                else { spawnLocation = GetRandom<HumanSpawner>().transform; }
+                if (LastUsedFaction != null)
+                { faction = LastUsedFaction; }
+                else { faction = Service.Faction.GetHumanity(); }
             }
-            else { spawnLocation = obj.transform; }
-            
-            Hero hero = SpawnHero("Hero", spawnLocation.position, spawnLocation.rotation, preset);
+            //spawnLocation = spawner.transform ?? (RespawnSpawner.transform ?? GetRandom<HumanSpawner>().transform);
+            Hero hero;
+
+            //If a spawner isn't given, first it tries to spawn at the last used spawner (RespawnSpawner)
+            //If RespawnSpawner is null, then it tries a random spawner. If that is null, then it tries using the tags.
+            /*if (spawner == null)
+            {
+                //Checks if a RespawnSpawner is not null (previous spawn location)
+                if (RespawnSpawner != null)
+                { spawner = RespawnSpawner as HumanSpawner; }
+
+                //Selects a random spawner if no previous spawner exists.
+                else if ((spawner = GetRandom<HumanSpawner>()) == null)
+                {
+                    //If there are no spawners, this code tries to use the legacy spawning system.
+                    var spawnLocations = GameObject.FindGameObjectsWithTag("playerRespawn");
+                    if (spawnLocations.Count() == 0)
+                    {
+                        Debug.LogError("No valid spawn locations are available.");
+                        return null;
+                    }
+                    var spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Count())];
+                    hero = SpawnHero("Hero", spawnLocation.transform.position, spawnLocation.transform.rotation, preset);
+                }
+            }*/
+            spawner ??= (RespawnSpawner as HumanSpawner ?? GetRandom<HumanSpawner>());
+
+            if (spawner != null)
+            {
+                hero = SpawnHero("Hero", spawner.transform.position, spawner.transform.rotation, preset);
+            }
+            else
+            {
+                //legacy spawning system
+                var spawnLocations = GameObject.FindGameObjectsWithTag("playerRespawn");
+                if (spawnLocations.Count() == 0)
+                {
+                    Debug.LogError("No valid spawn locations are available.");
+                    return null;
+                }
+                var spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Count())];
+                hero = SpawnHero("Hero", spawnLocation.transform.position, spawnLocation.transform.rotation, preset);
+            }
+
             Service.Player.Self = hero;
+            Service.Player.SetFaction(faction);
             OnPlayerSpawn?.Invoke(hero);
 
             ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
@@ -192,7 +241,8 @@ namespace Assets.Scripts.Services
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
 
-            //RespawnSpawner = spawner;
+            RespawnSpawner = spawner;
+            LastUsedFaction = faction;
             return hero;
         }
 
@@ -245,14 +295,21 @@ namespace Assets.Scripts.Services
             Respawn(PhotonNetwork.player);
         }
 
-        private void Respawn(PhotonPlayer player)
+        public void Respawn(PhotonPlayer player)
         {
+            //if the player is living, then delete the old player first.
             if (player.CustomProperties[PhotonPlayerProperty.dead] == null
                 || !RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])
                 || !GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver)
+            {
+                if (Service.Player.Self == null)
+                {
+                    Debug.LogError("Attempted to respawn a living player, but Service.Player.Self is not set.");
                     return;
+                }
+                GameObject.Destroy(Service.Player.Self.gameObject);
+            }
 
-            
             var isPlayerTitan = RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2;
             if (RespawnSpawner == null
                 || (LastUsedPreset == null && !isPlayerTitan)
@@ -266,40 +323,38 @@ namespace Assets.Scripts.Services
             }
             else
             {
-                Service.Spawn.SpawnPlayer(RespawnSpawner.transform.gameObject, LastUsedPreset);
+                Service.Spawn.SpawnPlayer();
             }
             Service.Message.Local("<color=#FFCC00>You have been revived by the master client.</color>", UI.DebugLevel.Default);
         }
 
-        private IEnumerator respawnE(float seconds)
+        private IEnumerator respawnAllDeadPlayers(float seconds)
         {
             while (true)
             {
                 yield return new WaitForSeconds(seconds);
-                Respawn(PhotonNetwork.player);
-            }
-            /*while (true)
-            {
-                yield return new WaitForSeconds(seconds);
-                for (int j = 0; j < PhotonNetwork.playerList.Length; j++)
+                foreach (PhotonPlayer player in PhotonNetwork.playerList)
                 {
-                    PhotonPlayer targetPlayer = PhotonNetwork.playerList[j];
-                    if (((targetPlayer.CustomProperties[PhotonPlayerProperty.RCteam] == null) && RCextensions.returnBoolFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.dead])) && (RCextensions.returnIntFromObject(targetPlayer.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
+                    if (((player.CustomProperties[PhotonPlayerProperty.RCteam] == null)
+                        && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
+                        && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
                     {
-                        this.photonView.RPC(nameof(respawnHeroInNewRound), targetPlayer, new object[0]);
+                        Service.Photon.GetPhotonView().RPC(nameof(RespawnRpc), player, new object[0]);
                     }
                 }
-            }*/
+            }
         }
         public IEnumerator WaitAndRespawn(float time)
         {
+            Debug.Log("WaitAndRespawn called");
             yield return new WaitForSeconds(time);
-            SpawnPlayer(RespawnSpawner.transform.gameObject, LastUsedPreset);
+            Debug.Log("WaitAndRespawn called SpawnPlayer()");
+            SpawnPlayer();
         }
         public IEnumerator WaitAndRespawnAt(float time, Spawner spawner)
         {
             yield return new WaitForSeconds(time);
-            SpawnPlayer(spawner.transform.gameObject, LastUsedPreset);
+            SpawnPlayer(spawner as HumanSpawner);
         }
         public void NOTSpawnPlayer(string id = "2")
         {
@@ -316,10 +371,6 @@ namespace Assets.Scripts.Services
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
-        /*private void Level_OnLevelLoaded(int scene, Level level)
-        {
-            StopAllCoroutines();
-        }*/
 
         private void LateUpdate()
         {
@@ -328,12 +379,10 @@ namespace Assets.Scripts.Services
         private void Awake()
         {
             OnPlayerDespawn += SpawnService_OnPlayerDespawn;
-            //Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
         }
         private void OnDestroy()
         {
             OnPlayerDespawn -= SpawnService_OnPlayerDespawn;
-            //Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
         }
     }
 }

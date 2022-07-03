@@ -35,8 +35,6 @@ namespace Assets.Scripts
     /// </summary>
     public class FengGameManagerMKII : PunBehaviour
     {
-        protected ISpawnService SpawnService => Service.Spawn;
-
         #region Obsolete Properties
         [Obsolete("Dirty way of getting some materials. Should be deleted once its dependencies in FengGameManager are resolved")]
         public RCLegacy RcLegacy;
@@ -49,9 +47,6 @@ namespace Assets.Scripts
 
         [Obsolete("FengGameManager should not have a public InRoomChat variable. This must be made private. Use the ChatService instead to get a reference to InRoomChat.")]
         public InRoomChat chatRoom;
-
-        [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
-        public GameObject checkpoint;
 
         [Obsolete("Legacy RC scripts are no longer supported in AoTTG2")]
         public static string currentLevel;
@@ -95,11 +90,7 @@ namespace Assets.Scripts
         private float maxSpeed;
         [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
         private string myLastHero;
-        [Obsolete("Value is always playerRespawn")]
-        private string myLastRespawnTag = "playerRespawn";
-        [Obsolete("Only a Respawn Service or Gamemode should contain knowledge over this")]
-        public float myRespawnTime;
-        [Obsolete("A gamemode should decide whether or not a player has to choose between humanity, AHSS or titanity")]
+        [Obsolete("Use Service.Player.Faction instead. Service.Player.Faction == null is equivalent to needChooseSide == true and Service.Player.Faction != null is equivalent to needChooseSide == false")]
         public bool needChooseSide;
         [Obsolete("A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose")]
         public static bool noRestart;
@@ -110,10 +101,6 @@ namespace Assets.Scripts
         [Obsolete("This value is always false")]
         public static bool OnPrivateServer;
         public string playerList;
-        [Obsolete("Use the class PlayerSpawns instead")]
-        public List<Vector3> playerSpawnsC;
-        [Obsolete("Use the class PlayerSpawns instead")]
-        public List<Vector3> playerSpawnsM;
         public List<PhotonPlayer> playersRPC;
         public Dictionary<string, int[]> PreservedPlayerKDR;
         [Obsolete("A value is never assigned")]
@@ -273,6 +260,7 @@ namespace Assets.Scripts
             }
 
             Service.Discord.UpdateDiscordActivity(PhotonNetwork.room);
+            Service.Player.OnJoinedRoom();
         }
 
         public override void OnLeftLobby()
@@ -453,8 +441,6 @@ namespace Assets.Scripts
             {
                 currentScript = string.Empty;
             }
-            this.playerSpawnsC = new List<Vector3>();
-            this.playerSpawnsM = new List<Vector3>();
             this.playersRPC = new List<PhotonPlayer>();
             this.levelCache = new List<string[]>();
             this.restartCount = new List<float>();
@@ -539,19 +525,6 @@ namespace Assets.Scripts
             {
                 //TODO: Show ChooseSide Message
                 //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-            }
-            else if (SpectatorMode.IsDisable())
-            {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                {
-                    SpawnService.Spawn<PlayerTitan>();
-                }
-                else
-                {
-                    //TODO 301 move this code into GamemodeBase
-                    //this.SpawnPlayer(this.myLastHero, this.myLastRespawnTag);
-                    Debug.Log("Player was not spawned. This code is depracted. The gamemode should handle when to spawn");
-                }
             }
 
             if (SpectatorMode.IsEnable())
@@ -872,10 +845,6 @@ namespace Assets.Scripts
             else
             {
                 if (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.Stop) return;
-                if (this.needChooseSide)
-                {
-                    InGameUI.SpawnMenu.gameObject.SetActive(true);
-                }
 
                 // Update the players ping once every second. 
                 float timeSince = Time.time * 1000;
@@ -904,7 +873,6 @@ namespace Assets.Scripts
                                 ? (GameSettings.Gamemode.PointMode <= 0)
                                 : true))
                         {
-                            this.myRespawnTime += Time.deltaTime;
                             int endlessMode = 5;
                             if (RCextensions.returnIntFromObject(
                                     PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
@@ -916,52 +884,9 @@ namespace Assets.Scripts
                             {
                                 endlessMode = GameSettings.Respawn.ReviveTime.Value;
                             }
-
-                            //TODO
-                            //length = endlessMode - ((int) this.myRespawnTime);
-                            //this.ShowHUDInfoCenterADD("Respawn in " + length.ToString() + "s.");
-                            /*if (this.myRespawnTime > endlessMode) //TODO 301
-                            {
-                                this.myRespawnTime = 0f;
-                                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                                if (RCextensions.returnIntFromObject(
-                                        PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                                {
-                                    SpawnService.Spawn<PlayerTitan>();
-                                }
-                                else
-                                {
-                                    respawnCoroutine = StartCoroutine(WaitAndRespawn1(0.1f, myLastRespawnTag));
-                                }
-                                Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                            }*/
                         }
                     }
                 }
-
-                //if (GameSettings.Gamemode.GamemodeType == GamemodeType.Racing)
-                //{
-                //    if ((Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide) &&
-                //        SpectatorMode.IsDisable())
-                //    {
-                //        this.myRespawnTime += Time.deltaTime;
-                //        if (this.myRespawnTime > 1.5f)
-                //        {
-                //            this.myRespawnTime = 0f;
-                //            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                //            if (this.checkpoint != null)
-                //            {
-                //                base.StartCoroutine(this.WaitAndRespawn2(0.1f, this.checkpoint));
-                //            }
-                //            else
-                //            {
-                //                base.StartCoroutine(this.WaitAndRespawn1(0.1f, this.myLastRespawnTag));
-                //            }
-
-                //            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = false;
-                //        }
-                //    }
-                //}
 
                 //TODO: Move into Gamemode
                 //if (this.timeElapse > 1f)
@@ -1678,8 +1603,7 @@ namespace Assets.Scripts
                         {
                             ExitGames.Client.Photon.Hashtable hashtable;
                             this.levelCache.Clear();
-                            this.playerSpawnsC.Clear();
-                            this.playerSpawnsM.Clear();
+                            Service.Spawn.RemoveAllSpawners();
                             currentLevel = string.Empty;
                             if (currentScript == string.Empty)
                             {
@@ -1713,11 +1637,19 @@ namespace Assets.Scripts
                                                 }
                                                 else if (strArray6[1] == "playerC")
                                                 {
-                                                    this.playerSpawnsC.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                    GameObject cyanSpawn = new GameObject();
+                                                    cyanSpawn.name = "Cyan spawns";
+                                                    cyanSpawn.transform.position = new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4]));
+                                                    cyanSpawn.AddComponent<HumanSpawner>();
+                                                    cyanSpawn.GetComponent<HumanSpawner>().Type = PlayerSpawnType.Cyan;
                                                 }
                                                 else if (strArray6[1] == "playerM")
                                                 {
-                                                    this.playerSpawnsM.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
+                                                    GameObject magentaSpawn = new GameObject();
+                                                    magentaSpawn.name = "Magenta spawns";
+                                                    magentaSpawn.transform.position = new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4]));
+                                                    magentaSpawn.AddComponent<HumanSpawner>();
+                                                    magentaSpawn.GetComponent<HumanSpawner>().Type = PlayerSpawnType.Magenta;
                                                 }
                                             }
                                             strArray5[num7] = strArray4[num2];
@@ -1742,14 +1674,6 @@ namespace Assets.Scripts
                                                 {
                                                     Instantiate(RcLegacy.GetPrefab("titanRespawn"), new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])), new Quaternion());
                                                 }
-                                                else if (strArray6[1] == "playerC")
-                                                {
-                                                    this.playerSpawnsC.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
-                                                }
-                                                else if (strArray6[1] == "playerM")
-                                                {
-                                                    this.playerSpawnsM.Add(new Vector3(Convert.ToSingle(strArray6[2]), Convert.ToSingle(strArray6[3]), Convert.ToSingle(strArray6[4])));
-                                                }
                                             }
                                             strArray5[num7] = strArray4[num2];
                                             num7++;
@@ -1761,13 +1685,18 @@ namespace Assets.Scripts
                                     }
                                 }
                                 List<string> list = new List<string>();
-                                foreach (Vector3 vector in this.playerSpawnsC)
+                                Vector3 vector;
+                                foreach (HumanSpawner spawner in Service.Spawn.GetAll<HumanSpawner>())
                                 {
-                                    list.Add("playerC," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
-                                }
-                                foreach (Vector3 vector in this.playerSpawnsM)
-                                {
-                                    list.Add("playerM," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
+                                    vector = spawner.transform.position;
+                                    if (spawner.Type == PlayerSpawnType.Cyan)
+                                    {
+                                        list.Add("playerC," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
+                                    }
+                                    else if (spawner.Type == PlayerSpawnType.Magenta)
+                                    {
+                                        list.Add("playerM," + vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString());
+                                    }
                                 }
                                 string item = "a" + UnityEngine.Random.Range(0x2710, 0x1869f).ToString();
                                 list.Add(item);
@@ -2201,44 +2130,6 @@ namespace Assets.Scripts
             InGameUI.HUD.SetDamage(damage);
         }
 
-        //TODO 301 delete
-        /*[Obsolete("Use RespawnService instead")]
-        public void NOTSpawnPlayer(string id = "2")
-        {
-            this.myLastHero = id.ToUpper();
-            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add("dead", true);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-            propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-        }*/
-
-        //TODO 301 delete
-        /*[Obsolete("Use RespawnService instead")]
-        public void NOTSpawnPlayerRC(string id)
-        {
-            this.myLastHero = id.ToUpper();
-            ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add("dead", true);
-            ExitGames.Client.Photon.Hashtable propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            hashtable = new ExitGames.Client.Photon.Hashtable();
-            hashtable.Add(PhotonPlayerProperty.isTitan, 1);
-            propertiesToSet = hashtable;
-            PhotonNetwork.player.SetCustomProperties(propertiesToSet);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().enabled = true;
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetMainObject(null, true, false);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().SetSpectorMode(true);
-            GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
-        }*/
-
         [Obsolete("AoTTG1's way of handling player stats. Whereas the concept itself is fine, this needs to be part of the HERO classes, not the GameManager.")]
         public void playerKillInfoUpdate(PhotonPlayer player, int dmg)
         {
@@ -2283,8 +2174,7 @@ namespace Assets.Scripts
                 currentLevel = string.Empty;
                 propertiesToSet.Add(PhotonPlayerProperty.currentLevel, string.Empty);
                 this.levelCache = new List<string[]>();
-                this.playerSpawnsC.Clear();
-                this.playerSpawnsM.Clear();
+                //Service.Spawn.RemoveAllSpawners();
                 currentScriptLogic = string.Empty;
                 propertiesToSet.Add(PhotonPlayerProperty.statACL, 100);
                 propertiesToSet.Add(PhotonPlayerProperty.statBLA, 100);
@@ -2307,8 +2197,7 @@ namespace Assets.Scripts
         {
             if (!this.gameTimesUp)
             {
-                this.checkpoint = null;
-                this.myRespawnTime = 0f;
+                Service.Spawn.RespawnSpawner = null;
                 this.ClearKillInfo();
                 this.isRestarting = true;
                 this.DestroyAllExistingCloths();
