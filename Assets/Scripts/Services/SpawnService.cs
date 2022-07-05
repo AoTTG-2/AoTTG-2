@@ -178,6 +178,10 @@ namespace Assets.Scripts.Services
         public Faction LastUsedFaction { get; set; }
         public Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null)
         {
+            if (Service.Player.Self != null)
+            {
+                Service.Entity.UnRegister(Service.Player.Self);
+            }
             if (faction == null)
             {
                 if (LastUsedFaction != null)
@@ -246,24 +250,43 @@ namespace Assets.Scripts.Services
             return hero;
         }
 
-        private PlayerTitan SpawnPlayerTitan()
+        private PlayerTitan SpawnPlayerTitan(TitanSpawner spawner = null, TitanConfiguration titanConfiguration = null, Faction faction = null)
         {
-            
-            //TODO   
-            var id = "TITAN";
-            var tag = "titanRespawn";
-            var location = Gamemode.GetPlayerSpawnLocation(tag);
-            Vector3 position = location.transform.position;
-            var titanSpawners = GetAll<TitanSpawner>().Where(x => x.Type == TitanSpawnerType.None).ToArray();
-            if (titanSpawners.Length > 0) // RC Custom Map Spawns
+            if (Service.Player.Self != null)
             {
-                position = titanSpawners[UnityEngine.Random.Range(0, titanSpawners.Length)].gameObject.transform.position;
+                //Despawns the current player before spawning a new one.
+                Service.Entity.UnRegister(Service.Player.Self);
             }
-            PlayerTitan playerTitan = PhotonNetwork.Instantiate("PlayerTitan", position, new Quaternion(), 0).GetComponent<PlayerTitan>();
-            LastUsedTitanConfiguration = Gamemode.GetPlayerTitanConfiguration();
-            playerTitan.Initialize(LastUsedTitanConfiguration as TitanConfiguration);
+            if (faction == null)
+            {
+                if (LastUsedFaction != null)
+                { faction = LastUsedFaction; }
+                else { faction = Service.Faction.GetTitanity(); }
+            }
+            spawner ??= (RespawnSpawner as TitanSpawner ?? GetRandom<TitanSpawner>());
 
-            Service.Player.Self = playerTitan;
+            PlayerTitan playerTitan;
+
+            if (spawner != null)
+            {
+                var spawnTransform = spawner.gameObject.transform;
+                playerTitan = PhotonNetwork.Instantiate("PlayerTitan", spawnTransform.position, spawnTransform.rotation, 0).GetComponent<PlayerTitan>();
+            }
+            else
+            {
+                //legacy spawning system
+                var spawnLocations = GameObject.FindGameObjectsWithTag("titanRespawn");
+                if (spawnLocations.Count() == 0)
+                {
+                    Debug.LogError("No valid spawn locations are available.");
+                    return null;
+                }
+                var spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Count())];
+                var spawnTransform = spawnLocation.gameObject.transform;
+                playerTitan = PhotonNetwork.Instantiate("PlayerTitan", spawnTransform.position, spawnTransform.rotation, 0).GetComponent<PlayerTitan>();
+            }
+            titanConfiguration ??= (LastUsedTitanConfiguration ?? Gamemode.GetPlayerTitanConfiguration());
+            playerTitan.Initialize(titanConfiguration);
 
             ExitGames.Client.Photon.Hashtable hashtable = new ExitGames.Client.Photon.Hashtable();
             hashtable.Add("dead", false);
@@ -274,7 +297,13 @@ namespace Assets.Scripts.Services
             propertiesToSet = hashtable;
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
 
+            Service.Player.Self = playerTitan;
+            Service.Player.SetFaction(faction);
             OnPlayerSpawn?.Invoke(playerTitan);
+
+            RespawnSpawner = spawner;
+            LastUsedFaction = faction;
+            LastUsedTitanConfiguration = titanConfiguration;
             return playerTitan;
         }
 
@@ -344,17 +373,26 @@ namespace Assets.Scripts.Services
                 }
             }
         }
+        public bool IsRespawning()
+        {
+            return isRespawning;
+        }
+        private bool isRespawning = false;
         public IEnumerator WaitAndRespawn(float time)
         {
             Debug.Log("WaitAndRespawn called");
+            isRespawning = true;
             yield return new WaitForSeconds(time);
             Debug.Log("WaitAndRespawn called SpawnPlayer()");
             SpawnPlayer();
+            isRespawning = false;
         }
         public IEnumerator WaitAndRespawnAt(float time, Spawner spawner)
         {
+            isRespawning = true;
             yield return new WaitForSeconds(time);
             SpawnPlayer(spawner as HumanSpawner);
+            isRespawning = false;
         }
         public void NOTSpawnPlayer(string id = "2")
         {
@@ -379,6 +417,7 @@ namespace Assets.Scripts.Services
         private void Awake()
         {
             OnPlayerDespawn += SpawnService_OnPlayerDespawn;
+            isRespawning = false;
         }
         private void OnDestroy()
         {

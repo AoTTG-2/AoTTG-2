@@ -119,6 +119,7 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="player"></param>
         void Respawn(PhotonPlayer player);
         void RespawnRpc(PhotonMessageInfo info);
+        bool IsRespawning();
         IEnumerator WaitAndRespawn(float time);
 
         IEnumerator WaitAndRespawnAt(float time, Spawner spawner);

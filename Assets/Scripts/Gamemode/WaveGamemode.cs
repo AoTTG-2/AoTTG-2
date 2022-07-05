@@ -70,7 +70,11 @@ namespace Assets.Scripts.Gamemode
                         PhotonView photonView = Service.Photon.GetPhotonView();
                         if (photonView == null)
                         { Debug.LogError("Null photon view"); }
-                        photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
+                        if (RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
+                        {
+                            photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
+                        }
+                        
                     }
                 }
             }
