@@ -1,7 +1,4 @@
-using Assets.Scripts.Characters;
 using Assets.Scripts.Characters.Humans;
-using Assets.Scripts.Characters.Humans.Customization;
-using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Gamemode;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Legacy.CustomMap;
@@ -12,7 +9,6 @@ using Assets.Scripts.Services.Interface;
 using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI;
-using Assets.Scripts.UI.Camera;
 using Assets.Scripts.UI.InGame;
 using Assets.Scripts.UI.InGame.HUD;
 using Assets.Scripts.Utility;
@@ -88,8 +84,6 @@ namespace Assets.Scripts
         public static bool masterRC;
         [Obsolete("Migrate this to HERO.cs, as FengGameManager does not need to know how fast a player is going. Hero.cs can then have a method named 'Speed' which returns the current speed")]
         private float maxSpeed;
-        [Obsolete("Seems to be used to determine whether a player is a human or titan.")]
-        private string myLastHero;
         [Obsolete("Use Service.Player.Faction instead. Service.Player.Faction == null is equivalent to needChooseSide == true and Service.Player.Faction != null is equivalent to needChooseSide == false")]
         public bool needChooseSide;
         [Obsolete("A bool used to prevent restarting when true, yet this is never true. Refactor this in the future so it does have a purpose")]
@@ -105,10 +99,6 @@ namespace Assets.Scripts
         public Dictionary<string, int[]> PreservedPlayerKDR;
         [Obsolete("A value is never assigned")]
         public static string PrivateServerAuthPass;
-        [Obsolete("Use RacingGamemode instead")]
-        public Vector3 racingSpawnPoint;
-        [Obsolete("Use RacingGamemode instead")]
-        public bool racingSpawnPointSet;
         [Obsolete("This is only used for the obsolete MasterRC field")]
         public List<float> restartCount;
         public bool restartingMC;
@@ -513,11 +503,6 @@ namespace Assets.Scripts
             PVPcheckPoint.chkPts = new ArrayList();
             Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().enabled = false;
             Camera.main.GetComponent<CameraShake>().enabled = false;
-            if (this.needChooseSide)
-            {
-                //TODO: Show ChooseSide Message
-                //this.ShowHUDInfoTopCenterADD("\n\nPRESS 1 TO ENTER GAME");
-            }
 
             if (SpectatorMode.IsEnable())
             {
@@ -1470,8 +1455,6 @@ namespace Assets.Scripts
                     base.photonView.RPC(nameof(setMasterRC), PhotonTargets.All, new object[0]);
                 }
                 logicLoaded = true;
-                this.racingSpawnPoint = new Vector3(0f, 0f, 0f);
-                this.racingSpawnPointSet = false;
                 this.allowedToCannon = new Dictionary<int, CannonValues>();
                 //if ((!Level.Name.StartsWith("Custom") && (((int)settings[2]) == 1)) && ((IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.SINGLE) || PhotonNetwork.isMasterClient))
                 //{

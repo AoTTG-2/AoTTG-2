@@ -175,7 +175,6 @@ namespace Assets.Scripts.Characters.Titan
 
             if (this == Service.Player.Self)
             {
-                Debug.Log("Player titan killed");
                 Service.Spawn.InvokeOnPlayerDespawn(this);
             }
         }

@@ -1326,7 +1326,6 @@ namespace Assets.Scripts.Characters.Humans
         {
             if (this == Service.Player.Self)
             {
-                Debug.Log("Human player killed");
                 Service.Spawn.InvokeOnPlayerDespawn(this);
             }
             base.OnDestroy();

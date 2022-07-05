@@ -39,18 +39,13 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
-    HumanSpawner humanSpawner;
-    TitanSpawner titanSpawner;
+    [SerializeField] HumanSpawner humanSpawner;
+    [SerializeField] TitanSpawner titanSpawner;
     private CaptureGamemode gamemode { get; set; }
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
     public void Awake()
     {
-        gameObject.AddComponent<HumanSpawner>();
-        gameObject.AddComponent<TitanSpawner>();
-        humanSpawner = gameObject.GetComponent<HumanSpawner>();
-        titanSpawner = gameObject.GetComponent<TitanSpawner>();
-
         //Spawners automatically register themselves with spawn service when they are created, but we only want a spawner to be active if it is captured.
         Service.Spawn.Remove(humanSpawner);
         Service.Spawn.Remove(titanSpawner);

@@ -68,8 +68,6 @@ namespace Assets.Scripts.Gamemode
                     if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
                     {
                         PhotonView photonView = Service.Photon.GetPhotonView();
-                        if (photonView == null)
-                        { Debug.LogError("Null photon view"); }
                         if (RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
                         {
                             photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);

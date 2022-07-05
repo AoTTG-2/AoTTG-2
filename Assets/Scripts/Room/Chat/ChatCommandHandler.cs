@@ -180,8 +180,6 @@ public static class ChatCommandHandler
             if ((player.CustomProperties[PhotonPlayerProperty.dead] != null) && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]) && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
             {
                 PhotonView photonView = Service.Photon.GetPhotonView();
-                if (photonView == null)
-                { Debug.LogError("null photon view"); }
                 photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
             }
         }

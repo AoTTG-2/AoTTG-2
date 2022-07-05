@@ -78,12 +78,10 @@ namespace Assets.Scripts.Gamemode
 
             if (Service.Player.Faction != null)
             {
-                Debug.Log("Faction != null, so respawn is called");
                 Service.Spawn.SpawnPlayer();
             }
             else
             {
-                Debug.Log("Faction == null, so ShowSpawnMenu() is called.");
                 Service.Ui.ShowSpawnMenu();
             }
         }
@@ -159,7 +157,6 @@ namespace Assets.Scripts.Gamemode
         {
             if (Settings.Respawn.Mode == RespawnMode.Endless)
             {
-                Debug.Log("Player despawned");
                 Coroutines.Add(StartCoroutine(Service.Spawn.WaitAndRespawn(Settings.Respawn.ReviveTime.Value)));
                 Coroutines.Add(StartCoroutine(RespawnCountdown()));
             }

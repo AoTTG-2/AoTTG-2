@@ -189,11 +189,10 @@ namespace Assets.Scripts.Services
                 { faction = LastUsedFaction; }
                 else { faction = Service.Faction.GetHumanity(); }
             }
-            //spawnLocation = spawner.transform ?? (RespawnSpawner.transform ?? GetRandom<HumanSpawner>().transform);
             Hero hero;
 
             //If a spawner isn't given, first it tries to spawn at the last used spawner (RespawnSpawner)
-            //If RespawnSpawner is null, then it tries a random spawner. If that is null, then it tries using the tags.
+            //If RespawnSpawner is null, then it tries a random spawner. If that is null, then it tries using the legacy tag system.
             spawner ??= (RespawnSpawner as HumanSpawner ?? GetRandom<HumanSpawner>());
 
             if (spawner != null)
@@ -360,10 +359,8 @@ namespace Assets.Scripts.Services
         private bool isRespawning = false;
         public IEnumerator WaitAndRespawn(float time)
         {
-            Debug.Log("WaitAndRespawn called");
             isRespawning = true;
             yield return new WaitForSeconds(time);
-            Debug.Log("WaitAndRespawn called SpawnPlayer()");
             SpawnPlayer();
             isRespawning = false;
         }
