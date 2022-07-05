@@ -146,7 +146,7 @@ namespace Assets.Scripts.Services
         /// <summary>
         /// Last CharacterPreset used by the player.
         /// </summary>
-        private CharacterPreset LastUsedPreset { get; set; }
+        public CharacterPreset LastUsedPreset { get; set; }
 
         /// <summary>
         /// Last used titan configuration used by the player.
@@ -180,7 +180,8 @@ namespace Assets.Scripts.Services
         {
             if (Service.Player.Self != null)
             {
-                Service.Entity.UnRegister(Service.Player.Self);
+                //despawns the current character before spawning a new one.
+                GameObject.Destroy(Service.Player.Self.gameObject);
             }
             if (faction == null)
             {
@@ -193,26 +194,6 @@ namespace Assets.Scripts.Services
 
             //If a spawner isn't given, first it tries to spawn at the last used spawner (RespawnSpawner)
             //If RespawnSpawner is null, then it tries a random spawner. If that is null, then it tries using the tags.
-            /*if (spawner == null)
-            {
-                //Checks if a RespawnSpawner is not null (previous spawn location)
-                if (RespawnSpawner != null)
-                { spawner = RespawnSpawner as HumanSpawner; }
-
-                //Selects a random spawner if no previous spawner exists.
-                else if ((spawner = GetRandom<HumanSpawner>()) == null)
-                {
-                    //If there are no spawners, this code tries to use the legacy spawning system.
-                    var spawnLocations = GameObject.FindGameObjectsWithTag("playerRespawn");
-                    if (spawnLocations.Count() == 0)
-                    {
-                        Debug.LogError("No valid spawn locations are available.");
-                        return null;
-                    }
-                    var spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Count())];
-                    hero = SpawnHero("Hero", spawnLocation.transform.position, spawnLocation.transform.rotation, preset);
-                }
-            }*/
             spawner ??= (RespawnSpawner as HumanSpawner ?? GetRandom<HumanSpawner>());
 
             if (spawner != null)
@@ -231,7 +212,6 @@ namespace Assets.Scripts.Services
                 var spawnLocation = spawnLocations[Random.Range(0, spawnLocations.Count())];
                 hero = SpawnHero("Hero", spawnLocation.transform.position, spawnLocation.transform.rotation, preset);
             }
-
             Service.Player.Self = hero;
             Service.Player.SetFaction(faction);
             OnPlayerSpawn?.Invoke(hero);
@@ -255,7 +235,7 @@ namespace Assets.Scripts.Services
             if (Service.Player.Self != null)
             {
                 //Despawns the current player before spawning a new one.
-                Service.Entity.UnRegister(Service.Player.Self);
+                GameObject.Destroy(Service.Player.Self.gameObject);
             }
             if (faction == null)
             {
@@ -410,6 +390,10 @@ namespace Assets.Scripts.Services
             GameObject.Find("MainCamera").GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
         }
 
+        private void SpawnService_OnLevelLoaded(int scene, Level level)
+        {
+            isRespawning = false;
+        }
         private void LateUpdate()
         {
 
@@ -417,7 +401,7 @@ namespace Assets.Scripts.Services
         private void Awake()
         {
             OnPlayerDespawn += SpawnService_OnPlayerDespawn;
-            isRespawning = false;
+            Service.Level.OnLevelLoaded += SpawnService_OnLevelLoaded;
         }
         private void OnDestroy()
         {

@@ -104,7 +104,7 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         /// <returns></returns>
         Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null);
-
+        CharacterPreset LastUsedPreset { get; set; }
         void InvokeOnPlayerDespawn(Entity entity);
 
         /// <summary>
@@ -112,7 +112,6 @@ namespace Assets.Scripts.Services.Interface
         /// Unless otherwise set, this will be the last used spawn point by the player.
         /// </summary>
         Spawner RespawnSpawner { get; set; }
-
         /// <summary>
         /// Will remove the previous player character (if applicable) and respawn the player using the last used configuration (spawner, preset, etc).
         /// </summary>

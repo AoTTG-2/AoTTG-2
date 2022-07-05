@@ -146,14 +146,6 @@ namespace Assets.Scripts
         /// </summary>
         public static GamemodeSettings NewRoundGamemode { get; set; }
 
-        /// <summary>
-        /// We store this in a variable to make sure the Coroutine is killed if the game 
-        /// is restarted, making it so player can't be duplicated.
-        /// 
-        /// <para>This should be moved if respawn is moved to Spawn/Player Service.</para>
-        /// </summary>
-        private Coroutine respawnCoroutine;
-
         #region PUN Events
         public override void OnConnectedToMaster()
         {
@@ -864,28 +856,6 @@ namespace Assets.Scripts
                 {
                     this.coreadd();
                     Service.Ui.SetMessage(LabelPosition.TopLeft, playerList);
-                    if ((((Camera.main != null) && (GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)) &&
-                         (Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver && !this.needChooseSide)) &&
-                        SpectatorMode.IsDisable())
-                    {
-                        if (GameSettings.Respawn.Mode == RespawnMode.Endless ||
-                            !(((GameSettings.PvP.Bomb.Value) || (GameSettings.PvP.Mode != PvpMode.Disabled))
-                                ? (GameSettings.Gamemode.PointMode <= 0)
-                                : true))
-                        {
-                            int endlessMode = 5;
-                            if (RCextensions.returnIntFromObject(
-                                    PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                            {
-                                endlessMode = 10;
-                            }
-
-                            if (GameSettings.Respawn.Mode == RespawnMode.Endless)
-                            {
-                                endlessMode = GameSettings.Respawn.ReviveTime.Value;
-                            }
-                        }
-                    }
                 }
 
                 //TODO: Move into Gamemode
@@ -2174,7 +2144,6 @@ namespace Assets.Scripts
                 currentLevel = string.Empty;
                 propertiesToSet.Add(PhotonPlayerProperty.currentLevel, string.Empty);
                 this.levelCache = new List<string[]>();
-                //Service.Spawn.RemoveAllSpawners();
                 currentScriptLogic = string.Empty;
                 propertiesToSet.Add(PhotonPlayerProperty.statACL, 100);
                 propertiesToSet.Add(PhotonPlayerProperty.statBLA, 100);
@@ -2999,20 +2968,6 @@ namespace Assets.Scripts
             yield return new WaitForSeconds(10f);
             this.restartingMC = false;
         }
-
-        /*[Obsolete("Migrate into a SpawnService")] TODO 301
-        public IEnumerator WaitAndRespawn1(float time, string str)
-        {
-            yield return new WaitForSeconds(time);
-            this.SpawnPlayer(this.myLastHero, str);
-        }
-
-        [Obsolete("Migrate into a SpawnService")]
-        public IEnumerator WaitAndRespawn2(float time, GameObject pos)
-        {
-            yield return new WaitForSeconds(time);
-            this.SpawnPlayerAt2(this.myLastHero, pos);
-        }*/
         #endregion
 
     }

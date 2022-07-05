@@ -685,8 +685,10 @@ public class IN_GAME_MAIN_CAMERA : MonoBehaviour
 
     public static void ToggleSpawnMenu()
     {
-        var spawnMenu = FengGameManagerMKII.instance.InGameUI.SpawnMenu.gameObject;
-        spawnMenu.SetActive(!spawnMenu.activeSelf);
+        if (Service.Ui.GetUiHandler().InGameUi.SpawnMenu.gameObject.activeSelf)
+            { Service.Ui.HideSpawnMenu(); }
+        else
+            { Service.Ui.ShowSpawnMenu(); }
     }
 
     private void DoCameraMovement()

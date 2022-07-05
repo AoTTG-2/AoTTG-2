@@ -87,14 +87,11 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 this.playerOn = true;
                 if ((this.state == CheckPointState.Human))
                 {
-                    Debug.Log("Standing in a human capture point");
-                    if (Service.Spawn.RespawnSpawner != humanSpawner)
+                    PhotonView photonView = objArray[num].GetPhotonView();
+                    if (photonView.owner != null && GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value)
                     {
-                        Debug.Log("Set this capture point as the respawn");
-                        Service.Spawn.RespawnSpawner = humanSpawner;
-                        Service.Message.Local("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>", Assets.Scripts.UI.DebugLevel.Info);
+                        this.photonView.RPC(nameof(SetHumanPlayerRespawn), photonView.owner, humanSpawner);
                     }
-                    break;
                 }
             }
         }
@@ -105,17 +102,28 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 this.titanOn = true;
                 if (((this.state == CheckPointState.Titan)) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
                 {
-                    if (Service.Spawn.RespawnSpawner != titanSpawner)
+                    PhotonView photonView = objArray2[num].GetPhotonView();
+                    if (photonView.owner != null && GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value)
                     {
-                        Service.Spawn.RespawnSpawner = titanSpawner;
-                        Service.Message.Local("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>", Assets.Scripts.UI.DebugLevel.Info);
+                        this.photonView.RPC(nameof(SetTitanPlayerRespawn), photonView.owner, titanSpawner);
                     }
-                    break;
                 }
             }
         }
     }
-
+    /// <summary>
+    /// Sets the player's respawn location at this capture point.
+    /// </summary>
+    [PunRPC]
+    private void SetHumanPlayerRespawn(HumanSpawner spawner)
+    {
+        Service.Spawn.RespawnSpawner = spawner;
+    }
+    [PunRPC]
+    private void SetTitanPlayerRespawn(TitanSpawner spawner)
+    {
+        Service.Spawn.RespawnSpawner = spawner;
+    }
     private bool checkIfHumanWins()
     {
         for (int i = 0; i < chkPts.Count; i++)

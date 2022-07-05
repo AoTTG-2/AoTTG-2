@@ -87,7 +87,10 @@ namespace Assets.Scripts.UI.InGame
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
 
             if (Service.Spawn.IsRespawning())
-            { Service.Message.Local("<color=#FFCC00>You will respawn with the chosen preset..</color>", UI.DebugLevel.Default); }
+            {
+                Service.Message.Local("<color=#FFCC00>You will respawn with the chosen preset..</color>", UI.DebugLevel.Default);
+                Service.Spawn.LastUsedPreset = selectedPreset;
+            }
             else
             { Service.Spawn.SpawnPlayer(null, selectedPreset); }
 
