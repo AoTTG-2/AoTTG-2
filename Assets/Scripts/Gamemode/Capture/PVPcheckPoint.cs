@@ -212,10 +212,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 }
             }
         }
-        if (Service.Spawn.RespawnSpawner == humanSpawner)
-        {
-            Service.Spawn.RespawnSpawner = null;
-        }
+        
     }
 
     private void newTitan()
@@ -231,7 +228,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         }
         else
         {
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
             return;
         }
         SetPreviousCheckpoints();
@@ -344,10 +341,6 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                     base.photonView.RPC(nameof(changeState), PhotonTargets.All, parameters);
                 }
             }
-        }
-        if (Service.Spawn.RespawnSpawner == titanSpawner)
-        {
-            Service.Spawn.RespawnSpawner = null;
         }
     }
 

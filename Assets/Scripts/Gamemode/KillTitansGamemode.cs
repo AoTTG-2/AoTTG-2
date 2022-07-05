@@ -28,7 +28,9 @@ namespace Assets.Scripts.Gamemode
             }
 
             photonView.RPC(nameof(OnGameEndRpc), PhotonTargets.All, $"{winner} has won!\nRestarting in {{0}}s", HumanScore, TitanScore);
-            Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true;
+            if (Camera.main != null)
+            { Camera.main.GetComponent<IN_GAME_MAIN_CAMERA>().gameOver = true; }
+            
         }
 
         protected override void Level_OnLevelLoaded(int scene, Level level)
