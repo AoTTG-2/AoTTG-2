@@ -327,6 +327,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Reel MnK"",
+                    ""type"": ""Value"",
+                    ""id"": ""25ac873f-4bcc-4699-a8df-01a7e58ad379"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Reel In"",
                     ""type"": ""Button"",
                     ""id"": ""4ed94db8-e47c-4bfa-99b9-f7d4311d1df4"",
@@ -646,34 +654,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""885cbfdf-fb61-4af7-a9d2-1750a01cb70f"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Reel In"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""2634e3e0-57da-4ffe-8975-04c1cc795392"",
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": ""AxisDeadzone(min=0.5)"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Reel In"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ae15b40-134c-41e5-8854-3db090aa6851"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Reel Out"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -918,6 +904,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Gas Burst Double Tap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29cb5e46-9c9f-4cdd-abce-903cfeecfcd5"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reel MnK"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1405,6 +1402,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Human_Dodge = m_Human.FindAction("Dodge", throwIfNotFound: true);
         m_Human_Salute = m_Human.FindAction("Salute", throwIfNotFound: true);
         m_Human_Reload = m_Human.FindAction("Reload", throwIfNotFound: true);
+        m_Human_ReelMnK = m_Human.FindAction("Reel MnK", throwIfNotFound: true);
         m_Human_ReelIn = m_Human.FindAction("Reel In", throwIfNotFound: true);
         m_Human_ReelOut = m_Human.FindAction("Reel Out", throwIfNotFound: true);
         m_Human_Attack = m_Human.FindAction("Attack", throwIfNotFound: true);
@@ -1563,6 +1561,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Human_Dodge;
     private readonly InputAction m_Human_Salute;
     private readonly InputAction m_Human_Reload;
+    private readonly InputAction m_Human_ReelMnK;
     private readonly InputAction m_Human_ReelIn;
     private readonly InputAction m_Human_ReelOut;
     private readonly InputAction m_Human_Attack;
@@ -1586,6 +1585,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Dodge => m_Wrapper.m_Human_Dodge;
         public InputAction @Salute => m_Wrapper.m_Human_Salute;
         public InputAction @Reload => m_Wrapper.m_Human_Reload;
+        public InputAction @ReelMnK => m_Wrapper.m_Human_ReelMnK;
         public InputAction @ReelIn => m_Wrapper.m_Human_ReelIn;
         public InputAction @ReelOut => m_Wrapper.m_Human_ReelOut;
         public InputAction @Attack => m_Wrapper.m_Human_Attack;
@@ -1628,6 +1628,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnReload;
+                @ReelMnK.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelMnK;
+                @ReelMnK.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelMnK;
+                @ReelMnK.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelMnK;
                 @ReelIn.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelIn;
                 @ReelIn.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelIn;
                 @ReelIn.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnReelIn;
@@ -1689,6 +1692,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @ReelMnK.started += instance.OnReelMnK;
+                @ReelMnK.performed += instance.OnReelMnK;
+                @ReelMnK.canceled += instance.OnReelMnK;
                 @ReelIn.started += instance.OnReelIn;
                 @ReelIn.performed += instance.OnReelIn;
                 @ReelIn.canceled += instance.OnReelIn;
@@ -1974,6 +1980,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnSalute(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnReelMnK(InputAction.CallbackContext context);
         void OnReelIn(InputAction.CallbackContext context);
         void OnReelOut(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

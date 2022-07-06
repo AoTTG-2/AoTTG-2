@@ -314,6 +314,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Reel MnK",
+                    "type": "Value",
+                    "id": "25ac873f-4bcc-4699-a8df-01a7e58ad379",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Reel In",
                     "type": "Button",
                     "id": "4ed94db8-e47c-4bfa-99b9-f7d4311d1df4",
@@ -633,34 +641,12 @@
                 },
                 {
                     "name": "",
-                    "id": "885cbfdf-fb61-4af7-a9d2-1750a01cb70f",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Reel In",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2634e3e0-57da-4ffe-8975-04c1cc795392",
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "AxisDeadzone(min=0.5)",
                     "groups": "Gamepad",
                     "action": "Reel In",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3ae15b40-134c-41e5-8854-3db090aa6851",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Reel Out",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -905,6 +891,17 @@
                     "action": "Gas Burst Double Tap",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "29cb5e46-9c9f-4cdd-abce-903cfeecfcd5",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Reel MnK",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

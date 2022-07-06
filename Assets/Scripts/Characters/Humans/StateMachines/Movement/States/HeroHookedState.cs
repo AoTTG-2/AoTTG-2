@@ -8,15 +8,29 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
 {
     public class HeroHookedState : HeroMovementState
     {
-        private float launchElapsedTimeL;
-        private float launchElapsedTimeR;
+        private float launchElapsedTimeL = 0;
+        private float launchElapsedTimeR = 0;
         private bool canUseGas = false;
         private bool canReelOffLeftHook = false;
         private bool canReelOffRightHook = false;
+        private float reelInputDirection;
         public HeroHookedState(HeroMovementStateMachine heroMovementStateMachine) : base(heroMovementStateMachine)
         {
         }
         #region IState Methods
+        protected override void AddInputActionsCallbacks()
+        {
+            base.AddInputActionsCallbacks();
+            stateMachine.Hero.HumanInput.HumanActions.ReelMnK.started += OnReelPressed;
+            stateMachine.Hero.HumanInput.HumanActions.ReelMnK.canceled += OnReelPressed;
+        }
+
+        protected override void RemoveInputActionsCallbacks()
+        {
+            base.RemoveInputActionsCallbacks();
+            stateMachine.Hero.HumanInput.HumanActions.ReelMnK.started -= OnReelPressed;
+            stateMachine.Hero.HumanInput.HumanActions.ReelMnK.canceled -= OnReelPressed;
+        }
         public override void PhysicsUpdate()
         {
             PullTowardsHook();
@@ -28,7 +42,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
                 UseGas(stateMachine.ReusableData.UseGasSpeed * Time.deltaTime);
                 stateMachine.Hero.EmitSmoke(true);
             }
-            else if(stateMachine.ReusableData.IsHooked && (!stateMachine.ReusableData.JumpHeld || stateMachine.ReusableData.CurrentGas <= 0))
+            else if (stateMachine.ReusableData.IsHooked && (!stateMachine.ReusableData.JumpHeld || stateMachine.ReusableData.CurrentGas <= 0))
             {
                 stateMachine.Hero.EmitSmoke(false);
             }
@@ -44,7 +58,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
                 }
                 return;
             }
-            else if(stateMachine.ReusableData.IsGrounded && !stateMachine.ReusableData.IsHooked)
+            else if (stateMachine.ReusableData.IsGrounded && !stateMachine.ReusableData.IsHooked)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
                 return;
@@ -74,14 +88,14 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
                 facingDirection = -874f;
             }
 
-            if(facingDirection != -874f)
+            if (facingDirection != -874f)
             {
                 targetRotation = Quaternion.Euler(0f, facingDirection, 0f);
             }
 
-            if(!canReelOffLeftHook && !canReelOffRightHook && stateMachine.ReusableData.CurrentGas > 0 && stateMachine.ReusableData.JumpHeld)
+            if (!canReelOffLeftHook && !canReelOffRightHook && stateMachine.ReusableData.CurrentGas > 0 && stateMachine.ReusableData.JumpHeld)
             {
-                if(movementInput != Vector3.zero)
+                if (movementInput != Vector3.zero)
                 {
                     stateMachine.Hero.Rigidbody.AddForce(facingVector, ForceMode.Acceleration);
                 }
@@ -127,6 +141,7 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
             {
                 if (stateMachine.ReusableData.LeftHook != null)
                 {
+                    canReelOffLeftHook = false;
                     stateMachine.ReusableData.LeftHook.disable();
                     stateMachine.ReusableData.LeftHook = null;
                 }
@@ -167,9 +182,50 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
             {
                 if (stateMachine.ReusableData.RightHook != null)
                 {
+                    canReelOffRightHook = false;
                     stateMachine.ReusableData.RightHook.disable();
                     stateMachine.ReusableData.RightHook = null;
                 }
+            }
+        }
+        private void Reel()
+        {
+            float speed = stateMachine.Hero.Rigidbody.velocity.magnitude + 0.1f;
+            if (canReelOffLeftHook && canReelOffRightHook)
+            {
+                Vector3 reelDirection = ((stateMachine.ReusableData.RightHook.transform.position +
+                    stateMachine.ReusableData.LeftHook.transform.position) * 0.5f) -
+                    stateMachine.Hero.transform.position;
+                reelInputDirection++;
+
+                Vector3 rotationVector = Vector3.RotateTowards(reelDirection,
+                    stateMachine.Hero.Rigidbody.velocity, 1.53938f * reelInputDirection, 1.53938f * reelInputDirection);
+                rotationVector.Normalize();
+                
+                stateMachine.Hero.spinning = true;
+                stateMachine.Hero.Rigidbody.velocity = rotationVector * speed;
+            }
+            else if (canReelOffLeftHook)
+            {
+                Vector3 reelDirection = stateMachine.ReusableData.LeftHook.transform.position - stateMachine.Hero.transform.position;
+                reelInputDirection++;
+                Vector3 rotationVector = Vector3.RotateTowards(reelDirection,
+                    stateMachine.Hero.Rigidbody.velocity, 1.53938f * reelInputDirection, 1.53938f * reelInputDirection);
+                rotationVector.Normalize();
+
+                stateMachine.Hero.spinning = true;
+                stateMachine.Hero.Rigidbody.velocity = rotationVector * speed;
+            }
+            else if (canReelOffRightHook)
+            {
+                Vector3 reelDirection = stateMachine.ReusableData.RightHook.transform.position - stateMachine.Hero.transform.position;
+                reelInputDirection++;
+                Vector3 rotationVector = Vector3.RotateTowards(reelDirection,
+                    stateMachine.Hero.Rigidbody.velocity, 1.53938f * reelInputDirection, 1.53938f * reelInputDirection);
+                rotationVector.Normalize();
+
+                stateMachine.Hero.spinning = true;
+                stateMachine.Hero.Rigidbody.velocity = rotationVector * speed;
             }
         }
         private void PullTowardsHook()
@@ -177,6 +233,13 @@ namespace Assets.Scripts.Characters.Humans.StateMachines.Movement
             InitialForce();
             LeftHookPull();
             RightHookPull();
+            Reel();
+        }
+        #endregion
+        #region Input Actions
+        private void OnReelPressed(InputAction.CallbackContext context)
+        {
+            reelInputDirection = Mathf.Clamp(context.ReadValue<float>(), -0.8f, 0.8f);
         }
         #endregion
     }
