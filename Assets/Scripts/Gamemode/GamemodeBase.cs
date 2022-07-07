@@ -86,7 +86,7 @@ namespace Assets.Scripts.Gamemode
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             EntityService.OnRegister += OnEntityRegistered;
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Gamemode
         //    StartCoroutine(OnUpdateEveryTenthSecond());
         //}
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             EntityService.OnRegister -= OnEntityRegistered;
             EntityService.OnUnRegister -= OnEntityUnRegistered;

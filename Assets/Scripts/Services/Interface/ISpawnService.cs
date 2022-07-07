@@ -20,6 +20,10 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         event OnPlayerDespawn<Entity> OnPlayerDespawn;
         /// <summary>
+        /// Invoked when a titan is killed by a hit to the nape.
+        /// </summary>
+        event OnTitanKilled<Entity, Entity> OnTitanKilled;
+        /// <summary>
         /// Adds a new spawner
         /// </summary>
         /// <param name="spawner"></param>
@@ -105,7 +109,15 @@ namespace Assets.Scripts.Services.Interface
         /// <returns></returns>
         Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null);
         CharacterPreset LastUsedPreset { get; set; }
+        /// <summary>
+        /// Invokes OnPlayerDespawn event.
+        /// </summary>
+        /// <param name="entity"></param>
         void InvokeOnPlayerDespawn(Entity entity);
+        /// <summary>
+        /// Invokes OnTitanKilled event.
+        /// </summary>
+        void InvokeOnTitanKilled(Entity human, Entity killedTitan, int damage);
 
         /// <summary>
         /// This is the spawner that the player will respawn at.

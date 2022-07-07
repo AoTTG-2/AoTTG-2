@@ -48,7 +48,12 @@ namespace Assets.Scripts.Gamemode
             {
                 RoundFinish("FAILED");
             }
-            else if (faction == FactionService.GetTitanity())
+        }
+        private void WaveGamemode_OnTitanKilled<T1, T2>(T1 entity1, T2 entity2, int damage) where T1 : Entity where T2 : Entity
+        {
+            //This is effectively the same as OnFactionDefeated for Titanity, except it ensures that the player actually killed the last titan.
+            //Otherwise OnFactionDefeated is triggered when Unity despawns the last titan, causing NextWave() to trigger as the level is loaded.
+            if (Service.Faction.CountMembers(Service.Faction.GetTitanity()) == 0)
             {
                 NextWave();
             }
@@ -89,7 +94,7 @@ namespace Assets.Scripts.Gamemode
                 }
                 else
                 {
-                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value));
+                    SpawnTitans(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value, GetWaveTitanConfiguration);
                 }
             }
         }
@@ -104,7 +109,8 @@ namespace Assets.Scripts.Gamemode
             }
             else
             {
-                StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
+                Wave = Settings.StartWave.Value;
+                SpawnTitans(GameSettings.Titan.Start.Value, GetWaveTitanConfiguration);
             }
         }
 
@@ -152,6 +158,17 @@ namespace Assets.Scripts.Gamemode
                     GetWaveTitanConfiguration(Settings.BossType.Value));
                 yield return new WaitForEndOfFrame();
             }
+        }
+        protected override void Awake()
+        {
+            base.Awake();
+            Service.Spawn.OnTitanKilled += WaveGamemode_OnTitanKilled;
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            StopAllCoroutines();
+            Service.Spawn.OnTitanKilled -= WaveGamemode_OnTitanKilled;
         }
     }
 }
