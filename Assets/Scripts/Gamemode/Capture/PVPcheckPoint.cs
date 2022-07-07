@@ -83,9 +83,10 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if ((this.state == CheckPointState.Human))
                 {
                     PhotonView photonView = objArray[num].GetPhotonView();
-                    if (photonView.owner != null && GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value)
+                    if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value
+                        && photonView.isMine)
                     {
-                        this.photonView.RPC(nameof(SetHumanPlayerRespawn), photonView.owner, humanSpawner);
+                        Service.Spawn.RespawnSpawner = humanSpawner;
                     }
                 }
             }
@@ -98,26 +99,14 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 if (((this.state == CheckPointState.Titan)) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
                 {
                     PhotonView photonView = objArray2[num].GetPhotonView();
-                    if (photonView.owner != null && GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value)
+                    if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value
+                        && photonView.isMine)
                     {
-                        this.photonView.RPC(nameof(SetTitanPlayerRespawn), photonView.owner, titanSpawner);
+                        Service.Spawn.RespawnSpawner = titanSpawner;
                     }
                 }
             }
         }
-    }
-    /// <summary>
-    /// Sets the player's respawn location at this capture point.
-    /// </summary>
-    [PunRPC]
-    private void SetHumanPlayerRespawn(HumanSpawner spawner)
-    {
-        Service.Spawn.RespawnSpawner = spawner;
-    }
-    [PunRPC]
-    private void SetTitanPlayerRespawn(TitanSpawner spawner)
-    {
-        Service.Spawn.RespawnSpawner = spawner;
     }
     private bool checkIfHumanWins()
     {
