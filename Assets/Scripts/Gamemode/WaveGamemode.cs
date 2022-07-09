@@ -105,7 +105,8 @@ namespace Assets.Scripts.Gamemode
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
-                PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
+                Transform spawnLocation = GetTitanSpawnLocation();
+                PhotonNetwork.Instantiate("FemaleTitan", spawnLocation.position, spawnLocation.rotation, 0);
             }
             else
             {
@@ -136,24 +137,12 @@ namespace Assets.Scripts.Gamemode
             return configuration;
         }
 
-        private IEnumerator SpawnTitan(int titans)
-        {
-            for (var i = 0; i < titans; i++)
-            {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
-                var randomSpawn = GetSpawnLocation();
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
-                    GetWaveTitanConfiguration());
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
         private IEnumerator SpawnBossTitan(int titans)
         {
             for (var i = 0; i < titans; i++)
             {
                 if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
-                var randomSpawn = GetSpawnLocation();
+                var randomSpawn = GetTitanSpawnLocation();
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration(Settings.BossType.Value));
                 yield return new WaitForEndOfFrame();

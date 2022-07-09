@@ -39,8 +39,9 @@ namespace Assets.Scripts.Gamemode
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
-                var ftSpawn = GameObject.Find("titanRespawn").transform;
+                Transform ftSpawn = GetTitanSpawnLocation();
                 SpawnService.Spawn<FemaleTitan>(ftSpawn.position, ftSpawn.rotation, new TitanConfiguration());
+                
             }
             //TODO: 160 Experimentation
             //else if (GameSettings.Gamemode.Name.Contains("Test") || true)

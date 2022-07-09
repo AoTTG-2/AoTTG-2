@@ -259,17 +259,19 @@ namespace Assets.Scripts.Gamemode
             Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration)));
         }
 
-        protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()
+        protected virtual Transform GetTitanSpawnLocation()
         {
-            //TODO: Remove this once classic maps no longer rely on this.
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
-            if (!spawns.Any())
+            TitanSpawner spawn = Service.Spawn.GetRandom<TitanSpawner>();
+            if (spawn != null)
             {
-                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
-                    .ToList();
+                return spawn.transform;
             }
+            else
+            {
+                var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => x.transform).ToList();
+                return spawns[Random.Range(0, spawns.Count)];
 
-            return spawns.Any() ? spawns[Random.Range(0, spawns.Count)] : Service.Spawn.GetRandomSpawnPosition();
+            }
         }
 
         private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
