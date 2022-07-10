@@ -48,7 +48,12 @@ namespace Assets.Scripts.Gamemode
             {
                 RoundFinish("FAILED");
             }
-            else if (faction == FactionService.GetTitanity())
+        }
+        private void WaveGamemode_OnTitanKilled<T1, T2>(T1 entity1, T2 entity2, int damage) where T1 : Entity where T2 : Entity
+        {
+            //This is effectively the same as OnFactionDefeated for Titanity, except it ensures that the player actually killed the last titan.
+            //Otherwise OnFactionDefeated is triggered when Unity despawns the last titan, causing NextWave() to trigger as the level is loaded.
+            if (Service.Faction.CountMembers(Service.Faction.GetTitanity()) == 0)
             {
                 NextWave();
             }
@@ -63,11 +68,13 @@ namespace Assets.Scripts.Gamemode
 
             if (GameSettings.Respawn.Mode == RespawnMode.NewRound)
             {
+                PhotonView photonView = Service.Photon.GetPhotonView();
                 foreach (var player in PhotonNetwork.playerList)
                 {
-                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
+                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2
+                        && RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
                     {
-                        FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.respawnHeroInNewRound), player);
+                        photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
                     }
                 }
             }
@@ -76,16 +83,13 @@ namespace Assets.Scripts.Gamemode
             {
                 RoundFinish("COMPLETE");
             }
+            else if (Wave % Settings.BossWave.Value == 0)
+            {
+                StartCoroutine(SpawnBossTitan(Wave / Settings.BossWave.Value));
+            }
             else
             {
-                if (Wave % Settings.BossWave.Value == 0)
-                {
-                    StartCoroutine(SpawnBossTitan(Wave / Settings.BossWave.Value));
-                }
-                else
-                {
-                    StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value));
-                }
+                SpawnTitans(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value, GetWaveTitanConfiguration);
             }
         }
 
@@ -95,11 +99,13 @@ namespace Assets.Scripts.Gamemode
             if (!PhotonNetwork.isMasterClient) return;
             if (GameSettings.Gamemode.Name.Contains("Annie"))
             {
-                PhotonNetwork.Instantiate("FemaleTitan", GameObject.Find("titanRespawn").transform.position, GameObject.Find("titanRespawn").transform.rotation, 0);
+                Transform spawnLocation = GetTitanSpawnLocation();
+                PhotonNetwork.Instantiate("FemaleTitan", spawnLocation.position, spawnLocation.rotation, 0);
             }
             else
             {
-                StartCoroutine(SpawnTitan(GameSettings.Titan.Start.Value));
+                Wave = Settings.StartWave.Value;
+                SpawnTitans(GameSettings.Titan.Start.Value, GetWaveTitanConfiguration);
             }
         }
 
@@ -125,28 +131,27 @@ namespace Assets.Scripts.Gamemode
             return configuration;
         }
 
-        private IEnumerator SpawnTitan(int titans)
-        {
-            for (var i = 0; i < titans; i++)
-            {
-                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
-                var randomSpawn = GetSpawnLocation();
-                SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
-                    GetWaveTitanConfiguration());
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
         private IEnumerator SpawnBossTitan(int titans)
         {
             for (var i = 0; i < titans; i++)
             {
                 if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) break;
-                var randomSpawn = GetSpawnLocation();
+                var randomSpawn = GetTitanSpawnLocation();
                 SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation,
                     GetWaveTitanConfiguration(Settings.BossType.Value));
                 yield return new WaitForEndOfFrame();
             }
+        }
+        protected override void Awake()
+        {
+            base.Awake();
+            Service.Spawn.OnTitanKilled += WaveGamemode_OnTitanKilled;
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            StopAllCoroutines();
+            Service.Spawn.OnTitanKilled -= WaveGamemode_OnTitanKilled;
         }
     }
 }

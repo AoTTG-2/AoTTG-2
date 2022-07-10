@@ -2,14 +2,15 @@
 using System;
 using System.Linq;
 using UnityEngine;
-
+using Assets.Scripts.Services;
+using Assets.Scripts.Room;
 namespace Assets.Scripts.Gamemode.Racing
 {
     public class RacingObjective : MonoBehaviour
     {
         private RacingGamemode Gamemode { get; } = FengGameManagerMKII.Gamemode as RacingGamemode;
         public enum ObjectiveState { Queue, Taken, Current, Next }
-
+        [SerializeField] private HumanSpawner spawner;
         private ObjectiveState _state;
         public ObjectiveState State
         {
@@ -83,6 +84,9 @@ namespace Assets.Scripts.Gamemode.Racing
             {
                 Destroy(gameObject.transform.parent.gameObject);
             }
+
+            //spawner has to be removed because it is auto-registered. We don't want the player spawning here until they reach the checkpoint.
+            Service.Spawn.Remove(spawner);
         }
 
         private void OnDestroy()
@@ -119,9 +123,9 @@ namespace Assets.Scripts.Gamemode.Racing
             if (!hero.photonView.isMine) return;
             State = ObjectiveState.Taken;
             Hero = hero;
-	        if (audioSource) audioSource.Play();          
+	        if (audioSource) audioSource.Play();
 
-            FengGameManagerMKII.instance.racingSpawnPoint = gameObject.transform.parent.position;
+            Service.Spawn.RespawnSpawner = spawner; 
             hero.FillGas();
 
             if (NextObjective != null)

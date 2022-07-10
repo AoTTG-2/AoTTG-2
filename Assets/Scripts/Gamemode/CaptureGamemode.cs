@@ -7,6 +7,8 @@ using Assets.Scripts.Settings;
 using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI.InGame.HUD;
 using UnityEngine;
+using System;
+
 
 namespace Assets.Scripts.Gamemode
 {
@@ -124,17 +126,6 @@ namespace Assets.Scripts.Gamemode
         protected override void Level_OnLevelLoaded(int scene, Level level)
         {
             base.Level_OnLevelLoaded(scene, level);
-            if (!FengGameManagerMKII.instance.needChooseSide && (int) FengGameManagerMKII.settings[0xf5] == 0)
-            {
-                if (RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.isTitan]) == 2)
-                {
-                    FengGameManagerMKII.instance.checkpoint = GameObject.Find(TitanStart);
-                }
-                else
-                {
-                    FengGameManagerMKII.instance.checkpoint = GameObject.Find(HumanStart);
-                }
-            }
 
             if (PhotonNetwork.isMasterClient && FengGameManagerMKII.Level.SceneName == "OutSide")
             {
@@ -151,25 +142,27 @@ namespace Assets.Scripts.Gamemode
             }
         }
         
+        [Obsolete("Use Service.Spawn.RespawnSpawner instead")]
         public override GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
-            if (FengGameManagerMKII.instance.checkpoint == null)
+            if (SpawnService.RespawnSpawner == null)
             {
-                FengGameManagerMKII.instance.checkpoint = tag switch
+                var gameObject = tag switch
                 {
                     "playerRespawn" => GameObject.Find("CheckpointStartHuman"),
                     "titanRespawn" => GameObject.Find("CheckpointStartTitan"),
                     _ => null
                 };
+                return gameObject;
             }
-            return FengGameManagerMKII.instance.checkpoint;
+            return SpawnService.RespawnSpawner.gameObject;
         }
 
         protected override void OnEntityRegistered(Entity entity)
         {
             if (entity is Hero)
             {
-                entity.transform.position += new Vector3(Random.Range(-20, 20), 2f, Random.Range(-20, 20));
+                entity.transform.position += new Vector3(UnityEngine.Random.Range(-20, 20), 2f, UnityEngine.Random.Range(-20, 20));
             }
         }
         

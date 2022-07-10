@@ -19,6 +19,10 @@ namespace Assets.Scripts.Settings.Gamemodes
             PvpTitanScoreLimit = 300;
             PvpHumanScoreLimit = 300;
             SpawnSupplyStationOnHumanCapture = true;
+            RespawnAtFriendlyCheckpoints = true;
+            Respawn.Mode = RespawnMode.Endless;
+            Respawn.ReviveTime = 10;
+           
         }
 
         [UiElement("Human Point Limit", "Once this reaches 0, the titans win")]
@@ -29,5 +33,7 @@ namespace Assets.Scripts.Settings.Gamemodes
 
         [UiElement("Supply Station on Capture", "Should Supply stations spawn when a point is captured by humans?")]
         public bool? SpawnSupplyStationOnHumanCapture { get; set; }
+
+        public bool? RespawnAtFriendlyCheckpoints { get; set; }
     }
 }

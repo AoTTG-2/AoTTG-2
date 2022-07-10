@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2087813037}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.0014887067, g: 0.0014715281, b: 0.0014714738, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -333,6 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 32733180}
+  - component: {fileID: 32733181}
   m_Layer: 0
   m_Name: GameObject (16)
   m_TagString: titanRespawn
@@ -354,6 +355,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &32733181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32733179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &33788432
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 33788433}
+  - component: {fileID: 33788434}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: titanRespawn
@@ -384,6 +401,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &33788434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33788432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &62365965
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 84414121}
+  - component: {fileID: 84414122}
   m_Layer: 0
   m_Name: GameObject (21)
   m_TagString: titanRespawn
@@ -654,6 +687,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84414122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84414120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &90729849
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,6 +811,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 101565617}
+  - component: {fileID: 101565618}
   m_Layer: 0
   m_Name: GameObject (13)
   m_TagString: titanRespawn
@@ -784,6 +833,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &101565618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101565616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1001 &117885922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -990,6 +1054,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 130646722}
+  - component: {fileID: 130646723}
   m_Layer: 0
   m_Name: GameObject (25)
   m_TagString: titanRespawn
@@ -1011,6 +1076,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &130646723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130646721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &135927281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,6 +1335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 188758449}
+  - component: {fileID: 188758450}
   m_Layer: 0
   m_Name: GameObject (19)
   m_TagString: titanRespawn
@@ -1276,6 +1357,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &188758450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188758448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &192884656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,6 +1481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 200561613}
+  - component: {fileID: 200561614}
   m_Layer: 0
   m_Name: GameObject (15)
   m_TagString: titanRespawn
@@ -1406,6 +1503,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &200561614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200561612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &200872815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,6 +1827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 209725543}
+  - component: {fileID: 209725544}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: titanRespawn
@@ -1736,6 +1849,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &209725544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209725542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &225374104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2421,6 +2549,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 341762803}
+  - component: {fileID: 341762804}
   m_Layer: 0
   m_Name: GameObject (20)
   m_TagString: titanRespawn
@@ -2442,6 +2571,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &341762804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341762802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &358883549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2943,6 +3087,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 469833288}
+  - component: {fileID: 469833289}
   m_Layer: 0
   m_Name: GameObject (14)
   m_TagString: titanRespawn
@@ -2964,6 +3109,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &469833289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469833287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1001 &501976645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5504,6 +5664,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 669083435}
+  - component: {fileID: 669083436}
   m_Layer: 0
   m_Name: GameObject (18)
   m_TagString: titanRespawn
@@ -5525,6 +5686,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &669083436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669083434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &687603951
 GameObject:
   m_ObjectHideFlags: 0
@@ -5778,6 +5954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717194966}
+  - component: {fileID: 717194967}
   m_Layer: 0
   m_Name: GameObject (4)
   m_TagString: titanRespawn
@@ -5799,6 +5976,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &717194967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717194965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &735657775
 GameObject:
   m_ObjectHideFlags: 0
@@ -5808,6 +6000,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 735657776}
+  - component: {fileID: 735657777}
   m_Layer: 0
   m_Name: GameObject (8)
   m_TagString: titanRespawn
@@ -5829,6 +6022,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735657777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735657775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &751208723
 GameObject:
   m_ObjectHideFlags: 0
@@ -6289,6 +6497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 822464658}
+  - component: {fileID: 822464659}
   m_Layer: 0
   m_Name: GameObject (23)
   m_TagString: titanRespawn
@@ -6310,6 +6519,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822464659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822464657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &831983060
 GameObject:
   m_ObjectHideFlags: 0
@@ -6875,6 +7099,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 971376963}
+  - component: {fileID: 971376964}
   m_Layer: 0
   m_Name: GameObject (9)
   m_TagString: titanRespawn
@@ -6896,6 +7121,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971376964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971376962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &977890483
 GameObject:
   m_ObjectHideFlags: 0
@@ -7397,6 +7637,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1108307909}
+  - component: {fileID: 1108307910}
   m_Layer: 0
   m_Name: GameObject (3)
   m_TagString: titanRespawn
@@ -7418,6 +7659,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1108307910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108307908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1128008127
 GameObject:
   m_ObjectHideFlags: 0
@@ -7827,6 +8083,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157391483}
+  - component: {fileID: 1157391484}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -7848,6 +8105,19 @@ Transform:
   m_Father: {fileID: 2021310194}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1157391484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157391482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1166146123
 GameObject:
   m_ObjectHideFlags: 0
@@ -7857,6 +8127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1166146124}
+  - component: {fileID: 1166146125}
   m_Layer: 0
   m_Name: GameObject (11)
   m_TagString: titanRespawn
@@ -7878,6 +8149,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1166146125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166146123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1172602906
 GameObject:
   m_ObjectHideFlags: 0
@@ -8187,6 +8473,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224729060}
+  - component: {fileID: 1224729061}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -8208,6 +8495,19 @@ Transform:
   m_Father: {fileID: 2021310194}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1224729061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224729059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1231087150
 GameObject:
   m_ObjectHideFlags: 0
@@ -8317,6 +8617,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1236445084}
+  - component: {fileID: 1236445085}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -8338,6 +8639,19 @@ Transform:
   m_Father: {fileID: 2021310194}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1236445085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236445083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1241602476
 GameObject:
   m_ObjectHideFlags: 0
@@ -8347,6 +8661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1241602477}
+  - component: {fileID: 1241602478}
   m_Layer: 0
   m_Name: GameObject (6)
   m_TagString: titanRespawn
@@ -8368,6 +8683,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1241602478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241602476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1242447818
 GameObject:
   m_ObjectHideFlags: 0
@@ -8877,6 +9207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1318863409}
+  - component: {fileID: 1318863410}
   m_Layer: 0
   m_Name: GameObject (22)
   m_TagString: titanRespawn
@@ -8898,6 +9229,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318863410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318863408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1327962038
 GameObject:
   m_ObjectHideFlags: 0
@@ -9007,6 +9353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1361477523}
+  - component: {fileID: 1361477524}
   m_Layer: 0
   m_Name: GameObject (10)
   m_TagString: titanRespawn
@@ -9028,6 +9375,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1361477524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361477522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1377626156
 GameObject:
   m_ObjectHideFlags: 0
@@ -9624,6 +9986,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1478048705}
+  - component: {fileID: 1478048706}
   m_Layer: 0
   m_Name: GameObject (24)
   m_TagString: titanRespawn
@@ -9645,6 +10008,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1478048706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478048704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1483964251
 GameObject:
   m_ObjectHideFlags: 0
@@ -10147,6 +10525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1631636414}
+  - component: {fileID: 1631636415}
   m_Layer: 0
   m_Name: GameObject (7)
   m_TagString: titanRespawn
@@ -10168,6 +10547,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1631636415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631636413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1650016304
 GameObject:
   m_ObjectHideFlags: 0
@@ -10177,6 +10571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1650016305}
+  - component: {fileID: 1650016306}
   m_Layer: 0
   m_Name: GameObject (17)
   m_TagString: titanRespawn
@@ -10198,6 +10593,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1650016306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650016304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1654425696
 GameObject:
   m_ObjectHideFlags: 0
@@ -10507,6 +10917,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1687295339}
+  - component: {fileID: 1687295340}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -10528,6 +10939,19 @@ Transform:
   m_Father: {fileID: 2021310194}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1687295340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687295338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1689862912
 GameObject:
   m_ObjectHideFlags: 0
@@ -10537,6 +10961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1689862913}
+  - component: {fileID: 1689862914}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: titanRespawn
@@ -10558,6 +10983,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1689862914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689862912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1001 &1692678884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10969,6 +11409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1771009102}
+  - component: {fileID: 1771009103}
   m_Layer: 0
   m_Name: GameObject (12)
   m_TagString: titanRespawn
@@ -10990,6 +11431,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1771009103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771009101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1873206871
 GameObject:
   m_ObjectHideFlags: 0
@@ -11070,6 +11526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1911748046}
+  - component: {fileID: 1911748047}
   m_Layer: 0
   m_Name: GameObject (5)
   m_TagString: titanRespawn
@@ -11091,6 +11548,21 @@ Transform:
   m_Father: {fileID: 831983061}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1911748047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911748045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1001 &1916486209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11966,17 +12438,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2957.6895
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5650.4336
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -534.0029
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3180873141467643437, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}

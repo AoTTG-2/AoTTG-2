@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Assets.Scripts.Services;
+using Assets.Scripts.Room;
 
 public class PVPcheckPoint : Photon.MonoBehaviour
 {
@@ -37,9 +39,17 @@ public class PVPcheckPoint : Photon.MonoBehaviour
     private bool titanOn;
     public float titanPt;
     public float titanPtMax = 40f;
+    [SerializeField] HumanSpawner humanSpawner;
+    [SerializeField] TitanSpawner titanSpawner;
     private CaptureGamemode gamemode { get; set; }
     private readonly FengGameManagerMKII gameManager = FengGameManagerMKII.instance;
 
+    public void Awake()
+    {
+        //Spawners automatically register themselves with spawn service when they are created, but we only want a spawner to be active if it is captured.
+        Service.Spawn.Remove(humanSpawner);
+        Service.Spawn.Remove(titanSpawner);
+    }
     [PunRPC]
     private void changeHumanPt(float pt)
     {
@@ -70,14 +80,14 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if (Vector3.Distance(objArray[num].transform.position, base.transform.position) < this.hitTestR)
             {
                 this.playerOn = true;
-                if ((this.state == CheckPointState.Human) && objArray[num].GetPhotonView().isMine)
+                if ((this.state == CheckPointState.Human))
                 {
-                    if (gameManager.checkpoint != gameObject)
+                    PhotonView photonView = objArray[num].GetPhotonView();
+                    if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value
+                        && photonView.isMine)
                     {
-                        gameManager.checkpoint = gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        Service.Spawn.RespawnSpawner = humanSpawner;
                     }
-                    break;
                 }
             }
         }
@@ -86,19 +96,18 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if ((Vector3.Distance(objArray2[num].transform.position, base.transform.position) < (this.hitTestR + 5f)) && ((objArray2[num].GetComponent<MindlessTitan>() == null) || objArray2[num].GetComponent<MindlessTitan>().IsAlive))
             {
                 this.titanOn = true;
-                if (((this.state == CheckPointState.Titan) && objArray2[num].GetPhotonView().isMine) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
+                if ((this.state == CheckPointState.Titan) && (objArray2[num].GetComponent<PlayerTitan>() != null))
                 {
-                    if (gameManager.checkpoint != base.gameObject)
+                    PhotonView photonView = objArray2[num].GetPhotonView();
+                    if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value
+                        && photonView.isMine)
                     {
-                        gameManager.checkpoint = base.gameObject;
-                        FengGameManagerMKII.instance.chatRoom.AddMessage("<color=#A8FF24>Respawn point changed to point" + this.id + "</color>");
+                        Service.Spawn.RespawnSpawner = titanSpawner;
                     }
-                    break;
                 }
             }
         }
     }
-
     private bool checkIfHumanWins()
     {
         for (int i = 0; i < chkPts.Count; i++)
@@ -192,6 +201,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
                 }
             }
         }
+        
     }
 
     private void newTitan()
@@ -207,7 +217,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
         }
         else
         {
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
             return;
         }
         SetPreviousCheckpoints();

@@ -19,6 +19,8 @@ namespace Assets.Scripts.Settings.Gamemodes
             PlayerShifters = false;
             Supply = false;
             RestartOnFinish = true;
+            Respawn.Mode = RespawnMode.Endless;
+            Respawn.ReviveTime = 1;
         }
 
         [UiElement("Restart on Finish", "Should the game restart in 10s upon someone finishing?")]

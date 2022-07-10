@@ -63,6 +63,16 @@ namespace Assets.Scripts.Services
             GetLabel(label).text = message;
         }
 
+        public void ShowSpawnMenu()
+        {
+            Ui.SpawnMenu.gameObject.SetActive(true);
+            Ui.SpawnMenu.Show();
+        }
+        public void HideSpawnMenu()
+        {
+            Ui.SpawnMenu.gameObject.SetActive(false);
+            Ui.SpawnMenu.Hide();
+        }
         private void OnLevelWasLoaded(int level)
         {
             if (level == 0)

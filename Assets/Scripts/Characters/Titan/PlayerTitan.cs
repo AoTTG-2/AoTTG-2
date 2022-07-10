@@ -3,6 +3,7 @@ using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.UI.Input;
 using System.Linq;
 using UnityEngine;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts.Characters.Titan
 {
@@ -171,6 +172,11 @@ namespace Assets.Scripts.Characters.Titan
             propertiesToSet = new ExitGames.Client.Photon.Hashtable();
             propertiesToSet.Add(PhotonPlayerProperty.deaths, ((int)PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.deaths]) + 1);
             PhotonNetwork.player.SetCustomProperties(propertiesToSet);
+
+            if (this == Service.Player.Self)
+            {
+                Service.Spawn.InvokeOnPlayerDespawn(this);
+            }
         }
 
         public void Die() 
