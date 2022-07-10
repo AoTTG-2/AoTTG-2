@@ -96,7 +96,7 @@ public class PVPcheckPoint : Photon.MonoBehaviour
             if ((Vector3.Distance(objArray2[num].transform.position, base.transform.position) < (this.hitTestR + 5f)) && ((objArray2[num].GetComponent<MindlessTitan>() == null) || objArray2[num].GetComponent<MindlessTitan>().IsAlive))
             {
                 this.titanOn = true;
-                if (((this.state == CheckPointState.Titan)) && ((objArray2[num].GetComponent<PlayerTitan>() != null)))
+                if ((this.state == CheckPointState.Titan) && (objArray2[num].GetComponent<PlayerTitan>() != null))
                 {
                     PhotonView photonView = objArray2[num].GetPhotonView();
                     if (GameSettings.DerivedGamemode<CaptureGamemodeSettings>().RespawnAtFriendlyCheckpoints.Value

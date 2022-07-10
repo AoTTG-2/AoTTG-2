@@ -179,7 +179,7 @@ namespace Assets.Scripts.Services
         public int CountMembers(Faction faction)
         {
             if (faction == null) return 1;
-            return EntityService.GetAll().Where(x => x.Faction == faction).Count();
+            return EntityService.GetAll().Count(x => x.Faction == faction);
         }
     }
 }

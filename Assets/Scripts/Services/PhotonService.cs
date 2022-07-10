@@ -33,7 +33,7 @@ namespace Assets.Scripts.Services
         public override void OnConnectedToPhoton()
         {
             isRegionChanging = false;
-            PhotonService_OnConnectedToPhoton?.Invoke(this, null);
+            PhotonService_OnConnectedToPhoton?.Invoke(this, EventArgs.Empty);
         }
 
         public override void OnDisconnectedFromPhoton()
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Services
                 PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
                 isRegionChanging = false;
             }
-            PhotonService_OnDisconnectedFromPhoton?.Invoke(this, null);
+            PhotonService_OnDisconnectedFromPhoton?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 

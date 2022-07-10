@@ -68,16 +68,13 @@ namespace Assets.Scripts.Gamemode
 
             if (GameSettings.Respawn.Mode == RespawnMode.NewRound)
             {
+                PhotonView photonView = Service.Photon.GetPhotonView();
                 foreach (var player in PhotonNetwork.playerList)
                 {
-                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2)
+                    if (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2
+                        && RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
                     {
-                        PhotonView photonView = Service.Photon.GetPhotonView();
-                        if (RCextensions.returnBoolFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.dead]))
-                        {
-                            photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
-                        }
-                        
+                        photonView.RPC(nameof(Service.Spawn.RespawnRpc), player);
                     }
                 }
             }
@@ -86,16 +83,13 @@ namespace Assets.Scripts.Gamemode
             {
                 RoundFinish("COMPLETE");
             }
+            else if (Wave % Settings.BossWave.Value == 0)
+            {
+                StartCoroutine(SpawnBossTitan(Wave / Settings.BossWave.Value));
+            }
             else
             {
-                if (Wave % Settings.BossWave.Value == 0)
-                {
-                    StartCoroutine(SpawnBossTitan(Wave / Settings.BossWave.Value));
-                }
-                else
-                {
-                    SpawnTitans(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value, GetWaveTitanConfiguration);
-                }
+                SpawnTitans(GameSettings.Titan.Start.Value + (Wave - 1) * Settings.WaveIncrement.Value, GetWaveTitanConfiguration);
             }
         }
 

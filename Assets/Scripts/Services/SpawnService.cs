@@ -12,7 +12,6 @@ using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Customization;
 using UnityEngine;
 using Assets.Scripts.Events;
-using Assets.Scripts.Services;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
@@ -22,7 +21,7 @@ namespace Assets.Scripts.Services
         private IEntityService EntityService => Service.Entity;
         private IMessageService MessageService => Service.Message;
 
-        private List<Spawner> spawners = new List<Spawner>();
+        private List<Spawner> spawners;
         private static GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
         public event OnPlayerSpawn<Entity> OnPlayerSpawn;
         public event OnPlayerDespawn<Entity> OnPlayerDespawn;
@@ -204,7 +203,7 @@ namespace Assets.Scripts.Services
             {
                 //legacy spawning system
                 var spawnLocations = GameObject.FindGameObjectsWithTag("playerRespawn");
-                if (spawnLocations.Count() == 0)
+                if (!spawnLocations.Any())
                 {
                     Debug.LogError("No valid spawn locations are available.");
                     return null;
@@ -256,7 +255,7 @@ namespace Assets.Scripts.Services
             {
                 //legacy spawning system
                 var spawnLocations = GameObject.FindGameObjectsWithTag("titanRespawn");
-                if (spawnLocations.Count() == 0)
+                if (!spawnLocations.Any())
                 {
                     Debug.LogError("No valid spawn locations are available.");
                     return null;
@@ -291,12 +290,6 @@ namespace Assets.Scripts.Services
         {
             OnPlayerDespawn?.Invoke(entity);
         }
-
-        private void SpawnService_OnPlayerDespawn(Entity entity)
-        {
-            
-        }
-
         [PunRPC]
         public void RespawnRpc(PhotonMessageInfo info)
         {
@@ -339,17 +332,13 @@ namespace Assets.Scripts.Services
 
         private IEnumerator respawnAllDeadPlayers(float seconds)
         {
-            while (true)
+            yield return new WaitForSeconds(seconds);
+            foreach (PhotonPlayer player in PhotonNetwork.playerList)
             {
-                yield return new WaitForSeconds(seconds);
-                foreach (PhotonPlayer player in PhotonNetwork.playerList)
+                if (((player.CustomProperties[PhotonPlayerProperty.RCteam] == null)
+                    && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead])))
                 {
-                    if (((player.CustomProperties[PhotonPlayerProperty.RCteam] == null)
-                        && RCextensions.returnBoolFromObject(player.CustomProperties[PhotonPlayerProperty.dead]))
-                        && (RCextensions.returnIntFromObject(player.CustomProperties[PhotonPlayerProperty.isTitan]) != 2))
-                    {
-                        Service.Photon.GetPhotonView().RPC(nameof(RespawnRpc), player, new object[0]);
-                    }
+                    Service.Photon.GetPhotonView().RPC(nameof(RespawnRpc), player, new object[0]);
                 }
             }
         }
@@ -404,12 +393,8 @@ namespace Assets.Scripts.Services
         }
         private void Awake()
         {
-            OnPlayerDespawn += SpawnService_OnPlayerDespawn;
+            spawners = new List<Spawner>();
             Service.Level.OnLevelLoaded += SpawnService_OnLevelLoaded;
-        }
-        private void OnDestroy()
-        {
-            OnPlayerDespawn -= SpawnService_OnPlayerDespawn;
         }
     }
 }
