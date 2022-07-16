@@ -31,7 +31,6 @@ public sealed class Horse : PhotonView
     public static Horse Create(Hero hero, Vector3 position, Quaternion rotation)
     {
         var horse = PhotonNetwork.Instantiate("horse", position, rotation, 0).GetComponent<Horse>();
-
         horse.RPC(nameof(InitializeRPC), PhotonTargets.AllBuffered, hero.photonView.viewID);
 
         return horse;
@@ -59,7 +58,6 @@ public sealed class Horse : PhotonView
 
         TransitionToState(idleState);
     }
-
     public void Mount()
     {
         TransitionToState(mountState);
@@ -106,6 +104,10 @@ public sealed class Horse : PhotonView
         currentState.Update();
 
         rigidbody.AddForce(new Vector3(0f, gravityFactor * rigidbody.mass, 0f));
+    }
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdate();
     }
 
     [PunRPC]
@@ -372,7 +374,19 @@ public sealed class Horse : PhotonView
 
         public override void FixedUpdate()
         {
+            
             base.FixedUpdate();
+            if (!Horse.hero)
+            {
+                Horse.TransitionToState(Horse.idleState);
+                return;
+            }
+            var playerOffset = Vector3.up * 1.68f;
+            Vector3 newPosition = Horse.transform.position + playerOffset;
+            Horse.hero.GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(newPosition, Horse.transform.rotation);
+            //Horse.Hero.Rigidbody.velocity = Horse.rigidbody.velocity;
+            Debug.Log($"Hero.Rigidbody = {Horse.hero.GetComponent<Rigidbody>().position}");
+            Debug.Log($"Horse.Rigidbody = {Horse.GetComponent<Rigidbody>().position}");
         }
 
         public override void Update()
@@ -382,11 +396,6 @@ public sealed class Horse : PhotonView
                 Horse.TransitionToState(Horse.idleState);
                 return;
             }
-
-            var playerOffset = Vector3.up * 1.68f;
-            Horse.heroTransform.position = Horse.transform.position + playerOffset;
-            Horse.heroTransform.rotation = Horse.transform.rotation;
-            HeroRigidbody.velocity = Horse.rigidbody.velocity;
 
             if (controller.TargetDirection != -874f)
             {
