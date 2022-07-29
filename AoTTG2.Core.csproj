@@ -272,6 +272,7 @@
     <Compile Include="Assets\Scripts\Room\LevelTriggerGas.cs" />
     <Compile Include="Assets\Scripts\Gamemode\Catch\CatchSpawner.cs" />
     <Compile Include="Assets\Scripts\Serialization\ColorJsonConverter.cs" />
+    <Compile Include="Assets\Scripts\Characters\Humans\HumanInterpolate.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\ErenTitan.cs" />
     <Compile Include="Assets\Scripts\UI\InGame\GameSettingPage.cs" />
     <Compile Include="Assets\Scripts\UI\Menu\MapButtonAnimation.cs" />
@@ -535,7 +536,6 @@
     <Compile Include="Assets\Scripts\Characters\AHSSShotGunCollider.cs" />
     <Compile Include="Assets\Scripts\Utility\VisibleCollider.cs" />
     <Compile Include="Assets\Scripts\Characters\Titan\Attacks\StompAttack.cs" />
-    <Compile Include="Assets\Scripts\Characters\Humans\HumanInterpolate.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Scripts\AoTTG2.Core.asmdef" />

@@ -53,18 +53,14 @@ public class HumanInterpolate : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("<color=yellow>WaitingForFixedUpdate</color>");
             yield return new WaitForFixedUpdate();
-            Debug.Log("<color=red>Executing WaitUntilAfterFixedUpdate</color>");
             if (shouldSetPosition)
             {
-                Debug.Log($"Rigidbdy position set to: {positionToSet}");
                 GetComponent<Rigidbody>().MovePosition(positionToSet);
                 shouldSetPosition = false;
             }
             if (shouldSetRotation)
             {
-                Debug.Log($"Rigidbody rotation set to: {currentRotation.eulerAngles}");
                 GetComponent<Rigidbody>().MoveRotation(currentRotation);
                 shouldSetRotation = false;
             }

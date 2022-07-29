@@ -61,11 +61,21 @@ public sealed class Horse : PhotonView
     public void Mount()
     {
         TransitionToState(mountState);
+        //hero.Rigidbody.useGravity = false;
+
+        //Existing horse logic updates position/rotation on every frame, so interpolation is unnecessary and just causes problems.
+        hero.Rigidbody.interpolation = RigidbodyInterpolation.None;
+        hero.GetComponent<HumanInterpolate>().enabled = false;
+        
+
     }
 
     public void Unmount()
     {
         TransitionToState(idleState);
+        //hero.Rigidbody.useGravity = true;
+        hero.Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        hero.GetComponent<HumanInterpolate>().enabled = true;
     }
 
     private void CrossFade(string aniName, float time)
@@ -381,12 +391,7 @@ public sealed class Horse : PhotonView
                 Horse.TransitionToState(Horse.idleState);
                 return;
             }
-            var playerOffset = Vector3.up * 1.68f;
-            Vector3 newPosition = Horse.transform.position + playerOffset;
-            Horse.hero.GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(newPosition, Horse.transform.rotation);
-            //Horse.Hero.Rigidbody.velocity = Horse.rigidbody.velocity;
-            Debug.Log($"Hero.Rigidbody = {Horse.hero.GetComponent<Rigidbody>().position}");
-            Debug.Log($"Horse.Rigidbody = {Horse.GetComponent<Rigidbody>().position}");
+            
         }
 
         public override void Update()
@@ -396,6 +401,14 @@ public sealed class Horse : PhotonView
                 Horse.TransitionToState(Horse.idleState);
                 return;
             }
+
+            var playerOffset = Vector3.up * 1.68f;
+            Vector3 newPosition = Horse.transform.position + playerOffset;
+
+            //Hero interpolation is disabled while on a horse so setting hero.transform is ok.
+            Horse.hero.transform.position = newPosition;
+            Horse.hero.transform.rotation = Horse.transform.rotation;
+            Horse.hero.Rigidbody.velocity = Horse.rigidbody.velocity;
 
             if (controller.TargetDirection != -874f)
             {

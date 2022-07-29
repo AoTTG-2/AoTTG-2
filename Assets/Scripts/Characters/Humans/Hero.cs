@@ -1810,7 +1810,6 @@ namespace Assets.Scripts.Characters.Humans
                             isMounted = true;
                             CrossFade(HeroAnim.HORSE_IDLE, 0.1f);
                             myHorse.Mount();
-                            Rigidbody.useGravity = false;
                         }
                         if (!((((((state != HumanState.Idle) || Animation.IsPlaying(HeroAnim.DASH)) ||
                             (Animation.IsPlaying(HeroAnim.WALL_RUN) || Animation.IsPlaying(HeroAnim.TO_ROOF))) ||
@@ -2078,6 +2077,8 @@ namespace Assets.Scripts.Characters.Humans
                         smoke_3dmg_em.enabled = false;
                     }
                 }
+                SetHookedPplDirection();
+                BodyLean();
             }
         }
 
@@ -4133,8 +4134,6 @@ namespace Assets.Scripts.Characters.Humans
         private void Unmounted()
         {
             myHorse.GetComponent<Horse>().Unmount();
-            Rigidbody.useGravity = true;
-            isMounted = false;
         }
 
 
