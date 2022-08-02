@@ -1,5 +1,4 @@
 using Assets.Scripts.Audio;
-using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Constants;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Characters.Humans.Equipment;
@@ -4134,6 +4133,7 @@ namespace Assets.Scripts.Characters.Humans
         private void Unmounted()
         {
             myHorse.GetComponent<Horse>().Unmount();
+            isMounted = false;
         }
 
 

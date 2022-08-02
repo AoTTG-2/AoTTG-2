@@ -61,7 +61,6 @@ public sealed class Horse : PhotonView
     public void Mount()
     {
         TransitionToState(mountState);
-        //hero.Rigidbody.useGravity = false;
 
         //Existing horse logic updates position/rotation on every frame, so interpolation is unnecessary and just causes problems.
         hero.Rigidbody.interpolation = RigidbodyInterpolation.None;
@@ -73,7 +72,6 @@ public sealed class Horse : PhotonView
     public void Unmount()
     {
         TransitionToState(idleState);
-        //hero.Rigidbody.useGravity = true;
         hero.Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         hero.GetComponent<HumanInterpolate>().enabled = true;
     }
@@ -380,18 +378,6 @@ public sealed class Horse : PhotonView
         public override void Exit()
         {
             controller.enabled = false;
-        }
-
-        public override void FixedUpdate()
-        {
-            
-            base.FixedUpdate();
-            if (!Horse.hero)
-            {
-                Horse.TransitionToState(Horse.idleState);
-                return;
-            }
-            
         }
 
         public override void Update()
