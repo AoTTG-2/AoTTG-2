@@ -96,6 +96,8 @@ MonoBehaviour:
   Body: {fileID: 57899769264525718}
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   EquipmentType: 0
+  CombatTimer: {fileID: 0}
+  weaponDisabledOnReloading: 0
   UseWeaponTrail: 1
   bombCD: 0
   bombImmune: 0
@@ -156,8 +158,7 @@ MonoBehaviour:
   speedFX: {fileID: 0}
   speedFX1: {fileID: 0}
   spinning: 0
-  reelForce: 0
-  scrollWheelDisipation: 2
+  scrollWheelWaitValue: 0.05
   targetV: {x: 0, y: 0, z: 0}
   throwedBlades: 0
   titanForm: 0
@@ -201,6 +202,18 @@ MonoBehaviour:
   Prefabs: {fileID: 11400000, guid: 4056c982e63a9e8438745092b6188bc1, type: 2}
   Presets:
   - {fileID: 11400000, guid: 8b4e88e2d6b866f4ea290ac991063019, type: 2}
+--- !u!114 &-7148713799171415013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480566984262934827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3887edd0763c0ce419645cdf592a95b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5741283646105969352
 MonoBehaviour:
   m_ObjectHideFlags: 0
