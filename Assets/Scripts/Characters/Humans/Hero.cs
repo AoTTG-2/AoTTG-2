@@ -2503,7 +2503,7 @@ namespace Assets.Scripts.Characters.Humans
             if ((!useGun || grounded) || GameSettings.PvP.AhssAirReload.Value)
             {
                 state = HumanState.ChangeBlade;
-                throwedBlades = false;
+                throwedBlades = true;
                 Equipment.Weapon.PlayReloadAnimation();
             }
         }
