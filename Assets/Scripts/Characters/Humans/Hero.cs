@@ -2144,6 +2144,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public override void OnHit(Entity attacker, int damage)
         {
+            //hghgfhgfhg
             //TODO: 160 HERO OnHit logic
             //if (!isInvincible() && _state != HERO_STATE.Grab)
             //    markDie();
