@@ -299,7 +299,7 @@ namespace Assets.Scripts.Characters.Titan
                 this.targetDirection = num5;
                 if (InputManager.Key(InputTitan.Walk))
                 {
-                    SpeedModifier = 0.2f;
+                    SpeedModifier = 0.5f;
                     CrossFade(AnimationWalk, 0.0f);
                 }
                 else
