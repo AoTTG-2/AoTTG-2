@@ -1324,6 +1324,10 @@ namespace Assets.Scripts.Characters.Humans
 
         protected override void OnDestroy()
         {
+            if (this == Service.Player.Self)
+            {
+                Service.Spawn.InvokeOnPlayerDespawn(this);
+            }
             base.OnDestroy();
             if (myNetWorkName != null)
             {
@@ -3359,7 +3363,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 currentInGameCamera.SetSpectorMode(false);
                 currentInGameCamera.gameOver = true;
-                FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
             Transform audioDie = transform.Find("audio_die");
@@ -3476,7 +3479,6 @@ namespace Assets.Scripts.Characters.Humans
                 currentInGameCamera.SetMainObject(null, true, false);
                 currentInGameCamera.SetSpectorMode(true);
                 currentInGameCamera.gameOver = true;
-                FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             FalseAttack();
             hasDied = true;
@@ -3571,7 +3573,6 @@ namespace Assets.Scripts.Characters.Humans
             {
                 currentInGameCamera.SetSpectorMode(false);
                 currentInGameCamera.gameOver = true;
-                FengGameManagerMKII.instance.myRespawnTime = 0f;
             }
             hasDied = true;
             Transform audioDie = transform.Find("audio_die");

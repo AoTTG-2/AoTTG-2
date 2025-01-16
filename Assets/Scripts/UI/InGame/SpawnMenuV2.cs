@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using Assets.Scripts.Gamemode;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using MonoBehaviour = Photon.MonoBehaviour;
 
@@ -22,7 +23,7 @@ namespace Assets.Scripts.UI.InGame
     public class SpawnMenuV2 : MonoBehaviour, IUiContainer
     {
         private ISpawnService SpawnService => Service.Spawn;
-
+        private GamemodeBase Gamemode => FengGameManagerMKII.Gamemode;
 
         public GameObject mainWindow;
 
@@ -84,10 +85,18 @@ namespace Assets.Scripts.UI.InGame
             selectedPreset.CurrentBuild = selectedPreset.CharacterBuild[BuildDropdown.value];
 
             GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().needChooseSide = false;
-            GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn", selectedPreset);
+
+            if (Service.Spawn.IsRespawning())
+            {
+                Service.Message.Local("<color=#FFCC00>You will respawn with the chosen preset..</color>", UI.DebugLevel.Default);
+                Service.Spawn.LastUsedPreset = selectedPreset;
+            }
+            else
+            { Service.Spawn.SpawnPlayer(null, selectedPreset); }
+
             if ((((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture) && isPlayerAllDead2())
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
+                Service.Spawn.NOTSpawnPlayer(selection);
             }
 
             IN_GAME_MAIN_CAMERA.usingTitan = false;

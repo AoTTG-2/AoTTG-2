@@ -64,6 +64,18 @@ namespace Assets.Scripts.Services.Interface
         /// <returns></returns>
         int CountFriendly(Entity entity);
         /// <summary>
+        /// Returns the number of entities in the same faction. (Including itself)
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        int CountMembers(Entity entity);
+        /// <summary>
+        /// Returns the number of entities in the faction.
+        /// </summary>
+        /// <param name="faction"></param>
+        /// <returns></returns>
+        int CountMembers(Faction faction);
+        /// <summary>
         /// Returns all hostile entities
         /// </summary>
         /// <param name="entity"></param>

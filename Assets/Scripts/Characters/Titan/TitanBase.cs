@@ -453,7 +453,9 @@ namespace Assets.Scripts.Characters.Titan
                 return;
             }
 
+            
             OnDeath();
+            Service.Spawn.InvokeOnTitanKilled(view.GetComponent<Hero>(), this, damage);
             SetState(TitanState.Dead);
             FengGameManagerMKII.instance.titanGetKill(view.owner, damage, name);
         }

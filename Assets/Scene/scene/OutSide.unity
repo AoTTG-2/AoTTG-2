@@ -510,6 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 695}
+  - component: {fileID: 44}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -620,6 +621,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &44
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &45
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 736}
+  - component: {fileID: 123}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: titanRespawn
@@ -1332,6 +1347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 747}
+  - component: {fileID: 117}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -1348,6 +1364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 748}
+  - component: {fileID: 92}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -1374,6 +1391,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &92
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &93
 GameObject:
   m_ObjectHideFlags: 0
@@ -1795,6 +1825,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +1927,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,6 +1951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 782}
+  - component: {fileID: 125}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -1900,6 +1959,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &126
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,6 +2242,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 801}
+  - component: {fileID: 144}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: titanRespawn
@@ -2177,6 +2250,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &145
 GameObject:
   m_ObjectHideFlags: 0
@@ -5754,6 +5842,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1040}
+  - component: {fileID: 385}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: titanRespawn
@@ -5796,6 +5885,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &386
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,6 +8694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1228}
+  - component: {fileID: 571}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: playerRespawn
@@ -8597,6 +8702,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &572
 GameObject:
   m_ObjectHideFlags: 0
@@ -38231,8 +38349,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_Sun: {fileID: 1101858064}
+  m_IndirectSpecularColor: {r: 0.17413203, g: 0.21775231, b: 0.29994914, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!136 &2406
 CapsuleCollider:
@@ -41665,6 +41783,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
+--- !u!108 &1101858064 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 10851780, guid: 3e7496b60d927ab42ae88bede3e35b7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1101858063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1104827530
 PrefabInstance:
   m_ObjectHideFlags: 0

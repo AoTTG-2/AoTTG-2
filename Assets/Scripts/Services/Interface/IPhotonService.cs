@@ -1,10 +1,21 @@
 ﻿using Assets.Scripts.Settings;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface
 {
     public interface IPhotonService
     {
+        /// <summary>
+        /// Invoked when OnDisconnectedFromPhoton is called.
+        /// </summary>
+        event EventHandler PhotonService_OnDisconnectedFromPhoton;
+
+        /// <summary>
+        /// Invoked when OnConnectedToPhoton is called.
+        /// </summary>
+        event EventHandler PhotonService_OnConnectedToPhoton;
+
         /// <summary>
         /// Returns the current Photon Server Configuration
         /// </summary>
@@ -38,5 +49,7 @@ namespace Assets.Scripts.Services.Interface
         /// Connects to the Photon Server based on the current PhotonServerConfiguration <see cref="GetCurrentConfig"/>
         /// </summary>
         void Connect();
+
+        PhotonView GetPhotonView();
     }
 }

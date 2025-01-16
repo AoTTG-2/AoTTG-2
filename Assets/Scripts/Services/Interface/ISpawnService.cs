@@ -2,13 +2,27 @@
 using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Humans.Customization;
 using Assets.Scripts.Room;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Events;
 
 namespace Assets.Scripts.Services.Interface
 {
     public interface ISpawnService : IService
     {
+        /// <summary>
+        /// Occurs when SpawnPlayer is called.
+        /// </summary>
+        event OnPlayerSpawn<Entity> OnPlayerSpawn;
+        /// <summary>
+        /// Occurs when a hero or player titan entity matching Service.Player.Self is killed.
+        /// </summary>
+        event OnPlayerDespawn<Entity> OnPlayerDespawn;
+        /// <summary>
+        /// Invoked when a titan is killed by a hit to the nape.
+        /// </summary>
+        event OnTitanKilled<Entity, Entity> OnTitanKilled;
         /// <summary>
         /// Adds a new spawner
         /// </summary>
@@ -19,6 +33,10 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         /// <param name="spawner"></param>
         void Remove(Spawner spawner);
+        /// <summary>
+        /// Removes all spawners.
+        /// </summary>
+        void RemoveAllSpawners();
         /// <summary>
         /// Returns all spawners
         /// </summary>
@@ -80,5 +98,43 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="preset"></param>
         /// <returns></returns>
         T Spawn<T>(Vector3 position, Quaternion rotation, CharacterPreset preset) where T : Human;
+
+        /// <summary>
+        /// Handles everything needed to spawn a player.
+        /// A null spawner will use the last used spawner if it exists. If not, a random human spawner will be selected.
+        /// A null CharacterPreset will use the last used preset if it exists. If not, the first character preset in the CharacterPreset list will be selected.
+        /// A null faction will default to humanity.
+        /// This method will still work for maps with tag respawns (playerRespawn)
+        /// </summary>
+        /// <returns></returns>
+        Hero SpawnPlayer(HumanSpawner spawner = null, CharacterPreset preset = null, Faction faction = null);
+        CharacterPreset LastUsedPreset { get; set; }
+        /// <summary>
+        /// Invokes OnPlayerDespawn event.
+        /// </summary>
+        /// <param name="entity"></param>
+        void InvokeOnPlayerDespawn(Entity entity);
+        /// <summary>
+        /// Invokes OnTitanKilled event.
+        /// </summary>
+        void InvokeOnTitanKilled(Entity human, Entity killedTitan, int damage);
+
+        /// <summary>
+        /// This is the spawner that the player will respawn at.
+        /// Unless otherwise set, this will be the last used spawn point by the player.
+        /// </summary>
+        Spawner RespawnSpawner { get; set; }
+        /// <summary>
+        /// Will remove the previous player character (if applicable) and respawn the player using the last used configuration (spawner, preset, etc).
+        /// </summary>
+        /// <param name="player"></param>
+        void Respawn(PhotonPlayer player);
+        void RespawnRpc(PhotonMessageInfo info);
+        bool IsRespawning();
+        IEnumerator WaitAndRespawn(float time);
+
+        IEnumerator WaitAndRespawnAt(float time, Spawner spawner);
+
+        void NOTSpawnPlayer(string id = "2");
     }
 }

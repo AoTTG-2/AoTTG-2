@@ -2,7 +2,6 @@
 using Assets.Scripts.Events;
 using Assets.Scripts.Events.Args;
 using Assets.Scripts.Services.Interface;
-
 namespace Assets.Scripts.Services
 {
     /// <inheritdoc/>
@@ -42,5 +41,17 @@ namespace Assets.Scripts.Services
         }
 
         public Entity Self { get; set; }
+        public Faction Faction { get; private set; }
+        public void SetFaction(Faction faction)
+        {
+            Faction = faction;
+            if (Self != null)
+            { Self.Faction = faction; }
+        }
+
+        public void OnJoinedRoom()
+        {
+            SetFaction(null);
+        }
     }
 }

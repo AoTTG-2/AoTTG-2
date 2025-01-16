@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 822696562}
+  m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.17413203, g: 0.21775231, b: 0.29994914, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 29968258}
   - component: {fileID: 29968257}
   - component: {fileID: 29968256}
+  - component: {fileID: 29968260}
   m_Layer: 9
   m_Name: titanRespawn (2)
   m_TagString: titanRespawn
@@ -219,6 +220,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29968260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29968255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &100086920
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +572,7 @@ GameObject:
   - component: {fileID: 259452699}
   - component: {fileID: 259452698}
   - component: {fileID: 259452697}
+  - component: {fileID: 259452701}
   m_Layer: 9
   m_Name: titanRespawn (3)
   m_TagString: titanRespawn
@@ -639,6 +656,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &259452701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259452696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &294465183
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +683,7 @@ GameObject:
   - component: {fileID: 294465186}
   - component: {fileID: 294465185}
   - component: {fileID: 294465184}
+  - component: {fileID: 294465188}
   m_Layer: 9
   m_Name: titanRespawn (4)
   m_TagString: titanRespawn
@@ -734,6 +767,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294465188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294465183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &338381235
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,17 +967,17 @@ PrefabInstance:
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -266.73273
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 607.6267
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3102529131381428642, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -98.20831
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3180873141467643437, guid: 3e7496b60d927ab42ae88bede3e35b7c,
         type: 3}
@@ -943,12 +991,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7496b60d927ab42ae88bede3e35b7c, type: 3}
---- !u!108 &822696562 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 10851780, guid: 3e7496b60d927ab42ae88bede3e35b7c,
-    type: 3}
-  m_PrefabInstance: {fileID: 822696561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &889956165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,6 +1221,7 @@ GameObject:
   - component: {fileID: 983086766}
   - component: {fileID: 983086765}
   - component: {fileID: 983086764}
+  - component: {fileID: 983086768}
   m_Layer: 9
   m_Name: titanRespawn (1)
   m_TagString: titanRespawn
@@ -1262,6 +1305,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -130.631, z: 0}
+--- !u!114 &983086768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983086763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1072018725
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1428,7 @@ GameObject:
   - component: {fileID: 1090704214}
   - component: {fileID: 1090704213}
   - component: {fileID: 1090704212}
+  - component: {fileID: 1090704216}
   m_Layer: 9
   m_Name: PlayerRespawn
   m_TagString: playerRespawn
@@ -1453,6 +1512,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1090704216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090704211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b904630fdf994429b81b5b68bae5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1092562646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,6 +2005,7 @@ GameObject:
   - component: {fileID: 1812864707}
   - component: {fileID: 1812864706}
   - component: {fileID: 1812864705}
+  - component: {fileID: 1812864709}
   m_Layer: 9
   m_Name: titanRespawn
   m_TagString: titanRespawn
@@ -2016,6 +2089,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812864709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812864704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d635d121efa24f9589b71afde422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Delay: 30
+  Endless: 0
+  Type: 0
 --- !u!1 &1850571829
 GameObject:
   m_ObjectHideFlags: 0

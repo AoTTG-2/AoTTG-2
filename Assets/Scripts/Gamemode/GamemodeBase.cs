@@ -75,14 +75,24 @@ namespace Assets.Scripts.Gamemode
                 supplyStation.transform.position = lavaSupplyStation.transform.position;
                 supplyStation.transform.rotation = lavaSupplyStation.transform.rotation;
             }
+
+            if (Service.Player.Faction != null)
+            {
+                Service.Spawn.SpawnPlayer();
+            }
+            else
+            {
+                Service.Ui.ShowSpawnMenu();
+            }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Service.Level.OnLevelLoaded += Level_OnLevelLoaded;
             EntityService.OnRegister += OnEntityRegistered;
             EntityService.OnUnRegister += OnEntityUnRegistered;
             FactionService.OnFactionDefeated += OnFactionDefeated;
+            Service.Spawn.OnPlayerDespawn += Spawn_OnPlayerDespawn;
             StartCoroutine(OnUpdateEverySecond());
             StartCoroutine(OnUpdateEveryTenthSecond());
         }
@@ -96,12 +106,13 @@ namespace Assets.Scripts.Gamemode
         //    StartCoroutine(OnUpdateEveryTenthSecond());
         //}
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             EntityService.OnRegister -= OnEntityRegistered;
             EntityService.OnUnRegister -= OnEntityUnRegistered;
             FactionService.OnFactionDefeated -= OnFactionDefeated;
             Service.Level.OnLevelLoaded -= Level_OnLevelLoaded;
+            Service.Spawn.OnPlayerDespawn -= Spawn_OnPlayerDespawn;
             StopAllCoroutines();
         }
 
@@ -141,6 +152,15 @@ namespace Assets.Scripts.Gamemode
         protected virtual void OnFactionDefeated(Faction faction) { }
         protected virtual void OnEntityRegistered(Entity entity) { }
         protected virtual void OnEntityUnRegistered(Entity entity) { }
+
+        protected virtual void Spawn_OnPlayerDespawn(Entity entity)
+        {
+            if (Settings.Respawn.Mode == RespawnMode.Endless)
+            {
+                Coroutines.Add(StartCoroutine(Service.Spawn.WaitAndRespawn(Settings.Respawn.ReviveTime.Value)));
+                Coroutines.Add(StartCoroutine(RespawnCountdown()));
+            }
+        }
         #endregion
 
         private MindlessTitanType GetTitanType()
@@ -239,50 +259,55 @@ namespace Assets.Scripts.Gamemode
             Coroutines.Add(StartCoroutine(SpawnTitan(amount, titanConfiguration)));
         }
 
-        protected virtual (Vector3 position, Quaternion rotation) GetSpawnLocation()
+        protected virtual Transform GetTitanSpawnLocation()
         {
-            //TODO: Remove this once classic maps no longer rely on this.
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
-            if (!spawns.Any())
+            TitanSpawner spawn = Service.Spawn.GetRandom<TitanSpawner>();
+            if (spawn != null)
             {
-                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
-                    .ToList();
+                return spawn.transform;
             }
+            else
+            {
+                var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => x.transform).ToList();
+                return spawns[Random.Range(0, spawns.Count)];
 
-            return spawns.Any() ? spawns[Random.Range(0, spawns.Count)] : Service.Spawn.GetRandomSpawnPosition();
+            }
         }
 
         private IEnumerator SpawnTitan(int amount, Func<TitanConfiguration> titanConfiguration)
         {
-            var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
-            if (!spawns.Any())
+            for (int i=0; i<amount; i++)
             {
-                spawns = Service.Spawn.GetAll<TitanSpawner>().Select(x => (x.transform.position, x.transform.rotation))
-                    .ToList();
-            }
-
-            if (spawns.Any())
-            {
-                for (var i = 0; i < amount; i++)
+                if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit)
                 {
-                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
-                    var randomSpawn = spawns[Random.Range(0, spawns.Count)];
-                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
-                    yield return new WaitForEndOfFrame();
+                    Debug.Log("Exceeding titan limit. No titan was spawned.");
+                    break;
                 }
-            }
-            else
-            {
-                for (var i = 0; i < amount; i++)
+                var spawn = Service.Spawn.GetRandom<TitanSpawner>();
+                if (spawn != null)
                 {
-                    if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit) break;
-                    var randomSpawn = Service.Spawn.GetRandomSpawnPosition();
-                    SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
-                    yield return new WaitForEndOfFrame();
+                    Service.Spawn.Spawn<MindlessTitan>(titanConfiguration.Invoke());
                 }
+                else
+                {
+                    var spawns = GameObject.FindGameObjectsWithTag("titanRespawn").Select(x => (x.transform.position, x.transform.rotation)).ToList();
+                    if (spawns != null)
+                    {
+                        var randomSpawn = spawns[Random.Range(0, spawns.Count)];
+                        SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    }
+                    else
+                    {
+                        var randomSpawn = Service.Spawn.GetRandomSpawnPosition();
+                        SpawnService.Spawn<MindlessTitan>(randomSpawn.position, randomSpawn.rotation, titanConfiguration.Invoke());
+                    }
+                }
+                yield return new WaitForEndOfFrame();
             }
+            
         }
 
+        //Obselete, you should use Service.Spawn.GetAll<HumanSpawner>() or Service.Spawn.GetRandom<HumanSpawner>() instead.
         public virtual GameObject GetPlayerSpawnLocation(string tag = "playerRespawn")
         {
             var objArray = GameObject.FindGameObjectsWithTag(tag);
@@ -356,6 +381,18 @@ namespace Assets.Scripts.Gamemode
             {
                 FengGameManagerMKII.instance.RestartRound();
             }
+        }
+
+        private IEnumerator RespawnCountdown()
+        {
+            var respawnCountdown = Settings.Respawn.ReviveTime.Value;
+            while (respawnCountdown  >= 0)
+            {
+                yield return new WaitForSeconds(1f);
+                respawnCountdown--;
+                UiService.SetMessage(LabelPosition.Center, $"Respawn in: {respawnCountdown} s");
+            }
+            UiService.ResetMessage(LabelPosition.Center);
         }
     }
 }

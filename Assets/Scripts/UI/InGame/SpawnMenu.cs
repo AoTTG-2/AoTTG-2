@@ -54,15 +54,15 @@ namespace Assets.Scripts.UI.InGame
             //}
             if (((GameSettings.Gamemode.GamemodeType == GamemodeType.TitanRush) || (GameSettings.Gamemode.GamemodeType == GamemodeType.Trost)) || GameSettings.Gamemode.GamemodeType == GamemodeType.Capture)
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
+                Service.Spawn.SpawnPlayer(null, null);
                 if (isPlayerAllDead2())
                 {
-                    GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().NOTSpawnPlayer(selection);
+                    Service.Spawn.NOTSpawnPlayer(selection);
                 }
             }
             else
             {
-                GameObject.Find("MultiplayerManager").GetComponent<FengGameManagerMKII>().SpawnPlayer(selection, "playerRespawn");
+                Service.Spawn.SpawnPlayer(null, null);
             }
             IN_GAME_MAIN_CAMERA.usingTitan = false;
             Hashtable hashtable = new Hashtable();

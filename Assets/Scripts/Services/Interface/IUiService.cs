@@ -25,5 +25,13 @@ namespace Assets.Scripts.Services.Interface
         /// <param name="label">The position of the label</param>
         /// <param name="message">The localized string message</param>
         void SetMessage(LabelPosition label, string message);
+        /// <summary>
+        /// Enables the SpawnMenu gameobject.
+        /// </summary>
+        void ShowSpawnMenu();
+        /// <summary>
+        /// Disables the SpawnMenu gameobject.
+        /// </summary>
+        void HideSpawnMenu();
     }
 }

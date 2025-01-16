@@ -46,7 +46,7 @@ namespace Assets.Scripts.Services
         {
             factions.Add(faction);
         }
-        
+
         public List<Faction> GetAll()
         {
             return factions;
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Services
         {
             return Titanity;
         }
-        
+
         public void Remove(Faction faction)
         {
             factions.Remove(faction);
@@ -69,16 +69,42 @@ namespace Assets.Scripts.Services
 
         private List<Faction> GetHostileFactions(Faction faction)
         {
-            //TODO: #160 implement Allied factions
-            return factions.Where(x => x != faction).ToList();
+            List<Faction> hostileFactions = new List<Faction>();
+
+            foreach (Faction index in factions)
+            {
+                if (index != faction && !faction.Allies.ToList().Contains(index))
+                {
+                    hostileFactions.Add(index);
+                }
+            }
+            return hostileFactions;
         }
 
+        /// <summary>
+        /// Returns all allied factions excluding itself.
+        /// </summary>
+        /// <param name="faction"></param>
+        /// <returns></returns>
         private List<Faction> GetFriendlyFactions(Faction faction)
         {
-            //TODO: #160 implement Allied factions
-            return factions.Where(x => x == faction).ToList();
+            List<Faction> friendlyFactions = new List<Faction>();
+
+            foreach (Faction index in factions)
+            {
+                if (index != faction && faction.Allies.ToList().Contains(index))
+                {
+                    friendlyFactions.Add(index);
+                }
+            }
+            return friendlyFactions;
         }
 
+        /// <summary>
+        /// Gets all entities in the same faction as the parameter entity.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         private HashSet<Entity> GetAllMembers(Entity entity)
         {
             if (entity?.Faction == null)
@@ -103,14 +129,20 @@ namespace Assets.Scripts.Services
             return new HashSet<Entity>(hostileEntities);
         }
 
+        /// <summary>
+        /// Gets all entities in the same faction (as entity) and in allied factions.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         private HashSet<Entity> GetAllFriendly(Entity entity)
         {
             if (entity?.Faction == null)
             {
-                return EntityService.GetAllExcept(entity);
+                return new HashSet<Entity>();
             }
 
             var friendlyFactions = GetFriendlyFactions(entity.Faction);
+            friendlyFactions.Add(entity.Faction);
             var friendlyEntities = EntityService
                 .GetAllExcept(entity).Where(x => friendlyFactions.Any(faction => faction == x.Faction) || x.Faction == null).ToList();
             return new HashSet<Entity>(friendlyEntities);
@@ -119,7 +151,7 @@ namespace Assets.Scripts.Services
         public void OnRestart()
         {
         }
-        
+
         public bool IsHostile(Entity self, Entity target)
         {
             return GetHostileFactions(self.Faction).Contains(target.Faction);
@@ -138,6 +170,16 @@ namespace Assets.Scripts.Services
         public int CountFriendly(Entity entity)
         {
             return GetAllFriendly(entity).Count;
+        }
+        public int CountMembers(Entity entity)
+        {
+            //+1 is added because the entity that calls GetAllMembers is excluded from the count.
+            return GetAllMembers(entity).Count + 1;
+        }
+        public int CountMembers(Faction faction)
+        {
+            if (faction == null) return 1;
+            return EntityService.GetAll().Count(x => x.Faction == faction);
         }
     }
 }
