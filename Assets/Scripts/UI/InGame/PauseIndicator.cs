@@ -15,8 +15,10 @@ namespace Assets.Scripts.UI.InGame
         /// </summary>
         public void Pause()
         {
-            if (PhotonNetwork.offlineMode) return;
-
+            if (PhotonNetwork.offlineMode)
+            {
+                return;
+            }
             gameObject.GetComponentInChildren<Text>().text = "Game Paused";
             UnPausing = false;
             Show();
@@ -27,6 +29,10 @@ namespace Assets.Scripts.UI.InGame
         /// </summary>
         public void UnPause()
         {
+            if (PhotonNetwork.offlineMode)
+            {
+                return;
+            }
             UnPausing = true;
         }
 
@@ -40,6 +46,7 @@ namespace Assets.Scripts.UI.InGame
                 gameObject.GetComponentInChildren<Text>().text = $"Unpausing in:\n{timeRemaining:0.00}";
                 if (timeRemaining <= 0f)
                 {
+                    GameObject.Find("Gamemode").GetComponent<Gamemode.RacingGamemode>().enabled = true;
                     Hide();
                 }
             }
