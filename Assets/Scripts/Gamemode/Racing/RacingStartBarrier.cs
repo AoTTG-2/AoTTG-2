@@ -10,8 +10,8 @@ namespace Assets.Scripts.Gamemode.Racing
 
         private IEnumerator Start()
         {
-            yield return new WaitUntil(() => GameSettings.Gamemode != null);
-            if (IsRacingOnly && GameSettings.Gamemode.GamemodeType != GamemodeType.Racing)
+            yield return new WaitUntil(() => Setting.Gamemode != null);
+            if (IsRacingOnly && Setting.Gamemode.GamemodeType != GamemodeType.Racing)
             {
                 Destroy(gameObject);
             }

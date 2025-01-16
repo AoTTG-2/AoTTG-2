@@ -21,7 +21,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
 
         public override bool CanAttack()
         {
-            if (!GameSettings.Titan.Mindless.Attacks<RockThrowSetting>().Enabled.Value) return false;
+            //TODO: Titan Attacks
+            //if (!Setting.Gamemode.Titan.MindlessTitan.Attacks<RockThrowSetting>().Enabled.Value) return false;
             if (IsDisabled()) return false;
             var distance = Vector3.Distance(Titan.transform.position, Titan.Target.transform.position);
             if (distance < 100 && !Titan.Animation.IsPlaying(AttackAnimation)) return false;

@@ -90,7 +90,7 @@ namespace Assets.Scripts.Characters.Humans
             switch (collider.gameObject.tag)
             {
                 case "playerHitbox":
-                    if (GameSettings.PvP.Mode != PvpMode.Disabled && collider.gameObject.TryGetComponent(out HitBox hitbox))
+                    if (Setting.Gamemode.PvP.Mode != PvpMode.Disabled && collider.gameObject.TryGetComponent(out HitBox hitbox))
                     {
                         if (hitbox.transform.root != null && hitbox.transform.root.TryGetComponent(out Hero attackedHero))
                         {

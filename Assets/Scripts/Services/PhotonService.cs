@@ -2,6 +2,7 @@
 using Assets.Scripts.Settings;
 using Photon;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace Assets.Scripts.Services
 
         private static string IpAddress { get; set; }
         private bool isRegionChanging;
+        private bool isJoinedLobby;
+        private bool isOffline;
 
         #region MonoBehavior
         private void Awake()
@@ -27,6 +30,12 @@ namespace Assets.Scripts.Services
         #endregion
 
         #region PunBehavior
+
+        public override void OnConnectedToMaster()
+        {
+            isOffline = true;
+        }
+
         public override void OnConnectedToPhoton()
         {
             isRegionChanging = false;
@@ -40,6 +49,18 @@ namespace Assets.Scripts.Services
                 isRegionChanging = false;
             }
         }
+
+        public override void OnJoinedLobby()
+        {
+            base.OnJoinedLobby();
+            isJoinedLobby = true;
+        }
+
+        public override void OnCreatedRoom()
+        {
+            isStatelesslyConnected = true;
+        }
+
         #endregion
 
         public bool IsChangingRegion() => isRegionChanging;
@@ -65,6 +86,113 @@ namespace Assets.Scripts.Services
             }
             PhotonNetwork.ConnectToMaster(currentServerConfig.IpAddress, currentServerConfig.Port, "", VersionManager.Version);
         }
+
+        public void StatelessConnect(bool offline, string roomName, string levelName, string gamemodeName, PhotonServerConfig config)
+        {
+            if (offline)
+            {
+                PhotonNetwork.offlineMode = true;
+                StartCoroutine(CreateOfflineRoom(levelName, gamemodeName));
+            }
+            else
+            {
+                currentServerConfig = config;
+                StartCoroutine(CreateOnlineRoom(roomName, levelName, gamemodeName));
+            }
+        }
+
+        private IEnumerator CreateOfflineRoom(string levelName, string gamemodeName)
+        {
+            PhotonNetwork.offlineMode = true; //TODO: Await the OnConnectedToMaster
+            while (!isOffline)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            var roomOptions = new RoomOptions
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = 10,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+                {
+                    { "name", "Singleplayer" },
+                    { "level", levelName},
+                    { "gamemode", gamemodeName }
+                },
+                CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
+            };
+
+            PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
+        }
+        
+        private IEnumerator CreateOnlineRoom(string roomName, string levelName, string gamemodeName)
+        {
+            float startTime = Time.time;
+            Connect();
+
+            while (!isJoinedLobby)
+            {
+                yield return new WaitForSeconds(0.2f);
+                if (Time.time - startTime > 3)
+                {
+                    break;
+                }
+            }
+
+            var roomOptions = new RoomOptions
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = 10,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+                {
+                    { "name", roomName },
+                    { "level", levelName},
+                    { "gamemode", gamemodeName }
+                },
+                CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
+            };
+
+            if (isJoinedLobby)
+                PhotonNetwork.CreateRoom(Guid.NewGuid().ToString(), roomOptions, TypedLobby.Default);
+        }
+
+        //public void StatelessLocalCreate(string levelName, string gamemodeName)
+        //{
+        //    StartCoroutine(SetOffline(levelName, gamemodeName));
+        //}
+
+        //private IEnumerator SetOffline(string levelName, string gamemodeName)
+        //{
+        //    PhotonNetwork.offlineMode = true; //TODO: Await the OnConnectedToMaster
+        //    while (!isOffline)
+        //    {
+        //        yield return new WaitForSeconds(0.5f);
+        //    }
+        //    JoinRoutine("123456", levelName, gamemodeName);
+        //}
+
+        //private void JoinRoutine(string roomID, string levelName, string gamemodeName)
+        //{
+        //    var roomOptions = new RoomOptions
+        //    {
+        //        IsVisible = true,
+        //        IsOpen = true,
+        //        MaxPlayers = 10,
+        //        CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+        //        {
+        //            { "name", "Singleplayer" },
+        //            { "level", levelName},
+        //            { "gamemode", gamemodeName }
+        //        },
+        //        CustomRoomPropertiesForLobby = new[] { "name", "level", "gamemode" }
+        //    };
+
+        //    PhotonNetwork.CreateRoom(roomID, roomOptions, TypedLobby.Default);
+        //}
+
+        private bool isStatelesslyConnected = false;
+        public bool IsStatelesslyConnected() => isStatelesslyConnected;
 
         public void ChangePhotonServer(PhotonServerConfig server)
         {

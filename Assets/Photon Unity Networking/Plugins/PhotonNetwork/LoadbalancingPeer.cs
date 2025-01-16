@@ -110,7 +110,7 @@ using ExitGames.Client.Photon;
                 this.Listener.DebugReturn(DebugLevel.INFO, "OpLeaveLobby()");
             }
 
-            return this.SendOperation(OperationCode.LeaveLobby, null, SendOptions.SendReliable);
+            return this.SendOperation(OperationCode.LeaveLobby, (Dictionary<byte,object>)null, SendOptions.SendReliable);
         }
 
 
@@ -1497,11 +1497,10 @@ using ExitGames.Client.Photon;
         /// <summary>(191) An int parameter summarizing several boolean room-options with bit-flags.</summary>
         public const byte RoomOptionFlags = 191;
 
-        
         //AOTTG2 Custom  ParameterCode
         /// <summary> Used for Rooms which have a password </summary>
         public const byte RoomPassword = 10;
-    }
+}
 
 
     /// <summary>

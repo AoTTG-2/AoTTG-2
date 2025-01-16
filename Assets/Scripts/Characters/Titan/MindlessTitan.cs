@@ -4,7 +4,6 @@ using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Characters.Titan.Body;
 using Assets.Scripts.Characters.Titan.Configuration;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.New;
 using Assets.Scripts.UI.InGame.HUD;
 using Newtonsoft.Json;
 using System;
@@ -220,7 +219,8 @@ namespace Assets.Scripts.Characters.Titan
         private void LoadSkin()
         {
             var eye = false;
-            if (!((base.photonView.isMine) ? (((int) FengGameManagerMKII.settings[1]) != 1) : true))
+            // Use Skins
+            if (!((base.photonView.isMine)))
             {
                 int index = (int) UnityEngine.Random.Range((float) 86f, (float) 90f);
                 int num2 = index - 60;
@@ -405,7 +405,7 @@ namespace Assets.Scripts.Characters.Titan
         {
             base.OnDeath();
             ReleaseGrabbedTarget();
-            if (GameSettings.Titan.Mindless.ExplodeMode.Value > 0)
+            if (Setting.Gamemode.Titan.MindlessTitan.ExplodeMode.Value > 0)
                 Invoke(nameof(Explode), 1f);
         }
 
@@ -429,7 +429,7 @@ namespace Assets.Scripts.Characters.Titan
             PhotonNetwork.Instantiate("FX/boom1", position, Quaternion.Euler(270f, 0f, 0f), 0);
             foreach (Hero player in EntityService.GetAll<Hero>())
             {
-                if (Vector3.Distance(player.transform.position, position) < GameSettings.Titan.Mindless.ExplodeMode.Value)
+                if (Vector3.Distance(player.transform.position, position) < Setting.Gamemode.Titan.MindlessTitan.ExplodeMode.Value)
                 {
                     player.MarkDie();
                     player.photonView.RPC(nameof(Hero.NetDie2), PhotonTargets.All, -1, "Server ");

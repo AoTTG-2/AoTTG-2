@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game;
 using System;
 using System.Collections;
 using UnityEditor;
@@ -41,18 +42,21 @@ namespace Assets.Scripts.DayNightCycle
 
         void Start()
         {
+            Setting.Gamemode.Time.CurrentTime.OnValueChanged += CurrentTime_OnValueChanged;
+            Setting.Gamemode.Time.DayLength.OnValueChanged += DayLength_OnValueChanged; ;
+            Setting.Gamemode.Time.Pause.OnValueChanged += Pause_OnValueChanged;
+
             //loads static skybox if player has set so in graphics settings
             if (PlayerPrefs.HasKey(StaticSkyboxPlayerPref))
             {
                 StaticSkybox = PlayerPrefs.GetInt(StaticSkyboxPlayerPref) == 1;
             }
-            Service.Settings.OnTimeSettingsChanged += Settings_OnTimeSettingsChanged;
             //Sets Scene variables to time settings
-            if (PhotonNetwork.isMasterClient)
+            //if (PhotonNetwork.isMasterClient)
             {
-                CurrentTime = (float) GameSettings.Time.CurrentTime;
-                DayLength = (float) GameSettings.Time.DayLength;
-                Pause = (bool) GameSettings.Time.Pause;
+                CurrentTime = Setting.Gamemode.Time.CurrentTime.Value;
+                DayLength = Setting.Gamemode.Time.DayLength.Value;
+                Pause = Setting.Gamemode.Time.Pause.Value;
                 Service.Settings.SyncSettings();
             }
             MoonCamera = GetComponentInChildren<Camera>();
@@ -83,25 +87,13 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
-
-        private void Settings_OnTimeSettingsChanged(TimeSettings settings)
+        private void Pause_OnValueChanged(bool obj)
         {
-            CurrentTime = (float) GameSettings.Time.CurrentTime;
-            //additional check to ensure MC cant set non-MC daylengths to less than 60
-            if ((float) GameSettings.Time.DayLength > 60)
-            {
-                DayLength = (float) GameSettings.Time.DayLength;
-            }
-            else
-            {
-                DayLength = 60;
-                GameSettings.Time.DayLength = DayLength;
-            }
-            Pause = (bool) GameSettings.Time.Pause;
+            Pause = obj;
 
             if (!Pause)
             {
-                var diff = (float) (DateTime.UtcNow - settings.LastModified.Value).TotalSeconds;
+                var diff = (float) (DateTime.UtcNow - Setting.Gamemode.Time.LastModified).TotalSeconds;
                 CurrentTime += (diff / DayLength) * 24;
                 //If time passed will put the CurrentTime over 24, do maths to correct for this and give an accurate
                 //time according to a 24h time range
@@ -112,9 +104,29 @@ namespace Assets.Scripts.DayNightCycle
             }
         }
 
+        private void DayLength_OnValueChanged(float obj)
+        {
+            if (Setting.Gamemode.Time.DayLength > 60)
+            {
+                DayLength = Setting.Gamemode.Time.DayLength.Value;
+            }
+            else
+            {
+                DayLength = 60;
+                Setting.Gamemode.Time.DayLength.Value = DayLength;
+            }
+        }
+
+        private void CurrentTime_OnValueChanged(float obj)
+        {
+            CurrentTime = obj;
+        }
+        
         private void OnDestroy()
         {
-            Service.Settings.OnTimeSettingsChanged -= Settings_OnTimeSettingsChanged;
+            Setting.Gamemode.Time.CurrentTime.OnValueChanged -= CurrentTime_OnValueChanged;
+            Setting.Gamemode.Time.DayLength.OnValueChanged -= DayLength_OnValueChanged; ;
+            Setting.Gamemode.Time.Pause.OnValueChanged -= Pause_OnValueChanged;
         }
 
         void Update()
@@ -149,12 +161,13 @@ namespace Assets.Scripts.DayNightCycle
             }
             frames++;
             //MC loads settings
-            if (PhotonNetwork.isMasterClient)
-            {
-                GameSettings.Time.CurrentTime = CurrentTime;
-                GameSettings.Time.DayLength = DayLength;
-                GameSettings.Time.Pause = Pause;
-            }
+            //TODO: Settings shouldn't be set every frame
+            //if (PhotonNetwork.isMasterClient)
+            //{
+            //    Setting.Gamemode.Time.CurrentTime.Value = CurrentTime;
+            //    Setting.Gamemode.Time.DayLength.Value = DayLength;
+            //    Setting.Gamemode.Time.Pause.Value = Pause;
+            //}
         }
 
         void UpdateMaterial()

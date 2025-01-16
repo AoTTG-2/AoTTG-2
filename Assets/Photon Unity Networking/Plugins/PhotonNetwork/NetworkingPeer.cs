@@ -176,6 +176,12 @@ public enum DisconnectCause
 
     /// <summary>(32753) The Authentication ticket expired. Handle this by connecting again (which includes an authenticate to get a fresh ticket).</summary>
     AuthenticationTicketExpired = 32753,
+
+    /// <summary>OnStatusChanged: The server address was parsed as IPv4 illegally. An illegal address would be e.g. 192.168.1.300. IPAddress.TryParse() will let this pass but our check won't.</summary>
+    ServerAddressInvalid = StatusCode.ServerAddressInvalid,
+    
+    /// <summary>OnStatusChanged: Dns resolution for a hostname failed. The exception for this is being catched and logged with error level.</summary>
+    DnsExceptionOnConnect = StatusCode.DnsExceptionOnConnect,
 }
 
 /// <summary>Available server (types) for internally used field: server.</summary>
@@ -535,12 +541,19 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
 #region Operations and Connection Methods
 
-
-    public override bool Connect(string serverAddress, string applicationName)
+    
+    public new bool Connect(string serverAddress, string appId, object photonToken = null, object customInitData = null)
     {
-        Debug.LogError("Avoid using this directly. Thanks.");
+        Debug.LogError("Avoid using PhotonPeer.Connect() directly. Use PhotonNetwork.Connect.");
         return false;
     }
+
+    public new bool Connect(string serverAddress, string proxyServerAddress, string appId, object photonToken, object customInitData = null)
+    {
+        Debug.LogError("Avoid using PhotonPeer.Connect() directly. Use PhotonNetwork.Connect.");
+        return false;
+    }
+
 
     /// <summary>Can be used to reconnect to the master server after a disconnect.</summary>
     /// <remarks>Common use case: Press the Lock Button on a iOS device and you get disconnected immediately.</remarks>
@@ -781,10 +794,10 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
         Type socketTcp = null;
         #if !UNITY_EDITOR && UNITY_XBOXONE
-        socketTcp = Type.GetType("ExitGames.Client.Photon.SocketNative, Assembly-CSharp", false);
+        socketTcp = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp", false);
         if (socketTcp == null)
         {
-            socketTcp = Type.GetType("ExitGames.Client.Photon.SocketNative, Assembly-CSharp-firstpass", false);
+            socketTcp = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, Assembly-CSharp-firstpass", false);
         }
         #else
         // to support WebGL export in Unity, we find and assign the SocketWebTcp class (if it's in the project).
@@ -814,8 +827,6 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
             Debug.Log("WebGL only supports WebSocket protocol. Overriding PhotonServerSettings.");
             protocolOverride = ConnectionProtocol.WebSocketSecure;
         }
-        PhotonHandler.PingImplementation = typeof(PingHttp);
-        SocketWebTcp.SerializationProtocol = Enum.GetName(typeof(SerializationProtocol), this.SerializationProtocolType);
         #endif
 
 
@@ -826,34 +837,12 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
         #endif
 
 
-        //#pragma warning disable 0162    // the library variant defines if we should use PUN's SocketUdp variant (at all)
-        //if (PhotonPeer.NoSocket)
-        //{
-        //    #if !UNITY_EDITOR && (UNITY_PS3 || UNITY_ANDROID)
-        //    this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpNativeDynamic);
-        //    PhotonHandler.PingImplementation = typeof(PingNativeDynamic);
-        //    #elif !UNITY_EDITOR && (UNITY_IPHONE || UNITY_SWITCH)
-        //    this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdpNativeStatic);
-        //    PhotonHandler.PingImplementation = typeof(PingNativeStatic);
-        //    #elif !UNITY_EDITOR && UNITY_WINRT
-        //    // this automatically uses a separate assembly-file with Win8-style Socket usage (not possible in Editor)
-        //    #else
-        //    this.SocketImplementationConfig[ConnectionProtocol.Udp] = typeof(SocketUdp);
-        //    PhotonHandler.PingImplementation = typeof(PingMonoEditor);
-        //    #endif
-
-        //    if (this.SocketImplementationConfig[ConnectionProtocol.Udp] == null)
-        //    {
-        //        Debug.Log("No socket implementation set for 'NoSocket' assembly. Please check your settings.");
-        //    }
-        //}
-        //#pragma warning restore 0162
         #if NETFX_CORE
         if (PhotonHandler.PingImplementation == null)
         {
             PhotonHandler.PingImplementation = typeof(PingWindowsStore);
         }
-        #else
+        #elif !UNITY_WEBGL
         if (PhotonHandler.PingImplementation == null)
         {
             PhotonHandler.PingImplementation = typeof(PingMono);
@@ -2256,6 +2245,8 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                 }
                 break;
 
+            case StatusCode.ServerAddressInvalid:
+            case StatusCode.DnsExceptionOnConnect:
             case StatusCode.ExceptionOnConnect:
             case StatusCode.SecurityExceptionOnConnect:
                 this.IsInitialConnect = false;
@@ -2358,6 +2349,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                 this.Disconnect();
                 break;
 
+            case StatusCode.SendError:
             case StatusCode.ExceptionOnReceive:
             case StatusCode.DisconnectByServerTimeout:
             case StatusCode.DisconnectByServerLogic:
@@ -2381,10 +2373,6 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
                 }
 
                 this.Disconnect();
-                break;
-
-            case StatusCode.SendError:
-                // this.mListener.clientErrorReturn(statusCode);
                 break;
 
             //case StatusCode.QueueOutgoingReliableWarning:
@@ -3905,7 +3893,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
         else if (target == PhotonTargets.Ranged)
         {
             if (targetIds == null || targetIds.Length == 0) return;
-            RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte) view.group, Encrypt = encrypt, TargetActors = targetIds};
+            RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte) view.group, Encrypt = encrypt, TargetActors = targetIds };
 
             this.OpRaiseEvent(PunEvent.RPC, rpcEvent, true, options);
         }

@@ -24,7 +24,6 @@ public class Cannon : Photon.MonoBehaviour
     {
         if (base.photonView != null)
         {
-            base.photonView.observed = this;
             this.barrel = base.transform.Find("Barrel");
             this.correctPlayerPos = base.transform.position;
             this.correctPlayerRot = base.transform.rotation;

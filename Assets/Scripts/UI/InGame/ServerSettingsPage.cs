@@ -1,6 +1,7 @@
-using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.Room;
+using Assets.Scripts.Services;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
@@ -17,13 +18,11 @@ namespace Assets.Scripts.UI.InGame
         private List<Level> levels;
         
         private Level selectedLevel;
-        private GamemodeSettings selectedGamemode;
-
-        
+        private GamemodeSetting selectedGamemode;
         
         private void Awake()
         {
-            levels = LevelBuilder.GetAllLevels();
+            levels = Setting.Levels;
         }
 
         public void Start()
@@ -63,7 +62,7 @@ namespace Assets.Scripts.UI.InGame
             OnGamemodeSelected(level.Gamemodes[0]);
         }
 
-        private void OnGamemodeSelected(GamemodeSettings gamemode)
+        private void OnGamemodeSelected(GamemodeSetting gamemode)
         {
             selectedGamemode = gamemode;
         }
@@ -73,7 +72,7 @@ namespace Assets.Scripts.UI.InGame
             if (!PhotonNetwork.isMasterClient) return;
             Service.Settings.SyncSettings();
             FengGameManagerMKII.NewRoundGamemode = selectedGamemode;
-            FengGameManagerMKII.NewRoundLevel = selectedLevel;
+            //FengGameManagerMKII.NewRoundLevel = selectedLevel; //TODO: New Round Levels
             FengGameManagerMKII.instance.photonView.RPC(nameof(FengGameManagerMKII.Chat), PhotonTargets.All, $"Next round: {selectedLevel.Name}, with gamemode {selectedGamemode.GamemodeType}", string.Empty);
         }
     }

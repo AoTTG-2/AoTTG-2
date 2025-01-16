@@ -445,14 +445,14 @@ namespace Assets.Scripts.Characters.Titan
             this.size = 20f;
             if (base.photonView.isMine)
             {
-                //this.size = GameSettings.Titan.Colossal.Size.Value;
+                //this.size = Setting.Gamemode.Titan.Colossal.Size.Value;
                 base.photonView.RPC(nameof(setSize), PhotonTargets.AllBuffered, new object[] { this.size });
                 this.lagMax = 150f + (this.size * 3f);
                 this.healthTime = 0f;
                 this.maxHealth = Health;
-                if (GameSettings.Titan.Colossal.HealthMode != TitanHealthMode.Disabled)
+                if (Setting.Gamemode.Titan.ColossalTitan.HealthMode != TitanHealthMode.Disabled)
                 {
-                    maxHealth = NapeArmorTotal = Health = GameSettings.Titan.Colossal.Health;
+                    maxHealth = NapeArmorTotal = Health = Setting.Gamemode.Titan.ColossalTitan.Health;
                 }
                 if (this.Health > 0)
                 {
@@ -578,7 +578,7 @@ namespace Assets.Scripts.Characters.Titan
                 Vector3 vector = view.gameObject.transform.position - transform.transform.position;
                 if ((vector.magnitude < this.lagMax) && (this.healthTime <= 0f))
                 {
-                    if (damage >= GameSettings.Titan.MinimumDamage.Value)
+                    if (damage >= Setting.Gamemode.Titan.MinimumDamage.Value)
                     {
                         this.Health -= damage;
                     }

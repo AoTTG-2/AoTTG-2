@@ -2,8 +2,6 @@
 using Assets.Scripts.Gamemode.Racing;
 using Assets.Scripts.Room;
 using Assets.Scripts.Services;
-using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.InGame.HUD;
 using System.Collections;
@@ -22,7 +20,7 @@ namespace Assets.Scripts.Gamemode
         public List<RacingObjective> Objectives = new List<RacingObjective>();
         public List<RacingStartBarrier> StartBarriers = new List<RacingStartBarrier>();
 
-        private RacingSettings Settings => GameSettings.Gamemode as RacingSettings;
+        //private RacingSettings Settings => Setting.Gamemode.Gamemode as RacingSettings;
         private const float CountDownTimerLimit = 5f;
 
         private bool HasStarted { get; set; }

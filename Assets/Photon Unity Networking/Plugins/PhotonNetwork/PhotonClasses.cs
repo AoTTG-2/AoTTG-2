@@ -492,8 +492,6 @@ namespace Photon
             }
         }
 
-        public object observed { get; set; }
-
         #if !UNITY_MIN_5_3
         /// <summary>
         /// This property is only here to notify developers when they use the outdated value.

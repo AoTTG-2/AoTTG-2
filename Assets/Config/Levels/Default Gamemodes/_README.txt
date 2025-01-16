@@ -1,0 +1,1 @@
+Gamemodes within this folder do not have any overriding attributes. Apply these to levels which require no level specific overrides

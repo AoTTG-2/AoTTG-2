@@ -1,44 +1,44 @@
 ﻿using Assets.Scripts.Characters.Humans;
 using Assets.Scripts.Characters.Titan;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {
     public class InfectionGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.Infection;
-        private InfectionGamemodeSettings Settings => GameSettings.Gamemode as InfectionGamemodeSettings;
+        //private InfectionGamemodeSettings Settings => Setting.Gamemode.Gamemode as InfectionGamemodeSettings;
 
         public override void OnRestart()
         {
-            int num;
-            FengGameManagerMKII.imatitan.Clear();
-            for (num = 0; num < PhotonNetwork.playerList.Length; num++)
-            {
-                var player = PhotonNetwork.playerList[num];
-                var propertiesToSet = new ExitGames.Client.Photon.Hashtable
-                {
-                    { PhotonPlayerProperty.isTitan, 1 }
-                };
-                player.SetCustomProperties(propertiesToSet);
-            }
-            var length = PhotonNetwork.playerList.Length;
-            var infectionMode = Settings.Infected.Value;
-            for (num = 0; num < PhotonNetwork.playerList.Length; num++)
-            {
-                PhotonPlayer player2 = PhotonNetwork.playerList[num];
-                if ((length > 0) && (UnityEngine.Random.Range((float)0f, (float)1f) <= (((float)infectionMode) / ((float)length))))
-                {
-                    ExitGames.Client.Photon.Hashtable hashtable2 = new ExitGames.Client.Photon.Hashtable();
-                    hashtable2.Add(PhotonPlayerProperty.isTitan, 2);
-                    player2.SetCustomProperties(hashtable2);
-                    FengGameManagerMKII.imatitan.Add(player2.ID, 2);
-                    infectionMode--;
-                }
-                length--;
-            }
-            FengGameManagerMKII.instance.restartGame2();
+            return;
+            //int num;
+            //FengGameManagerMKII.imatitan.Clear();
+            //for (num = 0; num < PhotonNetwork.playerList.Length; num++)
+            //{
+            //    var player = PhotonNetwork.playerList[num];
+            //    var propertiesToSet = new ExitGames.Client.Photon.Hashtable
+            //    {
+            //        { PhotonPlayerProperty.isTitan, 1 }
+            //    };
+            //    player.SetCustomProperties(propertiesToSet);
+            //}
+            //var length = PhotonNetwork.playerList.Length;
+            //var infectionMode = Settings.Infected.Value;
+            //for (num = 0; num < PhotonNetwork.playerList.Length; num++)
+            //{
+            //    PhotonPlayer player2 = PhotonNetwork.playerList[num];
+            //    if ((length > 0) && (UnityEngine.Random.Range((float)0f, (float)1f) <= (((float)infectionMode) / ((float)length))))
+            //    {
+            //        ExitGames.Client.Photon.Hashtable hashtable2 = new ExitGames.Client.Photon.Hashtable();
+            //        hashtable2.Add(PhotonPlayerProperty.isTitan, 2);
+            //        player2.SetCustomProperties(hashtable2);
+            //        FengGameManagerMKII.imatitan.Add(player2.ID, 2);
+            //        infectionMode--;
+            //    }
+            //    length--;
+            //}
+            //FengGameManagerMKII.instance.restartGame2();
         }
 
         //TODO: In AoTTG this ran every 0.1s instead of per frame. Investigate

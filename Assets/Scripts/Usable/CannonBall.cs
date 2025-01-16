@@ -26,7 +26,6 @@ public class CannonBall : Photon.MonoBehaviour
     {
         if (base.photonView != null)
         {
-            base.photonView.observed = this;
             this.correctPos = base.transform.position;
             this.correctVelocity = Vector3.zero;
             base.GetComponent<SphereCollider>().enabled = false;
@@ -47,7 +46,7 @@ public class CannonBall : Photon.MonoBehaviour
             {
                 collider.dmg = 0;
             }
-            if (GameSettings.PvP.Cannons.Value)
+            if (Setting.Gamemode.PvP.Cannon.Value)
             {
                 foreach (Hero hero in EntityService.GetAll<Hero>())
                 {
@@ -55,7 +54,7 @@ public class CannonBall : Photon.MonoBehaviour
                     {
                         GameObject gameObject = hero.gameObject;
                         PhotonPlayer owner = gameObject.GetPhotonView().owner;
-                        if (((GameSettings.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
+                        if (((Setting.Gamemode.TeamMode != TeamMode.Disabled) && (PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam] != null)) && (owner.CustomProperties[PhotonPlayerProperty.RCteam] != null))
                         {
                             int num2 = RCextensions.returnIntFromObject(PhotonNetwork.player.CustomProperties[PhotonPlayerProperty.RCteam]);
                             int num3 = RCextensions.returnIntFromObject(owner.CustomProperties[PhotonPlayerProperty.RCteam]);

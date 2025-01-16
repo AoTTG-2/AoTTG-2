@@ -8,7 +8,7 @@ public class SpectatorMovement : MonoBehaviour
 {
     public bool disable = true;
     private const float BaseSpeed = 100f;
-    private bool isRestarting = true;
+    //private bool isRestarting = true;
     private float startingTime;
 
     private void Awake()
@@ -65,13 +65,14 @@ public class SpectatorMovement : MonoBehaviour
         {
             transform.position -= (Vector3) ((base.transform.forward * speed) * Time.deltaTime);
         }
-        if (isRestarting && Time.time - startingTime >= 0.5f && !InputManager.Key(InputUi.Restart))
-            isRestarting = false;
+        //TODO: 604 This causes a double restart
+        //if (isRestarting && Time.time - startingTime >= 0.5f && !InputManager.Key(InputUi.Restart))
+        //    isRestarting = false;
 
-        if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
-        {
-            FengGameManagerMKII.instance.RestartRound();
-        }
+        //if (InputManager.KeyDown(InputUi.Restart) && PhotonNetwork.offlineMode && !isRestarting)
+        //{
+        //    FengGameManagerMKII.instance.RestartRound();
+        //}
         if (num3 > 0f)
         {
             transform.position += (Vector3) ((base.transform.right * speed) * Time.deltaTime);

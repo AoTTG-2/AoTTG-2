@@ -1,13 +1,12 @@
 ﻿using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
 
 namespace Assets.Scripts.Gamemode
 {
     public class PvPAhssGamemode : GamemodeBase
     {
         public override GamemodeType GamemodeType { get; } = GamemodeType.PvpAhss;
-        private PvPAhssSettings Settings => GameSettings.Gamemode as PvPAhssSettings;
+        //private PvPAhssSettings Settings => Setting.Gamemode.Gamemode as PvPAhssSettings;
 
         private int teamWinner;
         private readonly int[] teamScores = new int[2];
@@ -56,7 +55,7 @@ namespace Assets.Scripts.Gamemode
 
         public override string GetVictoryMessage(float timeUntilRestart, float totalServerTime = 0f)
         {
-            if (Settings.Pvp.Mode == PvpMode.Disabled && !Settings.Pvp.Bomb.Value)
+            if (Setting.Gamemode.PvP.Mode == PvpMode.Disabled)
             {
                 return $"Team {teamWinner}, Win!\nGame Restart in {(int)timeUntilRestart}s\n\n";
             }

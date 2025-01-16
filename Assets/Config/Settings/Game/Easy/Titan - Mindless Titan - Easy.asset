@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e4c25c340cd37458a06fc6cf345f62, type: 3}
+  m_Name: Titan - Mindless Titan - Easy
+  m_EditorClassIdentifier: 
+  Name: 
+  Enabled:
+    value: 1
+    hasValue: 1
+  SizeMinimum:
+    value: 2
+    hasValue: 1
+  SizeMaximum:
+    value: 5
+    hasValue: 1
+  ChaseDistance:
+    value: 100
+    hasValue: 1
+  HealthMode:
+    value: 0
+    hasValue: 1
+  HealthMinimum:
+    value: 0
+    hasValue: 1
+  HealthMaximum:
+    value: 0
+    hasValue: 1
+  HealthRegeneration:
+    value: 0
+    hasValue: 1
+  ExplodeMode:
+    value: 0
+    hasValue: 1
+  Idle:
+    value: 0
+    hasValue: 1
+  Speed:
+    value: 15
+    hasValue: 1
+  RunSpeed:
+    value: 16
+    hasValue: 1
+  TypeRatio:
+    value:
+      reorderableList:
+        canAdd: 1
+        canRemove: 1
+        draggable: 1
+        expandable: 1
+        multipleSelection: 1
+        isExpanded: 1
+        label:
+          m_Text: Keys
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+        headerHeight: 18
+        footerHeight: 13
+        slideEasing: 0.15
+        verticalSpacing: 2
+        showDefaultBackground: 1
+        elementDisplayType: 0
+        elementNameProperty: 
+        elementNameOverride: 
+        elementIcon: {fileID: 0}
+      reqReferences: {fileID: 0}
+      isExpanded: 1
+      _keyValues: 000000000100000002000000
+      _keys: 000000000100000002000000
+      _values:
+      - 80
+      - 20
+      - 15
+    hasValue: 1
+  Disabled:
+    value: 03000000040000000500000006000000
+    hasValue: 1
+  TypeSettings:
+    value:
+      reorderableList:
+        canAdd: 1
+        canRemove: 1
+        draggable: 1
+        expandable: 1
+        multipleSelection: 1
+        isExpanded: 1
+        label:
+          m_Text: Keys
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+        headerHeight: 18
+        footerHeight: 13
+        slideEasing: 0.15
+        verticalSpacing: 2
+        showDefaultBackground: 1
+        elementDisplayType: 0
+        elementNameProperty: 
+        elementNameOverride: 
+        elementIcon: {fileID: 0}
+      reqReferences: {fileID: 0}
+      isExpanded: 1
+      _keyValues: 0000000001000000020000000300000004000000050000000600000007000000
+      _keys: 0000000001000000020000000300000004000000050000000600000007000000
+      _values:
+      - {fileID: 11400000, guid: 1c83d6afa9786f443b4fac24177eb1bd, type: 2}
+      - {fileID: 11400000, guid: 73b0a4d604497f946980955862ef3e75, type: 2}
+      - {fileID: 11400000, guid: 46b8a596d5e0d264fb06a020cb3f0ad1, type: 2}
+      - {fileID: 11400000, guid: aa6a66fa31faabd498508469508b6e3b, type: 2}
+      - {fileID: 11400000, guid: 3d4ab49b9ca1445478345f43793c6ed9, type: 2}
+      - {fileID: 11400000, guid: 7b6fbd3d743040045a24008cae20d0e5, type: 2}
+      - {fileID: 11400000, guid: 91515bbbd5c95a24e92a1f12683ca444, type: 2}
+      - {fileID: 11400000, guid: 843cf678b7490014f90830b13c4bcc92, type: 2}
+    hasValue: 1

@@ -40,14 +40,15 @@ namespace Assets.Scripts.Services
 
         private CustomMap CurrentMap { get; set; }
 
-        private async void OnLevelWasLoaded(int level)
+        private void OnLevelWasLoaded(int level)
         {
             if ((level != 0) && ((Application.loadedLevelName != "characterCreation") && (Application.loadedLevelName != "SnapShot")))
             {
-                while (Service.Settings.Get() == null)
-                {
-                    await Task.Delay(500);
-                }
+                //TODO: Await until settings are synced?
+                //while (Service.Settings.Get() == null)
+                //{
+                //    await Task.Delay(500);
+                //}
             }
 
             if (SceneManager.GetSceneByBuildIndex(level).name == "Custom")

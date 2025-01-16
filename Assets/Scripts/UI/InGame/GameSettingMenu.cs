@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using Assets.Scripts.UI.Elements;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Assets.Scripts.UI.InGame
         public GameSettingPage GameSettingPage;
         public ServerSettingsPage ServerSettingsPage;
         private readonly List<GameSettingPage> pages = new List<GameSettingPage>();
-        private GamemodeSettings gamemode;
+        private GamemodeSetting gamemode;
 
         public void ViewGameSettingPage()
         {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.UI.InGame
 
         public void ViewServerSettingsPage()
         {
-            //TODO Rework this for the new GameSettings
+            //TODO Rework this for the new Setting.Gamemode
             //Pages[0].gameObject.SetActive(false);
             ServerSettingsPage.Show();
         }
@@ -33,7 +33,7 @@ namespace Assets.Scripts.UI.InGame
             Service.Settings.SyncSettings();
         }
 
-        private GamemodeSettings GetGamemodeFromSettings()
+        private GamemodeSetting GetGamemodeFromSettings()
         {
             foreach (var page in pages)
             {
@@ -111,9 +111,9 @@ namespace Assets.Scripts.UI.InGame
         protected override void OnEnable()
         {
             base.OnEnable();
-            //TODO: Rework this for the new GameSettings
+            //TODO: Rework this for the new Setting.Gamemode
             //var page = Instantiate(GameSettingPage, gameObject.transform);
-            //page.Data = Gamemode = GameSettings.Gamemode;
+            //page.Data = Gamemode = Setting.Gamemode.Gamemode;
             //page.Initialize();
             //Pages.Add(page);
             //Pages[0].gameObject.SetActive(true);

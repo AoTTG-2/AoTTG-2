@@ -92,7 +92,7 @@ namespace Assets.Scripts.Room
 
         private void SpawnMindlessTitan(MindlessTitanType type)
         {
-            if (EntityService.Count<MindlessTitan>() >= GameSettings.Titan.Limit.Value) return;
+            if (EntityService.Count<MindlessTitan>() >= Setting.Gamemode.Titan.Limit.Value) return;
             SpawnService.Spawn<MindlessTitan>(transform.position, transform.rotation,
                 FengGameManagerMKII.Gamemode.GetTitanConfiguration(type));
         }

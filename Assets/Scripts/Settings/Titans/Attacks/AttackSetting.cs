@@ -6,13 +6,14 @@ namespace Assets.Scripts.Settings.Titans.Attacks
 {
     public class AttackSetting
     {
-        public static List<AttackSetting> GetAll<T>(Difficulty difficulty) where T : TitanBase
+        //TODO: Settings
+        public static List<AttackSetting> GetAll<T>() where T : TitanBase
         {
             if (typeof(T) == typeof(MindlessTitan))
             {
                 return new List<AttackSetting>
                 {
-                    new RockThrowSetting(difficulty)
+                    new RockThrowSetting()
                 };
             }
 

@@ -522,6 +522,8 @@ public enum CloudRegionCode
     ru = 11,
     /// <summary>Russia East, rue</summary>
     rue = 12,
+    /// <summary>Turkey, tr</summary>
+    tr  = 13,
 
     /// <summary>No region selected.</summary>
     none = 4
@@ -546,7 +548,8 @@ public enum CloudRegionFlag
     kr =    1 << 8,
     @in =   1 << 9,
     ru =    1 << 10,
-    rue =   1 << 11
+    rue =   1 << 11,
+    tr =    1 << 12
 };
 
 

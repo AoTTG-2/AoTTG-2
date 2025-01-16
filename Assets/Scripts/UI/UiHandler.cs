@@ -22,7 +22,7 @@ namespace Assets.Scripts.UI
         public bool hasCustomHUD = false;
         
 
-        public void Start()
+        public void Awake()
         {
             ShowMenu();
             DontDestroyOnLoad(gameObject);

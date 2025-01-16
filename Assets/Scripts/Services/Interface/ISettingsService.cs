@@ -1,24 +1,14 @@
-﻿using Assets.Scripts.Events;
-using Assets.Scripts.Gamemode;
-using Assets.Scripts.Settings;
+﻿using Assets.Scripts.Settings.Game.Gamemodes;
 
 namespace Assets.Scripts.Services.Interface
 {
     public interface ISettingsService
     {
-        event OnGamemodeSettingsChanged OnGamemodeSettingsChanged;
-        event OnPvpSettingsChanged OnPvpSettingsChanged;
-        event OnHorseSettingsChanged OnHorseSettingsChanged;
-        event OnRespawnSettingsChanged OnRespawnSettingsChanged;
-        event OnTitanSettingsChanged OnTitanSettingsChanged;
-        event OnGlobalSettingsChanged OnGlobalSettingsChanged;
-        event OnTimeSettingsChanged OnTimeSettingsChanged;
-
         /// <summary>
-        /// Returns the current GameSettings as an object
+        /// Returns the current Setting.Gamemode as an object
         /// </summary>
         /// <returns></returns>
-        GameSettings Get();
+        GamemodeSetting Get();
 
         /// <summary>
         /// Sets the "Settings" room property when Master Client, or retrieves settings from this room property when not a Master Client
@@ -26,32 +16,26 @@ namespace Assets.Scripts.Services.Interface
         void SetRoomPropertySettings();
 
         /// <summary>
-        /// Sets the GameSettings GamemodeSettings based on the GamemodeType
+        /// Sets the Setting.Gamemode GamemodeSettings based on the GamemodeType
         /// </summary>
         /// <param name="type"></param>
         void SetGamemodeType(GamemodeType type);
 
         /// <summary>
-        /// Synchronize the existing GameSettings to everyone
+        /// Synchronize the existing Setting.Gamemode to everyone
         /// </summary>
         void SyncSettings();
 
         /// <summary>
-        /// Synchronize the GameSettings to everyone
+        /// Synchronize the Setting.Gamemode to everyone
         /// </summary>
-        void SyncSettings(GameSettings settings);
-
+        void SyncSettings(GamemodeSetting settings);
+        
         /// <summary>
-        /// Synchronize the GameSettings based on difficulty to everyone
-        /// </summary>
-        void SyncSettings(Difficulty difficulty);
-
-        /// <summary>
-        /// Synchronize the raw GameSettings json to everyone
+        /// Synchronize the raw Setting.Gamemode json to everyone
         /// </summary>
         void SyncSettings(string json);
 
         void SyncSettingsRpc(string settings, PhotonMessageInfo info);
-        void SyncSettingsRpc(Difficulty difficulty, PhotonMessageInfo info);
     }
 }

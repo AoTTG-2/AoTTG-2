@@ -2,7 +2,7 @@
 using Assets.Scripts.Characters.Titan.Behavior;
 using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Titans;
+using Assets.Scripts.Settings.Game.Titans;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +15,8 @@ namespace Assets.Scripts.Characters.Titan.Configuration
     /// </summary>
     public class TitanConfiguration : EntityConfiguration
     {
-        private MindlessTitanSettings Settings => GameSettings.Titan.Mindless;
-        private TitanSettings TypeSettings { get; set; }
+        private MindlessTitanSettings Settings => Setting.Gamemode.Titan.MindlessTitan;
+        private BaseTitanSettings TypeSettings { get; set; }
 
         public int Health { get; set; } = 5000;
         public int HealthRegeneration { get; set; } = 10;
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         public TitanConfiguration(int healthRegeneration, int limbHealth, float viewDistance, MindlessTitanType type)
         {
             Type = type;
-            Settings.TypeSettings.TryGetValue(type, out var typeSettings);
+            Settings.TypeSettings.Value.TryGetValue(type, out var typeSettings);
             TypeSettings = typeSettings;
             Size = TypeSettings?.Size ?? Settings.Size.Value;
             Health = SetHealth();
@@ -64,25 +64,25 @@ namespace Assets.Scripts.Characters.Titan.Configuration
         private int SetHealth()
         {
             var healthMode = TypeSettings?.HealthMode ?? Settings.HealthMode;
-            switch (healthMode)
+            switch (healthMode.Value)
             {
                 case TitanHealthMode.Fixed:
-                    return GameSettings.Titan.Mindless.Health;
+                    return Setting.Gamemode.Titan.MindlessTitan.Health;
                 case TitanHealthMode.Hit:
                 case TitanHealthMode.Scaled:
-                    return Mathf.Clamp(Mathf.RoundToInt(Size / 4f * GameSettings.Titan.Mindless.Health), GameSettings.Titan.Mindless.HealthMinimum.Value, GameSettings.Titan.Mindless.HealthMaximum.Value);
+                    return Mathf.Clamp(Mathf.RoundToInt(Size / 4f * Setting.Gamemode.Titan.MindlessTitan.Health), Setting.Gamemode.Titan.MindlessTitan.HealthMinimum.Value, Setting.Gamemode.Titan.MindlessTitan.HealthMaximum.Value);
                 case TitanHealthMode.Disabled:
                     return 0;
                 default:
-                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {GameSettings.Titan.Mindless.HealthMode}");
+                    throw new ArgumentOutOfRangeException($"Invalid TitanHealthMode enum: {Setting.Gamemode.Titan.MindlessTitan.HealthMode}");
             }
         }
 
         private void SetMindlessTitanType(MindlessTitanType type)
         {
-            Idle = TypeSettings?.Idle ?? Settings.Idle.Value;
-            Speed = TypeSettings?.Speed ?? Settings.Speed.Value;
-            RunSpeed = TypeSettings?.RunSpeed ?? Settings.RunSpeed ?? Speed;
+            Idle = TypeSettings?.Idle?.Value ?? Settings.Idle.Value;
+            Speed = TypeSettings?.Speed?.Value ?? Settings.Speed.Value;
+            RunSpeed = TypeSettings?.RunSpeed?.Value ?? Speed;
 
             switch (type)
             {

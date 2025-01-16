@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034ec6219f2495b409b1f2cbc041fad3, type: 3}
+  m_Name: Forest - Classic
+  m_EditorClassIdentifier: 
+  Name: FOREST_CLASSIC
+  Description: FOREST_CLASSIC_DESC
+  SceneName: The Forest
+  Gamemodes:
+  - {fileID: 11400000, guid: 0a491abe2257ad94788826cbe6a0939b, type: 2}
+  - {fileID: 11400000, guid: fbe7bc7a09d88244683c0d1a1e03d663, type: 2}

@@ -63,6 +63,14 @@ namespace Assets.Scripts.Services.Interface
         /// <returns></returns>
         T Spawn<T>(EntityConfiguration configuration) where T : Entity;
         /// <summary>
+        /// Spawns an entity at the position & rotation, without calling its Initialize() method
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        T Spawn<T>(Vector3 position, Quaternion rotation) where T : Entity;
+        /// <summary>
         /// Spawns an entity with configuration and spawn coordinates.
         /// </summary>
         /// <typeparam name="T"></typeparam>

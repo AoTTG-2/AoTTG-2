@@ -33,7 +33,7 @@ namespace Assets.Scripts.DayNightCycle
             if (PhotonNetwork.isMasterClient)
             {
                 dayNightCycle.Pause = !change.isOn;
-                GameSettings.Time.Pause = !change.isOn;
+                Setting.Gamemode.Time.Pause.Value = !change.isOn;
                 Service.Settings.SyncSettings();
             }
 

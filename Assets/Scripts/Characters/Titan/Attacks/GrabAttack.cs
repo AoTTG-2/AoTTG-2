@@ -81,7 +81,8 @@ namespace Assets.Scripts.Characters.Titan.Attacks
                 }
             }
 
-            if (Titan.Difficulty > Difficulty.Normal)
+            //TODO: Titan Setting
+            if (false)
             {
                 var targetHeight = Titan.Target.transform.position.y;
                 var titanGrabHeight = Titan.Body.AttackFrontGround.position.y;

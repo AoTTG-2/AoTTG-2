@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Gamemode;
-using Assets.Scripts.Room;
+﻿using Assets.Scripts.Room;
 using Assets.Scripts.Services;
-using Assets.Scripts.Settings.Gamemodes;
+using Assets.Scripts.Settings;
+using Assets.Scripts.Settings.Game;
+using Assets.Scripts.Settings.Game.Gamemodes;
 using ExitGames.Client.Photon;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,17 @@ namespace Assets.Scripts.UI.Menu
         public Dropdown GamemodeDropdown;
         public Dropdown DifficultyDropdown;
         private List<Level> levels;
+        private List<GameSettings> difficulties;
 
         private Level selectedLevel;
-        private GamemodeSettings selectedGamemode;
+        private GamemodeSetting selectedGamemode;
         private Dictionary<string, string> CustomDifficulties { get; } = new Dictionary<string, string>();
         private const string CustomDifficultyPrefix = "*-";
 
         private void Awake()
         {
-            levels = LevelBuilder.GetAllLevels();
+            levels = Setting.Levels;
+            difficulties = new List<GameSettings> { Setting.Game };
         }
 
         protected override void OnEnable()
@@ -62,19 +65,19 @@ namespace Assets.Scripts.UI.Menu
             OnLevelSelected(levels[0]);
 
             DifficultyDropdown.options = new List<Dropdown.OptionData>();
-            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            foreach (var difficulty in difficulties)
             {
-                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.ToString()));
+                DifficultyDropdown.options.Add(new Dropdown.OptionData(difficulty.Name));
             }
             DifficultyDropdown.captionText.text = DifficultyDropdown.options[0].text;
 
-            var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
-            foreach (var file in files)
-            {
-                var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
-                CustomDifficulties.Add(fileName, file);
-                DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
-            }
+            //var files = Directory.GetFiles(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Difficulty", "*.json");
+            //foreach (var file in files)
+            //{
+            //    var fileName = file.Split(Path.DirectorySeparatorChar).Last().Replace(".json", string.Empty);
+            //    CustomDifficulties.Add(fileName, file);
+            //    DifficultyDropdown.options.Add(new Dropdown.OptionData($"{CustomDifficultyPrefix}{fileName}"));
+            //}
         }
 
         private void Refresh()
@@ -103,8 +106,9 @@ namespace Assets.Scripts.UI.Menu
             }
             else
             {
-                var difficulty = (Difficulty) DifficultyDropdown.value;
-                Service.Settings.SyncSettings(difficulty);
+                //TODO: Change difficulty logic
+                //var difficulty = (Difficulty) DifficultyDropdown.value;
+                //Service.Settings.SyncSettings(difficulty);
             }
             var roomOptions = new RoomOptions
             {
@@ -134,7 +138,7 @@ namespace Assets.Scripts.UI.Menu
             GamemodeDropdown.captionText.text = GamemodeDropdown.options[0].text;
         }
 
-        private void OnGamemodeSelected(GamemodeSettings gamemode)
+        private void OnGamemodeSelected(GamemodeSetting gamemode)
         {
             selectedGamemode = gamemode;
         }

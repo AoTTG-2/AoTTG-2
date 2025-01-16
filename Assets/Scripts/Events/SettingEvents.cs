@@ -1,15 +1,9 @@
-﻿using Assets.Scripts.Settings;
-using Assets.Scripts.Settings.Gamemodes;
-using Assets.Scripts.Settings.Titans;
+﻿using Assets.Scripts.Settings.Game;
 
 namespace Assets.Scripts.Events
 {
     public delegate void OnPvpSettingsChanged(PvPSettings settings);
-
-    public delegate void OnGamemodeSettingsChanged(GamemodeSettings settings);
-
-    public delegate void OnTitanSettingsChanged(SettingsTitan settings);
-
+    
     public delegate void OnTimeSettingsChanged(TimeSettings settings);
 
     public delegate void OnHorseSettingsChanged(HorseSettings settings);
