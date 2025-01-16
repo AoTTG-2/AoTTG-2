@@ -31,7 +31,6 @@ public sealed class Horse : PhotonView
     public static Horse Create(Hero hero, Vector3 position, Quaternion rotation)
     {
         var horse = PhotonNetwork.Instantiate("horse", position, rotation, 0).GetComponent<Horse>();
-
         horse.RPC(nameof(InitializeRPC), PhotonTargets.AllBuffered, hero.photonView.viewID);
 
         return horse;
@@ -59,15 +58,22 @@ public sealed class Horse : PhotonView
 
         TransitionToState(idleState);
     }
-
     public void Mount()
     {
         TransitionToState(mountState);
+
+        //Existing horse logic updates position/rotation on every frame, so interpolation is unnecessary and just causes problems.
+        hero.Rigidbody.interpolation = RigidbodyInterpolation.None;
+        hero.GetComponent<HumanInterpolate>().enabled = false;
+        
+
     }
 
     public void Unmount()
     {
         TransitionToState(idleState);
+        hero.Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        hero.GetComponent<HumanInterpolate>().enabled = true;
     }
 
     private void CrossFade(string aniName, float time)
@@ -106,6 +112,10 @@ public sealed class Horse : PhotonView
         currentState.Update();
 
         rigidbody.AddForce(new Vector3(0f, gravityFactor * rigidbody.mass, 0f));
+    }
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdate();
     }
 
     [PunRPC]
@@ -370,11 +380,6 @@ public sealed class Horse : PhotonView
             controller.enabled = false;
         }
 
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
         public override void Update()
         {
             if (!Horse.hero)
@@ -384,9 +389,12 @@ public sealed class Horse : PhotonView
             }
 
             var playerOffset = Vector3.up * 1.68f;
-            Horse.heroTransform.position = Horse.transform.position + playerOffset;
-            Horse.heroTransform.rotation = Horse.transform.rotation;
-            HeroRigidbody.velocity = Horse.rigidbody.velocity;
+            Vector3 newPosition = Horse.transform.position + playerOffset;
+
+            //Hero interpolation is disabled while on a horse so setting hero.transform is ok.
+            Horse.hero.transform.position = newPosition;
+            Horse.hero.transform.rotation = Horse.transform.rotation;
+            Horse.hero.Rigidbody.velocity = Horse.rigidbody.velocity;
 
             if (controller.TargetDirection != -874f)
             {

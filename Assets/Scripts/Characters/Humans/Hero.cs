@@ -1039,7 +1039,7 @@ namespace Assets.Scripts.Characters.Humans
                     {
                         checkBoxLeft.IsActive = false;
                         checkBoxRight.IsActive = false;
-                        transform.rotation = Quaternion.Lerp(transform.rotation, gunDummy.transform.rotation, Time.deltaTime * 30f);
+                        GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(Quaternion.Lerp(transform.rotation, gunDummy.transform.rotation, Time.deltaTime * 30f));
                         if (!attackReleased && (Animation[attackAnimation].normalizedTime > 0.167f))
                         {
                             GameObject obj4;
@@ -1407,13 +1407,12 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     if (titanWhoGrabMe.TryGetComponent<MindlessTitan>(out var mindlessTitan))
                     {
-                        transform.position = mindlessTitan.grabTF.transform.position;
-                        transform.rotation = mindlessTitan.grabTF.transform.rotation;
+                        Debug.Log($"Grabbed! {mindlessTitan.grabTF.transform.position} | {mindlessTitan.grabTF.transform.rotation.eulerAngles}");
+                        GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(mindlessTitan.grabTF.transform.position, mindlessTitan.grabTF.transform.rotation);
                     }
                     else if (titanWhoGrabMe.TryGetComponent<FemaleTitan>(out var femaleTitan))
                     {
-                        transform.position = femaleTitan.grabTF.transform.position;
-                        transform.rotation = femaleTitan.grabTF.transform.rotation;
+                        GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(femaleTitan.grabTF.transform.position, femaleTitan.grabTF.transform.rotation);
                     }
                 }
                 if (useGun)
@@ -1466,7 +1465,7 @@ namespace Assets.Scripts.Characters.Humans
 
                 if (!((Animation.IsPlaying(HeroAnim.ATTACK3_2) || Animation.IsPlaying(HeroAnim.ATTACK5)) || Animation.IsPlaying(HeroAnim.SPECIAL_PETRA)))
                 {
-                    Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f);
+                    GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 6f));
                 }
                 if (state == HumanState.Grab)
                 {
@@ -1794,7 +1793,7 @@ namespace Assets.Scripts.Characters.Humans
                         if (!(state == HumanState.Attack && useGun))
                         {
                             Rigidbody.AddForce(force, ForceMode.VelocityChange);
-                            Rigidbody.rotation = Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f);
+                            GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(Quaternion.Lerp(gameObject.transform.rotation, Quaternion.Euler(0f, facingDirection, 0f), Time.deltaTime * 10f));
                         }
                     }
                     else
@@ -1805,8 +1804,8 @@ namespace Assets.Scripts.Characters.Humans
                         }
                         if ((myHorse && (Animation.IsPlaying(HeroAnim.HORSE_GET_ON) || Animation.IsPlaying(HeroAnim.AIR_FALL))) && ((Rigidbody.velocity.y < 0f) && (Vector3.Distance(myHorse.transform.position + Vector3.up * 1.65f, transform.position) < 0.5f)))
                         {
-                            transform.position = myHorse.transform.position + Vector3.up * 1.65f;
-                            transform.rotation = myHorse.transform.rotation;
+                            Vector3 newPosition = myHorse.transform.position + Vector3.up * 1.65f;
+                            GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(newPosition, myHorse.transform.rotation);
                             isMounted = true;
                             CrossFade(HeroAnim.HORSE_IDLE, 0.1f);
                             myHorse.Mount();
@@ -2077,6 +2076,8 @@ namespace Assets.Scripts.Characters.Humans
                         smoke_3dmg_em.enabled = false;
                     }
                 }
+                SetHookedPplDirection();
+                BodyLean();
             }
         }
 
@@ -2341,7 +2342,7 @@ namespace Assets.Scripts.Characters.Humans
                     targetRotation = Quaternion.Euler(-num6 * (1f - (Vector3.Angle(Rigidbody.velocity, transform.forward) / 90f)), facingDirection, 0f);
                     if ((isLeftHandHooked && (hookLeft != null)) || (isRightHandHooked && (hookRight != null)))
                     {
-                        transform.rotation = targetRotation;
+                        GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(targetRotation);
                     }
                 }
                 else
@@ -2679,7 +2680,7 @@ namespace Assets.Scripts.Characters.Humans
                 dashV = GetGlobaleFacingVector3(facingDirection);
                 originVM = currentSpeed;
                 Quaternion quaternion = Quaternion.Euler(0f, facingDirection, 0f);
-                Rigidbody.rotation = quaternion;
+                GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(quaternion);
                 targetRotation = quaternion;
                 PhotonNetwork.Instantiate("FX/boost_smoke", transform.position, transform.rotation, 0);
                 dashTime = 0.5f;
@@ -3167,8 +3168,7 @@ namespace Assets.Scripts.Characters.Humans
             }
             facingDirection = Mathf.Atan2(launchForce.x, launchForce.z) * Mathf.Rad2Deg;
             Quaternion quaternion = Quaternion.Euler(0f, facingDirection, 0f);
-            gameObject.transform.rotation = quaternion;
-            Rigidbody.rotation = quaternion;
+            GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(quaternion);
             targetRotation = quaternion;
             if (left)
             {
@@ -3746,8 +3746,7 @@ namespace Assets.Scripts.Characters.Humans
                     FalseAttack();
                     facingDirection = Mathf.Atan2(launchForce.x, launchForce.z) * Mathf.Rad2Deg;
                     Quaternion quaternion = Quaternion.Euler(0f, facingDirection, 0f);
-                    gameObject.transform.rotation = quaternion;
-                    Rigidbody.rotation = quaternion;
+                    GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(quaternion);
                     targetRotation = quaternion;
                 }
             }
@@ -4140,8 +4139,7 @@ namespace Assets.Scripts.Characters.Humans
 
         public void UpdateCannon()
         {
-            transform.position = myCannonPlayer.position;
-            transform.rotation = myCannonBase.rotation;
+            GetComponent<HumanInterpolate>()?.SetTransformAtFixedUpdate(myCannonPlayer.position, myCannonBase.rotation);
         }
 
         public void UpdateExt()

@@ -4,6 +4,8 @@ using Assets.Scripts.Gamemode.Options;
 using Assets.Scripts.Services;
 using Assets.Scripts.Settings;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Characters.Humans
@@ -29,6 +31,7 @@ namespace Assets.Scripts.Characters.Humans
         public float scoreMulti = 1f;
         public Rigidbody body;
 
+        private Transform parent;
 
 
         private void Start()
@@ -37,7 +40,14 @@ namespace Assets.Scripts.Characters.Humans
             body = currentCamera.main_object.GetComponent<Rigidbody>();
             Equipment = transform.root.GetComponent<Equipment.Equipment>();
             hero = currentCamera.main_object.GetComponent<Hero>();
+
+            //Transform won't inherit it's parent position (hand)
+            //This way its position will only be updated on FixedUpdate() and will behave identically to playing without interpolation.
+            parent = transform.parent;
+            transform.parent = null;
         }
+
+        private Dictionary<GameObject, int> HitDetection = new Dictionary<GameObject, int>();
 
         public void ClearHits()
         {
@@ -59,17 +69,33 @@ namespace Assets.Scripts.Characters.Humans
                 {
                     ((hitbox.transform.root.position - transform.position.normalized * b) * 1000f) + (Vector3.up * 50f),
                     false,
-                    transform.root.gameObject.GetPhotonView().viewID,
-                    PhotonView.Find(transform.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name],
+                    parent.root.gameObject.GetPhotonView().viewID,
+                    PhotonView.Find(parent.root.gameObject.GetPhotonView().viewID).owner.CustomProperties[PhotonPlayerProperty.name],
                     false
                 });
             }
         }
 
+        private void FixedUpdate()
+        {
+            foreach (var entry in HitDetection.ToList())
+            {
+                if (entry.Value + 1 >= 1)
+                {
+                    OnTriggerStay(entry.Key.GetComponent<Collider>());
+                    HitDetection.Remove(entry.Key);
+                    continue;
+                }
+                HitDetection[entry.Key] = entry.Value + 1;
+            }
+
+            transform.position = parent.position;
+            transform.rotation = parent.rotation;
+        }
+
         private void OnTriggerStay(Collider collider)
         {
             if (!IsActive) return;
-
             if (!currentHitsII.Contains(collider.gameObject))
             {
                 currentHitsII.Add(collider.gameObject);
@@ -84,8 +110,11 @@ namespace Assets.Scripts.Characters.Humans
                 }
             }
 
-            if (currentHits.Contains(collider.gameObject))
+            if (!HitDetection.ContainsKey(collider.gameObject))
+            {
+                HitDetection.Add(collider.gameObject, 0);
                 return;
+            }
 
             switch (collider.gameObject.tag)
             {
@@ -113,7 +142,7 @@ namespace Assets.Scripts.Characters.Humans
                         Service.Player.TitanDamaged(new TitanDamagedEvent(titanBase, hero, damage));
                         Service.Player.TitanHit(new TitanHitEvent(titanBase, BodyPart.Nape, hero, RightHand));
 
-                        titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                        titanBase.photonView.RPC(nameof(TitanBase.OnNapeHitRpc), titanBase.photonView.owner, parent.root.gameObject.GetPhotonView().viewID, damage);
                     }
                     break;
                 case "titaneye":
@@ -133,12 +162,12 @@ namespace Assets.Scripts.Characters.Humans
 
                                 if (!PhotonNetwork.isMasterClient)
                                 {
-                                    object[] infoArray = new object[] { transform.root.gameObject.GetPhotonView().viewID };
+                                    object[] infoArray = new object[] { parent.root.gameObject.GetPhotonView().viewID };
                                     femaleTitan.photonView.RPC(nameof(FemaleTitan.hitEyeRPC), PhotonTargets.MasterClient, infoArray);
                                 }
                                 else
                                 {
-                                    femaleTitan.hitEyeRPC(transform.root.gameObject.GetPhotonView().viewID);
+                                    femaleTitan.hitEyeRPC(parent.root.gameObject.GetPhotonView().viewID);
                                 }
                             }
                             else if (titan is MindlessTitan)
@@ -150,11 +179,11 @@ namespace Assets.Scripts.Characters.Humans
 
                                 if (PhotonNetwork.isMasterClient)
                                 {
-                                    mindlessTitan.OnEyeHitRpc(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                    mindlessTitan.OnEyeHitRpc(parent.root.gameObject.GetPhotonView().viewID, damage);
                                 }
                                 else
                                 {
-                                    mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, transform.root.gameObject.GetPhotonView().viewID, damage);
+                                    mindlessTitan.photonView.RPC(nameof(MindlessTitan.OnEyeHitRpc), mindlessTitan.photonView.owner, parent.root.gameObject.GetPhotonView().viewID, damage);
                                 }
                                 ShowCriticalHitFX();
                             }
@@ -206,7 +235,7 @@ namespace Assets.Scripts.Characters.Humans
                             {
                                 var mindlessTitan = titan as MindlessTitan;
 
-                                mindlessTitan.OnAnkleHit(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                mindlessTitan.OnAnkleHit(parent.root.gameObject.GetPhotonView().viewID, damage);
                                 ShowCriticalHitFX();
                             }
                             else if (titan is FemaleTitan)
@@ -219,22 +248,22 @@ namespace Assets.Scripts.Characters.Humans
                                 {
                                     if (!PhotonNetwork.isMasterClient)
                                     {
-                                        object[] infoArray = new object[] { transform.root.gameObject.GetPhotonView().viewID, damage };
+                                        object[] infoArray = new object[] { parent.root.gameObject.GetPhotonView().viewID, damage };
                                         femaleTitan.photonView.RPC(nameof(FemaleTitan.hitAnkleRRPC), PhotonTargets.MasterClient, infoArray);
                                     }
                                     else
                                     {
-                                        femaleTitan.hitAnkleRRPC(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                        femaleTitan.hitAnkleRRPC(parent.root.gameObject.GetPhotonView().viewID, damage);
                                     }
                                 }
                                 else if (!PhotonNetwork.isMasterClient)
                                 {
-                                    object[] infoArray = new object[] { transform.root.gameObject.GetPhotonView().viewID, damage };
+                                    object[] infoArray = new object[] { parent.root.gameObject.GetPhotonView().viewID, damage };
                                     femaleTitan.photonView.RPC(nameof(FemaleTitan.hitAnkleLRPC), PhotonTargets.MasterClient, infoArray);
                                 }
                                 else
                                 {
-                                    femaleTitan.hitAnkleLRPC(transform.root.gameObject.GetPhotonView().viewID, damage);
+                                    femaleTitan.hitAnkleLRPC(parent.root.gameObject.GetPhotonView().viewID, damage);
                                 }
                                 ShowCriticalHitFX();
                             }
@@ -248,6 +277,11 @@ namespace Assets.Scripts.Characters.Humans
                 default:
                     break;
             }
+        }
+
+        private void OnTriggerExit(Collider collider)
+        {
+            HitDetection.Remove(collider.gameObject);
         }
 
         private void ShowCriticalHitFX()
