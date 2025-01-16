@@ -305,7 +305,7 @@ namespace Assets.Scripts.Gamemode
         {
             var content = $"{Localization.Gamemode.Shared.GetLocalizedString("ENEMY_LEFT", FactionService.CountHostile(Service.Player.Self))} | " +
                           $"{Localization.Gamemode.Shared.GetLocalizedString("FRIENDLY_LEFT", FactionService.CountFriendly(Service.Player.Self))} | " +
-                          $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetRoundDisplayTime()}";
+                          $"{Localization.Common.GetLocalizedString("TIME")}: {TimeService.GetUnPausedRoundDisplayTime()}";
             UiService.SetMessage(LabelPosition.Top, content);
         }
 
