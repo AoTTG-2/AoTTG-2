@@ -5,7 +5,6 @@
         Armored,
         Beast,
         Colossal,
-        Dummy,
         Eren,
         Female,
         Mindless

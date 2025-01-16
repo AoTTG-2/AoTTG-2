@@ -166,7 +166,7 @@ namespace Assets.Scripts.Room
                             DayLength = 300,
                             Pause = true,
                         },
-                    },
+                    }
                 }
             });
 
